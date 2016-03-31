@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="com.szbb.pro"
+    package="com.appbaba.iz"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- shareSDK 所需 -->
