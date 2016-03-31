@@ -2,7 +2,9 @@ package com.appbaba.iz.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
+import com.appbaba.iz.ActivityRegisterBrandsBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 
@@ -15,7 +17,6 @@ public class MainActivity extends BaseAty {
 
     @Override
     protected void initViews() {
-
     }
 
     @Override
