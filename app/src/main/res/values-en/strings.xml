@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_sign_in">s123</string>
+    <string name="action_sign_in_short"></string>
+    <string name="label_qq">QQ</string>
+    <string name="label_qzone">QZone</string>
+    <string name="label_select_from_album">FromA</string>
+    <string name="account_not_match">Card No Not Match</string>
+    <string name="check_setting">Check Setting</string>
+    <string name="connect_server_error">Connection Time out</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="invalid_account"></string>
+    <string name="dialog_content">Are you sure call</string>
+</resources>
