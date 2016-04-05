@@ -18,12 +18,6 @@ public class AppKeyMap {
     public final static String ZIP_CODE_REGEX = "^[1-9]\\d{5}$";
     //Action Key
     public final static String ACTION_KEY = "ACTION_KEY";
-    //定位Action
-    public final static String LOCATION_ACTION = "android.intent.action.LOCATION";
-    //预约客户Action
-    public final static String APPOINTMENT_CLIENT_ACTION = "android.intent.action.APPOINTMENT";
-    //待结算Action
-    public final static String WAITING_COST_ACTION = "android.intent.action.COST";
     //检测无网络action
     public final static String NO_NETWORK_ACTION = "android.intent.action.NO_NETWORK";
     //默认动画执行时间 300ms
