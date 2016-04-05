@@ -52,8 +52,10 @@ public class LoginActivity extends BaseAty {
                  startActivity(new Intent(getApplicationContext(),MainActivity.class));
                  break;
              case R.id.btn_visitor:
+                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
                  break;
              case R.id.tv_forget:
+                 startActivity(new Intent(getApplicationContext(),FoundPasswordActivity.class));
                  break;
              case R.id.tv_brand_in:
                  startActivity(new Intent(getApplicationContext(),RegisterBrandActivity.class));

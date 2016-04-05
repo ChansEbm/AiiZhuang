@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.multidex.MultiDex;
 
+import com.appbaba.iz.method.MethodConfig;
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -80,7 +81,7 @@ public class BaseApplication extends Application {
         initGalleryFinal();
         Logger.init("digital").setMethodCount(3).hideThreadInfo().setLogLevel(LogLevel.FULL);
         CrashReport.initCrashReport(getApplicationContext(), "900020359", true);
-
+        MethodConfig.SetDispaly(this);
     }
 
     private void initGalleryFinal() {

@@ -16,6 +16,7 @@ public class RegisterBrandActivity extends BaseAty {
     ActivityRegisterBrandsBinding binding;
     private TextView tv_top_bar_register,tv_top_bar_brand;
     private ViewSwitcher viewSwitcher;
+
     @Override
     protected void initViews() {
         binding = (ActivityRegisterBrandsBinding)viewDataBinding;

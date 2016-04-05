@@ -1,13 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data class=".ActivityMainBinding"></data>
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context=".ui.activity.MainActivity"
+        android:background="@color/line_gray">
+        <FrameLayout
+            android:id="@+id/layout_contain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        tools:context=".ui.activity.MainActivity">
+        </FrameLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/half_white"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:id="@+id/linear_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    style="@style/bottomImageStyle"
+                    android:id="@+id/iv_bottom_home"
+                    android:src="@drawable/main_bottom_home_selector"/>
+
+                <TextView
+                    android:id="@+id/tv_bottom_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="@string/main_activity_bottom_home"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_ablum"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    style="@style/bottomImageStyle"
+                    android:id="@+id/iv_bottom_ablum"
+                    android:src="@mipmap/icon_ablum_nor"/>
+                <TextView
+                    android:id="@+id/tv_bottom_ablum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="@string/main_activity_bottom_ablum"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    style="@style/bottomImageStyle"
+                    android:id="@+id/iv_bottom_favourite"
+                    android:src="@mipmap/icon_favourite_nor"/>
+                <TextView
+                    android:id="@+id/tv_bottom_favourite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="@string/main_activity_bottom_favourite"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    style="@style/bottomImageStyle"
+                    android:id="@+id/iv_bottom_friends"
+                    android:src="@mipmap/icon_friends_nor"/>
+                <TextView
+                    android:id="@+id/tv_bottom_friends"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="@string/main_activity_bottom_friends"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    style="@style/bottomImageStyle"
+                    android:id="@+id/iv_bottom_more"
+                    android:src="@mipmap/icon_more_nor"/>
+                <TextView
+                    android:id="@+id/tv_bottom_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="@string/main_activity_bottom_more"/>
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
     </RelativeLayout>
 </layout>

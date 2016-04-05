@@ -60,7 +60,8 @@
         <activity android:name=".ui.activity.RegisterBrandActivity">
 
         </activity>
-
+        <activity android:name=".ui.activity.FoundPasswordActivity"></activity>
+        <activity android:name=".ui.activity.TransferActivity"></activity>
     </application>
 
 </manifest>

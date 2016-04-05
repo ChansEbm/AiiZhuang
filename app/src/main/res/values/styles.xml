@@ -16,11 +16,12 @@
 
     <!--TextView默认属性-->
     <style name="textStyle" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/color_text_dark</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_normal_size</item>
+        <item name="android:textSize">@dimen/text_large_size</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
+
     <!--Button默认属性-->
     <style name="buttonStyle" parent="Base.TextAppearance.AppCompat.Button">
         <item name="android:textColor">@color/color_white</item>
@@ -33,8 +34,42 @@
 
     <!--EditText默认属性-->
     <style name="editTextStyle" parent="android:Widget.EditText">
-        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:textColorHint">@color/text_hint_gray</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="editTextStyle1" parent="android:Widget.EditText">
+        <item name="android:gravity">right|center_vertical</item>
+
+        <item name="android:textColorHint">@color/text_hint_gray</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="bottomImageStyle">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+
+    <style name="popup_text_style">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingLeft">40dp</item>
+        <item name="android:paddingRight">40dp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/popup_home_top_selector</item>
+    </style>
+
 
 
     <!--Dialog属性-->
