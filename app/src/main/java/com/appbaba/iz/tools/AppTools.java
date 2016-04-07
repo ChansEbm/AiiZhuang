@@ -338,15 +338,7 @@ public class AppTools {
                 actionCharSequence, listener, gravity);
     }
 
-    /**
-     * get file from assets
-     *
-     * @param fileName the fileName
-     * @return the text in file
-     */
-    public static String getFromAssets(@NonNull String fileName) {
-        return ParserTools.getFromAssets(context, fileName);
-    }
+
 
     /**
      * start locate

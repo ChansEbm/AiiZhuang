@@ -1,5 +1,5 @@
 <resources>
-
+    <string name="app_name">爱装建材</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -63,4 +63,61 @@
     <string name="please_upload_citizen_back">请上传身份证背面照</string>
     <!--Title-->
     <string name="title_dial_dialog">拨打</string>
+
+    <!-- popup -->
+    <string name="popup_bodadianhau">联系方式</string>
+    <string name="popup_erweima">扫一扫</string>
+    <string name="popup_pinpaijieshao">品牌介绍</string>
+    <string name="popup_mendian">就近门店</string>
+
+    <!-- login activity-->
+    <string name="login_activity_brand_detail">品牌建材CRM系统</string>
+    <string name="login_activity_btn_login">登录</string>
+    <string name="login_activity_btn_visitor">游客浏览</string>
+    <string name="login_activity_tv_found_password">忘记密码</string>
+    <string name="login_activity_tv_brands_in">品牌入驻</string>
+    <string name="login_activity_tv_phone">手机号码：</string>
+    <string name="login_activity_tv_password">密码：</string>
+
+    <!-- register activity-->
+    <string name="register_activity_top_brand">品牌入驻</string>
+    <string name="register_activity_top_register">用户注册</string>
+    <string name="register_activity_r_tv_brand_name">品牌名称：</string>
+    <string name="register_activity_r_tv_brand_hint">选择品牌</string>
+    <string name="register_activity_r_tv_username">用户名称：</string>
+    <string name="register_activity_r_tv_shop_name">店铺名称：</string>
+    <string name="register_activity_r_tv_address">联系地址：</string>
+    <string name="register_activity_r_tv_mobile">手机号码：</string>
+    <string name="register_activity_r_tv_check_num">验证码：</string>
+    <string name="register_activity_r_tv_password">设置密码：</string>
+    <string name="register_activity_r_tv_re_password">确认密码：</string>
+    <string name="register_activity_r_btn_message">获取短信</string>
+    <string name="register_activity_r_btn_sure">马上注册</string>
+    <string name="register_activity_b_tv_brand_name">品牌名称：</string>
+    <string name="register_activity_b_tv_contracts">联系人：</string>
+    <string name="register_activity_b_tv_mobile">联系电话：</string>
+    <string name="register_activity_b_tv_address">联系地址：</string>
+    <string name="register_activity_b_btn_into">马上入驻</string>
+    <string name="register_activity_tv_must_hint">必填</string>
+    <string name="register_activity_tv_option_hint">选填</string>
+
+    <!-- password found activity-->
+    <string name="found_activity_tv_top_title">忘记密码</string>
+    <string name="found_activity_tv_mobile">手机号码：</string>
+    <string name="found_activity_tv_check_num">验证码：</string>
+    <string name="found_activity_tv_new_password">新密码：</string>
+    <string name="found_activity_tv_new_re_password">确认密码：</string>
+    <string name="found_activity_tv_must_hint">必填</string>
+    <string name="found_activity_tv_option_hint">选填</string>
+    <string name="found_activity_btn_message">获取短信</string>
+    <string name="found_activity_btn_upload">提交</string>
+
+    <!-- main activity-->
+    <string name="main_activity_bottom_home">首页</string>
+    <string name="main_activity_bottom_ablum">产品</string>
+    <string name="main_activity_bottom_favourite">收藏</string>
+    <string name="main_activity_bottom_friends">营销</string>
+    <string name="main_activity_bottom_more">更多</string>
+
+
 </resources>

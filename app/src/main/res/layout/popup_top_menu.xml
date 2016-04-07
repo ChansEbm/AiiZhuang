@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    >
+    <data class=".TopMenuBinding"></data>
+    <LinearLayout  android:orientation="vertical" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+
+        android:background="@color/popup_home_top_pre"
+        >
+
+        <TextView
+            android:id="@+id/tv_scan"
+            style="@style/popup_text_style"
+            android:text="@string/popup_erweima"
+            android:drawableLeft="@mipmap/erweima"
+
+            />
+        <TextView
+            android:id="@+id/tv_introduce"
+            style="@style/popup_text_style"
+            android:text="@string/popup_pinpaijieshao"
+            android:drawableLeft="@mipmap/pinpaijiesha"
+            android:layout_marginTop="0.5dp"/>
+        <TextView
+            android:id="@+id/tv_nearby"
+            style="@style/popup_text_style"
+            android:text="@string/popup_mendian"
+            android:drawableLeft="@mipmap/mendian"
+            android:layout_marginTop="0.5dp"/>
+        <TextView
+            android:id="@+id/tv_contract"
+            style="@style/popup_text_style"
+            android:text="@string/popup_bodadianhau"
+            android:drawableLeft="@mipmap/bodadianhua"
+            android:layout_marginTop="0.5dp"/>
+
+
+
+    </LinearLayout>
+
+    </LinearLayout>
+</layout>
