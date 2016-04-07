@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     //解决多包问题
     compile 'com.android.support:multidex:1.0.0'
     //facebook的图片加载
@@ -47,7 +47,8 @@ dependencies {
     //刷新框架
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.2@aar'
     //扫描二维码框架
-    compile 'com.journeyapps:zxing-android-embedded:3.0.3@aar'
+
+    //    compile 'com.journeyapps:zxing-android-embedded:3.0.3@aar'
     compile 'com.google.zxing:core:3.2.0'
     //搜索框
     compile 'com.miguelcatalan:materialsearchview:1.0.1'
@@ -89,4 +90,5 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Favorite-2.6.6.jar')
     compile files('libs/ShareSDK-Wechat-Moments-2.6.6.jar')
     compile files('libs/BaiduLBS_Android.jar')
+    compile project(':zxing-android-embedded')
 }

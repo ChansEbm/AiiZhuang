@@ -2,6 +2,7 @@ package com.appbaba.iz.ui.fragment;
 
 import android.view.View;
 
+import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseFgm;
 
 /**

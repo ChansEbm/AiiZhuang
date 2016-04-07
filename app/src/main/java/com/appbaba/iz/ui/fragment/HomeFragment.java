@@ -99,8 +99,10 @@ public class HomeFragment extends BaseFgm {
                     ViewDataBinding viewDataBinding=DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.popup_top_menu, null, false);
                     TopMenuBinding menuBinding = (TopMenuBinding)viewDataBinding;
 
-                   menuBinding.tvIntroduce.setOnClickListener(this);
-
+                    menuBinding.tvIntroduce.setOnClickListener(this);
+                    menuBinding.tvContract.setOnClickListener(this);
+                    menuBinding.tvNearby.setOnClickListener(this);
+                    menuBinding.tvScan.setOnClickListener(this);
                     window = new PopupWindow(viewDataBinding.getRoot(), ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                     window.setBackgroundDrawable(new BitmapDrawable());
                     window.showAsDropDown(iv_menu);
@@ -110,10 +112,29 @@ public class HomeFragment extends BaseFgm {
                 }
             }
                 break;
-            case R.id.tv_introduce:
-                Intent intent = new Intent(getContext(),TransferActivity.class);
-                intent.putExtra("fragment",1);
+            case R.id.tv_scan: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 0);
                 startActivity(intent);
+            }
+                break;
+            case R.id.tv_introduce: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 1);
+                startActivity(intent);
+            }
+                break;
+            case R.id.tv_nearby: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 2);
+                startActivity(intent);
+            }
+                break;
+            case R.id.tv_contract: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 3);
+                startActivity(intent);
+            }
                 break;
 
         }

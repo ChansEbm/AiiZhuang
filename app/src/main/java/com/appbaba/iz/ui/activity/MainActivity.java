@@ -26,13 +26,13 @@ public class MainActivity extends BaseAty {
     private LinearLayout linear_home,linear_ablum,linear_favourite,linear_friends,linear_more,linear_temp;
 
 
-    FragmentManager fragmentManager;
-    HomeFragment homeFragment;
-    AblumFragment ablumFragment;
-    FavouriteFragment favouriteFragment;
-    FriendsFragment friendsFragment;
-    MoreFragment moreFragment;
-    BaseFgm bf;
+    private FragmentManager fragmentManager;
+    private HomeFragment homeFragment;
+    private AblumFragment ablumFragment;
+    private FavouriteFragment favouriteFragment;
+    private FriendsFragment friendsFragment;
+    private MoreFragment moreFragment;
+    private BaseFgm baseFgm;
 
     @Override
     protected void initViews() {
@@ -48,6 +48,9 @@ public class MainActivity extends BaseAty {
         linear_home.setOnClickListener(this);
 
         linear_home.performClick();
+
+        linear_ablum.setOnClickListener(this);
+
     }
 
     @Override
@@ -104,11 +107,11 @@ public class MainActivity extends BaseAty {
             homeFragment = new HomeFragment();
             ft.add(R.id.layout_contain, homeFragment);
         }
-        if(bf!=null)
+        if(baseFgm!=null)
         {
-            ft.hide(bf);
+            ft.hide(baseFgm);
         }
-        bf = homeFragment;
+        baseFgm = homeFragment;
         ft.show(homeFragment).commit();
     }
 
@@ -120,11 +123,11 @@ public class MainActivity extends BaseAty {
             ablumFragment = new AblumFragment();
             ft.add(R.id.layout_contain, ablumFragment);
         }
-        if(bf!=null)
+        if(baseFgm!=null)
         {
-            ft.hide(bf);
+            ft.hide(baseFgm);
         }
-        bf = ablumFragment;
+        baseFgm = ablumFragment;
         ft.show(ablumFragment).commit();
     }
 }
