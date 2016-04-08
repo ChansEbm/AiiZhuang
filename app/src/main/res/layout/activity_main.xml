@@ -64,6 +64,7 @@
                     android:text="@string/main_activity_bottom_ablum"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/linear_favourite"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -72,7 +73,7 @@
                 <ImageView
                     style="@style/bottomImageStyle"
                     android:id="@+id/iv_bottom_favourite"
-                    android:src="@mipmap/icon_favourite_nor"/>
+                    android:src="@drawable/main_bottom_favourite_selector"/>
                 <TextView
                     android:id="@+id/tv_bottom_favourite"
                     android:layout_width="match_parent"
@@ -105,11 +106,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/linear_more">
                 <ImageView
                     style="@style/bottomImageStyle"
                     android:id="@+id/iv_bottom_more"
-                    android:src="@mipmap/icon_more_nor"/>
+                    android:src="@drawable/main_bottom_more_selector"/>
                 <TextView
                     android:id="@+id/tv_bottom_more"
                     android:layout_width="match_parent"

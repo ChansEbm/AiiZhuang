@@ -1,6 +1,8 @@
 package com.appbaba.iz.ui.fragment;
 
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.appbaba.iz.FragmentHomeTopNearbyBinding;
 import com.appbaba.iz.R;
@@ -12,25 +14,25 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 
-import java.util.Map;
-
 /**
  * Created by ruby on 2016/4/5.
  */
-public class HomeItemNearbyFragment extends BaseFgm{
+public class HomeItemNearbyFragment extends BaseFgm implements BaiduMap.OnMarkerClickListener{
     private FragmentHomeTopNearbyBinding nearbyBinding;
     private MapView mapView;
     private BaiduMap mBaiduMap;
+    private  InfoWindow infoWindow;
 
     // 定位相关
     LocationClient mLocClient;
@@ -47,6 +49,7 @@ public class HomeItemNearbyFragment extends BaseFgm{
         mBaiduMap = mapView.getMap();
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
+        mBaiduMap.setOnMarkerClickListener(this);
 
         // 定位初始化
         mLocClient = new LocationClient(getContext());
@@ -59,21 +62,22 @@ public class HomeItemNearbyFragment extends BaseFgm{
         mLocClient.start();
 
 
-        AddIcon();
+        AddIcon(39.963175,116.400244);
     }
 
-    public void  AddIcon()
+    public void  AddIcon(double lat,double lng)
     {
         //定义Maker坐标点
-        LatLng point = new LatLng(39.963175, 116.400244);
+        LatLng point = new LatLng(lat,lng );
 //构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
                 .fromResource(R.mipmap.icon_map_mendian);
 //构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions()
                 .position(point)
-                .icon(bitmap);
-//在地图上添加Marker，并显示
+                .icon(bitmap).title("这是一个测试");
+        //在地图上添加Marker，并显示
+
         mBaiduMap.addOverlay(option);
         MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(point);
         mBaiduMap.animateMapStatus(update);
@@ -123,6 +127,23 @@ public class HomeItemNearbyFragment extends BaseFgm{
         return R.layout.fragment_home_item_nearby;
     }
 
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        Button button = new Button(getContext());
+        button.setBackgroundResource(R.drawable.icon_pop_bg);
+        button.setText(marker.getTitle());
+        InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick() {
+                Toast.makeText(getContext(),"你点击了"+marker.getTitle(),Toast.LENGTH_LONG).show();
+                mBaiduMap.hideInfoWindow();
+            }
+        };
+        infoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(button),marker.getPosition(),-80,listener);
+        mBaiduMap.showInfoWindow(infoWindow);
+        return true;
+    }
+
     /**
      * 定位SDK监听函数
      */
@@ -147,7 +168,9 @@ public class HomeItemNearbyFragment extends BaseFgm{
                 MapStatus.Builder builder = new MapStatus.Builder();
                 builder.target(ll).zoom(18.0f);
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+                AddIcon(location.getLatitude(), location.getLongitude());
             }
+
         }
 
         public void onReceivePoi(BDLocation poiLocation) {

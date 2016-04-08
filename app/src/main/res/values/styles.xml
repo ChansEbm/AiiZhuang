@@ -3,10 +3,10 @@
     <style name="AppTheme" parent="BaseAppTheme"/>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/theme_primary</item>
+        <item name="colorPrimaryDark">@color/application_base_color</item>
         <item name="android:editTextStyle">@style/editTextStyle</item>
         <item name="editTextColor">@color/color_text_dark</item>
-        <item name="colorAccent">@color/theme_primary_dark</item>
+        <item name="colorAccent">@color/application_base_color</item>
         <item name="actionMenuTextColor">@color/color_white</item>
         <item name="android:orientation">horizontal</item>
         <!--沉浸式状态栏-->

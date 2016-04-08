@@ -5,8 +5,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appbaba.iz.ActivityMainBinding;
@@ -14,6 +16,7 @@ import com.appbaba.iz.ActivityRegisterBrandsBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.ui.fragment.AblumFragment;
 import com.appbaba.iz.ui.fragment.FavouriteFragment;
 import com.appbaba.iz.ui.fragment.FriendsFragment;
@@ -33,14 +36,22 @@ public class MainActivity extends BaseAty {
     private FriendsFragment friendsFragment;
     private MoreFragment moreFragment;
     private BaseFgm baseFgm;
+    private  FrameLayout frameLayout;
 
     @Override
     protected void initViews() {
         mainBinding = (ActivityMainBinding)viewDataBinding;
         linear_home = mainBinding.linearHome;
         linear_ablum = mainBinding.linearAblum;
-
+        linear_favourite = mainBinding.linearFavourite;
+        linear_more = mainBinding.linearMore;
+        frameLayout = mainBinding.layoutContain;
         fragmentManager = getSupportFragmentManager();
+
+//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)frameLayout.getLayoutParams();
+//        params.width = MethodConfig.metrics.widthPixels;
+//        params.height = MethodConfig.metrics.heightPixels + MethodConfig.dip2px(this,50);
+//        frameLayout.setLayoutParams(params);
     }
 
     @Override
@@ -50,6 +61,10 @@ public class MainActivity extends BaseAty {
         linear_home.performClick();
 
         linear_ablum.setOnClickListener(this);
+        linear_favourite.setOnClickListener(this);
+        linear_more.setOnClickListener(this);
+//        linear_friends.setOnClickListener(this);
+//        linear_more.setOnClickListener(this);
 
     }
 
@@ -72,6 +87,16 @@ public class MainActivity extends BaseAty {
                 ShowOrHide(linear_ablum);
                 ChooseAblumFragment();
                 linear_temp = linear_ablum;
+                break;
+            case R.id.linear_favourite:
+                ShowOrHide(linear_favourite);
+                ChooseFavouriteFragment();
+                linear_temp = linear_favourite;
+                break;
+            case R.id.linear_more:
+                ShowOrHide(linear_more);
+                ChooseMoreFragment();
+                linear_temp = linear_more;
                 break;
 
         }
@@ -129,5 +154,37 @@ public class MainActivity extends BaseAty {
         }
         baseFgm = ablumFragment;
         ft.show(ablumFragment).commit();
+    }
+
+    private  void  ChooseFavouriteFragment()
+    {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        if(favouriteFragment==null)
+        {
+            favouriteFragment = new FavouriteFragment();
+            ft.add(R.id.layout_contain,favouriteFragment);
+        }
+        if(baseFgm!=null)
+        {
+            ft.hide(baseFgm);
+        }
+        baseFgm = favouriteFragment;
+        ft.show(favouriteFragment).commit();
+    }
+
+    private  void  ChooseMoreFragment()
+    {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        if(moreFragment==null)
+        {
+            moreFragment = new MoreFragment();
+            ft.add(R.id.layout_contain,moreFragment);
+        }
+        if(baseFgm!=null)
+        {
+            ft.hide(baseFgm);
+        }
+        baseFgm = moreFragment;
+        ft.show(moreFragment).commit();
     }
 }
