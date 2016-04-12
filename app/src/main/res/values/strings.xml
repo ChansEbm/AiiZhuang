@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">爱装建材</string>
+    <string name="app_name">装色</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -140,5 +140,16 @@
     <string name="more_fragment_item_chpwd_new">新密码</string>
     <string name="more_fragment_item_chpwd_renew">确认密码</string>
     <string name="more_fragment_item_btn_upload">提交</string>
+
+    <!-- friends fragment-->
+    <string name="friends_fragment_crm">CRM</string>
+    <string name="friends_fragment_client_add_title">添加客户</string>
+    <string name="friends_fragment_client_add_name">客户姓名：</string>
+    <string name="friends_fragment_client_add_mobile">联系电话：</string>
+    <string name="friends_fragment_client_add_province">所在省市：</string>
+    <string name="friends_fragment_client_add_address">联系地址：</string>
+    <string name="friends_fragment_client_add_must_hint">必填</string>
+    <string name="friends_fragment_client_add_option_hint">选填</string>
+    <string name="friends_fragment_client_add_btn_upload">提交</string>
 
 </resources>

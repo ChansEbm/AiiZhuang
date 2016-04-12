@@ -6,11 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.appbaba.iz.FragmentFriendClientBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.databinding.ActivityTransferBinding;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.ui.fragment.FavouriteItemDetailFragment;
+import com.appbaba.iz.ui.fragment.FriendsItemAddClientFragment;
+import com.appbaba.iz.ui.fragment.FriendsItemCRMFragment;
+import com.appbaba.iz.ui.fragment.FriendsItemClientFragment;
 import com.appbaba.iz.ui.fragment.HomeItemContractFragment;
 import com.appbaba.iz.ui.fragment.HomeItemIntroduceFragment;
 import com.appbaba.iz.ui.fragment.HomeItemNearbyFragment;
@@ -37,6 +41,10 @@ public class TransferActivity extends BaseAty {
 
     private  final  int MORE_ITEM_PERSON=5;//个人资料
     private  final  int MORE_ITEM_CHANGE_PWD=6;//修改密码
+
+    private  final  int FRIEND_CRM = 7; //CRM
+    private  final  int FRIEND_CLIENT_LIST = 8; //我的客户
+    private  final  int FRIEND_CLIENT_ADD = 9; //我的客户
 
     @Override
     protected void initViews() {
@@ -72,6 +80,18 @@ public class TransferActivity extends BaseAty {
            case MORE_ITEM_CHANGE_PWD:
                MoreItemChangePWDFragment moreItemChangePWDFragment = new MoreItemChangePWDFragment();
                fragmentManager.beginTransaction().add(R.id.layout_contain,moreItemChangePWDFragment).commit();
+               break;
+           case FRIEND_CRM:
+               FriendsItemCRMFragment friendsItemCRMFragment = new FriendsItemCRMFragment();
+               fragmentManager.beginTransaction().add(R.id.layout_contain,friendsItemCRMFragment).commit();
+               break;
+           case FRIEND_CLIENT_LIST:
+               FriendsItemClientFragment clientFragment = new FriendsItemClientFragment();
+               fragmentManager.beginTransaction().add(R.id.layout_contain,clientFragment).commit();
+               break;
+           case FRIEND_CLIENT_ADD:
+               FriendsItemAddClientFragment addFragment = new FriendsItemAddClientFragment();
+               fragmentManager.beginTransaction().add(R.id.layout_contain,addFragment).commit();
                break;
 
         }

@@ -49,7 +49,7 @@ public class HomeFragment extends BaseFgm {
         params1.height = MethodConfig.GetHeightFor16v9(params1.width);
         iv_1.setLayoutParams(params1);
 
-        int m = MethodConfig.dip2px(getContext(),10);
+        int m = MethodConfig.dip2px(getContext(),8);
         LinearLayout.LayoutParams params2 = ( LinearLayout.LayoutParams)iv_3.getLayoutParams();
         params2.width = (MethodConfig.metrics.widthPixels-m*3)/2;
         LinearLayout.LayoutParams params4 = ( LinearLayout.LayoutParams)iv_4.getLayoutParams();
@@ -59,11 +59,10 @@ public class HomeFragment extends BaseFgm {
        params6.height= params5.height = params4.height = params2.height;
         params6.width = params5.width = params4.width = params2.width;
 
-        System.out.print("" + params5.height);
         iv_3.setLayoutParams(params2);
         iv_4.setLayoutParams(params4);
         iv_5.setLayoutParams(params5);
-        iv_6.setLayoutParams(params5);
+        iv_6.setLayoutParams(params6);
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)iv_item_test.getLayoutParams();
         params.width = MethodConfig.metrics.widthPixels;

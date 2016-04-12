@@ -49,8 +49,8 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
         favouriteBinding.includeTopTitle.title.setTextColor(Color.BLACK);
          height = MethodConfig.GetHeightFor16v9(MethodConfig.metrics.widthPixels);
         recyclerView = favouriteBinding.rcyFavourite;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,MethodConfig.metrics.heightPixels);
-        recyclerView.setLayoutParams(params);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,MethodConfig.metrics.heightPixels);
+//        recyclerView.setLayoutParams(params);
         list = new ArrayList<>();
         for(int i=0;i<10;i++)
         {
@@ -76,7 +76,7 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
             }
         };
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(30));
         recyclerView.setAdapter(adapter);
         adapter.setBinderOnItemClickListener(this);

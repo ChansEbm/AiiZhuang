@@ -11,4 +11,5 @@
         android:id="@+id/menu_share"
         android:icon="@mipmap/icon_share"
         android:showAsAction="always"></item>
+    <item android:id="@+id/menu_add"></item>
 </menu>

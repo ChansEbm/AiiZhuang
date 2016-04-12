@@ -36,7 +36,6 @@ public class MainActivity extends BaseAty {
     private FriendsFragment friendsFragment;
     private MoreFragment moreFragment;
     private BaseFgm baseFgm;
-    private  FrameLayout frameLayout;
 
     @Override
     protected void initViews() {
@@ -45,7 +44,8 @@ public class MainActivity extends BaseAty {
         linear_ablum = mainBinding.linearAblum;
         linear_favourite = mainBinding.linearFavourite;
         linear_more = mainBinding.linearMore;
-        frameLayout = mainBinding.layoutContain;
+        linear_friends = mainBinding.linearFriends;
+
         fragmentManager = getSupportFragmentManager();
 
 //        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)frameLayout.getLayoutParams();
@@ -63,6 +63,7 @@ public class MainActivity extends BaseAty {
         linear_ablum.setOnClickListener(this);
         linear_favourite.setOnClickListener(this);
         linear_more.setOnClickListener(this);
+        linear_friends.setOnClickListener(this);
 //        linear_friends.setOnClickListener(this);
 //        linear_more.setOnClickListener(this);
 
@@ -97,6 +98,11 @@ public class MainActivity extends BaseAty {
                 ShowOrHide(linear_more);
                 ChooseMoreFragment();
                 linear_temp = linear_more;
+                break;
+            case R.id.linear_friends:
+                ShowOrHide(linear_friends);
+                ChooseFriendsFragment();
+                linear_temp = linear_friends;
                 break;
 
         }
@@ -170,6 +176,22 @@ public class MainActivity extends BaseAty {
         }
         baseFgm = favouriteFragment;
         ft.show(favouriteFragment).commit();
+    }
+
+    private  void  ChooseFriendsFragment()
+    {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        if(friendsFragment==null)
+        {
+            friendsFragment = new FriendsFragment();
+            ft.add(R.id.layout_contain,friendsFragment);
+        }
+        if(baseFgm!=null)
+        {
+            ft.hide(baseFgm);
+        }
+        baseFgm = friendsFragment;
+        ft.show(friendsFragment).commit();
     }
 
     private  void  ChooseMoreFragment()

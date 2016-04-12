@@ -83,6 +83,7 @@
                     android:text="@string/main_activity_bottom_favourite"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/linear_friends"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -92,7 +93,7 @@
                 <ImageView
                     style="@style/bottomImageStyle"
                     android:id="@+id/iv_bottom_friends"
-                    android:src="@mipmap/icon_friends_nor"/>
+                    android:src="@drawable/main_bottom_friends_selector"/>
                 <TextView
                     android:id="@+id/tv_bottom_friends"
                     android:layout_width="match_parent"
