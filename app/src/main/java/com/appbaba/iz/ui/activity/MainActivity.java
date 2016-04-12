@@ -18,6 +18,7 @@ import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.ui.fragment.AblumFragment;
+import com.appbaba.iz.ui.fragment.AlbumFragment;
 import com.appbaba.iz.ui.fragment.FavouriteFragment;
 import com.appbaba.iz.ui.fragment.FriendsFragment;
 import com.appbaba.iz.ui.fragment.HomeFragment;
@@ -31,7 +32,7 @@ public class MainActivity extends BaseAty {
 
     private FragmentManager fragmentManager;
     private HomeFragment homeFragment;
-    private AblumFragment ablumFragment;
+    private AlbumFragment ablumFragment;
     private FavouriteFragment favouriteFragment;
     private FriendsFragment friendsFragment;
     private MoreFragment moreFragment;
@@ -151,7 +152,7 @@ public class MainActivity extends BaseAty {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         if(ablumFragment==null)
         {
-            ablumFragment = new AblumFragment();
+            ablumFragment = new AlbumFragment();
             ft.add(R.id.layout_contain, ablumFragment);
         }
         if(baseFgm!=null)

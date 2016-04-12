@@ -3,22 +3,38 @@
     <style name="AppTheme" parent="BaseAppTheme"/>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/application_base_color</item>
+        <item name="colorPrimaryDark">@color/theme_primary</item>
         <item name="android:editTextStyle">@style/editTextStyle</item>
         <item name="editTextColor">@color/color_text_dark</item>
-        <item name="colorAccent">@color/application_base_color</item>
+        <item name="colorAccent">@color/theme_primary_dark</item>
         <item name="actionMenuTextColor">@color/color_white</item>
         <item name="android:orientation">horizontal</item>
         <!--沉浸式状态栏-->
         <!--<item name="android:fitsSystemWindows">true</item>-->
     </style>
 
+    <style name="radioButtonStyle" parent="Base.Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:textSize">@dimen/text_large_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="albumClassifyStyle" parent="Base.Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_album_classify</item>
+        <item name="android:textColor">@color/color_album_classify</item>
+        <item name="android:layout_width">65dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_height">27dp</item>
+    </style>
 
     <!--TextView默认属性-->
     <style name="textStyle" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/color_text_dark</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_large_size</item>
+        <item name="android:textSize">@dimen/text_normal_size</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
 
@@ -71,6 +87,10 @@
     </style>
 
 
+    
+
+    
+   
 
     <!--Dialog属性-->
     <style name="dialogDefaultStyle" parent="Theme.AppCompat.Dialog">
