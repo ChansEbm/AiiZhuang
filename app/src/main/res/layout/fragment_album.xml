@@ -1,17 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="RtlCompat">
 
     <data class=".AlbumLayout"/>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/large_margin_15dp"
+            android:paddingStart="23dp">
 
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/minHeight_50dp">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_effect"
+                    style="@style/radioButtonStyle"
+                    android:text="@string/fragment_album_t_effect"
+                    android:textColor="@color/color_text_dark"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_product"
+                    style="@style/radioButtonStyle"
+                    android:layout_marginStart="@dimen/large_margin_15dp"
+                    android:alpha="0.5"
+                    android:text="@string/fragment_album_t_product"
+                    android:textColor="@color/color_text_dark"/>
+            </RadioGroup>
+
+            <ImageButton
+                android:id="@+id/ibtn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@mipmap/ic_search"/>
         </LinearLayout>
-    </FrameLayout>
+
+        <include layout="@layout/line"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 </layout>

@@ -9,10 +9,24 @@
         <item name="colorAccent">@color/theme_primary_dark</item>
         <item name="actionMenuTextColor">@color/color_white</item>
         <item name="android:orientation">horizontal</item>
-        <!--沉浸式状态栏-->
-        <!--<item name="android:fitsSystemWindows">true</item>-->
     </style>
 
+    <style name="radioButtonStyle" parent="Base.Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:textSize">@dimen/text_large_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="albumClassifyStyle" parent="Base.Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_album_classify</item>
+        <item name="android:textColor">@color/color_album_classify</item>
+        <item name="android:layout_width">65dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_height">27dp</item>
+    </style>
 
     <!--TextView默认属性-->
     <style name="textStyle" parent="android:Widget.TextView">
@@ -20,16 +34,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_large_size</item>
         <item name="android:layout_width">wrap_content</item>
-    </style>
-
-    <!--Button默认属性-->
-    <style name="buttonStyle" parent="Base.TextAppearance.AppCompat.Button">
-        <item name="android:textColor">@color/color_white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">15sp</item>
-
     </style>
 
     <!--EditText默认属性-->
@@ -55,7 +59,6 @@
     </style>
 
     <style name="popup_text_style">
-
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -69,7 +72,6 @@
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/popup_home_top_selector</item>
     </style>
-
 
 
     <!--Dialog属性-->
@@ -126,18 +128,6 @@
         <item name="progressBarImage">@mipmap/ic_progress</item>
         <!--默认加载图显示方式-->
         <item name="progressBarImageScaleType">centerInside</item>
-    </style>
-
-
-    <!-- 对话框样式 -->
-    <style name="DialogStyle" parent="android:Theme.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
 </resources>

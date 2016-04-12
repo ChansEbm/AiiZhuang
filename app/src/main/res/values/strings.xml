@@ -119,5 +119,13 @@
     <string name="main_activity_bottom_friends">营销</string>
     <string name="main_activity_bottom_more">更多</string>
 
+    <string name="fragment_album_t_effect">效果图</string>
+    <string name="fragment_album_t_product">产品</string>
+    <string name="fragment_album_style">风格 ∨</string>
+    <string name="fragment_album_space">空间 ∨</string>
+    <string name="fragment_album_classify">分类 ∨</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
