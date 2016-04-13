@@ -51,14 +51,16 @@
         </LinearLayout>
 
         <Button
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="#ffae00"
+            android:textColor="@color/white"
             android:text="编辑"/>
         <Button
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="#f05953"
+            android:textColor="@color/white"
             android:text="删除"/>
 
     </com.appbaba.iz.widget.ScrollView.SlideView>

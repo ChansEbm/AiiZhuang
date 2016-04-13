@@ -28,6 +28,7 @@ public class MoreFragment extends BaseFgm{
 
         moreBinding.linearPerson.setOnClickListener(this);
         moreBinding.linearChangePwd.setOnClickListener(this);
+        moreBinding.linearFeedback.setOnClickListener(this);
     }
 
     @Override
@@ -52,6 +53,13 @@ public class MoreFragment extends BaseFgm{
                 startActivity(intent);
             }
                 break;
+            case R.id.linear_feedback:
+            {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 10);
+                startActivity(intent);
+            }
+            break;
         }
     }
 

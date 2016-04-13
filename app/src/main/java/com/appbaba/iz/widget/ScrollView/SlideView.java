@@ -34,7 +34,7 @@ public class SlideView extends LinearLayout {
     public void  InitView()
     {
           scroller = new Scroller(getContext());
-          width = MethodConfig.dip2px(getContext(), 120);
+          width = MethodConfig.dip2px(getContext(), 160);
     }
 
     public void  back()

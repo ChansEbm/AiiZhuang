@@ -69,8 +69,6 @@ public class HomeFragment extends BaseFgm {
         params.height = MethodConfig.metrics.widthPixels/2;
         iv_item_test.setLayoutParams(params);
 
-
-
     }
 
 
@@ -89,7 +87,6 @@ public class HomeFragment extends BaseFgm {
 
     @Override
     protected void onClick(int id, View view) {
-
         switch (id)
         {
             case R.id.iv_menu: {
@@ -115,27 +112,39 @@ public class HomeFragment extends BaseFgm {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
                 intent.putExtra("fragment", 0);
                 startActivity(intent);
+                HideInfoWindow();
             }
                 break;
             case R.id.tv_introduce: {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
                 intent.putExtra("fragment", 1);
                 startActivity(intent);
+                HideInfoWindow();
             }
                 break;
             case R.id.tv_nearby: {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
                 intent.putExtra("fragment", 2);
                 startActivity(intent);
+                HideInfoWindow();
             }
                 break;
             case R.id.tv_contract: {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
                 intent.putExtra("fragment", 3);
                 startActivity(intent);
+                HideInfoWindow();
             }
                 break;
 
+        }
+    }
+
+    public  void  HideInfoWindow()
+    {
+        if(window!=null && window.isShowing())
+        {
+            window.dismiss();
         }
     }
 

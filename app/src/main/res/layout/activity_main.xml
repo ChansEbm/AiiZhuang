@@ -54,7 +54,7 @@
                 <ImageView
                     style="@style/bottomImageStyle"
                     android:id="@+id/iv_bottom_ablum"
-                    android:src="@mipmap/icon_ablum_nor"/>
+                    android:src="@drawable/main_bottom_album_selector"/>
                 <TextView
                     android:id="@+id/tv_bottom_ablum"
                     android:layout_width="match_parent"

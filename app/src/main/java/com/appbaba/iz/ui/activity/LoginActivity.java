@@ -37,6 +37,7 @@ public class LoginActivity extends BaseAty {
         btn_login.setOnClickListener(this);
         tv_brand_in.setOnClickListener(this);
         tv_forget.setOnClickListener(this);
+
     }
 
     @Override

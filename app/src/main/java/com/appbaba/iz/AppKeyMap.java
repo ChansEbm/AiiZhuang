@@ -1,6 +1,7 @@
 package com.appbaba.iz;
 
 import com.appbaba.iz.tools.AppTools;
+import com.google.zxing.oned.rss.FinderPattern;
 
 /**
  * Created by ChanZeeBm on 2015/9/7.
@@ -42,20 +43,22 @@ public class AppKeyMap {
     public final static int LOLLIPOP = 0x08f;
     public final static int MARSHMALLOW = 0x09f;
 
-    public final static String HEAD = "http://appbaba.jios.org:8081/";
-    public final static String HEAD_API_LOGIN = HEAD + "ApiLogin/";
-    public final static String HEAD_API_WORKER = HEAD + "ApiWorker/";
-    public final static String HEAD_API_ORDER = HEAD + "ApiOrder/";
-    public final static String HEAD_API_ACCE_ORDER = HEAD + "ApiAcceOrder/";
-    public final static String HEAD_APINEARORDER = HEAD + "ApiNearOrder/";
-    public final static String HEAD_APIMEMBER = HEAD + "ApiMember/";
-    public final static String HEAD_APIPAGES = HEAD + "ApiPages/";
-    public final static String HEAD_APIPUSH = HEAD + "ApiPush/";
-    public final static String HEAD_ABOUT_US = HEAD_APIPAGES + "aboutUs";
-    public final static String HEAD_MUSTREAD = HEAD_APIPAGES + "mustRead";
-    public final static String HEAD_JOINTPRICE = HEAD_APIPAGES + "jointPrice";
-    public final static String HEAD_REGISTERAGREEMENT = HEAD_APIPAGES + "registerAgreement";
-    public final static String HEAD_QUERYLOGISTICS = HEAD_APIPAGES + "queryLogistics";
+    public final static String HEAD = "http://192.168.200.123/appbaba2016/Api/";
+    public final static String HEAD_API_COMMON = HEAD +"Common/";
+    public final static String HEAD_API_LOGIN = HEAD + "Login/";
+
+//    public final static String HEAD_API_WORKER = HEAD + "ApiWorker/";
+//    public final static String HEAD_API_ORDER = HEAD + "ApiOrder/";
+//    public final static String HEAD_API_ACCE_ORDER = HEAD + "ApiAcceOrder/";
+//    public final static String HEAD_APINEARORDER = HEAD + "ApiNearOrder/";
+//    public final static String HEAD_APIMEMBER = HEAD + "ApiMember/";
+//    public final static String HEAD_APIPAGES = HEAD + "ApiPages/";
+//    public final static String HEAD_APIPUSH = HEAD + "ApiPush/";
+//    public final static String HEAD_ABOUT_US = HEAD_APIPAGES + "aboutUs";
+//    public final static String HEAD_MUSTREAD = HEAD_APIPAGES + "mustRead";
+//    public final static String HEAD_JOINTPRICE = HEAD_APIPAGES + "jointPrice";
+//    public final static String HEAD_REGISTERAGREEMENT = HEAD_APIPAGES + "registerAgreement";
+//    public final static String HEAD_QUERYLOGISTICS = HEAD_APIPAGES + "queryLogistics";
 
     public final static String CONTENT_JPG = "image/jpg";
     public final static String CONTENT_PNG = "image/png";

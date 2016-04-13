@@ -180,36 +180,42 @@ public class OkHttpBuilder {
             return this;
         }
 
-
-        public POST urlWorker(String workerUrl) {
-            this.fullUrl = AppKeyMap.HEAD_API_WORKER + workerUrl;
-            return this;
+        public  POST urlGetSellerList(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_COMMON+url;
+            return  this;
         }
 
-        public POST urlOrder(String orderUrl) {
-            this.fullUrl = AppKeyMap.HEAD_API_ORDER + orderUrl;
-            return this;
-        }
 
-        public POST urlApiAccessOrder(String apiAccessOrderUrl) {
-            this.fullUrl = AppKeyMap.HEAD_API_ACCE_ORDER + apiAccessOrderUrl;
-            return this;
-        }
-
-        public POST urlAPInearOrder(String nearOrderUrl) {
-            this.fullUrl = AppKeyMap.HEAD_APINEARORDER + nearOrderUrl;
-            return this;
-        }
-
-        public POST urlAPIMember(String memberUrl) {
-            this.fullUrl = AppKeyMap.HEAD_APIMEMBER + memberUrl;
-            return this;
-        }
-
-        public POST urlAPIPush(String pushUrl) {
-            this.fullUrl = AppKeyMap.HEAD_APIPUSH + pushUrl;
-            return this;
-        }
+//        public POST urlWorker(String workerUrl) {
+//            this.fullUrl = AppKeyMap.HEAD_API_WORKER + workerUrl;
+//            return this;
+//        }
+//
+//        public POST urlOrder(String orderUrl) {
+//            this.fullUrl = AppKeyMap.HEAD_API_ORDER + orderUrl;
+//            return this;
+//        }
+//
+//        public POST urlApiAccessOrder(String apiAccessOrderUrl) {
+//            this.fullUrl = AppKeyMap.HEAD_API_ACCE_ORDER + apiAccessOrderUrl;
+//            return this;
+//        }
+//
+//        public POST urlAPInearOrder(String nearOrderUrl) {
+//            this.fullUrl = AppKeyMap.HEAD_APINEARORDER + nearOrderUrl;
+//            return this;
+//        }
+//
+//        public POST urlAPIMember(String memberUrl) {
+//            this.fullUrl = AppKeyMap.HEAD_APIMEMBER + memberUrl;
+//            return this;
+//        }
+//
+//        public POST urlAPIPush(String pushUrl) {
+//            this.fullUrl = AppKeyMap.HEAD_APIPUSH + pushUrl;
+//            return this;
+//        }
 
         /**
          * the params what we need to upload

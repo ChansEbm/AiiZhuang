@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.appbaba.iz.AppKeyMap;
+import com.appbaba.iz.entity.SellerListBean;
+import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.OkHttpResponseListener;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
+import com.appbaba.iz.tools.OkHttpBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,4 +94,14 @@ public class NetworkModel<E> {
             }
         }
     }
+
+    /**
+     * new api
+     */
+    public void  getSellerList(NetworkParams networkParams){
+        clearAllParams();
+         new OkHttpBuilder.POST(appCompatActivity).urlGetSellerList("getSellerList").entityClass(SellerListBean.class).params(params)
+                            .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
 }

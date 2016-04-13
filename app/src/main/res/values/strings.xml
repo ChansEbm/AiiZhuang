@@ -131,7 +131,7 @@
 
 
     <!-- more fragment-->
-     <string name="more_fragment_person">个人资料</string>
+    <string name="more_fragment_person">个人资料</string>
     <string name="more_fragment_change_pwd">修改密码</string>
     <string name="more_fragment_clear_cache">清理缓存</string>
     <string name="more_fragment_use_guide">使用指南</string>
@@ -139,6 +139,7 @@
     <string name="more_fragment_about_us">关于我们</string>
     <string name="more_fragment_service">服务条款</string>
     <string name="more_fragment_private">私隐政策</string>
+    <string name="more_fragment_feedback">意见反馈</string>
     <string name="more_fragment_logout">注销</string>
 
     <string name="more_fragment_item_person_head">头像</string>
@@ -151,6 +152,8 @@
     <string name="more_fragment_item_chpwd_new">新密码</string>
     <string name="more_fragment_item_chpwd_renew">确认密码</string>
     <string name="more_fragment_item_btn_upload">提交</string>
+
+    <string name="more_fragment_item_feedback_hint">请在这里填写宝贵意见！</string>
 
     <!-- friends fragment-->
     <string name="friends_fragment_crm">CRM</string>

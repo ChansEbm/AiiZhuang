@@ -11,6 +11,7 @@ import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.databinding.ActivityTransferBinding;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.ui.fragment.CommSellerListFragment;
 import com.appbaba.iz.ui.fragment.FavouriteItemDetailFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemAddClientFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemCRMFragment;
@@ -19,6 +20,7 @@ import com.appbaba.iz.ui.fragment.HomeItemContractFragment;
 import com.appbaba.iz.ui.fragment.HomeItemIntroduceFragment;
 import com.appbaba.iz.ui.fragment.HomeItemNearbyFragment;
 import com.appbaba.iz.ui.fragment.HomeItemScanFragment;
+import com.appbaba.iz.ui.fragment.MoreItemBackFragment;
 import com.appbaba.iz.ui.fragment.MoreItemChangePWDFragment;
 import com.appbaba.iz.ui.fragment.MoreItemPersonFragment;
 
@@ -42,13 +44,23 @@ public class TransferActivity extends BaseAty {
     private  final  int MORE_ITEM_PERSON=5;//个人资料
     private  final  int MORE_ITEM_CHANGE_PWD=6;//修改密码
 
+
     private  final  int FRIEND_CRM = 7; //CRM
     private  final  int FRIEND_CLIENT_LIST = 8; //我的客户
     private  final  int FRIEND_CLIENT_ADD = 9; //我的客户
 
+    private  final  int MORE_ITEM_FEEDBACK = 10; //意见反馈
+
+    private  final int COMM_SELLER_LIST = 11; //选择品牌
+
+
+
     @Override
     protected void initViews() {
         int fragment_index = getIntent().getIntExtra("fragment",-1);
+
+        Bundle bundle = getIntent().getBundleExtra("bundle");
+
         transferBinding = (ActivityTransferBinding)viewDataBinding;
         fragmentManager = getSupportFragmentManager();
        switch (fragment_index)
@@ -81,6 +93,10 @@ public class TransferActivity extends BaseAty {
                MoreItemChangePWDFragment moreItemChangePWDFragment = new MoreItemChangePWDFragment();
                fragmentManager.beginTransaction().add(R.id.layout_contain,moreItemChangePWDFragment).commit();
                break;
+           case MORE_ITEM_FEEDBACK:
+               MoreItemBackFragment moreItemBackFragment = new MoreItemBackFragment();
+               fragmentManager.beginTransaction().add(R.id.layout_contain,moreItemBackFragment).commit();
+               break;
            case FRIEND_CRM:
                FriendsItemCRMFragment friendsItemCRMFragment = new FriendsItemCRMFragment();
                fragmentManager.beginTransaction().add(R.id.layout_contain,friendsItemCRMFragment).commit();
@@ -92,6 +108,10 @@ public class TransferActivity extends BaseAty {
            case FRIEND_CLIENT_ADD:
                FriendsItemAddClientFragment addFragment = new FriendsItemAddClientFragment();
                fragmentManager.beginTransaction().add(R.id.layout_contain,addFragment).commit();
+               break;
+           case COMM_SELLER_LIST:
+              CommSellerListFragment commSellerListFragment = new CommSellerListFragment();
+               fragmentManager.beginTransaction().add(R.id.layout_contain,commSellerListFragment).commit();
                break;
 
         }
