@@ -11,6 +11,7 @@ import com.appbaba.iz.ActivityLoginBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.tools.AppTools;
 
 /**
  * Created by ruby on 2016/3/31.
@@ -29,6 +30,9 @@ public class LoginActivity extends BaseAty {
         btn_visitor = loginBinding.btnVisitor;
         tv_forget = loginBinding.tvForget;
         tv_brand_in = loginBinding.tvBrandIn;
+
+        String username = AppTools.getStringSharedPreferences("username","");
+        edt_mobile.setText(username);
     }
 
     @Override
@@ -37,6 +41,7 @@ public class LoginActivity extends BaseAty {
         btn_login.setOnClickListener(this);
         tv_brand_in.setOnClickListener(this);
         tv_forget.setOnClickListener(this);
+
     }
 
     @Override
@@ -49,7 +54,11 @@ public class LoginActivity extends BaseAty {
          switch (id)
          {
              case  R.id.btn_login:
-                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
+             {
+                 if(edt_mobile.getText().toString().trim().length()>0 && edt_password.getText().toString().trim().length()>0) {
+                     networkModel.Login(edt_mobile.getText().toString(), edt_password.getText().toString(), "", NetworkParams.LOGIN);
+                 }
+             }
                  break;
              case R.id.btn_visitor:
                  startActivity(new Intent(getApplicationContext(),MainActivity.class));
@@ -66,5 +75,9 @@ public class LoginActivity extends BaseAty {
     @Override
     public void onJsonObjectResponse(Object o, NetworkParams paramsCode) {
 
+        if(paramsCode==NetworkParams.LOGIN)
+        {
+
+        }
     }
 }

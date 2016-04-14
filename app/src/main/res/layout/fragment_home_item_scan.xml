@@ -9,8 +9,14 @@
         android:id="@+id/include_top_simple_title"
         layout="@layout/item_top_title_simple_back"></include>
 
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+
+        <com.journeyapps.barcodescanner.CompoundBarcodeView
+            android:id="@+id/barcode_scanner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.journeyapps.barcodescanner.CompoundBarcodeView>
+
+
     </LinearLayout>
 </layout>

@@ -10,8 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.appbaba.iz.R;
 import com.appbaba.iz.AppKeyMap;
+import com.appbaba.iz.R;
 import com.appbaba.iz.adapters.CommonBinderAdapter;
 import com.appbaba.iz.broadcast.UpdateUIBroadcast;
 import com.appbaba.iz.entity.Base.BaseBean;
@@ -164,12 +164,12 @@ public abstract class BaseAty<E extends BaseBean, T> extends AppCompatActivity i
     }
 
     @Override
-    public void onBinderItemClick(View clickItem, int pos) {
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
 
     }
 
     @Override
-    public void onBinderItemLongClick(View clickItem, int pos) {
+    public void onBinderItemLongClick(View clickItem, int parentId, int pos) {
 
     }
 

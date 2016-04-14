@@ -45,4 +45,6 @@ public class TestAty extends BaseAty {
     public void onJsonObjectResponse(Object o, NetworkParams paramsCode) {
 
     }
+
+
 }

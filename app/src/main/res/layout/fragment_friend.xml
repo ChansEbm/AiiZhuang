@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data class=".FragmentFriendBinding"></data>
+    <FrameLayout  android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ViewSwitcher
+            android:id="@+id/vs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include
+                android:id="@+id/include_top_title"
+                layout="@layout/title_bar"></include>
+            <com.appbaba.iz.widget.ScrollView.MyScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </android.support.v7.widget.RecyclerView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"></LinearLayout>
+                </LinearLayout>
+            </com.appbaba.iz.widget.ScrollView.MyScrollView>
+
+        </LinearLayout>
+            <FrameLayout
+                android:id="@+id/layout_contain_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></FrameLayout>
+        </ViewSwitcher>
+    </FrameLayout>
+</layout>

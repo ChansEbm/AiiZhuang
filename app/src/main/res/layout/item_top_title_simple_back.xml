@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     >
-
     <data class=".TopTitleBinding"></data>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <RelativeLayout  android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/application_base_color"
-        android:orientation="horizontal">
+        android:background="@color/application_base_color">
+
 
         <TextView
             android:id="@+id/_back"
@@ -16,20 +13,20 @@
             android:layout_height="match_parent"
             android:drawableLeft="@mipmap/icon_top_back"
 
-            android:drawablePadding="10dp"
             android:gravity="center_vertical"
-            android:padding="10dp"
-            android:textColor="@color/white"/>
+            android:drawablePadding="10dp"
+            android:textColor="@color/white"
+            android:padding="10dp"/>
 
         <TextView
             android:id="@+id/tv_top_simple_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:drawablePadding="10dp"
             android:gravity="center_vertical"
-            android:padding="10dp"
+            android:drawablePadding="10dp"
             android:textColor="@color/white"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:padding="10dp"/>
     </RelativeLayout>
 </layout>

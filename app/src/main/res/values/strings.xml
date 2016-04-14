@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">爱装建材</string>
+    <string name="app_name">装色</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -115,7 +115,7 @@
     <!-- main activity-->
     <string name="main_activity_bottom_home">首页</string>
     <string name="main_activity_bottom_ablum">产品</string>
-    <string name="main_activity_bottom_favourite">收藏</string>
+    <string name="main_activity_bottom_favourite">专题</string>
     <string name="main_activity_bottom_friends">营销</string>
     <string name="main_activity_bottom_more">更多</string>
 
@@ -127,5 +127,43 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <!-- more fragment-->
+    <string name="more_fragment_person">个人资料</string>
+    <string name="more_fragment_change_pwd">修改密码</string>
+    <string name="more_fragment_clear_cache">清理缓存</string>
+    <string name="more_fragment_use_guide">使用指南</string>
+    <string name="more_fragment_share">分享朋友</string>
+    <string name="more_fragment_about_us">关于我们</string>
+    <string name="more_fragment_service">服务条款</string>
+    <string name="more_fragment_private">私隐政策</string>
+    <string name="more_fragment_feedback">意见反馈</string>
+    <string name="more_fragment_logout">注销</string>
+
+    <string name="more_fragment_item_person_head">头像</string>
+    <string name="more_fragment_item_person_name">姓名</string>
+    <string name="more_fragment_item_person_shop">店铺名称</string>
+    <string name="more_fragment_item_person_are">所在地区</string>
+    <string name="more_fragment_item_person_address">详细地址</string>
+
+    <string name="more_fragment_item_chpwd_old">旧密码</string>
+    <string name="more_fragment_item_chpwd_new">新密码</string>
+    <string name="more_fragment_item_chpwd_renew">确认密码</string>
+    <string name="more_fragment_item_btn_upload">提交</string>
+
+    <string name="more_fragment_item_feedback_hint">请在这里填写宝贵意见！</string>
+
+    <!-- friends fragment-->
+    <string name="friends_fragment_crm">CRM</string>
+    <string name="friends_fragment_client_add_title">添加客户</string>
+    <string name="friends_fragment_client_add_name">客户姓名：</string>
+    <string name="friends_fragment_client_add_mobile">联系电话：</string>
+    <string name="friends_fragment_client_add_province">所在省市：</string>
+    <string name="friends_fragment_client_add_address">联系地址：</string>
+    <string name="friends_fragment_client_add_must_hint">必填</string>
+    <string name="friends_fragment_client_add_option_hint">选填</string>
+    <string name="friends_fragment_client_add_btn_upload">提交</string>
 
 </resources>

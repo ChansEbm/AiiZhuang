@@ -32,6 +32,9 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:background="@color/white"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,7 +47,7 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/test2"
                     android:scaleType="fitXY"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="4dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"/>
                 <LinearLayout
@@ -58,8 +61,8 @@
                         android:layout_height="wrap_content"
                         android:src="@mipmap/test3"
                         android:scaleType="fitXY"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="8dp"
                         />
                     <ImageView
                         android:id="@+id/iv_4"
@@ -67,8 +70,8 @@
                         android:layout_height="wrap_content"
                         android:src="@mipmap/test3"
                         android:scaleType="fitXY"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="8dp"
                         android:layout_marginTop="10dp"
                         />
 
@@ -85,8 +88,9 @@
                    android:layout_height="wrap_content"
                    android:src="@mipmap/test3"
                    android:scaleType="fitXY"
-                   android:layout_marginRight="5dp"
-                   android:layout_marginLeft="10dp"
+                   android:layout_weight="1"
+                   android:layout_marginRight="4dp"
+                   android:layout_marginLeft="8dp"
                    android:layout_marginTop="10dp"/>
                <ImageView
                    android:id="@+id/iv_5"
@@ -94,8 +98,9 @@
                    android:layout_height="wrap_content"
                    android:src="@mipmap/test3"
                    android:scaleType="fitXY"
-                   android:layout_marginLeft="5dp"
-                   android:layout_marginRight="10dp"
+                   android:layout_weight="1"
+                   android:layout_marginLeft="4dp"
+                   android:layout_marginRight="8dp"
                    android:layout_marginTop="10dp"/>
            </LinearLayout>
         </LinearLayout>
@@ -113,19 +118,11 @@
                android:src="@mipmap/test4"
 
                />
-           <ImageView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:scaleType="fitXY"
-               android:src="@mipmap/test4"
-               />
-           <ImageView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:scaleType="fitXY"
-               android:src="@mipmap/test4"
-               />
+
        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></LinearLayout>
 </LinearLayout>
         </ScrollView>
     </LinearLayout>

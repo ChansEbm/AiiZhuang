@@ -1,6 +1,7 @@
 package com.appbaba.iz;
 
 import com.appbaba.iz.tools.AppTools;
+import com.google.zxing.oned.rss.FinderPattern;
 
 /**
  * Created by ChanZeeBm on 2015/9/7.
@@ -46,6 +47,9 @@ public class AppKeyMap {
     public final static String HEAD_API_CASE = "Cases/";
 //    public final static String HEAD = "http://www.appbaba2016.com/Api/";
 //    public final static String HEAD_API_LOGIN = HEAD + "ApiLogin/";
+    public final static String HEAD_API_COMMON = HEAD +"Common/";
+    public final static String HEAD_API_LOGIN = HEAD + "Login/";
+
 //    public final static String HEAD_API_WORKER = HEAD + "ApiWorker/";
 //    public final static String HEAD_API_ORDER = HEAD + "ApiOrder/";
 //    public final static String HEAD_API_ACCE_ORDER = HEAD + "ApiAcceOrder/";

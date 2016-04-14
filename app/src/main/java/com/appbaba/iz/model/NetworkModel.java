@@ -6,9 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.appbaba.iz.AppKeyMap;
+import com.appbaba.iz.entity.Base.BaseBean;
+import com.appbaba.iz.entity.SellerListBean;
+import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.OkHttpResponseListener;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
+import com.appbaba.iz.tools.OkHttpBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,4 +95,56 @@ public class NetworkModel<E> {
             }
         }
     }
+
+    /**
+     * new api
+     */
+    public void  getSellerList(NetworkParams networkParams){
+        clearAllParams();
+         new OkHttpBuilder.POST(appCompatActivity).urlGetSellerList("getSellerList").entityClass(SellerListBean.class).params(params)
+                            .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void checkPhone(String phoneNum,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("phone",phoneNum);
+        new OkHttpBuilder.POST(appCompatActivity).urlCheckPhone("checkPhone").entityClass(BaseBean.class).params(params)
+        .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  sendSmsCode(String phoneNum,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("phone",phoneNum);
+        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("sendSmsCode").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void  register(RegisterModel model)
+    {
+        clearAllParams();
+        params.put("seller_id",model.getSeller_id());
+        params.put("nickname",model.getNickname());
+        params.put("shop_name",model.getShop_name());
+        params.put("address",model.getAddress());
+        params.put("phone",model.getPhone());
+        params.put("code",model.getCode());
+        params.put("password",model.getPassword());
+        params.put("repassword",model.getRepassword());
+
+        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("register").entityClass(BaseBean.class).params(params)
+                .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
+    }
+
+    public  void  Login(String phone,String password,String push_id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("phone",phone);
+        params.put("password",password);
+        params.put("push_id",push_id);
+        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("login").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
 }

@@ -49,7 +49,7 @@ public class HomeFragment extends BaseFgm {
         params1.height = MethodConfig.GetHeightFor16v9(params1.width);
         iv_1.setLayoutParams(params1);
 
-        int m = MethodConfig.dip2px(getContext(),10);
+        int m = MethodConfig.dip2px(getContext(),8);
         LinearLayout.LayoutParams params2 = ( LinearLayout.LayoutParams)iv_3.getLayoutParams();
         params2.width = (MethodConfig.metrics.widthPixels-m*3)/2;
         LinearLayout.LayoutParams params4 = ( LinearLayout.LayoutParams)iv_4.getLayoutParams();
@@ -59,18 +59,15 @@ public class HomeFragment extends BaseFgm {
        params6.height= params5.height = params4.height = params2.height;
         params6.width = params5.width = params4.width = params2.width;
 
-        System.out.print("" + params5.height);
         iv_3.setLayoutParams(params2);
         iv_4.setLayoutParams(params4);
         iv_5.setLayoutParams(params5);
-        iv_6.setLayoutParams(params5);
+        iv_6.setLayoutParams(params6);
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)iv_item_test.getLayoutParams();
         params.width = MethodConfig.metrics.widthPixels;
         params.height = MethodConfig.metrics.widthPixels/2;
         iv_item_test.setLayoutParams(params);
-
-
 
     }
 
@@ -90,7 +87,6 @@ public class HomeFragment extends BaseFgm {
 
     @Override
     protected void onClick(int id, View view) {
-
         switch (id)
         {
             case R.id.iv_menu: {
@@ -99,8 +95,10 @@ public class HomeFragment extends BaseFgm {
                     ViewDataBinding viewDataBinding=DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.popup_top_menu, null, false);
                     TopMenuBinding menuBinding = (TopMenuBinding)viewDataBinding;
 
-                   menuBinding.tvIntroduce.setOnClickListener(this);
-
+                    menuBinding.tvIntroduce.setOnClickListener(this);
+                    menuBinding.tvContract.setOnClickListener(this);
+                    menuBinding.tvNearby.setOnClickListener(this);
+                    menuBinding.tvScan.setOnClickListener(this);
                     window = new PopupWindow(viewDataBinding.getRoot(), ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                     window.setBackgroundDrawable(new BitmapDrawable());
                     window.showAsDropDown(iv_menu);
@@ -110,12 +108,43 @@ public class HomeFragment extends BaseFgm {
                 }
             }
                 break;
-            case R.id.tv_introduce:
-                Intent intent = new Intent(getContext(),TransferActivity.class);
-                intent.putExtra("fragment",1);
+            case R.id.tv_scan: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 0);
                 startActivity(intent);
+                HideInfoWindow();
+            }
+                break;
+            case R.id.tv_introduce: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 1);
+                startActivity(intent);
+                HideInfoWindow();
+            }
+                break;
+            case R.id.tv_nearby: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 2);
+                startActivity(intent);
+                HideInfoWindow();
+            }
+                break;
+            case R.id.tv_contract: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 3);
+                startActivity(intent);
+                HideInfoWindow();
+            }
                 break;
 
+        }
+    }
+
+    public  void  HideInfoWindow()
+    {
+        if(window!=null && window.isShowing())
+        {
+            window.dismiss();
         }
     }
 

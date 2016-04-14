@@ -2,7 +2,7 @@
 <resources>
     <!--字体颜色-->
     <color name="color_text_red">#e60012</color>
-    <color name="color_text_dark">#464646</color>
+    <color name="color_text_dark">#424242</color>
     <color name="color_text_gravy">#a0a0a0</color>
     <color name="color_text_sliver">#cfcfcf</color>
     <color name="color_text_light_gravy">#FFBCBCBC</color>
@@ -16,7 +16,7 @@
     <color name="color_medium_blue">#004d9b</color>
     <color name="color_navy_blue">#000080</color>
     <!--点击颜色-->
-    <color name="theme_primary">#323232</color>
+    <color name="theme_primary">#24b3ff</color>
     <color name="theme_primary_dark">#1976D2</color>
     <color name="theme_primary_light">#BBDEFB</color>
     <color name="color_orange_normal">#ff9600</color>
@@ -31,8 +31,6 @@
     <!--透明色-->
     <color name="color_20_primary">#3C1976D2</color>
     <color name="color_50_black">#55000000</color>
-    <color name="color_50_dark">#80000000</color>
-    <color name="color_70_dark">#B3000000</color>
     <!--SnackBar-->
     <color name="color_snack_bar_bg">#af000000</color>
     <color name="color_snack_bar_action_color">#09939e</color>
@@ -40,10 +38,11 @@
     <color name="theme_primary_text_inverted">#ffffff</color>
     <color name="theme_secondary_text_inverted">#8affffff</color>
 
+
     <!-- new -->
     <color name="transparent">#00ffffff</color>
     <color name="white">#ffffff</color>
-    <color name="half_white">#80ffffff</color>
+    <color name="half_white">#e8ffffff</color>
     <color name="black">#000000</color>
     <color name="half_black">#80000000</color>
     <color name="application_base_color">#464646</color>
@@ -53,5 +52,8 @@
     <color name="text_hint_gray">#c8c8c8</color>
     <color name="popup_home_top_normal">#464646</color>
     <color name="popup_home_top_pre">#363636</color>
+    <color name="more_bottom_btn_color_normal">#f05953</color>
+    <color name="hint_text_color_red">#fe626b</color>
+
 
 </resources>
