@@ -186,6 +186,18 @@ public class OkHttpBuilder {
             return  this;
         }
 
+        public  POST urlCheckPhone(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_LOGIN+url;
+            return  this;
+        }
+
+        public  POST urlSendMsg(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_LOGIN+url;
+            return  this;
+        }
+
 
 //        public POST urlWorker(String workerUrl) {
 //            this.fullUrl = AppKeyMap.HEAD_API_WORKER + workerUrl;

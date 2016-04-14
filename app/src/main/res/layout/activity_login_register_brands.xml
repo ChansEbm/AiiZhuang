@@ -107,6 +107,7 @@
                         />
 
                     <EditText
+                        android:id="@+id/edt_register_username"
                         style="@style/editTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -128,6 +129,7 @@
                         android:text="@string/register_activity_r_tv_shop_name"
                         />
                         <EditText
+                            android:id="@+id/edt_register_shop"
                             style="@style/editTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -149,6 +151,7 @@
                         android:text="@string/register_activity_r_tv_address"
                         />
                         <EditText
+                            android:id="@+id/edt_register_address"
                             style="@style/editTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -168,14 +171,24 @@
                     android:background="@drawable/bg_white_bottom_line">
                     <TextView
                         style="@style/textStyle"
+                        android:id="@+id/tv_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/register_activity_r_tv_mobile"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                         />
+                    <EditText
+                        android:id="@+id/edt_register_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/tv_1"
+                        android:background="@color/transparent"
+                        android:layout_toLeftOf="@+id/tv_register_msg"
+                        />
 
                     <TextView
+                        android:id="@+id/tv_register_msg"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:textSize="14sp"
@@ -205,6 +218,7 @@
                         android:text="@string/register_activity_r_tv_check_num"
                         />
                     <EditText
+                        android:id="@+id/edt_register_check"
                         style="@style/editTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -226,9 +240,11 @@
                         android:text="@string/register_activity_r_tv_password"
                         />
                     <EditText
+                        android:id="@+id/edt_register_password"
                         style="@style/editTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:inputType="textPassword"
                         android:hint="@string/register_activity_tv_option_hint"
                         />
                 </LinearLayout>
@@ -247,9 +263,11 @@
                         android:text="@string/register_activity_r_tv_re_password"
                         />
                     <EditText
+                        android:id="@+id/edt_register_re_password"
                         style="@style/editTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:inputType="textPassword"
                         android:hint="@string/register_activity_tv_option_hint"
                         />
                 </LinearLayout>
@@ -259,6 +277,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"></LinearLayout>
                 <Button
+                    android:id="@+id/btn_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"

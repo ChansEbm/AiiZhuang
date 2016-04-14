@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:minEms="12"
             android:textSize="18sp"
-            android:text="d为什么d"
+            android:inputType="phone"
             android:background="@color/transparent"
             android:layout_marginTop="28dp"
             android:layout_marginRight="50dp"
