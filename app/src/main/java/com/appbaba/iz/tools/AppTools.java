@@ -495,10 +495,9 @@ public class AppTools {
         ViewUtils.deleteDrawable(textView);
     }
 
-    protected static void setCompoundDrawable(TextView textView, int resId, int side) {
+    public static void setCompoundDrawable(TextView textView, int resId, int side) {
         ViewUtils.setCompoundDrawable(textView, resId, side);
     }
-
 
     /**
      * @return true if one of network is Available false otherwise

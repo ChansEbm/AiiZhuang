@@ -6,7 +6,6 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,12 +112,12 @@ public abstract class BaseFgm<E, T> extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onBinderItemClick(View view, int pos) {
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
 
     }
 
     @Override
-    public void onBinderItemLongClick(View view, int pos) {
+    public void onBinderItemLongClick(View clickItem, int parentId, int pos) {
 
     }
 
@@ -126,7 +125,7 @@ public abstract class BaseFgm<E, T> extends Fragment implements View.OnClickList
     public void onError(String error, NetworkParams paramsCode) {
         LogTools.e("error response here");
         AppTools.showActionSnackBar(viewDataBinding.getRoot(), getString(R.string
-                .connect_server_error)
+                        .connect_server_error)
                 , null, null);
     }
 

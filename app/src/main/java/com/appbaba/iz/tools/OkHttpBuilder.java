@@ -87,10 +87,8 @@ public class OkHttpBuilder {
          * @return this
          */
         public GET url(String url) {
-            this.fullUrl = AppKeyMap.HEAD_API_LOGIN + url;
             return this;
         }
-
 
         /**
          * 添加请求的参数(only string)

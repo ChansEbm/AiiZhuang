@@ -37,7 +37,7 @@
                     android:text="@string/fragment_album_space"/>
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/rb_classify"
+                    android:id="@+id/rb_cate"
                     style="@style/albumClassifyStyle"
                     android:text="@string/fragment_album_classify"/>
             </RadioGroup>

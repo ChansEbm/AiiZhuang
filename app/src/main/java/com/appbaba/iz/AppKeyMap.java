@@ -44,6 +44,9 @@ public class AppKeyMap {
     public final static int MARSHMALLOW = 0x09f;
 
     public final static String HEAD = "http://www.appbaba2016.com/Api/";
+    public final static String HEAD_API_CASE = "Cases/";
+//    public final static String HEAD = "http://www.appbaba2016.com/Api/";
+//    public final static String HEAD_API_LOGIN = HEAD + "ApiLogin/";
     public final static String HEAD_API_COMMON = HEAD +"Common/";
     public final static String HEAD_API_LOGIN = HEAD + "Login/";
 

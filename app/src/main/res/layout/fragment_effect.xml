@@ -15,6 +15,7 @@
             tools:context="com.appbaba.iz.ui.fragment.album.ProductFragment">
 
             <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -37,7 +38,7 @@
                     android:text="@string/fragment_album_space"/>
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/rb_classify"
+                    android:id="@+id/rb_cate"
                     style="@style/albumClassifyStyle"
                     android:text="@string/fragment_album_classify"/>
             </RadioGroup>

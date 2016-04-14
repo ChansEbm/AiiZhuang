@@ -6,5 +6,13 @@
     {
         "merged": "F:\\AndroidProject\\AiiZhuang\\zxing-android-embedded\\build\\intermediates\\res\\merged\\release\\drawable\\line_shape_g.xml",
         "source": "F:\\AndroidProject\\AiiZhuang\\zxing-android-embedded\\res\\drawable\\line_shape_g.xml"
+    },
+    {
+        "merged": "E:\\AiTao\\zxing-android-embedded\\build\\intermediates\\res\\merged\\release\\drawable\\qr_line.png",
+        "source": "E:\\AiTao\\zxing-android-embedded\\res\\drawable\\qr_line.png"
+    },
+    {
+        "merged": "E:\\AiTao\\zxing-android-embedded\\build\\intermediates\\res\\merged\\release\\drawable\\line_shape_g.xml",
+        "source": "E:\\AiTao\\zxing-android-embedded\\res\\drawable\\line_shape_g.xml"
     }
 ]
