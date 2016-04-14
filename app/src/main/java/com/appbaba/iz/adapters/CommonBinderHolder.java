@@ -30,14 +30,16 @@ public class CommonBinderHolder extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View v) {
         if (listener != null) {
-            listener.onBinderItemClick(v, getAdapterPosition());
+            View parent = (View) v.getParent();
+            listener.onBinderItemClick(v, parent.getId(), getAdapterPosition());
         }
     }
 
     @Override
     public boolean onLongClick(View v) {
         if (listener != null) {
-            listener.onBinderItemLongClick(v, getAdapterPosition());
+            View parent = (View) v.getParent();
+            listener.onBinderItemLongClick(v, parent.getId(), getAdapterPosition());
         }
         return true;
     }

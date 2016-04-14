@@ -164,12 +164,12 @@ public abstract class BaseAty<E extends BaseBean, T> extends AppCompatActivity i
     }
 
     @Override
-    public void onBinderItemClick(View view, int pos) {
+    public void onBinderItemClick(View clickItem, int pos) {
 
     }
 
     @Override
-    public void onBinderItemLongClick(View view, int pos) {
+    public void onBinderItemLongClick(View clickItem, int pos) {
 
     }
 
