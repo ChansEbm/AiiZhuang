@@ -8,9 +8,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.appbaba.iz.ActivityLoginBinding;
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
+import com.appbaba.iz.entity.Login.AuthBean;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 
 /**
@@ -77,7 +80,17 @@ public class LoginActivity extends BaseAty {
 
         if(paramsCode==NetworkParams.LOGIN)
         {
-
+            AuthBean bean = (AuthBean)o;
+            if(bean.getErrorcode()==0)
+            {
+                AppTools.putStringSharedPreferences(AppKeyMap.AUTH,bean.getAuth());
+                MethodConfig.localUser = bean;
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+            else
+            {
+                AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
+            }
         }
     }
 }

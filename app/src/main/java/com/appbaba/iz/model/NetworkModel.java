@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.entity.Base.BaseBean;
+import com.appbaba.iz.entity.Login.AuthBean;
 import com.appbaba.iz.entity.SellerListBean;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.OkHttpResponseListener;
@@ -143,7 +144,7 @@ public class NetworkModel<E> {
         params.put("phone",phone);
         params.put("password",password);
         params.put("push_id",push_id);
-        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("login").entityClass(BaseBean.class).params(params)
+        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("login").entityClass(AuthBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 

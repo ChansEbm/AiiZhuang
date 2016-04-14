@@ -5,11 +5,14 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.appbaba.iz.entity.Login.AuthBean;
+
 /**
  * Created by ruby on 2016/4/1.
  */
 public class MethodConfig {
     public  static  DisplayMetrics metrics;
+    public  static AuthBean localUser;
 
     public  static void  SetDispaly(Context context)
     {
