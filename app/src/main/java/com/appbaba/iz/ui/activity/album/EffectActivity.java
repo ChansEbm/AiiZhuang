@@ -1,11 +1,13 @@
 package com.appbaba.iz.ui.activity.album;
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +46,7 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     private Adapter adapter = new Adapter();
 
     private int index = -1;
-    private String productId = "";
+    private String casesId = "";
     private String pageSize = "10";
 
     private boolean isCollect = false;
@@ -54,7 +56,9 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
         super.onCreate(savedInstanceState);
         index = getIntent().getExtras().getInt("index", -1);
         selection = getIntent().getExtras().getParcelable("selection");
-        productId = getIntent().getExtras().getString("productId", productId);
+        if (selection == null)
+            selection = new CasesAttrSelection();
+        casesId = getIntent().getExtras().getString("casesId", casesId);
         pageSize = getIntent().getExtras().getString("pageSize", "10");
     }
 
@@ -81,6 +85,14 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        this.index = intent.getExtras().getInt("index", -1);
+        this.casesId = intent.getExtras().getString("casesId", "");
+        networkModel.cases(casesId, "", "1", "10", new CasesAttrSelection(), NetworkParams.CUPCAKE);
+    }
+
+    @Override
     protected void initViews() {
         defaultTitleBar(this).setTitleBackgroundColor(R.color.black);
         EffectLayout effectLayout = (EffectLayout) viewDataBinding;
@@ -104,7 +116,8 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
         recyclerView.setAdapter(commonBinderAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 30, true));
-        networkModel.cases(productId, "", "1", pageSize, selection, NetworkParams.CUPCAKE);
+        commonBinderAdapter.setBinderOnItemClickListener(this);
+        networkModel.cases(casesId, "", "1", pageSize, selection, NetworkParams.CUPCAKE);
     }
 
     @Override
@@ -127,14 +140,16 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     private void placeResultInFirstTime(CaseEntity baseBean) {
         this.caseList.clear();//清空效果数据源
         this.caseList.addAll(baseBean.getList());//填充效果数据源
-        this.productList.clear();//删除效果对应的产品数据源
-        this.productList.addAll(caseList.get(0).getProduct_list());//填充效果对应的产品数据源
         adapter.notifyDataSetChanged();//刷新适配器
-        commonBinderAdapter.notifyDataSetChanged();//刷新适配器
 
         if (index != -1) {
-            titleBarTools.setTitle(caseList.get(0).getTitle());
             viewPager.setCurrentItem(index, false);//滚动到对应位置
+        } else {
+            if (!TextUtils.isEmpty(casesId))
+                onPageSelected(0);
+        }
+        if (index == 0) {
+            onPageSelected(0);
         }
     }
 
@@ -157,6 +172,15 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
+        String productId = productList.get(pos).getProduct_id();
+        Bundle bundle = new Bundle();
+        bundle.putString("productId", productId);
+        bundle.putInt("index", pos);
+        start(bundle, ProductActivity.class);
     }
 
     class Adapter extends PagerAdapter {

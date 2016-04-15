@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class=".ItemProductLayout">
+
+        <variable
+            name="product"
+            type="com.appbaba.iz.entity.main.album.ProductEntity.ListBean.CasesListBean"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_horizontal"
+                  android:minHeight="100dp"
+                  android:minWidth="100dp"
+                  android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            app:loadImage="@{product.thumb}"/>
+
+        <TextView
+            style="@style/textStyle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/small_margin_5dp"
+            android:ellipsize="middle"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:text="@{product.title}"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+</layout>

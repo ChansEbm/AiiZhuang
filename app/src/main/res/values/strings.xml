@@ -170,4 +170,7 @@
     <string name="friends_fragment_client_add_option_hint">选填</string>
     <string name="friends_fragment_client_add_btn_upload">提交</string>
 
+    <!--product activity-->
+    <string name="product_effect">效\n果\n图</string>
+
 </resources>

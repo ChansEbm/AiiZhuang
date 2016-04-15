@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.appbaba.iz.ui.activity.album.ProductActivity">
+<layout>
 
-</RelativeLayout>
+    <data class=".ProductLayout"/>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical"
+        tools:context="com.appbaba.iz.ui.activity.album.EffectActivity">
+
+        <include layout="@layout/title_bar"/>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/small_margin_5dp"
+            android:layout_weight="1">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1a1a1a"
+            android:gravity="center_vertical"
+            android:minHeight="136dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/textStyle"
+                android:layout_marginEnd="@dimen/large_margin_15dp"
+                android:layout_marginStart="@dimen/large_margin_15dp"
+                android:text="@string/product_effect"
+                android:textColor="@color/white"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

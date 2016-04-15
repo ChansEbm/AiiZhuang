@@ -3,4 +3,10 @@
     <declare-styleable name="SlideView">
         <attr name="width" format="integer"></attr>
     </declare-styleable>
+    <declare-styleable name="Indicator">
+        <attr name="radius" format="dimension"/>
+        <attr name="colorNor" format="reference|color"/>
+        <attr name="colorSelect" format="reference|color"/>
+        <attr name="indicatorMargin" format="dimension"/>
+    </declare-styleable>
 </resources>

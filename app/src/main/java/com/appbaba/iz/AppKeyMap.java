@@ -70,14 +70,10 @@ public class AppKeyMap {
     public final static String CONTENT_MP3 = "audio/mp3";
     public final static String CONTENT_OCT = "application/octet-stream";
 
-<<<<<<< HEAD
     //常量
-    public final static String CUSTOMERID = "customerId";
-=======
     public final static String CUSTOMERID = "customerId";
 
     //用户标识
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
     public final static String AUTH = "auth";
 
     public static boolean isAuthEmpty() {

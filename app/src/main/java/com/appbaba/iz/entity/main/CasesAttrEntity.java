@@ -42,20 +42,6 @@ public class CasesAttrEntity extends BaseBean {
 
     private List<SizeListBean> size_list;
 
-<<<<<<< HEAD
-=======
-    @BindingAdapter(value = {"app:caseAttrDrawableStart"})
-    public static void
-    cadrawableStart(TextView textView, boolean isCheck) {
-        if (isCheck) {
-            AppTools.setCompoundDrawable(textView, android.R.drawable.ic_popup_reminder,
-                    ViewUtils.LEFT);
-        } else {
-            AppTools.deleteDrawable(textView);
-        }
-    }
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
-
     public List<StyleListBean> getStyle_list() {
         return style_list;
     }
