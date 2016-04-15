@@ -109,7 +109,6 @@ public abstract class BaseAty<E extends BaseBean, T> extends AppCompatActivity i
         return titleBarTools.defaultToolBar(this);
     }
 
-
     protected void start(Bundle bundle, Class<?> targetClz) {
         start(new Intent().setClass(this, targetClz).putExtras(bundle));
     }

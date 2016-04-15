@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="albumClassifyStyle" parent="Base.Widget.AppCompat.CompoundButton.RadioButton">
+                <item name="android:button">@null</item>
+                <item name="android:background">@drawable/bg_album_classify</item>
+                <item name="android:textColor">@color/color_album_classify</item>
+                <item name="android:layout_width">wrap_content</item>
+                <item name="android:paddingStart">@dimen/small_margin_5dp</item>
+                <item name="android:paddingEnd">@dimen/small_margin_5dp</item>
+                <item name="android:minWidth">65dp</item>
+                <item name="android:gravity">center</item>
+                <item name="android:textSize">12sp</item>
+                <item name="android:layout_height">27dp</item>
+        </style>
+</resources>

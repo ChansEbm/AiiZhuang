@@ -9,9 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RadioButton
-            android:id="@+id/rb_effect"
-            style="@style/radioButtonStyle"
-            android:text="@string/fragment_album_t_effect"/>
+        <include layout="@layout/title_bar"/>
+
+        <TextView
+            style="@style/textStyle"
+            android:layout_gravity="center"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxEms="8"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="123123123131231231231231312312312312313123"
+            android:textColor="#000000"
+            android:textSize="@dimen/text_large_size"/>
     </FrameLayout>
 </layout>

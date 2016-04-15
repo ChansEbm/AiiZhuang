@@ -5,14 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.RequestBody;
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.R;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.OkHttpResponseListener;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -178,22 +178,24 @@ public class OkHttpBuilder {
             return this;
         }
 
-        public  POST urlGetSellerList(String url)
-        {
-            this.fullUrl = AppKeyMap.HEAD_API_COMMON+url;
-            return  this;
+        public POST urlGetSellerList(String url) {
+            this.fullUrl = AppKeyMap.HEAD_API_COMMON + url;
+            return this;
         }
 
-        public  POST urlCheckPhone(String url)
-        {
-            this.fullUrl = AppKeyMap.HEAD_API_LOGIN+url;
-            return  this;
+        public POST urlCheckPhone(String url) {
+            this.fullUrl = AppKeyMap.HEAD_API_LOGIN + url;
+            return this;
         }
 
-        public  POST urlSendMsg(String url)
-        {
-            this.fullUrl = AppKeyMap.HEAD_API_LOGIN+url;
-            return  this;
+        public POST urlSendMsg(String url) {
+            this.fullUrl = AppKeyMap.HEAD_API_LOGIN + url;
+            return this;
+        }
+
+        public POST urlCases(String url) {
+            this.fullUrl = AppKeyMap.HEAD_API_CASE + url;
+            return this;
         }
 
 

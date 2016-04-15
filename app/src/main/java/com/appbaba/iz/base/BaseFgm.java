@@ -132,7 +132,6 @@ public abstract class BaseFgm<E, T> extends Fragment implements View.OnClickList
     @Override
     public void onJsonArrayResponse(List<E> t, NetworkParams paramsCode) {
         LogTools.w("jsonArray response here");
-
     }
 
     @Override

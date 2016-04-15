@@ -59,7 +59,7 @@ public class LoadingView extends View implements Runnable {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        handler.post(this);
+//        handler.post(this);
     }
 
     @Override

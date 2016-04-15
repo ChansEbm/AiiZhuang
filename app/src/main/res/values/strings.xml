@@ -61,6 +61,10 @@
     <string name="please_upload_avatar">请上传头像</string>
     <string name="please_upload_citizen_font">请上传身份证正面照</string>
     <string name="please_upload_citizen_back">请上传身份证背面照</string>
+    <!--menu-->
+    <string name="menu_fav">收藏</string>
+    <string name="menu_share">分享</string>
+
     <!--Title-->
     <string name="title_dial_dialog">拨打</string>
 
@@ -123,11 +127,11 @@
     <string name="fragment_album_t_product">产品</string>
     <string name="fragment_album_style">风格 ∨</string>
     <string name="fragment_album_space">空间 ∨</string>
-    <string name="fragment_album_classify">分类 ∨</string>
+    <string name="fragment_album_size">尺寸 ∨</string>
+    <string name="fragment_album_cate">分类 ∨</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 
     <!-- more fragment-->

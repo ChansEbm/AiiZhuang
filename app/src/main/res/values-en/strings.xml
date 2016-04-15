@@ -11,4 +11,9 @@
     <string name="error_field_required">This field is required</string>
     <string name="invalid_account"></string>
     <string name="dialog_content">Are you sure call</string>
+    <string name="fragment_album_cate">Cate</string>
+    <string name="fragment_album_space">Space</string>
+    <string name="fragment_album_style">Style</string>
+    <string name="fragment_album_t_effect">Effect</string>
+    <string name="fragment_album_t_product">Product</string>
 </resources>

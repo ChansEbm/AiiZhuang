@@ -1,12 +1,8 @@
 package com.appbaba.iz.entity.main;
 
 import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
-import android.widget.TextView;
 
 import com.appbaba.iz.entity.Base.BaseBean;
-import com.appbaba.iz.tools.AppTools;
-import com.appbaba.iz.tools.ViewUtils;
 
 import java.util.List;
 
@@ -38,16 +34,14 @@ public class CasesAttrEntity extends BaseBean {
      */
 
     private List<CateListBean> cate_list;
+    /**
+     * size_id : 1
+     * title : 600*600
+     * flag : 4
+     */
 
-    @BindingAdapter(value = {"app:caseAttrDrawableStart"})
-    public static void drawableStart(TextView textView, boolean isCheck) {
-        if (isCheck) {
-            AppTools.setCompoundDrawable(textView, android.R.drawable.ic_popup_reminder,
-                    ViewUtils.LEFT);
-        } else {
-            AppTools.deleteDrawable(textView);
-        }
-    }
+    private List<SizeListBean> size_list;
+
 
     public List<StyleListBean> getStyle_list() {
         return style_list;
@@ -73,17 +67,27 @@ public class CasesAttrEntity extends BaseBean {
         this.cate_list = cate_list;
     }
 
-    public static class StyleListBean extends AttrParent {
+    public List<SizeListBean> getSize_list() {
+        return size_list;
+    }
 
+    public void setSize_list(List<SizeListBean> size_list) {
+        this.size_list = size_list;
+    }
+
+    public static class StyleListBean extends AttrParent {
 
     }
 
     public static class SpaceListBean extends AttrParent {
 
-
     }
 
     public static class CateListBean extends AttrParent {
+
+    }
+
+    public static class SizeListBean extends AttrParent {
 
     }
 
@@ -94,6 +98,15 @@ public class CasesAttrEntity extends BaseBean {
         private String cate_id;
         private String space_id;
         private String style_id;
+        private String size_id;
+
+        public String getSize_id() {
+            return size_id;
+        }
+
+        public void setSize_id(String size_id) {
+            this.size_id = size_id;
+        }
 
         public String getStyle_id() {
             return style_id;
@@ -145,4 +158,5 @@ public class CasesAttrEntity extends BaseBean {
             this.flag = flag;
         }
     }
+
 }

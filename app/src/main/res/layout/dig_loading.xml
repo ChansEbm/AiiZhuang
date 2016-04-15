@@ -9,17 +9,9 @@
                  android:background="@android:color/transparent"
                  android:gravity="center">
 
-        <ImageView
+        <com.appbaba.iz.widget.LoadingView
+            android:id="@+id/loadingView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@mipmap/ic_loading_content"/>
-
-        <ImageView
-            android:id="@+id/frame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@mipmap/ic_loading_frame"/>
+            android:layout_height="wrap_content"/>
     </FrameLayout>
 </layout>

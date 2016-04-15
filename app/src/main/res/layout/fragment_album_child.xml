@@ -1,7 +1,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class=".AlbumEffectLayout"/>
+    <data class=".AlbumChildLayout">
+
+        <variable
+            name="events"
+            type="com.appbaba.iz.entity.Base.Events"/>
+    </data>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawerLayout"
@@ -27,6 +32,7 @@
                 <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/rb_style"
                     style="@style/albumClassifyStyle"
+                    android:onClick="@{events.onClickListener}"
                     android:text="@string/fragment_album_style"/>
 
                 <android.support.v7.widget.AppCompatRadioButton
@@ -34,13 +40,14 @@
                     style="@style/albumClassifyStyle"
                     android:layout_marginEnd="@dimen/super_margin_20dp"
                     android:layout_marginStart="@dimen/super_margin_20dp"
-                    android:checked="true"
+                    android:onClick="@{events.onClickListener}"
                     android:text="@string/fragment_album_space"/>
 
                 <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/rb_cate"
                     style="@style/albumClassifyStyle"
-                    android:text="@string/fragment_album_classify"/>
+                    android:onClick="@{events.onClickListener}"
+                    android:text="@string/fragment_album_cate"/>
             </RadioGroup>
 
             <android.support.v7.widget.RecyclerView
@@ -50,12 +57,29 @@
                 android:layout_marginTop="@dimen/small_margin_5dp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_selection"
-            android:layout_width="150dp"
+        <LinearLayout
+            android:id="@+id/llyt_selection"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/minHeight_50dp"
-            android:background="@drawable/bg_round_white"/>
+            android:background="@drawable/bg_round_white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_selection_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+
+                android:minHeight="@dimen/labelHeight_35dp"
+                android:textSize="@dimen/text_large_size"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_selection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
 </layout>

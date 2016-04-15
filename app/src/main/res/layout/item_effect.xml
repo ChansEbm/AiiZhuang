@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data class=".ItemAlbumLayout">
+    <data class=".ItemEffectLayout">
 
         <variable
-            name="album"
-            type="com.appbaba.iz.entity.main.album.CaseEntity.ListBean"/>
+            name="effect"
+            type="com.appbaba.iz.entity.main.album.CaseEntity.ListBean.ProductListBean"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:background="@drawable/bg_white_gravy_selector"
                   android:gravity="center_horizontal"
-                  android:minHeight="165dp"
+                  android:minHeight="126dp"
                   android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
-            android:minHeight="145dp"
-            android:scaleType="centerCrop"/>
+            android:minHeight="100dp"
+            android:minWidth="100dp"
+            android:scaleType="centerInside"
+            app:loadImage="@{effect.thumb}"/>
 
         <TextView
             style="@style/textStyle"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/small_margin_5dp"
             android:singleLine="true"
-            android:text="@{album.title}"/>
+            android:text="@{effect.model}"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </layout>

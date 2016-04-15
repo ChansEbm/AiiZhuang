@@ -1,7 +1,6 @@
 package com.appbaba.iz;
 
 import com.appbaba.iz.tools.AppTools;
-import com.google.zxing.oned.rss.FinderPattern;
 
 /**
  * Created by ChanZeeBm on 2015/9/7.
@@ -44,10 +43,8 @@ public class AppKeyMap {
     public final static int MARSHMALLOW = 0x09f;
 
     public final static String HEAD = "http://www.appbaba2016.com/Api/";
-    public final static String HEAD_API_CASE = "Cases/";
-//    public final static String HEAD = "http://www.appbaba2016.com/Api/";
-//    public final static String HEAD_API_LOGIN = HEAD + "ApiLogin/";
-    public final static String HEAD_API_COMMON = HEAD +"Common/";
+    public final static String HEAD_API_CASE = HEAD + "Cases/";
+    public final static String HEAD_API_COMMON = HEAD + "Common/";
     public final static String HEAD_API_LOGIN = HEAD + "Login/";
 
 //    public final static String HEAD_API_WORKER = HEAD + "ApiWorker/";
@@ -69,7 +66,8 @@ public class AppKeyMap {
     public final static String CONTENT_MP3 = "audio/mp3";
     public final static String CONTENT_OCT = "application/octet-stream";
 
-    //用户标识
+    //常量
+    public final static String CUSTOMERID = "customerId";
     public final static String AUTH = "auth";
 
     public static boolean isAuthEmpty() {

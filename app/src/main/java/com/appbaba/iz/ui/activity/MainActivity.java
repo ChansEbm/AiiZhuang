@@ -1,23 +1,14 @@
 package com.appbaba.iz.ui.activity;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.appbaba.iz.ActivityMainBinding;
-import com.appbaba.iz.ActivityRegisterBrandsBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.base.BaseFgm;
-import com.appbaba.iz.method.MethodConfig;
-import com.appbaba.iz.ui.fragment.AblumFragment;
 import com.appbaba.iz.ui.fragment.AlbumFragment;
 import com.appbaba.iz.ui.fragment.FavouriteFragment;
 import com.appbaba.iz.ui.fragment.FriendsFragment;

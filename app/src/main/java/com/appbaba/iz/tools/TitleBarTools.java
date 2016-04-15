@@ -175,7 +175,7 @@ public class TitleBarTools {
 
     //标题默认样式
     public TitleBarTools defaultToolBar(View.OnClickListener onClickListener) {
-        setNavigationIcon(0).setNavButtonId().setNavigationListener
+        setNavigationIcon(R.mipmap.ic_back).setNavButtonId().setNavigationListener
                 (onClickListener);
         return this;
     }

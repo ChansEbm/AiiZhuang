@@ -22,6 +22,6 @@
         <TextView
             style="@style/textStyle"
             android:text="@{attr.title}"
-            app:caseAttrDrawableStart="@{attr.isCheck}"/>
+            app:caseAttrTextColor="@{attr.isCheck}"/>
     </LinearLayout>
 </layout>
