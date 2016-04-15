@@ -43,7 +43,7 @@ public class TransferActivity extends BaseAty {
 
     private  final  int FRIEND_CRM = 7; //CRM
     private  final  int FRIEND_CLIENT_LIST = 8; //我的客户
-    private  final  int FRIEND_CLIENT_ADD = 9; //我的客户
+    private  final  int FRIEND_CLIENT_ADD = 9; //添加我的客户
 
     private  final  int MORE_ITEM_FEEDBACK = 10; //意见反馈
 
@@ -60,64 +60,69 @@ public class TransferActivity extends BaseAty {
 
         transferBinding = (ActivityTransferBinding)viewDataBinding;
         fragmentManager = getSupportFragmentManager();
-       switch (fragment_index)
-       {
+       switch (fragment_index) {
            case TOP_SCAN_FRAGMENT:
                HomeItemScanFragment homeItemScanFragment = new HomeItemScanFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,homeItemScanFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, homeItemScanFragment).commit();
                break;
            case TOP_INTRODUCE_FRAGMENT:
                HomeItemIntroduceFragment homeItemIntroduceFragment = new HomeItemIntroduceFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,homeItemIntroduceFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, homeItemIntroduceFragment).commit();
                break;
            case TOP_NEARBY_FRAGMENT:
                HomeItemNearbyFragment homeItemNearbyFragment = new HomeItemNearbyFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,homeItemNearbyFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, homeItemNearbyFragment).commit();
                break;
            case TOP_CONTRACT_FRAGMENT:
                HomeItemContractFragment homeItemContractFragment = new HomeItemContractFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,homeItemContractFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, homeItemContractFragment).commit();
                break;
-           case TOP_DETAIL_FRAGMENT:
+           case TOP_DETAIL_FRAGMENT: {
                FavouriteItemDetailFragment favouriteItemDetailFragment = new FavouriteItemDetailFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,favouriteItemDetailFragment).commit();
+               Bundle bundle = new Bundle();
+               bundle.putString("id", getIntent().getStringExtra("id"));
+               bundle.putString("title", getIntent().getStringExtra("title"));
+               favouriteItemDetailFragment.setArguments(bundle);
+               fragmentManager.beginTransaction().add(R.id.layout_contain, favouriteItemDetailFragment).commit();
+           }
                break;
            case MORE_ITEM_PERSON:
                MoreItemPersonFragment moreItemPersonFragment = new MoreItemPersonFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,moreItemPersonFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, moreItemPersonFragment).commit();
                break;
            case MORE_ITEM_CHANGE_PWD:
                MoreItemChangePWDFragment moreItemChangePWDFragment = new MoreItemChangePWDFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,moreItemChangePWDFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, moreItemChangePWDFragment).commit();
                break;
            case MORE_ITEM_FEEDBACK:
                MoreItemBackFragment moreItemBackFragment = new MoreItemBackFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,moreItemBackFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, moreItemBackFragment).commit();
                break;
            case FRIEND_CRM:
                FriendsItemCRMFragment friendsItemCRMFragment = new FriendsItemCRMFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,friendsItemCRMFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, friendsItemCRMFragment).commit();
                break;
            case FRIEND_CLIENT_LIST:
                FriendsItemClientFragment clientFragment = new FriendsItemClientFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,clientFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, clientFragment).commit();
                break;
            case FRIEND_CLIENT_ADD:
                FriendsItemAddClientFragment addFragment = new FriendsItemAddClientFragment();
                addFragment.entity = getIntent().getParcelableExtra("data");
-               fragmentManager.beginTransaction().add(R.id.layout_contain,addFragment).commit();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, addFragment).commit();
                break;
            case COMM_SELLER_LIST:
-              CommSellerListFragment commSellerListFragment = new CommSellerListFragment();
-               fragmentManager.beginTransaction().add(R.id.layout_contain,commSellerListFragment).commit();
+               CommSellerListFragment commSellerListFragment = new CommSellerListFragment();
+               fragmentManager.beginTransaction().add(R.id.layout_contain, commSellerListFragment).commit();
                break;
-           case FRIEND_ARTICLE:
+           case FRIEND_ARTICLE: {
                FriendsItemArticleFragment friendsItemArticleFragment = new FriendsItemArticleFragment();
                Bundle bundle = new Bundle();
-               bundle.putString("id",getIntent().getStringExtra("id"));
-               bundle.putString("title",getIntent().getStringExtra("title"));
+               bundle.putString("id", getIntent().getStringExtra("id"));
+               bundle.putString("title", getIntent().getStringExtra("title"));
                friendsItemArticleFragment.setArguments(bundle);
                fragmentManager.beginTransaction().add(R.id.layout_contain, friendsItemArticleFragment).commit();
+           }
                break;
 
         }

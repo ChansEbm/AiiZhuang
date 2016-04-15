@@ -23,6 +23,7 @@ import com.appbaba.iz.adapters.CommonRecyclerAdapter;
 import com.appbaba.iz.adapters.RecyclerViewHolder;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.entity.Favourite.FavouriteBean;
+import com.appbaba.iz.entity.Friends.FriendsClientBean;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.BinderOnItemClickListener;
 import com.appbaba.iz.impl.UpdateUIListener;
@@ -70,7 +71,7 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
         recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(30));
         recyclerView.setAdapter(adapter);
-        adapter.setBinderOnItemClickListener(this);
+
         adapter.notifyDataSetChanged();
 
         networkModel.HomeSubject(AppTools.getStringSharedPreferences(AppKeyMap.AUTH,""),0,10, NetworkParams.SUBJECT);
@@ -81,13 +82,14 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
 
         Intent intent = new Intent(getContext(),TransferActivity.class);
         intent.putExtra("fragment",4);
+        intent.putExtra("title",list.get(pos).getTitle());
+        intent.putExtra("id", list.get(pos).getSubject_id());
         startActivity(intent);
     }
 
     @Override
     protected void initEvents() {
-
-
+        adapter.setBinderOnItemClickListener(this);
     }
 
     @Override

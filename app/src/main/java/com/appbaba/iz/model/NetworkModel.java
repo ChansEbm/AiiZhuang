@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.Favourite.FavouriteBean;
+import com.appbaba.iz.entity.Favourite.FavouriteDetailBean;
 import com.appbaba.iz.entity.Friends.FriendsArticleBean;
 import com.appbaba.iz.entity.Friends.FriendsBean;
 import com.appbaba.iz.entity.Friends.FriendsClientBean;
@@ -173,6 +174,15 @@ public class NetworkModel<E> {
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 
+    public void  HomeSubjectDetail(String auth,String subject_id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("subject_id",subject_id);
+        new OkHttpBuilder.POST(appCompatActivity).urlSubject("subjectDetail").entityClass(FavouriteDetailBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
     public  void  HomeMarketingAddCustomer(String auth,AddClientModel model)
     {
         clearAllParams();
@@ -214,8 +224,6 @@ public class NetworkModel<E> {
         new OkHttpBuilder.POST(appCompatActivity).urlMarketing("delCustomer").entityClass(BaseBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
-
-
 
     public  void  HomeMarketingArticleCate(String auth,NetworkParams networkParams,boolean isNeedLoading)
     {
