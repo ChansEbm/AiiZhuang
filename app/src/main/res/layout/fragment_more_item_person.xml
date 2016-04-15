@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-   >
-    <data class=".FragmentMorePersonBinding"></data>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data class=".FragmentMorePersonBinding">
+        <variable
+            name="item"
+            type="com.appbaba.iz.entity.Login.AuthBean.InfoEntity"></variable>
+    </data>
 <FrameLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_gray">
@@ -33,10 +37,16 @@
                 android:gravity="right"
                 android:paddingRight="10dp"
                 >
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/iv_head"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@mipmap/icon_person_head"
+                    app:roundBottomRight="true"
+                    app:roundBottomLeft="true"
+                    app:roundTopLeft="true"
+                    app:roundTopRight="true"
+                    app:placeholderImage="@mipmap/icon_person_head"
+                    app:placeholderImageScaleType="centerInside"
                     />
             </LinearLayout>
             <ImageView
@@ -58,7 +68,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="1"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text_gravy"
+                    android:text="@{item.nickname}"
+                    android:gravity="right"/>
+            </LinearLayout>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -79,7 +98,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="1"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:id="@+id/tv_shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text_gravy"
+                    android:text="@{item.shop_name}"
+                    android:gravity="right"/>
+            </LinearLayout>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -99,7 +127,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="1"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:id="@+id/tv_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text_gravy"
+                    android:text="@{item.area_desc}"
+                    android:gravity="right"/>
+            </LinearLayout>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -119,7 +156,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="1"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text_gravy"
+                    android:text="@{item.address}"
+                    android:gravity="right"/>
+            </LinearLayout>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

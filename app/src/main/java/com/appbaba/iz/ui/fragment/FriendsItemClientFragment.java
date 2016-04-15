@@ -23,15 +23,22 @@ import com.appbaba.iz.adapters.CommonBinderAdapter;
 import com.appbaba.iz.adapters.CommonBinderHolder;
 import com.appbaba.iz.adapters.ViewHolder;
 import com.appbaba.iz.base.BaseFgm;
-import com.appbaba.iz.entity.Friends.FriendsClient;
+import com.appbaba.iz.entity.Friends.FriendsBean;
+import com.appbaba.iz.entity.Friends.FriendsClientBean;
+import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.impl.InputCallBack;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.method.SpaceItemDecoration;
+import com.appbaba.iz.model.AddClientModel;
+import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
 import com.appbaba.iz.widget.ScrollView.SlideView;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -48,10 +55,12 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
     private int screenHeight = 0;
     //软件盘弹起后所占高度阀值
     private int keyHeight = 0;
-    private CommonAdapter<FriendsClient> adapter;
+    private CommonAdapter<FriendsClientBean.ListEntity> adapter;
 
-    private List<FriendsClient> list;
+    private List<FriendsClientBean.ListEntity> list;
     private SlideView sliderViewTemp;
+
+    private HashMap<String,SlideView> hashMap = new HashMap<>();
 
 
     @Override
@@ -73,25 +82,41 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
         keyHeight = MethodConfig.metrics.heightPixels/3;
         list = new ArrayList<>();
 
-        for(int i=0;i<10;i++)
-        {
-            list.add(new FriendsClient());
-        }
 
-       adapter = new CommonAdapter<FriendsClient>(list,getContext(),R.layout.item_friend_client_view) {
+
+       adapter = new CommonAdapter<FriendsClientBean.ListEntity>(list,getContext(),R.layout.item_friend_client_view) {
            @Override
-           public void convert(int position, ViewHolder holder, FriendsClient client) {
+           public void convert(int position, ViewHolder holder, FriendsClientBean.ListEntity client) {
+                   holder.setText(R.id.tv_item_name,client.getName());
+                   holder.setText(R.id.tv_item_phone,client.getPhone());
+                   holder.setText(R.id.tv_item_collects,client.getCollects());
+               AddClientModel model = new AddClientModel();
+               model.setId(client.getCustomer_id());
+               model.setName(client.getName());
+               model.setArea_ids(client.getArea_ids());
+               model.setPhone(client.getPhone());
+               model.setAddress(client.getAddress());
 
-               if(client!=null)
-               {
-                   list.get(position).setSlideView((SlideView)holder.getConvertView());
-               }
+               holder.getViews(R.id.btn_item_edit).setTag(model);
+               holder.getViews(R.id.btn_item_del).setTag(model);
+               holder.getViews(R.id.btn_item_edit).setOnClickListener(FriendsItemClientFragment.this);
+               holder.getViews(R.id.btn_item_del).setOnClickListener(FriendsItemClientFragment.this);
+
+               hashMap.put(""+position,(SlideView)holder.getConvertView());
+
            }
        };
         
 
         ltv_data.setAdapter(adapter);
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        networkModel.HomeMarketingCustomerList(MethodConfig.localUser.getAuth(),NetworkParams.CUSTOMERLIST);
     }
 
     @Override
@@ -134,8 +159,7 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
 
                             int position = ltv_data.pointToPosition((int) event.getX(), (int) event.getY());
                             if (position >= 0) {
-
-                                sliderViewTemp = ((FriendsClient)ltv_data.getItemAtPosition(position)).getSlideView();
+                                sliderViewTemp = hashMap.get(""+position);
                             }
                         } else {
                             sliderViewTemp.back();
@@ -212,6 +236,19 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
     @Override
     protected void onClick(int id, View view) {
 
+        switch (id)
+        {
+            case R.id.btn_item_edit:
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment",9);
+                intent.putExtra("data",(AddClientModel)view.getTag());
+                startActivity(intent);
+                break;
+            case R.id.btn_item_del:
+                AddClientModel model = (AddClientModel)view.getTag();
+                networkModel.HomeMarketingDelCustomer(MethodConfig.localUser.getAuth(),model.getId(),NetworkParams.CUSTOMERDEL);
+                break;
+        }
     }
 
     @Override
@@ -230,5 +267,28 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(Object t, NetworkParams paramsCode) {
+        if(paramsCode==NetworkParams.CUSTOMERLIST)
+        {
+             FriendsClientBean bean = (FriendsClientBean)t;
+            if(bean.getErrorcode()==0)
+            {
+                Log.e("nn",""+bean.getList().size());
+                list.clear();
+                list.addAll(bean.getList());
+                adapter.notifyDataSetChanged();
+            }
+            else
+            {
+                AppTools.showNormalSnackBar(getView(),bean.getMsg());
+            }
+        }
+        if(paramsCode==NetworkParams.CUSTOMERDEL)
+        {
+            networkModel.HomeMarketingCustomerList(MethodConfig.localUser.getAuth(),NetworkParams.CUSTOMERLIST);
+        }
     }
 }

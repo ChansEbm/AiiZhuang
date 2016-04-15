@@ -141,6 +141,7 @@ public abstract class BaseFgm<E, T> extends Fragment implements View.OnClickList
             final int errorCode = baseBean.getErrorcode();
             if (errorCode == 1) {
                 LogTools.e("参数错误");
+                showMsgSnackBar(baseBean.getMsg());
             } else {
                 showMsgSnackBar(baseBean.getMsg());
                 if (errorCode == 0) {

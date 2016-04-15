@@ -54,6 +54,8 @@
     <color name="popup_home_top_pre">#363636</color>
     <color name="more_bottom_btn_color_normal">#f05953</color>
     <color name="hint_text_color_red">#fe626b</color>
+    <color name="dark_gray">#464646</color>
+    <color name="light_gray">#e4e4e4</color>
 
 
 </resources>

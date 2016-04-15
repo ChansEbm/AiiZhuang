@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data class=".ItemFriendClientBinding"></data>
+    <data class=".ItemFriendClientBinding">
+        <variable
+            name="item"
+            type="com.appbaba.iz.entity.Friends.FriendsClientBean.ListEntity"></variable>
+    </data>
     <com.appbaba.iz.widget.ScrollView.SlideView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/slide"
@@ -20,16 +24,17 @@
                 android:orientation="vertical"
                 android:layout_weight="1">
                 <TextView
+                    android:id="@+id/tv_item_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="18sp"
                     android:textColor="@color/black"
-                    android:text="陈先生"/>
+                    android:text="@{item.name}"/>
                 <TextView
+                    android:id="@+id/tv_item_phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
-                    android:text="12222222222"/>
+                    android:text="@{item.phone}"/>
             </LinearLayout>
 
             <TextView
@@ -39,24 +44,27 @@
                 android:gravity="center"
                 android:drawableLeft="@mipmap/icon_call"/>
             <TextView
+                android:id="@+id/tv_item_collects"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:drawablePadding="10dp"
                 android:drawableLeft="@mipmap/icon_love"
                 android:gravity="center"
-                android:text="18"/>
+                android:text="@{item.collects}"/>
 
 
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_item_edit"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="#ffae00"
             android:textColor="@color/white"
             android:text="编辑"/>
         <Button
+            android:id="@+id/btn_item_del"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="#f05953"

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data class=".ItemFriendBinding">
         <variable
             name="item"
-            type="com.appbaba.iz.entity.Friends.FriendsBean"></variable>
+            type="com.appbaba.iz.entity.Friends.FriendsBean.ListEntity"></variable>
     </data>
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,10 +13,19 @@
         android:gravity="center_vertical"
         android:background="@color/white"
         android:padding="10dp">
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/dv_head"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@color/application_base_color"/>
+            app:placeholderImage="@color/color_gravy"
+            app:placeholderImageScaleType="centerInside"
+            app:roundAsCircle="true"/>
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/icon_client"
+            android:visibility="gone"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,12 +49,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_gravy"
-                    android:text="@{item.date}"/>
+                    android:text="@{item.updatetime}"/>
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{item.detail}"
+                android:text="@{item.desc}"
                 android:textColor="@color/color_gravy"/>
         </LinearLayout>
 

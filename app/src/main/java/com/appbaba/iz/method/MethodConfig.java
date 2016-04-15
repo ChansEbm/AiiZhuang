@@ -5,11 +5,14 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.appbaba.iz.entity.Login.AuthBean;
+
 /**
  * Created by ruby on 2016/4/1.
  */
 public class MethodConfig {
     public  static  DisplayMetrics metrics;
+    public  static AuthBean localUser;
 
     public  static void  SetDispaly(Context context)
     {
@@ -42,7 +45,7 @@ public class MethodConfig {
      */
     public static int GetHeightFor16v9(int width)
     {
-        return width*9/16;
+        return width*8/15;
     }
 
     public static int GetWidthFor16v9(int height)

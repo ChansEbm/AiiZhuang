@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <data class=".ItemFavouriteDetailBinding">
+        <variable
+            name="item"
+            type="com.appbaba.iz.entity.Favourite.FavouriteDetailBean.InfoEntity.DetailListEntity"></variable>
+    </data>
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/iv_item_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@color/bg_gray"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@{item.desc}"
+            android:textColor="@color/dark_gray"
+            android:padding="5dp"
+            android:layout_alignParentBottom="true"/>
+    </LinearLayout>
+
+</layout>

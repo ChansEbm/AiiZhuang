@@ -173,11 +173,12 @@ public class OkHttpBuilder {
          * @param loginUrl
          * @return this
          */
-        public POST urlLogin(String loginUrl) {
-            this.fullUrl = AppKeyMap.HEAD_API_LOGIN + loginUrl;
+        public POST urlLogin(String url) {
+            this.fullUrl = AppKeyMap.HEAD_API_LOGIN + url;
             return this;
         }
 
+<<<<<<< HEAD
         public POST urlGetSellerList(String url) {
             this.fullUrl = AppKeyMap.HEAD_API_COMMON + url;
             return this;
@@ -196,7 +197,38 @@ public class OkHttpBuilder {
         public POST urlCases(String url) {
             this.fullUrl = AppKeyMap.HEAD_API_CASE + url;
             return this;
+=======
+        public  POST urlComm(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_COMMON+url;
+            return  this;
         }
+
+        public  POST urlIndex(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_INDEX + url;
+            return  this;
+        }
+
+        public  POST urlSubject(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_SUBJECT + url;
+            return  this;
+>>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
+        }
+
+        public  POST urlMarketing(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_MARKETING + url;
+            return  this;
+        }
+
+        public  POST urlMore(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_MORE + url;
+            return this;
+        }
+
 
 
 //        public POST urlWorker(String workerUrl) {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+   >
+<data class=".ItemBottomListBinding">
+<variable
+    name="item"
+    type="com.appbaba.iz.entity.Index.HomeBean.SubjectListEntity"></variable>
+</data>
+    <LinearLayout  android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/iv_item_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@mipmap/test4"
+
+                />
+            <TextView
+                android:id="@+id/tv_item_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:background="@color/half_white"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_alignParentBottom="true"
+                android:text="@{item.title}"/>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

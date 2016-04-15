@@ -1,20 +1,23 @@
 package com.appbaba.iz.entity.Friends;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import com.appbaba.iz.entity.Base.BaseBean;
 
 import java.util.List;
 
 /**
- * Created by ruby on 2016/4/8.
+ * Created by ruby on 2016/4/15.
  */
-public class FriendsBean extends BaseBean {
+public class FriendsArticleBean extends BaseBean {
 
     /**
-     * article_cate_id : 2
-     * title : 文章分类一
-     * desc : 123123
-     * thumb : http://192.168.200.123/appbaba2016/Public/Uploads/seller/1/article/2016-04-13/570da9205125a.png
-     * updatetime : 2016-04-13 10:18
+     * article_id : 1
+     * title : asdasdasd
+     * desc : 123123123123
+     * thumb : http://192.168.200.123/appbaba2016/Public/Uploads/seller/1/article/2016-04-13/570db1b75d147.jpg
+     * updatetime : 2016-04-13 10:43
      */
 
     private List<ListEntity> list;
@@ -27,21 +30,22 @@ public class FriendsBean extends BaseBean {
         this.list = list;
     }
 
-    public static class ListEntity {
-        private String article_cate_id;
+    public static class ListEntity extends BaseObservable{
+        private String article_id;
         private String title;
         private String desc;
         private String thumb;
         private String updatetime;
 
-        public String getArticle_cate_id() {
-            return article_cate_id;
+        public String getArticle_id() {
+            return article_id;
         }
 
-        public void setArticle_cate_id(String article_cate_id) {
-            this.article_cate_id = article_cate_id;
+        public void setArticle_id(String article_id) {
+            this.article_id = article_id;
         }
 
+        @Bindable
         public String getTitle() {
             return title;
         }
@@ -50,6 +54,7 @@ public class FriendsBean extends BaseBean {
             this.title = title;
         }
 
+        @Bindable
         public String getDesc() {
             return desc;
         }
@@ -66,6 +71,7 @@ public class FriendsBean extends BaseBean {
             this.thumb = thumb;
         }
 
+        @Bindable
         public String getUpdatetime() {
             return updatetime;
         }

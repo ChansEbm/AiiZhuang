@@ -27,6 +27,7 @@
                     android:text="@string/more_fragment_item_chpwd_old"
                     android:textColor="@color/black"/>
                 <EditText
+                    android:id="@+id/edt_old_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -48,6 +49,7 @@
                     android:text="@string/more_fragment_item_chpwd_new"
                     android:textColor="@color/black"/>
                 <EditText
+                    android:id="@+id/edt_new_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -69,6 +71,7 @@
                     android:text="@string/more_fragment_item_chpwd_renew"
                     android:textColor="@color/black"/>
                 <EditText
+                    android:id="@+id/edt_re_new_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -78,6 +81,7 @@
                     android:text="df"/>
             </LinearLayout>
             <Button
+                android:id="@+id/btn_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

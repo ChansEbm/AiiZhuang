@@ -20,6 +20,10 @@
             <include
                 android:id="@+id/include_top_title"
                 layout="@layout/title_bar"></include>
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/sw_Refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
             <com.appbaba.iz.widget.ScrollView.MyScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -27,18 +31,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
 
-                    </android.support.v7.widget.RecyclerView>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </android.support.v7.widget.RecyclerView>
+
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"></LinearLayout>
                 </LinearLayout>
             </com.appbaba.iz.widget.ScrollView.MyScrollView>
-
+            </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
             <FrameLayout
                 android:id="@+id/layout_contain_1"
