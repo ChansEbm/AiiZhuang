@@ -1,6 +1,7 @@
 package com.appbaba.iz.ui.activity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,8 +35,16 @@ public class LoginActivity extends BaseAty {
         tv_forget = loginBinding.tvForget;
         tv_brand_in = loginBinding.tvBrandIn;
 
+        MethodConfig.localUser = null;
+
         String username = AppTools.getStringSharedPreferences("username","");
         edt_mobile.setText(username);
+        String password = AppTools.getStringSharedPreferences("password","");
+        edt_password.setText(password);
+        if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password))
+        {
+            btn_login.performClick();
+        }
     }
 
     @Override
@@ -65,6 +74,7 @@ public class LoginActivity extends BaseAty {
                  break;
              case R.id.btn_visitor:
                  startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                 finish();
                  break;
              case R.id.tv_forget:
                  startActivity(new Intent(getApplicationContext(),FoundPasswordActivity.class));
@@ -85,7 +95,10 @@ public class LoginActivity extends BaseAty {
             {
                 AppTools.putStringSharedPreferences(AppKeyMap.AUTH,bean.getAuth());
                 MethodConfig.localUser = bean;
+                AppTools.putStringSharedPreferences("username",edt_mobile.getText().toString());
+                AppTools.putStringSharedPreferences("password",edt_password.getText().toString());
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
             }
             else
             {

@@ -1,5 +1,8 @@
 package com.appbaba.iz.entity.Login;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import com.appbaba.iz.entity.Base.BaseBean;
 
 /**
@@ -44,7 +47,7 @@ public class AuthBean extends BaseBean {
         this.auth = auth;
     }
 
-    public static class InfoEntity {
+    public static class InfoEntity extends BaseObservable{
         private String seller_id;
         private String phone;
         private String nickname;
@@ -71,6 +74,7 @@ public class AuthBean extends BaseBean {
             this.phone = phone;
         }
 
+        @Bindable
         public String getNickname() {
             return nickname;
         }
@@ -79,6 +83,7 @@ public class AuthBean extends BaseBean {
             this.nickname = nickname;
         }
 
+        @Bindable
         public String getAvatar() {
             return avatar;
         }
@@ -87,6 +92,7 @@ public class AuthBean extends BaseBean {
             this.avatar = avatar;
         }
 
+        @Bindable
         public String getArea_ids() {
             return area_ids;
         }
@@ -95,6 +101,7 @@ public class AuthBean extends BaseBean {
             this.area_ids = area_ids;
         }
 
+        @Bindable
         public String getArea_desc() {
             return area_desc;
         }
@@ -103,6 +110,7 @@ public class AuthBean extends BaseBean {
             this.area_desc = area_desc;
         }
 
+        @Bindable
         public String getAddress() {
             return address;
         }
@@ -111,6 +119,7 @@ public class AuthBean extends BaseBean {
             this.address = address;
         }
 
+        @Bindable
         public String getShop_name() {
             return shop_name;
         }
@@ -119,6 +128,7 @@ public class AuthBean extends BaseBean {
             this.shop_name = shop_name;
         }
 
+        @Bindable
         public String getStatus() {
             return status;
         }

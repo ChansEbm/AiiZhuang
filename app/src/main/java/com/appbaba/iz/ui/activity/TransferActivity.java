@@ -1,12 +1,9 @@
 package com.appbaba.iz.ui.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.widget.TextView;
 
-import com.appbaba.iz.FragmentFriendClientBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.databinding.ActivityTransferBinding;
@@ -14,6 +11,7 @@ import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.ui.fragment.CommSellerListFragment;
 import com.appbaba.iz.ui.fragment.FavouriteItemDetailFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemAddClientFragment;
+import com.appbaba.iz.ui.fragment.FriendsItemArticleFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemCRMFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemClientFragment;
 import com.appbaba.iz.ui.fragment.HomeItemContractFragment;
@@ -23,8 +21,6 @@ import com.appbaba.iz.ui.fragment.HomeItemScanFragment;
 import com.appbaba.iz.ui.fragment.MoreItemBackFragment;
 import com.appbaba.iz.ui.fragment.MoreItemChangePWDFragment;
 import com.appbaba.iz.ui.fragment.MoreItemPersonFragment;
-
-import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 
 /**
  * Created by ruby on 2016/4/5.
@@ -53,13 +49,14 @@ public class TransferActivity extends BaseAty {
 
     private  final int COMM_SELLER_LIST = 11; //选择品牌
 
+    private  final int FRIEND_ARTICLE = 12; //文章内容
+
 
 
     @Override
     protected void initViews() {
         int fragment_index = getIntent().getIntExtra("fragment",-1);
 
-        Bundle bundle = getIntent().getBundleExtra("bundle");
 
         transferBinding = (ActivityTransferBinding)viewDataBinding;
         fragmentManager = getSupportFragmentManager();
@@ -107,11 +104,20 @@ public class TransferActivity extends BaseAty {
                break;
            case FRIEND_CLIENT_ADD:
                FriendsItemAddClientFragment addFragment = new FriendsItemAddClientFragment();
+               addFragment.entity = getIntent().getParcelableExtra("data");
                fragmentManager.beginTransaction().add(R.id.layout_contain,addFragment).commit();
                break;
            case COMM_SELLER_LIST:
               CommSellerListFragment commSellerListFragment = new CommSellerListFragment();
                fragmentManager.beginTransaction().add(R.id.layout_contain,commSellerListFragment).commit();
+               break;
+           case FRIEND_ARTICLE:
+               FriendsItemArticleFragment friendsItemArticleFragment = new FriendsItemArticleFragment();
+               Bundle bundle = new Bundle();
+               bundle.putString("id",getIntent().getStringExtra("id"));
+               bundle.putString("title",getIntent().getStringExtra("title"));
+               friendsItemArticleFragment.setArguments(bundle);
+               fragmentManager.beginTransaction().add(R.id.layout_contain, friendsItemArticleFragment).commit();
                break;
 
         }

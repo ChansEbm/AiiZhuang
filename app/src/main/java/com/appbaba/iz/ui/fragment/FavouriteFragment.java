@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.FragmentFavouriteBinding;
 import com.appbaba.iz.ItemFavouriteBinding;
 import com.appbaba.iz.R;
@@ -22,11 +23,14 @@ import com.appbaba.iz.adapters.CommonRecyclerAdapter;
 import com.appbaba.iz.adapters.RecyclerViewHolder;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.entity.Favourite.FavouriteBean;
+import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.BinderOnItemClickListener;
 import com.appbaba.iz.impl.UpdateUIListener;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.method.SpaceItemDecoration;
+import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +41,8 @@ import java.util.List;
 public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListener{
     private FragmentFavouriteBinding favouriteBinding;
     private RecyclerView recyclerView;
-    private List<FavouriteBean> list;
-    private  CommonBinderAdapter<FavouriteBean> adapter;
+    private List<FavouriteBean.ListEntity> list;
+    private  CommonBinderAdapter<FavouriteBean.ListEntity> adapter;
     private  int height;
 
     @Override
@@ -49,30 +53,17 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
         favouriteBinding.includeTopTitle.title.setTextColor(Color.BLACK);
          height = MethodConfig.GetHeightFor16v9(MethodConfig.metrics.widthPixels);
         recyclerView = favouriteBinding.rcyFavourite;
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,MethodConfig.metrics.heightPixels);
-//        recyclerView.setLayoutParams(params);
         list = new ArrayList<>();
-        for(int i=0;i<10;i++)
-        {
-            FavouriteBean bean = new FavouriteBean();
-            bean.setDetail("qingxin tuoshu  hah ");
-            bean.setLike(100+i);
-            bean.setSeen(200+i);
-            bean.setUrl("www.baidu.com");
-            bean.setTitle("这是一个测试" + i);
-            list.add(bean);
-        }
 
-        adapter = new CommonBinderAdapter<FavouriteBean>(getContext(),R.layout.item_favourite_view,list){
+        adapter = new CommonBinderAdapter<FavouriteBean.ListEntity>(getContext(),R.layout.item_favourite_view,list){
 
             @Override
-            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, FavouriteBean favouriteBean) {
-
-                      ItemFavouriteBinding itemFavouriteBinding = (ItemFavouriteBinding)viewDataBinding;
+            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, FavouriteBean.ListEntity entity) {
+                ItemFavouriteBinding itemFavouriteBinding = (ItemFavouriteBinding)viewDataBinding;
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height);
-
+                Picasso.with(getContext()).load(entity.getThumb()).into(itemFavouriteBinding.ivItemFavourite);
                 itemFavouriteBinding.ivItemFavourite.setLayoutParams(params);
-                       itemFavouriteBinding.setItem(favouriteBean);
+                itemFavouriteBinding.setItem(entity);
             }
         };
 
@@ -81,10 +72,12 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
         recyclerView.setAdapter(adapter);
         adapter.setBinderOnItemClickListener(this);
         adapter.notifyDataSetChanged();
+
+        networkModel.HomeSubject(AppTools.getStringSharedPreferences(AppKeyMap.AUTH,""),0,10, NetworkParams.SUBJECT);
     }
 
     @Override
-    public void onBinderItemClick(View view, int pos) {
+    public void onBinderItemClick(View view,int parentId ,int pos) {
 
         Intent intent = new Intent(getContext(),TransferActivity.class);
         intent.putExtra("fragment",4);
@@ -110,5 +103,18 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
     @Override
     protected int getContentView() {
         return R.layout.fragment_favourite;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(Object t, NetworkParams paramsCode) {
+        if(paramsCode==NetworkParams.SUBJECT)
+        {
+            FavouriteBean bean = (FavouriteBean)t;
+            if(bean.getErrorcode()==0)
+            {
+                list.addAll(bean.getList());
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 }

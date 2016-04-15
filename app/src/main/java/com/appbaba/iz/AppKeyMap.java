@@ -49,6 +49,10 @@ public class AppKeyMap {
 //    public final static String HEAD_API_LOGIN = HEAD + "ApiLogin/";
     public final static String HEAD_API_COMMON = HEAD +"Common/";
     public final static String HEAD_API_LOGIN = HEAD + "Login/";
+    public  final  static String HEAD_API_INDEX = HEAD+"Index/";
+    public  final  static  String HEAD_API_SUBJECT = HEAD+"Subject/";
+    public  final  static  String HEAD_API_MARKETING=HEAD+"Marketing/";
+    public  final  static  String HEAD_API_MORE = HEAD +"More/";
 
 //    public final static String HEAD_API_WORKER = HEAD + "ApiWorker/";
 //    public final static String HEAD_API_ORDER = HEAD + "ApiOrder/";
@@ -68,6 +72,8 @@ public class AppKeyMap {
     public final static String CONTENT_TXT = "text/plain";
     public final static String CONTENT_MP3 = "audio/mp3";
     public final static String CONTENT_OCT = "application/octet-stream";
+
+    public final static String CUSTOMERID = "customerId";
 
     //用户标识
     public final static String AUTH = "auth";

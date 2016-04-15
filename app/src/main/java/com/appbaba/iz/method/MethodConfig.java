@@ -45,7 +45,7 @@ public class MethodConfig {
      */
     public static int GetHeightFor16v9(int width)
     {
-        return width*9/16;
+        return width*8/15;
     }
 
     public static int GetWidthFor16v9(int height)

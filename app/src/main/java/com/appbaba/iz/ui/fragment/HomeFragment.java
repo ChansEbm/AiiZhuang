@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,60 +16,101 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.FragmentHomeBinding;
+import com.appbaba.iz.ItemBottomListBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.TopMenuBinding;
+import com.appbaba.iz.adapters.CommonBinderAdapter;
+import com.appbaba.iz.adapters.CommonBinderHolder;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.entity.Index.HomeBean;
+import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.method.SpaceItemDecoration;
+import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ruby on 2016/4/1.
  */
 public class HomeFragment extends BaseFgm {
-    FragmentHomeBinding homeBinding;
-    ImageView iv_1,iv_2,iv_3,iv_4,iv_5,iv_6,iv_item_test,iv_menu;
-    PopupWindow window;
+    private FragmentHomeBinding homeBinding;
+    private  RelativeLayout relate_1,relate_2,relate_3,relate_4,relate_5;
+    private  ImageView iv_banner,iv_menu;
+    private RecyclerView recyclerView;
+    private  PopupWindow window;
+
+
+
+    private CommonBinderAdapter<HomeBean.SubjectListEntity> adapter;
+    private  List<HomeBean.SubjectListEntity> list;
+    private  int height ;// 15 : 8 高度
 
     @Override
     protected void initViews() {
        homeBinding = (FragmentHomeBinding)viewDataBinding;
-        iv_1 = homeBinding.iv1;
-        iv_2 = homeBinding.iv2;
-        iv_3 = homeBinding.iv3;
-        iv_4 = homeBinding.iv4;
-        iv_5 = homeBinding.iv5;
-        iv_6 = homeBinding.iv6;
-        iv_item_test = homeBinding.ivItemTest;
+        iv_banner = homeBinding.ivBanner;
         iv_menu = homeBinding.includeTopTitle.ivMenu;
+        recyclerView = homeBinding.recycler;
 
-        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams)iv_1.getLayoutParams();
+        relate_1 = homeBinding.relate1;
+        relate_2 = homeBinding.relate2;
+        relate_3 = homeBinding.relate3;
+        relate_4 = homeBinding.relate4;
+        relate_5 = homeBinding.relate5;
+
+        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams)iv_banner.getLayoutParams();
         params1.width = MethodConfig.metrics.widthPixels;
         params1.height = MethodConfig.GetHeightFor16v9(params1.width);
-        iv_1.setLayoutParams(params1);
+        height = params1.height;
+        iv_banner.setLayoutParams(params1);
 
         int m = MethodConfig.dip2px(getContext(),8);
-        LinearLayout.LayoutParams params2 = ( LinearLayout.LayoutParams)iv_3.getLayoutParams();
-        params2.width = (MethodConfig.metrics.widthPixels-m*3)/2;
-        LinearLayout.LayoutParams params4 = ( LinearLayout.LayoutParams)iv_4.getLayoutParams();
-        LinearLayout.LayoutParams params5 = ( LinearLayout.LayoutParams)iv_5.getLayoutParams();
-        LinearLayout.LayoutParams params6 = ( LinearLayout.LayoutParams)iv_6.getLayoutParams();
-        params2.height = MethodConfig.GetHeightFor16v9(params2.width);
-       params6.height= params5.height = params4.height = params2.height;
-        params6.width = params5.width = params4.width = params2.width;
+        LinearLayout.LayoutParams p2 = ( LinearLayout.LayoutParams)relate_2.getLayoutParams();
+        p2.width = (MethodConfig.metrics.widthPixels-m*3)/2;
+        LinearLayout.LayoutParams p1 = ( LinearLayout.LayoutParams)relate_1.getLayoutParams();
+        LinearLayout.LayoutParams p3 = ( LinearLayout.LayoutParams)relate_3.getLayoutParams();
+        LinearLayout.LayoutParams p4 = ( LinearLayout.LayoutParams)relate_4.getLayoutParams();
+        LinearLayout.LayoutParams p5 = ( LinearLayout.LayoutParams)relate_5.getLayoutParams();
+        p2.height = MethodConfig.GetHeightFor16v9(p2.width);
 
-        iv_3.setLayoutParams(params2);
-        iv_4.setLayoutParams(params4);
-        iv_5.setLayoutParams(params5);
-        iv_6.setLayoutParams(params6);
+       p5.height= p4.height = p3.height = p2.height;
+        p5.width = p4.width = p3.width = p2.width;
 
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)iv_item_test.getLayoutParams();
-        params.width = MethodConfig.metrics.widthPixels;
-        params.height = MethodConfig.metrics.widthPixels/2;
-        iv_item_test.setLayoutParams(params);
+        relate_2.setLayoutParams(p2);
+        relate_3.setLayoutParams(p3);
+        relate_4.setLayoutParams(p4);
+        relate_5.setLayoutParams(p5);
 
+//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)iv_item_test.getLayoutParams();
+//        params.width = MethodConfig.metrics.widthPixels;
+//        params.height = MethodConfig.metrics.widthPixels/2;
+//        iv_item_test.setLayoutParams(params);
+
+
+        list = new ArrayList<>();
+        adapter = new CommonBinderAdapter<HomeBean.SubjectListEntity>(getContext(),R.layout.item_index_bottom_view,list) {
+            @Override
+            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, HomeBean.SubjectListEntity subjectListEntity) {
+                ItemBottomListBinding bottomListBinding = (ItemBottomListBinding)viewDataBinding;
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height);
+                bottomListBinding.ivItemView.setLayoutParams(params);
+                Picasso.with(getContext()).load(subjectListEntity.getThumb()).into(bottomListBinding.ivItemView);
+                bottomListBinding.setItem(subjectListEntity);
+            }
+        };
+        recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),10)));
+        recyclerView.setAdapter(adapter);
+        networkModel.HomeIndex(AppTools.getStringSharedPreferences(AppKeyMap.AUTH,""), NetworkParams.INDEX);
     }
 
 
@@ -82,7 +124,7 @@ public class HomeFragment extends BaseFgm {
 
     @Override
     protected void noNetworkStatus() {
-
+//        Picasso.with(getContext()).load()
     }
 
     @Override
@@ -151,5 +193,63 @@ public class HomeFragment extends BaseFgm {
     @Override
     protected int getContentView() {
         return R.layout.fragment_home;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(Object t, NetworkParams paramsCode) {
+        if(paramsCode==NetworkParams.INDEX)
+        {
+            HomeBean bean = (HomeBean)t;
+            if(bean.getErrorcode()==0)
+            {
+                Picasso.with(getContext()).load(bean.getSeller_info().getBanner()).into(iv_banner);
+                list.clear();
+                list.addAll(bean.getSubject_list());
+
+                List<HomeBean.CateListEntity> list = bean.getCate_list();
+                for(int i=0;i<list.size();i++)
+                {
+                    HomeBean.CateListEntity entity = list.get(i);
+                   switch (entity.getIndex_id())
+                   {
+                       case "1":
+                           homeBinding.tvTitle1Cn.setText(entity.getTitle());
+                           homeBinding.tvTitle1En.setText(entity.getEn_title());
+                           homeBinding.tvDetail1.setText(entity.getDesc());
+                           Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem1);
+                           break;
+                       case "2":
+                           homeBinding.tvTitle2Cn.setText(entity.getTitle());
+                           homeBinding.tvTitle2En.setText(entity.getEn_title());
+                           homeBinding.tvDetail2.setText(entity.getDesc());
+                           Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem2);
+                           break;
+                       case "3":
+                           homeBinding.tvTitle3Cn.setText(entity.getTitle());
+                           homeBinding.tvTitle3En.setText(entity.getEn_title());
+                           homeBinding.tvDetail3.setText(entity.getDesc());
+                           Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem3);
+                           break;
+                       case "4":
+                           homeBinding.tvTitle4Cn.setText(entity.getTitle());
+                           homeBinding.tvTitle4En.setText(entity.getEn_title());
+                           homeBinding.tvDetail4.setText(entity.getDesc());
+                           Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem4);
+                           break;
+                       case "5":
+                           homeBinding.tvTitle5Cn.setText(entity.getTitle());
+                           homeBinding.tvTitle5En.setText(entity.getEn_title());
+                           homeBinding.tvDetail5.setText(entity.getDesc());
+                           Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem5);
+                           break;
+                   }
+                }
+                adapter.notifyDataSetChanged();
+            }
+            else
+            {
+                AppTools.showNormalSnackBar(getView(),bean.getMsg());
+            }
+        }
     }
 }

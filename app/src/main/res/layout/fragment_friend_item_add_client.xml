@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <data class=".FragmentFriendAddClientBinding"></data>
+    <data class=".FragmentFriendAddClientBinding">
+        <variable
+            name="item"
+            type="com.appbaba.iz.model.AddClientModel"></variable>
+    </data>
     <FrameLayout android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -26,12 +30,16 @@
                     android:text="@string/friends_fragment_client_add_name"
                     />
                 <EditText
+                    android:id="@+id/edt_client_name"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/friends_fragment_client_add_must_hint"
+                    android:textSize="16sp"
                     android:textColorHint="@color/hint_text_color_red"
                     android:gravity="right|center_vertical"
+                    android:inputType="text"
+                    android:text="@{item.name}"
                     />
             </LinearLayout>
             <LinearLayout
@@ -49,12 +57,16 @@
                     android:text="@string/friends_fragment_client_add_mobile"
                     />
                 <EditText
+                    android:id="@+id/edt_client_phone"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/friends_fragment_client_add_must_hint"
+                    android:textSize="16sp"
                     android:textColorHint="@color/hint_text_color_red"
                     android:gravity="right|center_vertical"
+                    android:inputType="phone"
+                    android:text="@{item.phone}"
                     />
             </LinearLayout>
             <LinearLayout
@@ -72,11 +84,15 @@
                     android:text="@string/friends_fragment_client_add_province"
                     />
                 <EditText
+                    android:id="@+id/edt_client_city"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/friends_fragment_client_add_option_hint"
+                    android:textSize="16sp"
                     android:gravity="right|center_vertical"
+                    android:inputType="text"
+                    android:text="@{item.area_ids}"
                     />
             </LinearLayout>
             <LinearLayout
@@ -94,15 +110,20 @@
                     android:text="@string/friends_fragment_client_add_address"
                     />
                 <EditText
+                    android:id="@+id/edt_client_address"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/friends_fragment_client_add_option_hint"
+                    android:textSize="16sp"
                     android:gravity="right|center_vertical"
+                    android:inputType="text"
+                    android:text="@{item.address}"
                     />
             </LinearLayout>
 
             <Button
+                android:id="@+id/btn_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"

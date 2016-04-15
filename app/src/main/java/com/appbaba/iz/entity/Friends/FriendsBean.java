@@ -1,48 +1,77 @@
 package com.appbaba.iz.entity.Friends;
 
-import android.databinding.Bindable;
-
 import com.appbaba.iz.entity.Base.BaseBean;
+
+import java.util.List;
 
 /**
  * Created by ruby on 2016/4/8.
  */
 public class FriendsBean extends BaseBean {
-    private  String title,detail,date,url;
 
-    @Bindable
-    public String getTitle() {
-        return title;
+    /**
+     * article_cate_id : 2
+     * title : 文章分类一
+     * desc : 123123
+     * thumb : http://192.168.200.123/appbaba2016/Public/Uploads/seller/1/article/2016-04-13/570da9205125a.png
+     * updatetime : 2016-04-13 10:18
+     */
+
+    private List<ListEntity> list;
+
+    public List<ListEntity> getList() {
+        return list;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setList(List<ListEntity> list) {
+        this.list = list;
     }
 
-    @Bindable
-    public String getDetail() {
-        return detail;
-    }
+    public static class ListEntity {
+        private String article_cate_id;
+        private String title;
+        private String desc;
+        private String thumb;
+        private String updatetime;
 
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
+        public String getArticle_cate_id() {
+            return article_cate_id;
+        }
 
-    @Bindable
-    public String getDate() {
-        return date;
-    }
+        public void setArticle_cate_id(String article_cate_id) {
+            this.article_cate_id = article_cate_id;
+        }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+        public String getTitle() {
+            return title;
+        }
 
-    @Bindable
-    public String getUrl() {
-        return url;
-    }
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
-    public void setUrl(String url) {
-        this.url = url;
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public String getThumb() {
+            return thumb;
+        }
+
+        public void setThumb(String thumb) {
+            this.thumb = thumb;
+        }
+
+        public String getUpdatetime() {
+            return updatetime;
+        }
+
+        public void setUpdatetime(String updatetime) {
+            this.updatetime = updatetime;
+        }
     }
 }

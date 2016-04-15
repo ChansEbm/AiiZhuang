@@ -7,6 +7,11 @@ import android.text.TextUtils;
 
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.entity.Base.BaseBean;
+import com.appbaba.iz.entity.Favourite.FavouriteBean;
+import com.appbaba.iz.entity.Friends.FriendsArticleBean;
+import com.appbaba.iz.entity.Friends.FriendsBean;
+import com.appbaba.iz.entity.Friends.FriendsClientBean;
+import com.appbaba.iz.entity.Index.HomeBean;
 import com.appbaba.iz.entity.Login.AuthBean;
 import com.appbaba.iz.entity.SellerListBean;
 import com.appbaba.iz.eum.NetworkParams;
@@ -14,6 +19,8 @@ import com.appbaba.iz.impl.OkHttpResponseListener;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.tools.OkHttpBuilder;
+
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,7 +109,7 @@ public class NetworkModel<E> {
      */
     public void  getSellerList(NetworkParams networkParams){
         clearAllParams();
-         new OkHttpBuilder.POST(appCompatActivity).urlGetSellerList("getSellerList").entityClass(SellerListBean.class).params(params)
+         new OkHttpBuilder.POST(appCompatActivity).urlComm("getSellerList").entityClass(SellerListBean.class).params(params)
                             .enqueue(networkParams,tOkHttpResponseListener);
     }
 
@@ -110,7 +117,7 @@ public class NetworkModel<E> {
     {
         clearAllParams();
         params.put("phone",phoneNum);
-        new OkHttpBuilder.POST(appCompatActivity).urlCheckPhone("checkPhone").entityClass(BaseBean.class).params(params)
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("checkPhone").entityClass(BaseBean.class).params(params)
         .enqueue(networkParams,tOkHttpResponseListener);
     }
 
@@ -118,7 +125,7 @@ public class NetworkModel<E> {
     {
         clearAllParams();
         params.put("phone",phoneNum);
-        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("sendSmsCode").entityClass(BaseBean.class).params(params)
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("sendSmsCode").entityClass(BaseBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 
@@ -134,7 +141,7 @@ public class NetworkModel<E> {
         params.put("password",model.getPassword());
         params.put("repassword",model.getRepassword());
 
-        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("register").entityClass(BaseBean.class).params(params)
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("register").entityClass(BaseBean.class).params(params)
                 .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
     }
 
@@ -144,7 +151,100 @@ public class NetworkModel<E> {
         params.put("phone",phone);
         params.put("password",password);
         params.put("push_id",push_id);
-        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("login").entityClass(AuthBean.class).params(params)
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("login").entityClass(AuthBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void  HomeIndex(String auth,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        new OkHttpBuilder.POST(appCompatActivity).urlIndex("index").entityClass(HomeBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void HomeSubject(String auth,int page,int page_size,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("page",""+page);
+        params.put("page_size",""+page_size);
+        new OkHttpBuilder.POST(appCompatActivity).urlSubject("subject").entityClass(FavouriteBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  HomeMarketingAddCustomer(String auth,AddClientModel model)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("name",model.getName());
+        params.put("phone",model.getPhone());
+        params.put("area_ids",model.getArea_ids());
+        params.put("address",model.getAddress());
+        new OkHttpBuilder.POST(appCompatActivity).urlMarketing("addCustomer").entityClass(BaseBean.class).params(params)
+                .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
+    }
+
+    public  void  HomeMarketingCustomerList(@NotNull String auth,NetworkParams networkParams)
+    {
+         clearAllParams();
+        params.put("auth",auth);
+        new OkHttpBuilder.POST(appCompatActivity).urlMarketing("customerList").entityClass(FriendsClientBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  HomeMarketingSaveCustomer(String auth,AddClientModel model)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("customer_id",model.getId());
+        params.put("name",model.getName());
+        params.put("phone",model.getPhone());
+        params.put("area_ids",model.getArea_ids());
+        params.put("address",model.getAddress());
+        new OkHttpBuilder.POST(appCompatActivity).urlMarketing("saveCustomer").entityClass(BaseBean.class).params(params)
+                .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
+    }
+
+    public  void  HomeMarketingDelCustomer(String auth,String customer_id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("customer_id",customer_id);
+        new OkHttpBuilder.POST(appCompatActivity).urlMarketing("delCustomer").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+
+
+    public  void  HomeMarketingArticleCate(String auth,NetworkParams networkParams,boolean isNeedLoading)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        new OkHttpBuilder.POST(appCompatActivity).urlMarketing("articleCate").entityClass(FriendsBean.class).params(params).setIsNeedLoadingDialog(isNeedLoading)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  HomeMarketingArticle(String auth,String article_cate_id,int page,int page_size,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("article_cate_id",article_cate_id);
+        params.put("page",""+page);
+        params.put("page_size",""+page_size);
+
+        new OkHttpBuilder.POST(appCompatActivity).urlMarketing("article").entityClass(FriendsArticleBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  HomeMoreChangePwd(String auth,PasswordModel model,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("old_password",model.getPwd());
+        params.put("new_password",model.getnPwd());
+        params.put("re_password",model.getRnPwd());
+        new OkHttpBuilder.POST(appCompatActivity).urlMore("editPassword").entityClass(BaseBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 

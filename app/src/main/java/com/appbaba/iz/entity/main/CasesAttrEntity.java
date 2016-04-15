@@ -40,7 +40,8 @@ public class CasesAttrEntity extends BaseBean {
     private List<CateListBean> cate_list;
 
     @BindingAdapter(value = {"app:caseAttrDrawableStart"})
-    public static void drawableStart(TextView textView, boolean isCheck) {
+    public static void
+    cadrawableStart(TextView textView, boolean isCheck) {
         if (isCheck) {
             AppTools.setCompoundDrawable(textView, android.R.drawable.ic_popup_reminder,
                     ViewUtils.LEFT);
