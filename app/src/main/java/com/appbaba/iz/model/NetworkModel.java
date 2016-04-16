@@ -121,60 +121,32 @@ public class NetworkModel<E> {
      */
     public void getSellerList(NetworkParams networkParams) {
         clearAllParams();
-<<<<<<< HEAD
+
         new OkHttpBuilder.POST(appCompatActivity).urlGetSellerList("getSellerList").entityClass
                 (SellerListBean.class).params(params)
                 .enqueue(networkParams, tOkHttpResponseListener);
-=======
-         new OkHttpBuilder.POST(appCompatActivity).urlComm("getSellerList").entityClass(SellerListBean.class).params(params)
-                            .enqueue(networkParams,tOkHttpResponseListener);
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
+
     }
 
     public void checkPhone(String phoneNum, NetworkParams networkParams) {
         clearAllParams();
-<<<<<<< HEAD
-        params.put("phone", phoneNum);
-        new OkHttpBuilder.POST(appCompatActivity).urlCheckPhone("checkPhone").entityClass
-                (BaseBean.class).params(params)
-                .enqueue(networkParams, tOkHttpResponseListener);
-=======
+
         params.put("phone",phoneNum);
         new OkHttpBuilder.POST(appCompatActivity).urlLogin("checkPhone").entityClass(BaseBean.class).params(params)
         .enqueue(networkParams,tOkHttpResponseListener);
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
     }
 
     public void sendSmsCode(String phoneNum, NetworkParams networkParams) {
         clearAllParams();
-<<<<<<< HEAD
-        params.put("phone", phoneNum);
-        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("sendSmsCode").entityClass(BaseBean
-                .class).params(params)
-                .enqueue(networkParams, tOkHttpResponseListener);
-=======
+
         params.put("phone",phoneNum);
         new OkHttpBuilder.POST(appCompatActivity).urlLogin("sendSmsCode").entityClass(BaseBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
     }
 
     public void register(RegisterModel model) {
         clearAllParams();
-<<<<<<< HEAD
-        params.put("seller_id", model.getSeller_id());
-        params.put("nickname", model.getNickname());
-        params.put("shop_name", model.getShop_name());
-        params.put("address", model.getAddress());
-        params.put("phone", model.getPhone());
-        params.put("code", model.getCode());
-        params.put("password", model.getPassword());
-        params.put("repassword", model.getRepassword());
 
-        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("register").entityClass(BaseBean
-                .class).params(params)
-                .enqueue(model.getNetworkParams(), tOkHttpResponseListener);
-=======
         params.put("seller_id",model.getSeller_id());
         params.put("nickname",model.getNickname());
         params.put("shop_name",model.getShop_name());
@@ -186,16 +158,14 @@ public class NetworkModel<E> {
 
         new OkHttpBuilder.POST(appCompatActivity).urlLogin("register").entityClass(BaseBean.class).params(params)
                 .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
     }
 
     public void Login(String phone, String password, String push_id, NetworkParams networkParams) {
         clearAllParams();
-<<<<<<< HEAD
         params.put("phone", phone);
         params.put("password", password);
         params.put("push_id", push_id);
-        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("login").entityClass(BaseBean.class)
+        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("login").entityClass(AuthBean.class)
                 .params(params)
                 .enqueue(networkParams, tOkHttpResponseListener);
     }
@@ -240,10 +210,9 @@ public class NetworkModel<E> {
         params.put("cate_id", casesAttrSelection.getCateId());
         new OkHttpBuilder.POST(appCompatActivity).urlCases("cases").params(params)
                 .entityClass(CaseEntity.class).enqueue(networkParams, tOkHttpResponseListener);
-=======
-        params.put("phone",phone);
-        params.put("password",password);
-        params.put("push_id",push_id);
+//        params.put("phone",phone);
+//        params.put("password",password);
+//        params.put("push_id",push_id);
         new OkHttpBuilder.POST(appCompatActivity).urlLogin("login").entityClass(AuthBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
@@ -346,7 +315,6 @@ public class NetworkModel<E> {
         params.put("re_password",model.getRnPwd());
         new OkHttpBuilder.POST(appCompatActivity).urlMore("editPassword").entityClass(BaseBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
     }
 
 }

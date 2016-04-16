@@ -34,15 +34,9 @@ import java.util.List;
 public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListener {
     private FragmentFavouriteBinding favouriteBinding;
     private RecyclerView recyclerView;
-<<<<<<< HEAD
-    private List<FavouriteBean> list;
-    private CommonBinderAdapter<FavouriteBean> adapter;
-    private int height;
-=======
     private List<FavouriteBean.ListEntity> list;
     private  CommonBinderAdapter<FavouriteBean.ListEntity> adapter;
     private  int height;
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
 
     @Override
     protected void initViews() {
@@ -52,35 +46,10 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
         favouriteBinding.includeTopTitle.title.setTextColor(Color.BLACK);
         height = MethodConfig.GetHeightFor16v9(MethodConfig.metrics.widthPixels);
         recyclerView = favouriteBinding.rcyFavourite;
-<<<<<<< HEAD
 //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
 // .MATCH_PARENT,MethodConfig.metrics.heightPixels);
 //        recyclerView.setLayoutParams(params);
-        list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            FavouriteBean bean = new FavouriteBean();
-            bean.setDetail("qingxin tuoshu  hah ");
-            bean.setLike(100 + i);
-            bean.setSeen(200 + i);
-            bean.setUrl("www.baidu.com");
-            bean.setTitle("这是一个测试" + i);
-            list.add(bean);
-        }
 
-        adapter = new CommonBinderAdapter<FavouriteBean>(getContext(), R.layout
-                .item_favourite_view, list) {
-
-            @Override
-            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int
-                    position, FavouriteBean favouriteBean) {
-
-                ItemFavouriteBinding itemFavouriteBinding = (ItemFavouriteBinding) viewDataBinding;
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
-                        .LayoutParams.MATCH_PARENT, height);
-
-                itemFavouriteBinding.ivItemFavourite.setLayoutParams(params);
-                itemFavouriteBinding.setItem(favouriteBean);
-=======
         list = new ArrayList<>();
 
         adapter = new CommonBinderAdapter<FavouriteBean.ListEntity>(getContext(),R.layout.item_favourite_view,list){
@@ -92,7 +61,6 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
                 Picasso.with(getContext()).load(entity.getThumb()).into(itemFavouriteBinding.ivItemFavourite);
                 itemFavouriteBinding.ivItemFavourite.setLayoutParams(params);
                 itemFavouriteBinding.setItem(entity);
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
             }
         };
 
@@ -107,19 +75,12 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
     }
 
     @Override
-<<<<<<< HEAD
-    public void onBinderItemClick(View view, int parentId, int pos) {
-
-        Intent intent = new Intent(getContext(), TransferActivity.class);
-        intent.putExtra("fragment", 4);
-=======
     public void onBinderItemClick(View view,int parentId ,int pos) {
 
         Intent intent = new Intent(getContext(),TransferActivity.class);
         intent.putExtra("fragment",4);
         intent.putExtra("title",list.get(pos).getTitle());
         intent.putExtra("id", list.get(pos).getSubject_id());
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
         startActivity(intent);
     }
 

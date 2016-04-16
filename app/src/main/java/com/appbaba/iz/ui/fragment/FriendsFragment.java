@@ -66,21 +66,7 @@ public class FriendsFragment extends BaseFgm implements BinderOnItemClickListene
         recyclerView.addItemDecoration(new SpaceItemDecoration(2));
 
         list = new ArrayList<>();
-<<<<<<< HEAD
-        for (int i = 0; i < 10; i++) {
-            FriendsBean bean = new FriendsBean();
-            bean.setTitle("sfd" + i);
-            bean.setDetail("detail" + i);
-            bean.setDate(i % 2 == 0 ? "昨天" : "2016-12-" + i);
-            list.add(bean);
-        }
-        adapter = new CommonBinderAdapter<FriendsBean>(getContext(), R.layout.item_friend_view,
-                list) {
-            @Override
-            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int
-                    position, FriendsBean o) {
-                ItemFriendBinding binding = (ItemFriendBinding) viewDataBinding;
-=======
+
 
         entity.setTitle("我的客户");
         entity.setDesc("记录客户通讯录和客户的收藏");
@@ -98,7 +84,6 @@ public class FriendsFragment extends BaseFgm implements BinderOnItemClickListene
             @Override
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, FriendsBean.ListEntity o) {
                 ItemFriendBinding binding = (ItemFriendBinding)viewDataBinding;
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
                 binding.setItem(o);
                 if(position==0)
                 {
@@ -143,12 +128,6 @@ public class FriendsFragment extends BaseFgm implements BinderOnItemClickListene
     }
 
     @Override
-<<<<<<< HEAD
-    public void onBinderItemClick(View view, int parentId, int pos) {
-        Intent intent = new Intent(getContext(), TransferActivity.class);
-        intent.putExtra("fragment", 8);
-        startActivity(intent);
-=======
     public void onBinderItemClick(View view,int parentId ,int pos) {
         if(pos==0) {
             if(MethodConfig.localUser!=null) {
@@ -171,7 +150,6 @@ public class FriendsFragment extends BaseFgm implements BinderOnItemClickListene
             intent.putExtra("fragment", 12);
             startActivity(intent);
         }
->>>>>>> dd250d0dd59c296c8e07bff323797ff0ef2a899c
     }
 
     @Override
