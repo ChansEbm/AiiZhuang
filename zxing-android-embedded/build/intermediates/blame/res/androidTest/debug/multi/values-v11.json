@@ -24,31 +24,5 @@
                 }
             }
         ]
-    },
-    {
-        "outputFile": "E:\\AiTao\\zxing-android-embedded\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-v11\\values-v11.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 3,
-                    "endColumn": 10,
-                    "endOffset": 150
-                },
-                "from": {
-                    "file": "E:\\AiTao\\zxing-android-embedded\\build\\intermediates\\bundles\\debug\\res\\values-v11\\values-v11.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endLine": 3,
-                        "endColumn": 10,
-                        "endOffset": 150
-                    }
-                }
-            }
-        ]
     }
 ]

@@ -2,6 +2,7 @@ package com.appbaba.iz.ui.fragment.album;
 
 
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.appbaba.iz.AlbumChildLayout;
-import com.appbaba.iz.ItemAlbumLayout;
+import com.appbaba.iz.ItemAlbumProductLayout;
 import com.appbaba.iz.ItemAlbumSelectionLayout;
 import com.appbaba.iz.R;
 import com.appbaba.iz.adapters.CommonBinderAdapter;
@@ -23,12 +24,12 @@ import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.Base.Events;
 import com.appbaba.iz.entity.main.CasesAttrEntity;
-import com.appbaba.iz.entity.main.album.CaseEntity;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
+import com.appbaba.iz.entity.main.album.ProductEntity;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.ui.activity.album.ProductActivity;
 import com.appbaba.iz.widget.GridSpacingItemDecoration;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +50,12 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     private TextView tvSelectionTitle;
 
     private List<CasesAttrEntity.AttrParent> selectionList = new ArrayList<>();
-    private List<CaseEntity.ListBean> bodyList = new ArrayList<>();
+    private List<ProductEntity.ListBean> bodyList = new ArrayList<>();
     private CommonBinderAdapter<CasesAttrEntity.AttrParent> selectionAdapter;
-    private CommonBinderAdapter<CaseEntity.ListBean> bodyAdapter;
+    private CommonBinderAdapter<ProductEntity.ListBean> bodyAdapter;
 
     private CasesAttrEntity casesAttrEntity;
+    private ProductEntity productEntity = new ProductEntity();
 
     private CasesAttrSelection selection = new CasesAttrSelection();//保存选择后的ids
 
@@ -105,15 +107,13 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                 ((ItemAlbumSelectionLayout) viewDataBinding).setAttr(attrParent);
             }
         };
-        bodyAdapter = new CommonBinderAdapter<CaseEntity.ListBean>(getContext(), R.layout
-                .item_album, bodyList) {
+        bodyAdapter = new CommonBinderAdapter<ProductEntity.ListBean>(getContext(), R.layout
+                .item_album_product, bodyList) {
+
             @Override
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int
-                    position, CaseEntity.ListBean listBean) {
-                ItemAlbumLayout albumLayout = (ItemAlbumLayout) viewDataBinding;
-                Picasso.with(getContext()).load(listBean.getThumb()).resize(300, 300).into
-                        (albumLayout.imageView);
-                ((ItemAlbumLayout) viewDataBinding).setAlbum(listBean);
+                    position, ProductEntity.ListBean listBean) {
+                ((ItemAlbumProductLayout) viewDataBinding).setProduct(listBean);
             }
         };
         selectionAdapter.setBinderOnItemClickListener(this);
@@ -150,14 +150,15 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         return R.layout.fragment_album_child;
     }
 
+
     @Override
     public void onJsonObjectSuccess(BaseBean t, NetworkParams paramsCode) {
         if (paramsCode == NetworkParams.CUPCAKE) {//means selection data return
             this.casesAttrEntity = (CasesAttrEntity) t;
         } else if (paramsCode == NetworkParams.DONUT) {
-            CaseEntity caseEntity = (CaseEntity) t;
+            productEntity = (ProductEntity) t;
             this.bodyList.clear();
-            this.bodyList.addAll(caseEntity.getList());
+            this.bodyList.addAll(productEntity.getList());
             this.bodyAdapter.notifyDataSetChanged();
         }
     }
@@ -195,6 +196,13 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                 networkModel.product("", "", "1", "20", selection, NetworkParams.DONUT);//然后获取数据
                 break;
             case R.id.recyclerView:
+                Bundle bundle = new Bundle();
+                int page = productEntity.getCond().getPage();
+                String pageSize = String.valueOf((page * 10));
+                bundle.putInt("index", pos);
+                bundle.putParcelable("selection", selection);
+                bundle.putString("pageSize", pageSize);
+                start(bundle, ProductActivity.class);
                 break;
         }
     }

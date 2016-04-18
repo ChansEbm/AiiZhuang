@@ -5,8 +5,8 @@ import android.view.View;
 
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
+import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.eum.NetworkParams;
-import com.appbaba.iz.tools.AppTools;
 
 public class TestAty extends BaseAty {
 
@@ -23,13 +23,12 @@ public class TestAty extends BaseAty {
 
     @Override
     protected void initEvents() {
-
+        networkModel.product("", "", "", "", new CasesAttrSelection(), NetworkParams.CUPCAKE);
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-//        AppTools.showLoadingDialog(this);
     }
 
     @Override

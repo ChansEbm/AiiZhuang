@@ -6,17 +6,19 @@
     android:background="@color/white">
    <ImageView
        android:id="@+id/iv_logo"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
+       android:layout_width="100dp"
+       android:layout_height="match_parent"
        android:src="@mipmap/icon_top_left_logo"
        android:layout_centerVertical="true"
        android:layout_alignParentLeft="true"
+       android:scaleType="centerInside"
        android:layout_marginLeft="10dp"/>
     <TextView
         android:id="@+id/tv_choose_client"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="选择客户"
+        android:gravity="center"
         android:layout_toRightOf="@+id/iv_logo"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"

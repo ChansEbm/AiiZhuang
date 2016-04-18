@@ -8,7 +8,9 @@ import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.databinding.ActivityTransferBinding;
 import com.appbaba.iz.eum.NetworkParams;
-import com.appbaba.iz.ui.fragment.CommSellerListFragment;
+import com.appbaba.iz.ui.fragment.Comm.CommChooseFragment;
+import com.appbaba.iz.ui.fragment.Comm.CommSellerListFragment;
+import com.appbaba.iz.ui.fragment.Comm.CommWebviewFragment;
 import com.appbaba.iz.ui.fragment.FavouriteItemDetailFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemAddClientFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemArticleFragment;
@@ -50,6 +52,10 @@ public class TransferActivity extends BaseAty {
     private  final int COMM_SELLER_LIST = 11; //选择品牌
 
     private  final int FRIEND_ARTICLE = 12; //文章内容
+
+    private  final int COMM_CHOOSE = 13; //公共选择
+
+    private  final  int COM_H5 = 14; //H5页面
 
 
 
@@ -124,6 +130,26 @@ public class TransferActivity extends BaseAty {
                fragmentManager.beginTransaction().add(R.id.layout_contain, friendsItemArticleFragment).commit();
            }
                break;
+           case COMM_CHOOSE:
+           {
+               CommChooseFragment chooseFragment = new CommChooseFragment();
+               Bundle bundle = new Bundle();
+               bundle.putInt("which", getIntent().getIntExtra("which",-1));
+               bundle.putString("title", getIntent().getStringExtra("title"));
+               chooseFragment.setArguments(bundle);
+               fragmentManager.beginTransaction().add(R.id.layout_contain, chooseFragment).commit();
+           }
+               break;
+           case COM_H5:
+           {
+               CommWebviewFragment commWebviewFragment = new CommWebviewFragment();
+               Bundle bundle = new Bundle();
+               bundle.putInt("which", getIntent().getIntExtra("which",-1));
+               bundle.putString("title", getIntent().getStringExtra("title"));
+               bundle.putString("value", getIntent().getStringExtra("value"));
+               commWebviewFragment.setArguments(bundle);
+               fragmentManager.beginTransaction().add(R.id.layout_contain, commWebviewFragment).commit();
+           }
 
         }
     }

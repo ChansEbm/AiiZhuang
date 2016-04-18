@@ -1,6 +1,7 @@
 package com.appbaba.iz.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,9 @@ import com.appbaba.iz.adapters.CommonBinderHolder;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.entity.Favourite.FavouriteDetailBean;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.impl.BinderOnItemClickListener;
 import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.ui.activity.TransferActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ import java.util.List;
 /**
  * Created by ruby on 2016/4/7.
  */
-public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMenuItemClickListener{
+public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMenuItemClickListener,BinderOnItemClickListener{
 
     private FragmentFavouriteItemDetailBinding detailBinding;
     private RecyclerView recyclerView;
@@ -76,7 +79,7 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
         };
 
         recyclerView = detailBinding.recycler;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getContext()));
 
         recyclerView.setAdapter(adapter);
 
@@ -96,6 +99,7 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
                 ((Activity)getContext()).finish();
             }
         });
+        adapter.setBinderOnItemClickListener(this);
     }
 
     @Override
@@ -108,6 +112,10 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
 
     }
 
+    @Override
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
+
+    }
 
     @Override
     protected int getContentView() {

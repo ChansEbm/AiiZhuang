@@ -42,6 +42,10 @@ public class MoreFragment extends BaseFgm{
         moreBinding.linearChangePwd.setOnClickListener(this);
         moreBinding.linearFeedback.setOnClickListener(this);
         moreBinding.btnLogin.setOnClickListener(this);
+        moreBinding.linearPrivate.setOnClickListener(this);
+        moreBinding.linearService.setOnClickListener(this);
+        moreBinding.linearAboutUs.setOnClickListener(this);
+        moreBinding.linearGuide.setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +88,44 @@ public class MoreFragment extends BaseFgm{
             {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 ((Activity)getContext()).finish();
+            }
+                break;
+            case R.id.linear_about_us: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 14);
+                intent.putExtra("title", getString(R.string.more_fragment_about_us));
+                intent.putExtra("which", 8);
+                intent.putExtra("value", "");
+                startActivity(intent);
+            }
+                break;
+            case R.id.linear_service: {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 14);
+                intent.putExtra("title", getString(R.string.more_fragment_service));
+                intent.putExtra("which", 9);
+                intent.putExtra("value", "");
+                startActivity(intent);
+            }
+                break;
+            case R.id.linear_private:
+            {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 14);
+                intent.putExtra("title",getString(R.string.more_fragment_private));
+                intent.putExtra("which",10);
+                intent.putExtra("value","");
+                startActivity(intent);
+            }
+                break;
+            case R.id.linear_guide:
+            {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 14);
+                intent.putExtra("title",getString(R.string.more_fragment_use_guide));
+                intent.putExtra("which",7);
+                intent.putExtra("value","");
+                startActivity(intent);
             }
                 break;
         }

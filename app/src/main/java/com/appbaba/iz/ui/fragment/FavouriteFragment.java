@@ -44,7 +44,7 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
         favouriteBinding.includeTopTitle.toolBar.setBackgroundResource(R.color.white);
         favouriteBinding.includeTopTitle.title.setText(R.string.main_activity_bottom_favourite);
         favouriteBinding.includeTopTitle.title.setTextColor(Color.BLACK);
-        height = MethodConfig.GetHeightFor16v9(MethodConfig.metrics.widthPixels);
+        height = MethodConfig.GetHeightFor4v3(MethodConfig.metrics.widthPixels);
         recyclerView = favouriteBinding.rcyFavourite;
 //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
 // .MATCH_PARENT,MethodConfig.metrics.heightPixels);

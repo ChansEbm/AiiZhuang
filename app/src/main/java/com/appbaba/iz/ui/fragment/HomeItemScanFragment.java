@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import com.appbaba.iz.R;
 import com.appbaba.iz.TopTitleBinding;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.ui.fragment.Comm.CommWebviewFragment;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -40,7 +42,14 @@ public class HomeItemScanFragment extends BaseFgm {
         public void barcodeResult(BarcodeResult result) {
 
             if (result.getText() != null) {
-                Toast.makeText(getContext(),result.getText(),Toast.LENGTH_LONG).show();
+                CommWebviewFragment commWebviewFragment = new CommWebviewFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("which", -1);
+                bundle.putString("title", "扫一扫");
+                bundle.putString("value", result.getText());
+                commWebviewFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().add(R.id.layout_contain, commWebviewFragment).commit();
+                //Toast.makeText(getContext(),result.getText(),Toast.LENGTH_LONG).show();
                // barcodeView.setStatusText(result.getText());
             }
         }
@@ -101,7 +110,7 @@ public class HomeItemScanFragment extends BaseFgm {
         switch (id)
         {
             case R.id.iv_back:
-
+                ((Activity)getContext()).finish();
                 break;
         }
     }

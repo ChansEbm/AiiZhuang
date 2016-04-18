@@ -18,6 +18,7 @@ import com.appbaba.iz.entity.SellerListBean;
 import com.appbaba.iz.entity.main.CasesAttrEntity;
 import com.appbaba.iz.entity.main.album.CaseEntity;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
+import com.appbaba.iz.entity.main.album.ProductEntity;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.OkHttpResponseListener;
 import com.appbaba.iz.tools.AppTools;
@@ -122,7 +123,7 @@ public class NetworkModel<E> {
     public void getSellerList(NetworkParams networkParams) {
         clearAllParams();
 
-        new OkHttpBuilder.POST(appCompatActivity).urlGetSellerList("getSellerList").entityClass
+        new OkHttpBuilder.POST(appCompatActivity).urlComm("getSellerList").entityClass
                 (SellerListBean.class).params(params)
                 .enqueue(networkParams, tOkHttpResponseListener);
 
@@ -165,7 +166,7 @@ public class NetworkModel<E> {
         params.put("phone", phone);
         params.put("password", password);
         params.put("push_id", push_id);
-        new OkHttpBuilder.POST(appCompatActivity).urlSendMsg("login").entityClass(AuthBean.class)
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("login").entityClass(AuthBean.class)
                 .params(params)
                 .enqueue(networkParams, tOkHttpResponseListener);
     }
@@ -208,13 +209,13 @@ public class NetworkModel<E> {
         params.put("style_id", casesAttrSelection.getStyleId());
         params.put("size_id", casesAttrSelection.getSizeId());
         params.put("cate_id", casesAttrSelection.getCateId());
-        new OkHttpBuilder.POST(appCompatActivity).urlCases("cases").params(params)
-                .entityClass(CaseEntity.class).enqueue(networkParams, tOkHttpResponseListener);
+        new OkHttpBuilder.POST(appCompatActivity).urlCases("product").params(params)
+                .entityClass(ProductEntity.class).enqueue(networkParams, tOkHttpResponseListener);
 //        params.put("phone",phone);
 //        params.put("password",password);
 //        params.put("push_id",push_id);
-        new OkHttpBuilder.POST(appCompatActivity).urlLogin("login").entityClass(AuthBean.class).params(params)
-                .enqueue(networkParams,tOkHttpResponseListener);
+//        new OkHttpBuilder.POST(appCompatActivity).urlLogin("login").entityClass(AuthBean.class).params(params)
+//                .enqueue(networkParams,tOkHttpResponseListener);
     }
 
     public void  HomeIndex(String auth,NetworkParams networkParams)

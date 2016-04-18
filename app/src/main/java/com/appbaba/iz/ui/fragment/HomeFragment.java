@@ -28,11 +28,15 @@ import com.appbaba.iz.adapters.CommonBinderAdapter;
 import com.appbaba.iz.adapters.CommonBinderHolder;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.entity.Index.HomeBean;
+import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.impl.BinderOnItemClickListener;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.method.SpaceItemDecoration;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.ui.activity.LoginActivity;
 import com.appbaba.iz.ui.activity.TransferActivity;
+import com.appbaba.iz.ui.activity.album.ProductActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,7 +45,7 @@ import java.util.List;
 /**
  * Created by ruby on 2016/4/1.
  */
-public class HomeFragment extends BaseFgm {
+public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
     private FragmentHomeBinding homeBinding;
     private  RelativeLayout relate_1,relate_2,relate_3,relate_4,relate_5;
     private  ImageView iv_banner,iv_menu;
@@ -70,7 +74,7 @@ public class HomeFragment extends BaseFgm {
         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams)iv_banner.getLayoutParams();
         params1.width = MethodConfig.metrics.widthPixels;
         params1.height = MethodConfig.GetHeightFor16v9(params1.width);
-        height = params1.height;
+        height = MethodConfig.GetHeightFor4v3(params1.width);
         iv_banner.setLayoutParams(params1);
 
         int m = MethodConfig.dip2px(getContext(),8);
@@ -120,6 +124,14 @@ public class HomeFragment extends BaseFgm {
     @Override
     protected void initEvents() {
         iv_menu.setOnClickListener(this);
+        homeBinding.includeTopTitle.tvChooseClient.setOnClickListener(this);
+        adapter.setBinderOnItemClickListener(this);
+        relate_1.setOnClickListener(this);
+        relate_2.setOnClickListener(this);
+        relate_3.setOnClickListener(this);
+        relate_4.setOnClickListener(this);
+        relate_5.setOnClickListener(this);
+        iv_banner.setOnClickListener(this);
     }
 
     @Override
@@ -159,27 +171,99 @@ public class HomeFragment extends BaseFgm {
                 break;
             case R.id.tv_introduce: {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
-                intent.putExtra("fragment", 1);
+                intent.putExtra("fragment", 14);
+                intent.putExtra("title",getString(R.string.popup_pinpaijieshao));
+                intent.putExtra("which",1);
+                if(MethodConfig.localUser!=null)
+                {
+                    intent.putExtra("value",MethodConfig.localUser.getInfo().getSeller_id());
+                }
                 startActivity(intent);
                 HideInfoWindow();
             }
                 break;
             case R.id.tv_nearby: {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
-                intent.putExtra("fragment", 2);
+                intent.putExtra("fragment", 14);
+                intent.putExtra("title",getString(R.string.popup_mendian));
+                intent.putExtra("which",2);
+                if(MethodConfig.localUser!=null)
+                {
+                    intent.putExtra("value",MethodConfig.localUser.getInfo().getSeller_id());
+                }
                 startActivity(intent);
                 HideInfoWindow();
             }
                 break;
             case R.id.tv_contract: {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
-                intent.putExtra("fragment", 3);
+                intent.putExtra("fragment", 14);
+                intent.putExtra("title",getString(R.string.popup_bodadianhau));
+                intent.putExtra("which",3);
+                if(MethodConfig.localUser!=null)
+                {
+                    intent.putExtra("value",MethodConfig.localUser.getInfo().getSeller_id());
+                }
                 startActivity(intent);
                 HideInfoWindow();
             }
                 break;
+            case R.id.tv_choose_client:
+            {
+                Intent intent;
+                if(MethodConfig.localUser==null)
+                {
+                     intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    intent = new Intent(getContext(), TransferActivity.class);
+                    intent.putExtra("fragment", 13);
+                    intent.putExtra("which",1);
+                    intent.putExtra("title","选择客户");
+                    startActivityForResult(intent,100);
+                }
+            }
+                break;
+            case R.id.iv_banner:
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment", 14);
+                intent.putExtra("title",getString(R.string.popup_pinpaijieshao));
+                intent.putExtra("which",1);
+                if(MethodConfig.localUser!=null)
+                {
+                    intent.putExtra("value",MethodConfig.localUser.getInfo().getSeller_id());
+                }
+                startActivity(intent);
+                break;
+            case R.id.relate_1:
+
+            case R.id.relate_2:
+
+            case R.id.relate_3:
+
+            case R.id.relate_4:
+
+            case R.id.relate_5:
+                Bundle bundle = new Bundle();
+                CasesAttrSelection selection = new CasesAttrSelection();
+                selection.setCateId((String)view.getTag());
+                bundle.putParcelable("selection", selection);
+                start(bundle, ProductActivity.class);
+                break;
 
         }
+    }
+
+
+    @Override
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
+        Intent intent = new Intent(getContext(),TransferActivity.class);
+        intent.putExtra("fragment",4);
+        intent.putExtra("title",list.get(pos).getTitle());
+        intent.putExtra("id", list.get(pos).getSubject_id());
+        startActivity(intent);
     }
 
     public  void  HideInfoWindow()
@@ -196,6 +280,20 @@ public class HomeFragment extends BaseFgm {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode)
+        {
+            case 100:
+                if(MethodConfig.chooseClient!=null)
+                {
+                    homeBinding.includeTopTitle.tvChooseClient.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+                    homeBinding.includeTopTitle.tvChooseClient.setText(MethodConfig.chooseClient.getName());
+                }
+                break;
+        }
+    }
+
+    @Override
     public void onJsonObjectSuccess(Object t, NetworkParams paramsCode) {
         if(paramsCode==NetworkParams.INDEX)
         {
@@ -203,6 +301,8 @@ public class HomeFragment extends BaseFgm {
             if(bean.getErrorcode()==0)
             {
                 Picasso.with(getContext()).load(bean.getSeller_info().getBanner()).into(iv_banner);
+                Picasso.with(getContext()).load(bean.getSeller_info().getLogo()).into(homeBinding.includeTopTitle.ivLogo);
+
                 list.clear();
                 list.addAll(bean.getSubject_list());
 
@@ -216,30 +316,35 @@ public class HomeFragment extends BaseFgm {
                            homeBinding.tvTitle1Cn.setText(entity.getTitle());
                            homeBinding.tvTitle1En.setText(entity.getEn_title());
                            homeBinding.tvDetail1.setText(entity.getDesc());
+                           homeBinding.relate1.setTag(entity.getCate_id());
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem1);
                            break;
                        case "2":
                            homeBinding.tvTitle2Cn.setText(entity.getTitle());
                            homeBinding.tvTitle2En.setText(entity.getEn_title());
                            homeBinding.tvDetail2.setText(entity.getDesc());
+                           homeBinding.relate2.setTag(entity.getCate_id());
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem2);
                            break;
                        case "3":
                            homeBinding.tvTitle3Cn.setText(entity.getTitle());
                            homeBinding.tvTitle3En.setText(entity.getEn_title());
                            homeBinding.tvDetail3.setText(entity.getDesc());
+                           homeBinding.relate3.setTag(entity.getCate_id());
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem3);
                            break;
                        case "4":
                            homeBinding.tvTitle4Cn.setText(entity.getTitle());
                            homeBinding.tvTitle4En.setText(entity.getEn_title());
                            homeBinding.tvDetail4.setText(entity.getDesc());
+                           homeBinding.relate4.setTag(entity.getCate_id());
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem4);
                            break;
                        case "5":
                            homeBinding.tvTitle5Cn.setText(entity.getTitle());
                            homeBinding.tvTitle5En.setText(entity.getEn_title());
                            homeBinding.tvDetail5.setText(entity.getDesc());
+                           homeBinding.relate5.setTag(entity.getCate_id());
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem5);
                            break;
                    }

@@ -57,8 +57,8 @@ public class FriendsFragment extends BaseFgm implements BinderOnItemClickListene
         friendBinding.includeTopTitle.title.setText(R.string.main_activity_bottom_friends);
         friendBinding.includeTopTitle.title.setTextColor(Color.BLACK);
         friendBinding.includeTopTitle.toolBar.setBackgroundColor(Color.WHITE);
-        friendBinding.includeTopTitle.toolBar.getMenu().add(0, R.id.menu_add, 0, "").setIcon(R
-                .mipmap.icon_friend_add).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//        friendBinding.includeTopTitle.toolBar.getMenu().add(0, R.id.menu_add, 0, "").setIcon(R
+//                .mipmap.icon_friend_add).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         friendBinding.swRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         recyclerView = friendBinding.recycler;

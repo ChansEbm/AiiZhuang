@@ -39,6 +39,7 @@ import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.ImageLoader;
 import cn.finalteam.galleryfinal.ThemeConfig;
 import cn.finalteam.galleryfinal.widget.GFImageView;
+import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -79,6 +80,8 @@ public class BaseApplication extends Application {
         MultiDex.install(this);
         FileSaveTools.getInstance().init(this);
         initGalleryFinal();
+        JPushInterface.setDebugMode(false);
+        JPushInterface.init(this);
         Logger.init("digital").setMethodCount(3).hideThreadInfo().setLogLevel(LogLevel.FULL);
         CrashReport.initCrashReport(getApplicationContext(), "900020359", true);
         MethodConfig.SetDispaly(this);

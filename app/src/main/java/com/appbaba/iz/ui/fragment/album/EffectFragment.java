@@ -107,7 +107,7 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
             }
         };
         bodyAdapter = new CommonBinderAdapter<CaseEntity.ListBean>(getContext(), R.layout
-                .item_album, bodyList) {
+                .item_album_effect, bodyList) {
             @Override
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int
                     position, CaseEntity.ListBean listBean) {
