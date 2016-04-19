@@ -16,7 +16,7 @@
     <color name="color_medium_blue">#004d9b</color>
     <color name="color_navy_blue">#000080</color>
     <!--点击颜色-->
-    <color name="theme_primary">#24b3ff</color>
+    <color name="theme_primary">#464646</color>
     <color name="theme_primary_dark">#1976D2</color>
     <color name="theme_primary_light">#BBDEFB</color>
     <color name="color_orange_normal">#ff9600</color>

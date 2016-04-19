@@ -15,6 +15,7 @@ public class MethodConfig {
     public  static  DisplayMetrics metrics;
     public  static AuthBean localUser;
     public  static FriendsClientBean.ListEntity chooseClient;
+    public  static  String jpush_id;
 
     public  static void  SetDispaly(Context context)
     {

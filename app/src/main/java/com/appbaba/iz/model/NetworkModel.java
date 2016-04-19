@@ -1,6 +1,7 @@
 package com.appbaba.iz.model;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import com.appbaba.iz.entity.Friends.FriendsBean;
 import com.appbaba.iz.entity.Friends.FriendsClientBean;
 import com.appbaba.iz.entity.Index.HomeBean;
 import com.appbaba.iz.entity.Login.AuthBean;
+import com.appbaba.iz.entity.Login.UpdatePersonBean;
 import com.appbaba.iz.entity.SellerListBean;
 import com.appbaba.iz.entity.main.CasesAttrEntity;
 import com.appbaba.iz.entity.main.album.CaseEntity;
@@ -159,6 +161,26 @@ public class NetworkModel<E> {
 
         new OkHttpBuilder.POST(appCompatActivity).urlLogin("register").entityClass(BaseBean.class).params(params)
                 .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
+    }
+
+    public  void  isPhoneReg(String phone,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("phone",phone);
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("isPhoneReg").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  ResetPassword(FoundPwdModel model)
+    {
+        clearAllParams();
+        params.put("phone",model.getPhone());
+        params.put("code",model.getCode());
+        params.put("password",model.getPassword());
+        params.put("repassword",model.getRe_password());
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("resetPassword").entityClass(BaseBean.class).params(params)
+                .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
+
     }
 
     public void Login(String phone, String password, String push_id, NetworkParams networkParams) {
@@ -307,7 +329,7 @@ public class NetworkModel<E> {
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 
-    public  void  HomeMoreChangePwd(String auth,PasswordModel model,NetworkParams networkParams)
+    public  void  HomeMoreChangePwd(String auth,PasswordModel model)
     {
         clearAllParams();
         params.put("auth",auth);
@@ -315,6 +337,43 @@ public class NetworkModel<E> {
         params.put("new_password",model.getnPwd());
         params.put("re_password",model.getRnPwd());
         new OkHttpBuilder.POST(appCompatActivity).urlMore("editPassword").entityClass(BaseBean.class).params(params)
+                .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
+    }
+    public  void  HomeMoreChangeHead(String auth,List<String> files,String key,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        new OkHttpBuilder.POST(appCompatActivity).urlMore("editAvatar").entityClass(UpdatePersonBean.class).params(params,files,key)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  HomeMoreChangePerson(String auth,AddClientModel model)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("nickname", model.getName());
+        params.put("shop_name",model.getShop());
+        params.put("area_ids",model.getArea_ids());
+        params.put("address",model.getAddress());
+        new OkHttpBuilder.POST(appCompatActivity).urlMore("editInfo").entityClass(BaseBean.class).params(params)
+                .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
+    }
+    public  void  HomeMoreFeedBack(String auth,String content,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("content",content);
+        new OkHttpBuilder.POST(appCompatActivity).urlMore("feedback").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  HomeMoreLogout(String auth,String push_id,NetworkParams networkParams)
+    {
+         clearAllParams();
+        params.put("auth",auth);
+        params.put("puch_id",push_id);
+
+        new OkHttpBuilder.POST(appCompatActivity).urlMore("logout").entityClass(BaseBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 

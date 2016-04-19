@@ -11,7 +11,7 @@ import com.appbaba.iz.eum.NetworkParams;
  * Created by ruby on 2016/4/15.
  */
 public class AddClientModel extends BaseObservable implements Parcelable{
-    private  String name,phone,area_ids,address,id;
+    private  String name,phone,area_ids,address,id,shop;
 
     private NetworkParams networkParams;
 
@@ -75,6 +75,14 @@ public class AddClientModel extends BaseObservable implements Parcelable{
 
     public void setNetworkParams(NetworkParams networkParams) {
         this.networkParams = networkParams;
+    }
+
+    public String getShop() {
+        return shop;
+    }
+
+    public void setShop(String shop) {
+        this.shop = shop;
     }
 
     @Override

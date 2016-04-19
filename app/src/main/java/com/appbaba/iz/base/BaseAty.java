@@ -64,7 +64,8 @@ public abstract class BaseAty<E extends BaseBean, T> extends AppCompatActivity i
             //            getWindow().addFlags(WindowManager.LayoutParams
             // .FLAG_TRANSLUCENT_NAVIGATION);//虚拟底部
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//状态栏
-            viewDataBinding.getRoot().setFitsSystemWindows(true);
+            parentView.setFitsSystemWindows(true);
+            parentView.setBackgroundColor(getResources().getColor(R.color.theme_primary));
         }
 
         networkModel = new NetworkModel(this);

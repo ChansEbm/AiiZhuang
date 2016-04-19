@@ -22,6 +22,7 @@ import com.appbaba.iz.ui.fragment.HomeItemNearbyFragment;
 import com.appbaba.iz.ui.fragment.HomeItemScanFragment;
 import com.appbaba.iz.ui.fragment.MoreItemBackFragment;
 import com.appbaba.iz.ui.fragment.MoreItemChangePWDFragment;
+import com.appbaba.iz.ui.fragment.MoreItemEditPersonFragment;
 import com.appbaba.iz.ui.fragment.MoreItemPersonFragment;
 
 /**
@@ -56,6 +57,8 @@ public class TransferActivity extends BaseAty {
     private  final int COMM_CHOOSE = 13; //公共选择
 
     private  final  int COM_H5 = 14; //H5页面
+
+    private  final  int EDIT_PERSON = 15; //编辑用户
 
 
 
@@ -150,7 +153,11 @@ public class TransferActivity extends BaseAty {
                commWebviewFragment.setArguments(bundle);
                fragmentManager.beginTransaction().add(R.id.layout_contain, commWebviewFragment).commit();
            }
-
+           break;
+           case EDIT_PERSON:
+               MoreItemEditPersonFragment editPersonFragment = new MoreItemEditPersonFragment();
+               fragmentManager.beginTransaction().add(R.id.layout_contain,editPersonFragment).commit();
+               break;
         }
     }
 
