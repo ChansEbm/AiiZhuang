@@ -54,11 +54,11 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        index = getIntent().getExtras().getInt("index", -1);
+        index = getIntent().getExtras().getInt("index", -1);//如果是从列表进来,则该index不为-1 否则肯定是-1
         selection = getIntent().getExtras().getParcelable("selection");
         if (selection == null)
             selection = new CasesAttrSelection();
-        casesId = getIntent().getExtras().getString("casesId", casesId);
+        casesId = getIntent().getExtras().getString("casesId", casesId);//如果是从列别进来,则该值肯定肯定肯定是空字符
         pageSize = getIntent().getExtras().getString("pageSize", "10");
     }
 
@@ -87,9 +87,17 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        this.index = intent.getExtras().getInt("index", -1);
         this.casesId = intent.getExtras().getString("casesId", "");
-        networkModel.cases(casesId, "", "1", "10", new CasesAttrSelection(), NetworkParams.CUPCAKE);
+        LogTools.w("casesId:" + casesId);
+        this.pageSize = getIntent().getExtras().getString("pageSize", "10");
+        networkModel.cases(casesId, "", "1", pageSize, new CasesAttrSelection(), NetworkParams
+                .CUPCAKE);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        index = -1;
     }
 
     @Override
@@ -145,11 +153,25 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
         if (index != -1) {
             viewPager.setCurrentItem(index, false);//滚动到对应位置
         } else {
-            if (!TextUtils.isEmpty(casesId))
-                onPageSelected(0);
+            if (!TextUtils.isEmpty(casesId)) {
+                findSelectedPosition();
+            }
         }
-        if (index == 0) {
-            onPageSelected(0);
+    }
+
+    private void findSelectedPosition() {
+        for (int i = 0; i < this.caseList.size(); i++) {
+            CaseEntity.ListBean listBean = caseList.get(i);
+            if (TextUtils.equals(listBean.getCases_id(), casesId)) {
+                LogTools.w(i);
+                if (i == 0) {
+                    onPageSelected(0);
+                    break;
+                } else {
+                    viewPager.setCurrentItem(i, false);
+                    break;
+                }
+            }
         }
     }
 
@@ -179,7 +201,7 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
         String productId = productList.get(pos).getProduct_id();
         Bundle bundle = new Bundle();
         bundle.putString("productId", productId);
-        bundle.putInt("index", pos);
+        bundle.putString("pageSize", pageSize);
         start(bundle, ProductActivity.class);
     }
 

@@ -92,7 +92,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         radioGroup.setOnCheckedChangeListener(this);
         rbSize.setText(R.string.fragment_album_size);
         networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
-        networkModel.product("", "", "1", "20", selection, NetworkParams.DONUT);//主体内容
+        networkModel.product("", "", "1", "10", selection, NetworkParams.DONUT);//主体内容
     }
 
     /**

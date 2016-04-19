@@ -91,7 +91,7 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         rvSelection.setHasFixedSize(true);
         radioGroup.setOnCheckedChangeListener(this);
         networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
-        networkModel.cases("", "", "1", "20", selection, NetworkParams.DONUT);//主体内容
+        networkModel.cases("", "", "1", "10", selection, NetworkParams.DONUT);//主体内容
     }
 
     /**

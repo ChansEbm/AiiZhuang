@@ -86,10 +86,16 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        this.index = intent.getExtras().getInt("index", -1);
-//        this.casesId = intent.getExtras().getString("casesId");
-        networkModel.product(productId, "", "1", "10", new CasesAttrSelection(), NetworkParams
+        this.productId = getIntent().getExtras().getString("productId", productId);
+        this.pageSize = getIntent().getExtras().getString("pageSize", "10");
+        networkModel.product(productId, "", "1", pageSize, new CasesAttrSelection(), NetworkParams
                 .CUPCAKE);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        index = -1;
     }
 
     @Override
@@ -118,8 +124,6 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
                 .HORIZONTAL, false));
         commonBinderAdapter.setBinderOnItemClickListener(this);
-//        recyclerView.addItemDecoration(new VerticalDividerItemDecoration.Builder(this).size(R
-//                .dimen.small_margin_5dp).color(R.color.transparent).build());
 
         networkModel.product(productId, "", "1", pageSize, selection, NetworkParams.CUPCAKE);
     }
@@ -144,11 +148,24 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
             if (index != -1) {
                 viewPager.setCurrentItem(index, false);
             } else {
-                if (!TextUtils.isEmpty(productId))
-                    onPageSelected(0);
+                if (!TextUtils.isEmpty(productId)) {
+                    findSelectedPosition();
+                }
             }
-            if (index == 0) {
-                onPageSelected(0);
+        }
+    }
+
+    private void findSelectedPosition() {
+        for (int i = 0; i < productList.size(); i++) {
+            ProductEntity.ListBean listBean = productList.get(i);
+            if (TextUtils.equals(listBean.getProduct_id(), productId)) {
+                if (i == 0) {
+                    onPageSelected(0);
+                    break;
+                } else {
+                    viewPager.setCurrentItem(i, false);
+                    break;
+                }
             }
         }
     }
@@ -177,9 +194,10 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
     @Override
     public void onBinderItemClick(View clickItem, int parentId, int pos) {
         String casesId = recyclerList.get(pos).getCases_id();
+
         Bundle bundle = new Bundle();
         bundle.putString("casesId", casesId);
-        bundle.putInt("index", pos);
+        bundle.putString("pageSize", pageSize);
         start(bundle, EffectActivity.class);
     }
 
