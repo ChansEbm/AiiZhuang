@@ -45,6 +45,7 @@
                     app:roundBottomLeft="true"
                     app:roundTopLeft="true"
                     app:roundTopRight="true"
+                    app:roundedCornerRadius="5dp"
                     app:placeholderImage="@mipmap/icon_person_head"
                     app:placeholderImageScaleType="centerInside"
                     />

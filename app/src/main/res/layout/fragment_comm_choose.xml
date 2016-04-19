@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data class=".FragmentCommChooseBinding"></data>
+    <FrameLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_gray">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include
+                android:id="@+id/include_top_title"
+                layout="@layout/title_bar"></include>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                >
+                <EditText
+                    android:id="@+id/edt_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:drawablePadding="10dp"
+                    android:background="@drawable/friend_client_edt_bg_white"
+                    />
+                <TextView
+                    android:id="@+id/tv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索"
+                    android:textSize="18sp"
+                    android:drawableRight="@mipmap/icon_friend_search"
+                    android:drawablePadding="10dp"
+                    android:layout_centerInParent="true"
+                    />
+            </RelativeLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ltv_data"
+                >
+
+            </ListView>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

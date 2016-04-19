@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:src="@mipmap/test1"
+            android:src="@color/bg_gray"
             android:layout_marginTop="10dp">
         </ImageView>
         <LinearLayout

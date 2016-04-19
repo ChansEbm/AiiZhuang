@@ -5,6 +5,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.appbaba.iz.entity.Friends.FriendsClientBean;
 import com.appbaba.iz.entity.Login.AuthBean;
 
 /**
@@ -13,6 +14,8 @@ import com.appbaba.iz.entity.Login.AuthBean;
 public class MethodConfig {
     public  static  DisplayMetrics metrics;
     public  static AuthBean localUser;
+    public  static FriendsClientBean.ListEntity chooseClient;
+    public  static  String jpush_id;
 
     public  static void  SetDispaly(Context context)
     {
@@ -48,6 +51,10 @@ public class MethodConfig {
         return width*8/15;
     }
 
+    public static int GetHeightFor4v3(int width)
+    {
+        return width*3/4;
+    }
     public static int GetWidthFor16v9(int height)
     {
         return height*16/9;

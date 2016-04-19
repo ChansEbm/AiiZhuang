@@ -16,49 +16,61 @@
                 android:id="@+id/include_top_title"
                 layout="@layout/title_bar"></include>
 
-            <TextView
+            <com.appbaba.iz.widget.ScrollView.MyScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="@{item.title}"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:textColor="@color/dark_gray"
-                android:text="@{item.desc}"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp">
-                <TextView
+                android:layout_height="match_parent">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@mipmap/huibiaoqian"
-                    android:text="@{item.lableStr}"
-                    android:drawablePadding="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/huiyanjing"
-                    android:text="@{item.visits}"
-                    android:drawablePadding="10dp"/>
-            </LinearLayout>
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:text="@{item.title}"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp"
+                        android:textColor="@color/dark_gray"
+                        android:text="@{item.desc}"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="10dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableLeft="@mipmap/huibiaoqian"
+                            android:text="@{item.lableStr}"
+                            android:drawablePadding="10dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@mipmap/huiyanjing"
+                            android:text="@{item.visits}"
+                            android:drawablePadding="10dp"/>
+                    </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+
+            </com.appbaba.iz.widget.ScrollView.MyScrollView>
         </LinearLayout>
     </FrameLayout>
 

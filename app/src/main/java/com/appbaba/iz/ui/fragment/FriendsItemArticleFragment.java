@@ -1,6 +1,7 @@
 package com.appbaba.iz.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.appbaba.iz.impl.BinderOnItemClickListener;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.method.SpaceItemDecoration;
 import com.appbaba.iz.model.NetworkModel;
+import com.appbaba.iz.ui.activity.TransferActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ import java.util.List;
 /**
  * Created by ruby on 2016/4/15.
  */
-public class FriendsItemArticleFragment extends BaseFgm {
+public class FriendsItemArticleFragment extends BaseFgm implements  BinderOnItemClickListener{
 
     private FragmentFriendArticleBinding articleBinding;
     private RecyclerView recyclerView;
@@ -86,6 +88,7 @@ public class FriendsItemArticleFragment extends BaseFgm {
                 ((Activity)getContext()).finish();
             }
         });
+        adapter.setBinderOnItemClickListener(this);
     }
 
     @Override
@@ -96,6 +99,16 @@ public class FriendsItemArticleFragment extends BaseFgm {
     @Override
     protected void onClick(int id, View view) {
 
+    }
+
+    @Override
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
+        Intent intent = new Intent(getContext(), TransferActivity.class);
+        intent.putExtra("fragment", 14);
+        intent.putExtra("title",list.get(pos).getTitle());
+        intent.putExtra("which",6);
+        intent.putExtra("value",list.get(pos).getArticle_id());
+        startActivity(intent);
     }
 
     @Override

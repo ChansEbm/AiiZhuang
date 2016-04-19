@@ -52,7 +52,7 @@ public class RegisterBrandActivity extends BaseAty {
         binding.tvRegisterBrands.setOnClickListener(this);
         binding.tvRegisterMsg.setOnClickListener(this);
         binding.btnRegister.setOnClickListener(this);
-
+        binding.includeTopTitle.Back.setOnClickListener(this);
     }
 
     @Override
@@ -97,6 +97,9 @@ public class RegisterBrandActivity extends BaseAty {
                       registerModel.setNetworkParams(NetworkParams.REGISTER);
                       networkModel.register(registerModel);
                   }
+                break;
+            case R.id._back:
+                onBackPressed();
                 break;
         }
     }

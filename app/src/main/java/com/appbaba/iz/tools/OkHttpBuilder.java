@@ -178,21 +178,6 @@ public class OkHttpBuilder {
             return this;
         }
 
-        public POST urlGetSellerList(String url) {
-            this.fullUrl = AppKeyMap.HEAD_API_COMMON + url;
-            return this;
-        }
-
-        public POST urlCheckPhone(String url) {
-            this.fullUrl = AppKeyMap.HEAD_API_LOGIN + url;
-            return this;
-        }
-
-        public POST urlSendMsg(String url) {
-            this.fullUrl = AppKeyMap.HEAD_API_LOGIN + url;
-            return this;
-        }
-
         public POST urlCases(String url) {
             this.fullUrl = AppKeyMap.HEAD_API_CASE + url;
             return this;

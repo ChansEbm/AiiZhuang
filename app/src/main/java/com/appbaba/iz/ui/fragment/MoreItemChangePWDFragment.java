@@ -9,7 +9,12 @@ import com.appbaba.iz.FragmentMoreChangeBinding;
 import com.appbaba.iz.FragmentMorePersonBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.entity.Base.BaseBean;
+import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.model.PasswordModel;
+import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.ui.activity.LoginActivity;
 
 /**
  * Created by ruby on 2016/4/8.
@@ -51,7 +56,8 @@ public class MoreItemChangePWDFragment extends BaseFgm {
             {
                 if(CheckInput())
                 {
-//                    networkModel.HomeMoreChangePwd();
+                    model.setNetworkParams(NetworkParams.CHANGEPWD);
+                    networkModel.HomeMoreChangePwd(MethodConfig.localUser.getAuth(),model);
                 }
             }
                 break;
@@ -81,5 +87,17 @@ public class MoreItemChangePWDFragment extends BaseFgm {
         }
         model.setRnPwd(changeBinding.edtReNewPwd.getText().toString());
         return true;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(Object t, NetworkParams paramsCode) {
+        if(paramsCode==NetworkParams.CHANGEPWD)
+        {
+            BaseBean bean = (BaseBean)t;
+            AppTools.showNormalSnackBar(getView(),bean.getMsg());
+            AppTools.putStringSharedPreferences("password","");
+            start(LoginActivity.class);
+            ((Activity)getContext()).finish();
+        }
     }
 }

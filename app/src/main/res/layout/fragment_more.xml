@@ -84,6 +84,7 @@
                             android:src="@mipmap/more_arrow_right"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/linear_guide"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -145,6 +146,7 @@
                             android:src="@mipmap/more_arrow_right"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/linear_about_us"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -165,6 +167,7 @@
                             android:src="@mipmap/more_arrow_right"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/linear_service"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -186,6 +189,7 @@
                             android:src="@mipmap/more_arrow_right"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/linear_private"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"

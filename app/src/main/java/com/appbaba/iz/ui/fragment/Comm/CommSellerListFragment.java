@@ -1,4 +1,4 @@
-package com.appbaba.iz.ui.fragment;
+package com.appbaba.iz.ui.fragment.Comm;
 
 import android.app.Activity;
 import android.content.Intent;

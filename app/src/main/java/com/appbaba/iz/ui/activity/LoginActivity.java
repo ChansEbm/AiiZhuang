@@ -12,10 +12,26 @@ import com.appbaba.iz.ActivityLoginBinding;
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
+import com.appbaba.iz.entity.LocationBean;
 import com.appbaba.iz.entity.Login.AuthBean;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.tools.LogTools;
+import com.github.pwittchen.prefser.library.JsonConverter;
+import com.github.pwittchen.prefser.library.Prefser;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by ruby on 2016/3/31.
@@ -47,6 +63,8 @@ public class LoginActivity extends BaseAty {
         }
     }
 
+
+
     @Override
     protected void initEvents() {
         btn_visitor.setOnClickListener(this);
@@ -68,7 +86,7 @@ public class LoginActivity extends BaseAty {
              case  R.id.btn_login:
              {
                  if(edt_mobile.getText().toString().trim().length()>0 && edt_password.getText().toString().trim().length()>0) {
-                     networkModel.Login(edt_mobile.getText().toString(), edt_password.getText().toString(), "", NetworkParams.LOGIN);
+                     networkModel.Login(edt_mobile.getText().toString(), edt_password.getText().toString(), MethodConfig.jpush_id, NetworkParams.LOGIN);
                  }
              }
                  break;
@@ -95,6 +113,7 @@ public class LoginActivity extends BaseAty {
             {
                 AppTools.putStringSharedPreferences(AppKeyMap.AUTH,bean.getAuth());
                 MethodConfig.localUser = bean;
+               new Prefser(AppTools.getSharePreferences()).put(AppKeyMap.CUSTOMERID, "");
                 AppTools.putStringSharedPreferences("username",edt_mobile.getText().toString());
                 AppTools.putStringSharedPreferences("password",edt_password.getText().toString());
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));

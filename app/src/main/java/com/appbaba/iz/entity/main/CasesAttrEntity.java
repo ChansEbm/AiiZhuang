@@ -42,6 +42,7 @@ public class CasesAttrEntity extends BaseBean {
 
     private List<SizeListBean> size_list;
 
+
     public List<StyleListBean> getStyle_list() {
         return style_list;
     }
