@@ -5,4 +5,5 @@
     <item name="negative" type="id"/>
     <item name="tag_cupcake" type="id"/>
     <item name="tag_donut" type="id"/>
+    <item name="imageView" type="id"/>
 </resources>

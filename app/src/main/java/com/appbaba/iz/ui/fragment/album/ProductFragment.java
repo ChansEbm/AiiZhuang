@@ -84,8 +84,8 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         rvSelection.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recyclerView.setAdapter(bodyAdapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 10, true));
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         recyclerView.setHasFixedSize(true);
         rvSelection.setHasFixedSize(true);

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.ItemProductChildLayout;
 import com.appbaba.iz.ItemProductLayout;
 import com.appbaba.iz.ProductLayout;
@@ -26,7 +27,10 @@ import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.entity.main.album.ProductEntity;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
+import com.github.pwittchen.prefser.library.Prefser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -69,7 +73,6 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        LogTools.w(isCollect);
         if (isCollect) {
             menu.findItem(R.id.menu_fav).setIcon(R.mipmap.ic_fav_press);
         } else {
@@ -80,14 +83,49 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.menu_fav:
+                if (collectProduct()) return false;
+                break;
+            case R.id.menu_share:
+
+                break;
+        }
+
         return true;
+    }
+
+    private boolean collectProduct() {
+        if (MethodConfig.localUser == null) {
+            AppTools.showNormalSnackBar(parentView, "请先登录!");
+            return true;
+        }
+        Prefser prefser = new Prefser(AppTools.getSharePreferences());
+        String customerId = prefser.get(AppKeyMap.CUSTOMERID, String.class, "");
+        if (TextUtils.isEmpty(customerId)) {
+            AppTools.showNormalSnackBar(parentView, "请先选择客户后再收藏");
+            return true;
+        }
+        int currentItem = viewPager.getCurrentItem();
+        ProductEntity.ListBean listBean = productList.get(currentItem);
+        String productId = listBean.getProduct_id();
+        String isCollect = listBean.getIs_collect();
+
+        listBean.setIs_collect(TextUtils.equals(isCollect, "0") ? "1" : "0");
+        productList.set(currentItem, listBean);
+        onPageSelected(currentItem);
+
+        networkModel.collectProduct(productId, NetworkParams.DONUT);
+        return false;
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        this.productId = getIntent().getExtras().getString("productId", productId);
-        this.pageSize = getIntent().getExtras().getString("pageSize", "10");
+        this.productId = intent.getExtras().getString("productId", "");
+        this.pageSize = intent.getExtras().getString("pageSize", "10");
+        LogTools.i(productId);
         networkModel.product(productId, "", "1", pageSize, new CasesAttrSelection(), NetworkParams
                 .CUPCAKE);
     }
@@ -96,6 +134,13 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
     protected void onPause() {
         super.onPause();
         index = -1;
+        productId = "";
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     @Override
@@ -141,16 +186,25 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
     @Override
     public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
         if (paramsCode == NetworkParams.CUPCAKE) {
-            ProductEntity entity = (ProductEntity) baseBean;
-            this.productList.clear();
-            this.productList.addAll(entity.getList());
-            adapter.notifyDataSetChanged();
-            if (index != -1) {
-                viewPager.setCurrentItem(index, false);
-            } else {
-                if (!TextUtils.isEmpty(productId)) {
-                    findSelectedPosition();
-                }
+            placeResult((ProductEntity) baseBean);
+        }
+    }
+
+    private void placeResult(ProductEntity baseBean) {
+        this.productList.clear();
+        this.productList.addAll(baseBean.getList());
+
+        adapter = new Adapter();
+        viewPager.setAdapter(adapter);
+        if (index == 0) {
+            onPageSelected(0);
+            return;
+        }
+        if (index != -1) {
+            viewPager.setCurrentItem(index, false);
+        } else {
+            if (!TextUtils.isEmpty(productId)) {
+                findSelectedPosition();
             }
         }
     }
@@ -160,6 +214,7 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
             ProductEntity.ListBean listBean = productList.get(i);
             if (TextUtils.equals(listBean.getProduct_id(), productId)) {
                 if (i == 0) {
+                    viewPager.setCurrentItem(0, false);
                     onPageSelected(0);
                     break;
                 } else {
@@ -194,14 +249,13 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
     @Override
     public void onBinderItemClick(View clickItem, int parentId, int pos) {
         String casesId = recyclerList.get(pos).getCases_id();
-
         Bundle bundle = new Bundle();
         bundle.putString("casesId", casesId);
         bundle.putString("pageSize", pageSize);
         start(bundle, EffectActivity.class);
     }
 
-    class Adapter extends PagerAdapter {
+    class Adapter extends PagerAdapter implements View.OnClickListener {
 
         @Override
         public int getCount() {
@@ -228,6 +282,14 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.viewPager:
+                    break;
+            }
         }
 
         class ChildAdapter extends PagerAdapter {
