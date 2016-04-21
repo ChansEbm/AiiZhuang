@@ -181,6 +181,8 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         String action = intent.getAction();
         if (TextUtils.equals(action, AppKeyMap.CASE_ACTION)) {
             this.cateId = intent.getStringExtra(AppKeyMap.CATE_ID);
+            rbSize.setText(R.string.fragment_album_size);
+            rbStyle.setText(R.string.fragment_album_style);
             rbSize.setChecked(false);
             rbStyle.setChecked(false);
             rbCate.setChecked(true);
@@ -251,6 +253,12 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                 start(bundle, ProductActivity.class);
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppTools.unregisterBroadcast(updateUIBroadcast);
     }
 
     private void modifierSelections(int pos) {

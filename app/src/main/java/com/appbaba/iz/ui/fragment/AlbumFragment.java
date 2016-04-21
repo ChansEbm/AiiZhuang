@@ -68,6 +68,7 @@ public class AlbumFragment extends BaseFgm implements ViewPager.OnPageChangeList
                 .class, "");
         if (!TextUtils.isEmpty(caseId)) {
             toggleChecked(PRODUCT);
+
         }
     }
 
@@ -85,7 +86,6 @@ public class AlbumFragment extends BaseFgm implements ViewPager.OnPageChangeList
     protected int getContentView() {
         return R.layout.fragment_album;
     }
-
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
