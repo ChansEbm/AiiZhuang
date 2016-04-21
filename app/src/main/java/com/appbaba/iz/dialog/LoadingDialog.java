@@ -1,8 +1,7 @@
 package com.appbaba.iz.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+import android.view.View;
 
 import com.appbaba.iz.LoadingLayout;
 import com.appbaba.iz.R;
@@ -10,16 +9,25 @@ import com.appbaba.iz.R;
 /**
  * Created by ChanZeeBm on 2015/10/16.
  */
-public class LoadingDialog extends Dialog {
+public class LoadingDialog extends BaseDialog {
     LoadingLayout loadingLayout;
 
     public LoadingDialog(Context context) {
-        super(context, R.style.dialogDefaultStyle);
+        super(context);
         setCanceledOnTouchOutside(false);
         setCancelable(true);
-        loadingLayout = DataBindingUtil.inflate(getLayoutInflater(), R.layout
-                .dig_loading, null, false);
-        setContentView(loadingLayout.getRoot());
+        loadingLayout = (LoadingLayout) viewDataBinding;
+        setContentView(parentView);
+    }
+
+    @Override
+    public int getContentView() {
+        return R.layout.dig_loading;
+    }
+
+    @Override
+    public void onClick(int id, View v) {
+
     }
 
     @Override

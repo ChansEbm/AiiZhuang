@@ -30,6 +30,7 @@ public class ZoomEffectActivity extends BaseAty {
 
     @Override
     protected void initViews() {
+        defaultTitleBar(this);
         ZoomEffectLayout effectLayout = (ZoomEffectLayout) viewDataBinding;
         viewPager = effectLayout.viewPager;
     }

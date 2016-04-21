@@ -16,14 +16,8 @@ public class AppKeyMap {
     public final static String PWD_REGEX = "^[A-Za-z0-9]+$";
     //邮编正则
     public final static String ZIP_CODE_REGEX = "^[1-9]\\d{5}$";
-    //Action Key
-    public final static String ACTION_KEY = "ACTION_KEY";
-    //定位Action
-    public final static String LOCATION_ACTION = "android.intent.action.LOCATION";
-    //预约客户Action
-    public final static String APPOINTMENT_CLIENT_ACTION = "android.intent.action.APPOINTMENT";
-    //待结算Action
-    public final static String WAITING_COST_ACTION = "android.intent.action.COST";
+    //case action
+    public final static String CASE_ACTION = "android.intent.action.CASE";
     //检测无网络action
     public final static String NO_NETWORK_ACTION = "android.intent.action.NO_NETWORK";
     //默认动画执行时间 300ms
@@ -46,10 +40,11 @@ public class AppKeyMap {
     public final static String HEAD_API_CASE = HEAD + "Cases/";
     public final static String HEAD_API_COMMON = HEAD + "Common/";
     public final static String HEAD_API_LOGIN = HEAD + "Login/";
-    public  final  static String HEAD_API_INDEX = HEAD+"Index/";
-    public  final  static  String HEAD_API_SUBJECT = HEAD+"Subject/";
-    public  final  static  String HEAD_API_MARKETING=HEAD+"Marketing/";
-    public  final  static  String HEAD_API_MORE = HEAD +"More/";
+    public final static String HEAD_API_INDEX = HEAD + "Index/";
+    public final static String HEAD_API_SUBJECT = HEAD + "Subject/";
+    public final static String HEAD_API_MARKETING = HEAD + "Marketing/";
+    public final static String HEAD_API_MORE = HEAD + "More/";
+
 
 //    public final static String HEAD_API_WORKER = HEAD + "ApiWorker/";
 //    public final static String HEAD_API_ORDER = HEAD + "ApiOrder/";
@@ -71,7 +66,7 @@ public class AppKeyMap {
     public final static String CONTENT_OCT = "application/octet-stream";
 
     public final static String CUSTOMERID = "customerId";
-
+    public final static String CATE_ID = "caseId";
 
     //用户标识
     public final static String AUTH = "auth";
