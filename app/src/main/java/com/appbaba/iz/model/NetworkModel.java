@@ -117,6 +117,15 @@ public class NetworkModel<E> {
     private void addAuth() {
         if (!TextUtils.isEmpty(getAuth()))
             params.put("auth", getAuth());
+        return this;
+    }
+
+    private NetworkModel addCustomerId() {
+        Prefser prefser = new Prefser(AppTools.getSharePreferences());
+        String customerId = prefser.get(AppKeyMap.CUSTOMERID, String.class, "");
+        if (!TextUtils.isEmpty(customerId))
+            params.put("customer_id", customerId);
+        return this;
     }
 
 
@@ -201,10 +210,7 @@ public class NetworkModel<E> {
 
     public void cases(String productId, String keyword, String page, String pageSize,
                       CasesAttrSelection casesAttrSelection, NetworkParams networkParams) {
-        clearAllParams().addAuth();
-        String customerId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.CUSTOMERID,
-                String.class, "");
-        params.put("customer_id", customerId);
+        clearAllParams().addAuth().addCustomerId();
         params.put("product_id", productId);
         params.put("keyword", keyword);
         params.put("page", page);
@@ -215,6 +221,20 @@ public class NetworkModel<E> {
         params.put("cate_id", casesAttrSelection.getCateId());
         new OkHttpBuilder.POST(appCompatActivity).urlCases("cases").params(params)
                 .entityClass(CaseEntity.class).enqueue(networkParams, tOkHttpResponseListener);
+    }
+
+    public void collectCases(String casesId, NetworkParams networkParams) {
+        clearAllParams().addAuth().addCustomerId();
+        params.put("cases_id", casesId);
+        new OkHttpBuilder.POST(appCompatActivity).urlCases("collectCases").params(params)
+                .entityClass(BaseBean.class).enqueue(networkParams, tOkHttpResponseListener);
+    }
+
+    public void collectProduct(String productId,NetworkParams networkParams){
+        clearAllParams().addAuth().addCustomerId();
+        params.put("product_id", productId);
+        new OkHttpBuilder.POST(appCompatActivity).urlCases("collectProduct").params(params)
+                .entityClass(BaseBean.class).enqueue(networkParams, tOkHttpResponseListener);
     }
 
     public void product(String productId, String keyword, String page, String pageSize,

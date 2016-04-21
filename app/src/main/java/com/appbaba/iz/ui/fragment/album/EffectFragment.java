@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.appbaba.iz.AlbumChildLayout;
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.ItemAlbumLayout;
 import com.appbaba.iz.ItemAlbumSelectionLayout;
 import com.appbaba.iz.R;
@@ -25,9 +26,11 @@ import com.appbaba.iz.entity.main.CasesAttrEntity;
 import com.appbaba.iz.entity.main.album.CaseEntity;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.impl.UpdateUIListener;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.ui.activity.album.EffectActivity;
 import com.appbaba.iz.widget.GridSpacingItemDecoration;
+import com.github.pwittchen.prefser.library.Prefser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -91,7 +94,7 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         rvSelection.setHasFixedSize(true);
         radioGroup.setOnCheckedChangeListener(this);
         networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
-        networkModel.cases("", "", "1", "20", selection, NetworkParams.DONUT);//主体内容
+        networkModel.cases("", "", "1", "10", selection, NetworkParams.DONUT);//主体内容
     }
 
     /**

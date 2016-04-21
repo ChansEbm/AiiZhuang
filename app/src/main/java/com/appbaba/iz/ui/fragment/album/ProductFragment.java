@@ -1,6 +1,7 @@
 package com.appbaba.iz.ui.fragment.album;
 
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -15,12 +17,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.appbaba.iz.AlbumChildLayout;
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.ItemAlbumProductLayout;
 import com.appbaba.iz.ItemAlbumSelectionLayout;
 import com.appbaba.iz.R;
 import com.appbaba.iz.adapters.CommonBinderAdapter;
 import com.appbaba.iz.adapters.CommonBinderHolder;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.broadcast.UpdateUIBroadcast;
 import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.Base.Events;
 import com.appbaba.iz.entity.main.CasesAttrEntity;
@@ -59,6 +63,9 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
 
     private CasesAttrSelection selection = new CasesAttrSelection();//保存选择后的ids
 
+    private String cateId = "";//保存从主页点击过来的id
+    private UpdateUIBroadcast updateUIBroadcast;
+
     @Override
     protected void initViews() {
         AlbumChildLayout effectLayout = (AlbumChildLayout) viewDataBinding;
@@ -75,6 +82,10 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         rbSize = effectLayout.rbSpace;
         rbCate = effectLayout.rbCate;
         initAdapters();
+
+        updateUIBroadcast = new UpdateUIBroadcast();
+        updateUIBroadcast.setListener(this);
+        AppTools.registerBroadcast(updateUIBroadcast, AppKeyMap.CASE_ACTION);
     }
 
     @Override
@@ -84,15 +95,17 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         rvSelection.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recyclerView.setAdapter(bodyAdapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 10, true));
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         recyclerView.setHasFixedSize(true);
         rvSelection.setHasFixedSize(true);
         radioGroup.setOnCheckedChangeListener(this);
         rbSize.setText(R.string.fragment_album_size);
         networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
-        networkModel.product("", "", "1", "20", selection, NetworkParams.DONUT);//主体内容
+        if (!TextUtils.isEmpty(cateId))
+            selection.setCateId(cateId);
+        networkModel.product("", "", "1", "10", selection, NetworkParams.DONUT);//主体内容
     }
 
     /**
@@ -150,16 +163,49 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         return R.layout.fragment_album_child;
     }
 
-
     @Override
     public void onJsonObjectSuccess(BaseBean t, NetworkParams paramsCode) {
         if (paramsCode == NetworkParams.CUPCAKE) {//means selection data return
             this.casesAttrEntity = (CasesAttrEntity) t;
+            notifyCateSelection((CasesAttrEntity) t);
         } else if (paramsCode == NetworkParams.DONUT) {
             productEntity = (ProductEntity) t;
             this.bodyList.clear();
             this.bodyList.addAll(productEntity.getList());
             this.bodyAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void uiUpData(Intent intent) {
+        String action = intent.getAction();
+        if (TextUtils.equals(action, AppKeyMap.CASE_ACTION)) {
+            this.cateId = intent.getStringExtra(AppKeyMap.CATE_ID);
+            rbSize.setChecked(false);
+            rbStyle.setChecked(false);
+            rbCate.setChecked(true);
+            selection.setSizeId("0");
+            selection.setStyleId("0");
+            selection.setSpaceId("0");
+            selection.setCateId(cateId);
+            networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
+            networkModel.product("", "", "1", "10", selection, NetworkParams.DONUT);
+        }
+    }
+
+    private void notifyCateSelection(CasesAttrEntity t) {
+        if (TextUtils.isEmpty(cateId))
+            return;
+        resetAllSelection();
+        List<CasesAttrEntity.CateListBean> caseList = t.getCate_list();
+        for (int i = 0; i < caseList.size(); i++) {
+            CasesAttrEntity.CateListBean cateListBean = caseList.get(i);
+            if (TextUtils.equals(cateListBean.getCate_id(), cateId)) {
+                cateListBean.setCheck(true);
+                rbCate.setChecked(true);
+                rbCate.setText(cateListBean.getTitle());
+                break;
+            }
         }
     }
 
@@ -209,9 +255,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
 
     private void modifierSelections(int pos) {
         CasesAttrEntity.AttrParent attrParent = selectionList.get(pos);
-        for (CasesAttrEntity.AttrParent parent : selectionList) {
-            parent.setCheck(false);
-        }
+        resetAllSelection();
         attrParent.setCheck(true);
         if (attrParent instanceof CasesAttrEntity.StyleListBean) {
             if (pos == 0) {
@@ -237,5 +281,11 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         }
         drawerLayout.closeDrawer(layoutSelection);
         selectionAdapter.notifyDataSetChanged();
+    }
+
+    private void resetAllSelection() {
+        for (CasesAttrEntity.AttrParent parent : selectionList) {
+            parent.setCheck(false);
+        }
     }
 }

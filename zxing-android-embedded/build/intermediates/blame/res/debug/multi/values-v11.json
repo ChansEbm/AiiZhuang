@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "F:\\AndroidProject\\AiiZhuang\\zxing-android-embedded\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
+        "outputFile": "E:\\AiTao\\zxing-android-embedded\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 150
                 },
                 "from": {
-                    "file": "F:\\AndroidProject\\AiiZhuang\\zxing-android-embedded\\res\\values-v11\\zxing_themes.xml",
+                    "file": "E:\\AiTao\\zxing-android-embedded\\res\\values-v11\\zxing_themes.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 2,

@@ -32,7 +32,6 @@ public class TitleBarTools {
         toolbar.setTitle("");
         appCompatActivity.setSupportActionBar(toolbar);
         title = (TextView) toolbar.findViewById(R.id.title);
-
     }
 
     public TitleBarTools(Fragment fragment, Toolbar toolbar) {

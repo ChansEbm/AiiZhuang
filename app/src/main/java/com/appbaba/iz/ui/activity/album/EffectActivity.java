@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.EffectLayout;
 import com.appbaba.iz.ItemEffectLayout;
 import com.appbaba.iz.R;
@@ -24,8 +25,10 @@ import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.main.album.CaseEntity;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.eum.NetworkParams;
-import com.appbaba.iz.tools.LogTools;
+import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.widget.GridSpacingItemDecoration;
+import com.github.pwittchen.prefser.library.Prefser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -54,11 +57,11 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        index = getIntent().getExtras().getInt("index", -1);
+        index = getIntent().getExtras().getInt("index", -1);//如果是从列表进来,则该index不为-1 否则肯定是-1
         selection = getIntent().getExtras().getParcelable("selection");
         if (selection == null)
             selection = new CasesAttrSelection();
-        casesId = getIntent().getExtras().getString("casesId", casesId);
+        casesId = getIntent().getExtras().getString("casesId", casesId);//如果是从列别进来,则该值肯定肯定肯定是空字符
         pageSize = getIntent().getExtras().getString("pageSize", "10");
     }
 
@@ -70,7 +73,6 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        LogTools.w(isCollect);
         if (isCollect) {
             menu.findItem(R.id.menu_fav).setIcon(R.mipmap.ic_fav_press);
         } else {
@@ -81,15 +83,57 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.menu_fav:
+                if (collectEffect()) return false;
+                break;
+            case R.id.menu_share:
+
+                break;
+        }
+
         return true;
+    }
+
+    private boolean collectEffect() {
+        if (MethodConfig.localUser == null) {
+            AppTools.showNormalSnackBar(parentView, "请先登录!");
+            return true;
+        }
+        Prefser prefser = new Prefser(AppTools.getSharePreferences());
+        String customerId = prefser.get(AppKeyMap.CUSTOMERID, String.class, "");
+        if (TextUtils.isEmpty(customerId)) {
+            AppTools.showNormalSnackBar(parentView, "请先选择客户后再收藏");
+            return true;
+        }
+        int currentItem = viewPager.getCurrentItem();
+        CaseEntity.ListBean listBean = caseList.get(currentItem);
+        String casesId = listBean.getCases_id();
+        String isCollect = listBean.getIs_collect();
+
+        listBean.setIs_collect(TextUtils.equals(isCollect, "0") ? "1" : "0");
+        caseList.set(currentItem, listBean);
+        onPageSelected(currentItem);
+
+        networkModel.collectCases(casesId, NetworkParams.DONUT);
+        return false;
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        this.index = intent.getExtras().getInt("index", -1);
         this.casesId = intent.getExtras().getString("casesId", "");
-        networkModel.cases(casesId, "", "1", "10", new CasesAttrSelection(), NetworkParams.CUPCAKE);
+        this.pageSize = getIntent().getExtras().getString("pageSize", "10");
+        networkModel.cases(casesId, "", "1", pageSize, new CasesAttrSelection(), NetworkParams
+                .CUPCAKE);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        index = -1;
+        casesId = "";
     }
 
     @Override
@@ -112,6 +156,7 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     @Override
     protected void initEvents() {
         viewPager.setAdapter(adapter);
+        viewPager.setOnClickListener(this);
         viewPager.addOnPageChangeListener(this);
         recyclerView.setAdapter(commonBinderAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -127,29 +172,58 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
 
     @Override
     protected void onClick(int id, View view) {
-
+        switch (id) {
+            case R.id.imageView:
+                int currentItem = viewPager.getCurrentItem();
+                ArrayList<String> photoPaths = new ArrayList<>();
+                for (CaseEntity.ListBean listBean : caseList) {
+                    photoPaths.add(listBean.getImage());
+                }
+                Intent intent = new Intent(this, ZoomEffectActivity.class).putExtra("index",
+                        currentItem).putStringArrayListExtra("photoPaths", photoPaths);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override
     public void onJsonObjectResponse(BaseBean baseBean, NetworkParams paramsCode) {
-        if (paramsCode == NetworkParams.CUPCAKE) {
-            placeResultInFirstTime((CaseEntity) baseBean);
+        if (paramsCode == NetworkParams.CUPCAKE) {//获取全局数据
+            placeResult((CaseEntity) baseBean);
         }
     }
 
-    private void placeResultInFirstTime(CaseEntity baseBean) {
+    private void placeResult(CaseEntity baseBean) {
         this.caseList.clear();//清空效果数据源
         this.caseList.addAll(baseBean.getList());//填充效果数据源
-        adapter.notifyDataSetChanged();//刷新适配器
-
+        adapter = new Adapter();
+        viewPager.setAdapter(adapter);
+        if (index == 0) {
+            onPageSelected(0);
+            return;
+        }
         if (index != -1) {
             viewPager.setCurrentItem(index, false);//滚动到对应位置
         } else {
-            if (!TextUtils.isEmpty(casesId))
-                onPageSelected(0);
+            if (!TextUtils.isEmpty(casesId)) {
+                findSelectedPosition();
+            }
         }
-        if (index == 0) {
-            onPageSelected(0);
+    }
+
+    private void findSelectedPosition() {
+        for (int i = 0; i < this.caseList.size(); i++) {
+            CaseEntity.ListBean listBean = caseList.get(i);
+            if (TextUtils.equals(listBean.getCases_id(), casesId)) {
+                if (i == 0) {
+                    viewPager.setCurrentItem(0, false);
+                    onPageSelected(0);
+                    break;
+                } else {
+                    viewPager.setCurrentItem(i, false);
+                    break;
+                }
+            }
         }
     }
 
@@ -179,7 +253,7 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
         String productId = productList.get(pos).getProduct_id();
         Bundle bundle = new Bundle();
         bundle.putString("productId", productId);
-        bundle.putInt("index", pos);
+        bundle.putString("pageSize", pageSize);
         start(bundle, ProductActivity.class);
     }
 
@@ -203,8 +277,10 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
             params.width = ViewPager.LayoutParams.MATCH_PARENT;
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setLayoutParams(params);
-            Picasso.with(EffectActivity.this).load(caseList.get(position).getThumb()).resize(
-                    500, 500).into(imageView);
+            imageView.setId(R.id.imageView);
+            imageView.setOnClickListener(EffectActivity.this);
+            Picasso.with(EffectActivity.this).load(caseList.get(position).getImage()).resize(
+                    600, 600).into(imageView);
             container.addView(imageView);
             return imageView;
         }
