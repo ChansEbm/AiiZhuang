@@ -68,6 +68,9 @@ public class AlbumFragment extends BaseFgm implements ViewPager.OnPageChangeList
                 .class, "");
         if (!TextUtils.isEmpty(caseId)) {
             toggleChecked(PRODUCT);
+            rbEffect.setAlpha(0.5f);
+            rbProduct.setAlpha(1.0f);
+
         }
     }
 

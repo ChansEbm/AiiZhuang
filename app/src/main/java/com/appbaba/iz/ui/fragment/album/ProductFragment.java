@@ -183,7 +183,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
             this.cateId = intent.getExtras().getString(AppKeyMap.CATE_ID);
             rbSize.setChecked(false);
             rbStyle.setChecked(false);
-            rbCate.setChecked(true);
+            rbCate.setChecked(false);
             selection.setSizeId("0");
             selection.setStyleId("0");
             selection.setSpaceId("0");
