@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -50,7 +51,7 @@ public class FriendsItemArticleFragment extends BaseFgm implements  BinderOnItem
         articleBinding = (FragmentFriendArticleBinding)viewDataBinding;
         articleBinding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.more_arrow_dark_left);
         articleBinding.includeTopTitle.toolBar.setBackgroundColor(Color.WHITE);
-        articleBinding.includeTopTitle.title.setText(title);
+        articleBinding.includeTopTitle.title.setText(title.trim());
         articleBinding.includeTopTitle.title.setTextColor(Color.BLACK);
 
         recyclerView = articleBinding.recycler;
@@ -63,7 +64,13 @@ public class FriendsItemArticleFragment extends BaseFgm implements  BinderOnItem
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, FriendsArticleBean.ListEntity listEntity) {
                 ItemFriendArticleBinding itemFriendArticleBinding = (ItemFriendArticleBinding)viewDataBinding;
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height);
-                Picasso.with(getContext()).load(listEntity.getThumb()).into(itemFriendArticleBinding.ivItemView);
+                if(!TextUtils.isEmpty(listEntity.getThumb())) {
+                    Picasso.with(getContext()).load(listEntity.getThumb()).into(itemFriendArticleBinding.ivItemView);
+                }
+                else
+                {
+                    itemFriendArticleBinding.ivItemView.setVisibility(View.GONE);
+                }
                 itemFriendArticleBinding.ivItemView.setLayoutParams(params);
                 itemFriendArticleBinding.setItem(listEntity);
             }
@@ -76,7 +83,7 @@ public class FriendsItemArticleFragment extends BaseFgm implements  BinderOnItem
             auth = MethodConfig.localUser.getAuth();
         }
 
-        networkModel.HomeMarketingArticle(auth,id,0,10, NetworkParams.ARTICLE);
+        networkModel.HomeMarketingArticle(auth,id,1,10, NetworkParams.ARTICLE);
     }
 
     @Override
@@ -105,7 +112,7 @@ public class FriendsItemArticleFragment extends BaseFgm implements  BinderOnItem
     public void onBinderItemClick(View clickItem, int parentId, int pos) {
         Intent intent = new Intent(getContext(), TransferActivity.class);
         intent.putExtra("fragment", 14);
-        intent.putExtra("title",list.get(pos).getTitle());
+//        intent.putExtra("title",list.get(pos).getTitle());
         intent.putExtra("which",6);
         intent.putExtra("value",list.get(pos).getArticle_id());
         startActivity(intent);

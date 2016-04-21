@@ -25,13 +25,17 @@
                android:src="@mipmap/bg_login"/>
 
        </LinearLayout>
-       <ImageView
-           android:id="@+id/iv_1"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:src="@mipmap/icon_login_top_title"
-           android:layout_centerHorizontal="true"
-           android:layout_marginTop="40dp"/>
+
+            <ImageView
+                android:id="@+id/iv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_login_top_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+               />
+
+
         <TextView
             android:id="@+id/tv_1"
             android:layout_below="@+id/iv_1"

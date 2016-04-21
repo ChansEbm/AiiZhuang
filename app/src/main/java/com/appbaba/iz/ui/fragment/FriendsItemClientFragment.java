@@ -3,16 +3,21 @@ package com.appbaba.iz.ui.fragment;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.appbaba.iz.FragmentFriendClientBinding;
@@ -33,6 +38,7 @@ import com.appbaba.iz.model.AddClientModel;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
+import com.appbaba.iz.widget.DialogView.MyDialogView;
 import com.appbaba.iz.widget.ScrollView.SlideView;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
@@ -51,13 +57,12 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
     private TextView tv_search;
 
     private  boolean status = false;
-    //屏幕高度
-    private int screenHeight = 0;
+
     //软件盘弹起后所占高度阀值
     private int keyHeight = 0;
     private CommonAdapter<FriendsClientBean.ListEntity> adapter;
 
-    private List<FriendsClientBean.ListEntity> list;
+    private List<FriendsClientBean.ListEntity> list,list_temp;
     private SlideView sliderViewTemp;
 
     private HashMap<String,SlideView> hashMap = new HashMap<>();
@@ -81,7 +86,7 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
 
         keyHeight = MethodConfig.metrics.heightPixels/3;
         list = new ArrayList<>();
-
+        list_temp = new ArrayList<>();
 
 
        adapter = new CommonAdapter<FriendsClientBean.ListEntity>(list,getContext(),R.layout.item_friend_client_view) {
@@ -97,12 +102,13 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
                model.setPhone(client.getPhone());
                model.setAddress(client.getAddress());
 
-               holder.getViews(R.id.btn_item_edit).setTag(model);
-               holder.getViews(R.id.btn_item_del).setTag(model);
+               holder.getViews(R.id.btn_item_edit).setTag(R.string.tag_value,model);
+               holder.getViews(R.id.btn_item_del).setTag(R.string.tag_value,model);
                holder.getViews(R.id.btn_item_edit).setOnClickListener(FriendsItemClientFragment.this);
                holder.getViews(R.id.btn_item_del).setOnClickListener(FriendsItemClientFragment.this);
-
-               hashMap.put(""+position,(SlideView)holder.getConvertView());
+               holder.getViews(R.id.tv_item_call).setOnClickListener(FriendsItemClientFragment.this);
+               holder.getViews(R.id.tv_item_call).setTag(R.string.tag_value,model);
+               hashMap.put(""+client.getCustomer_id(),(SlideView)holder.getConvertView());
 
            }
        };
@@ -116,6 +122,7 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
     @Override
     public void onResume() {
         super.onResume();
+        editText.getText().clear();
         networkModel.HomeMarketingCustomerList(MethodConfig.localUser.getAuth(),NetworkParams.CUSTOMERLIST);
     }
 
@@ -148,22 +155,25 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
         });
 
         ltv_data.setOnTouchListener(new View.OnTouchListener() {
+            int position = -1;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                                switch (event.getAction()) {
+
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (sliderViewTemp != null && sliderViewTemp.isShow == false) {
                             sliderViewTemp = null;
                         }
                         if (sliderViewTemp == null) {
-
-                            int position = ltv_data.pointToPosition((int) event.getX(), (int) event.getY());
+                            position = ltv_data.pointToPosition((int) event.getX(), (int) event.getY());
                             if (position >= 0) {
-                                sliderViewTemp = hashMap.get(""+position);
+
+                                sliderViewTemp = hashMap.get(""+list.get(position).getCustomer_id());
                             }
                         } else {
                             sliderViewTemp.back();
                             sliderViewTemp = null;
+                            return true;
                         }
 
                         break;
@@ -171,11 +181,60 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
                         break;
                 }
                 if (sliderViewTemp != null ) {
-                  return   sliderViewTemp.onRequireTouchEvent(event);
+                     sliderViewTemp.onRequireTouchEvent(event);
+                    if(!sliderViewTemp.isShow && !sliderViewTemp.moving && event.getAction()== MotionEvent.ACTION_UP)
+                    {
+                       if(position>=0)
+                       {
+                           Intent intent = new Intent(getContext(),TransferActivity.class);
+                           intent.putExtra("id",list.get(position).getCustomer_id());
+                           intent.putExtra("title",list.get(position).getName());
+                           intent.putExtra("fragment",16);
+                           startActivity(intent);
+                       }
+                    }
+                   return sliderViewTemp.showing;
+
                 }
                 return false;
             }
         });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                list.clear();
+               for(int i=0;i<list_temp.size();i++)
+               {
+                   if(list_temp.get(i).getName().contains(s.toString()))
+                   {
+                       list.add(list_temp.get(i));
+                   }
+               }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+//        ltv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(getContext(),TransferActivity.class);
+//                intent.putExtra("id",list.get(position).getCustomer_id());
+//                intent.putExtra("title",list.get(position).getName());
+//                intent.putExtra("fragment",16);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 
@@ -238,15 +297,51 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
 
         switch (id)
         {
-            case R.id.btn_item_edit:
+            case R.id.btn_item_edit: {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
-                intent.putExtra("fragment",9);
-                intent.putExtra("data",(AddClientModel)view.getTag());
+                intent.putExtra("fragment", 9);
+                intent.putExtra("data", (AddClientModel) view.getTag(R.string.tag_value));
                 startActivity(intent);
+                if (sliderViewTemp != null && sliderViewTemp.isShow == true) {
+                    sliderViewTemp.back();
+                    sliderViewTemp = null;
+                }
+            }
                 break;
-            case R.id.btn_item_del:
-                AddClientModel model = (AddClientModel)view.getTag();
-                networkModel.HomeMarketingDelCustomer(MethodConfig.localUser.getAuth(),model.getId(),NetworkParams.CUSTOMERDEL);
+            case R.id.btn_item_del: {
+                AddClientModel model = (AddClientModel) view.getTag(R.string.tag_value);
+                networkModel.HomeMarketingDelCustomer(MethodConfig.localUser.getAuth(), model.getId(), NetworkParams.CUSTOMERDEL);
+                if (sliderViewTemp != null && sliderViewTemp.isShow == true) {
+                    sliderViewTemp.back();
+                    sliderViewTemp = null;
+                }
+            }
+                break;
+            case R.id.tv_item_call: {
+                if(sliderViewTemp!=null && sliderViewTemp.isShow)
+                {
+                    return;
+                }
+                final AddClientModel model = (AddClientModel) view.getTag(R.string.tag_value);
+                final MyDialogView dialogView = new MyDialogView(getContext(), "拨打电话", "是否现在拨打电话号码："+model.getPhone()+"?");
+                dialogView.setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogView.dismiss();
+                    }
+                });
+                dialogView.setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+model.getPhone()));
+                        startActivity(intent);
+                        dialogView.dismiss();
+                    }
+                });
+
+                dialogView.show();
+
+            }
                 break;
         }
     }
@@ -278,7 +373,10 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
             {
                 Log.e("nn",""+bean.getList().size());
                 list.clear();
+                list_temp.clear();
+                hashMap.clear();
                 list.addAll(bean.getList());
+                list_temp.addAll(bean.getList());
                 adapter.notifyDataSetChanged();
             }
             else

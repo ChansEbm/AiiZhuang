@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +18,10 @@ import com.appbaba.iz.FragmentHomeTopScanBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.TopTitleBinding;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.ui.activity.album.EffectActivity;
+import com.appbaba.iz.ui.activity.album.ProductActivity;
 import com.appbaba.iz.ui.fragment.Comm.CommWebviewFragment;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -42,15 +47,7 @@ public class HomeItemScanFragment extends BaseFgm {
         public void barcodeResult(BarcodeResult result) {
 
             if (result.getText() != null) {
-                CommWebviewFragment commWebviewFragment = new CommWebviewFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("which", -1);
-                bundle.putString("title", "扫一扫");
-                bundle.putString("value", result.getText());
-                commWebviewFragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().add(R.id.layout_contain, commWebviewFragment).commit();
-                //Toast.makeText(getContext(),result.getText(),Toast.LENGTH_LONG).show();
-               // barcodeView.setStatusText(result.getText());
+               GetID(result.getText());
             }
         }
 
@@ -58,6 +55,41 @@ public class HomeItemScanFragment extends BaseFgm {
         public void possibleResultPoints(List<ResultPoint> resultPoints) {
         }
     };
+
+    public  void  GetID(String path)
+    {
+        String cases_id = Uri.parse(path).getQueryParameter("cases_id");
+        String product_id = Uri.parse(path).getQueryParameter("product_id");
+        if(!TextUtils.isEmpty(cases_id))
+        {
+            CasesAttrSelection selection = new CasesAttrSelection();
+            selection.setCateId(cases_id);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("selection", selection);
+            start(bundle, EffectActivity.class);
+            ((Activity)getContext()).finish();
+        }
+        else if(!TextUtils.isEmpty(product_id))
+        {
+            CasesAttrSelection selection = new CasesAttrSelection();
+            selection.setCateId(product_id);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("selection", selection);
+            start(bundle, ProductActivity.class);
+            ((Activity)getContext()).finish();
+        }
+        else
+        {
+            CommWebviewFragment commWebviewFragment = new CommWebviewFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("which", -1);
+            bundle.putString("title", "扫一扫");
+            bundle.putString("value", path);
+            commWebviewFragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().add(R.id.layout_contain, commWebviewFragment).commit();
+        }
+
+    }
     @Override
     protected void initViews() {
          topScanBinding = (FragmentHomeTopScanBinding)viewDataBinding;

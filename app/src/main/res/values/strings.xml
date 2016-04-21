@@ -174,4 +174,7 @@
     <!--product activity-->
     <string name="product_effect">效\n果\n图</string>
 
+    <!--comm-->
+    <string name="tag_value"></string>
+
 </resources>

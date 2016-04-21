@@ -93,8 +93,8 @@
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"/>
-            <EditText
-                android:id="@+id/edt_area"
+            <TextView
+                android:id="@+id/tv_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

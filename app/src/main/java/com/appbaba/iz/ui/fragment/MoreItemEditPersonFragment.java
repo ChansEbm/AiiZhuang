@@ -1,6 +1,7 @@
 package com.appbaba.iz.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import com.appbaba.iz.model.AddClientModel;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.BitmapCompressTool;
 import com.appbaba.iz.tools.LogTools;
+import com.appbaba.iz.ui.activity.TransferActivity;
 import com.appbaba.iz.widget.PopupWindow.TakePhotoPopupWindow;
 import com.squareup.okhttp.internal.http.RetryableSink;
 import com.squareup.picasso.Picasso;
@@ -81,6 +83,7 @@ public class MoreItemEditPersonFragment extends BaseFgm {
                 ((Activity)getContext()).finish();
             }
         });
+        editPersonBinding.tvArea.setOnClickListener(this);
     }
 
     @Override
@@ -145,6 +148,13 @@ public class MoreItemEditPersonFragment extends BaseFgm {
 
                 window.showAtDefaultLocation();
                 break;
+            case R.id.tv_area:
+            {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("fragment",17);
+                startActivityForResult(intent,100);
+            }
+                break;
             case R.id.btn_change:
             {
                 String filePath = pathToCompress(files.get(0));
@@ -205,11 +215,11 @@ public class MoreItemEditPersonFragment extends BaseFgm {
             return  false;
         }
         model.setShop(editPersonBinding.edtShop.getText().toString().trim());
-        if(TextUtils.isEmpty(editPersonBinding.edtArea.getText()))
+        if(TextUtils.isEmpty((String)editPersonBinding.tvArea.getTag(R.string.tag_value)))
         {
             return  false;
         }
-        model.setArea_ids(editPersonBinding.edtArea.getText().toString().trim());
+        model.setArea_ids((String) editPersonBinding.tvArea.getTag(R.string.tag_value));
         if(TextUtils.isEmpty(editPersonBinding.edtAddress.getText()))
         {
             return  false;
@@ -236,9 +246,23 @@ public class MoreItemEditPersonFragment extends BaseFgm {
         {
             MethodConfig.localUser.getInfo().setAddress(model.getAddress());
             MethodConfig.localUser.getInfo().setArea_ids(model.getArea_ids());
+            MethodConfig.localUser.getInfo().setArea_desc(editPersonBinding.tvArea.getText().toString());
             MethodConfig.localUser.getInfo().setNickname(model.getName());
             MethodConfig.localUser.getInfo().setShop_name(model.getShop());
             ((Activity)getContext()).finish();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode)
+        {
+            case  100:
+                String area_id = data.getStringExtra("area_id");
+                String area_name = data.getStringExtra("area_name");
+                editPersonBinding.tvArea.setText(area_name);
+                editPersonBinding.tvArea.setTag(R.string.tag_value,area_id);
+                break;
         }
     }
 }

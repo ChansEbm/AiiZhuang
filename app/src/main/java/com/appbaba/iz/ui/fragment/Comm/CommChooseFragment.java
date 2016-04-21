@@ -3,8 +3,14 @@ package com.appbaba.iz.ui.fragment.Comm;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.FragmentCommChooseBinding;
@@ -30,7 +36,15 @@ public class CommChooseFragment extends BaseFgm {
     private FragmentCommChooseBinding chooseBinding;
 
     private CommonAdapter<Object> adapter;
-    private List<Object> list;
+    private EditText editText;
+    private TextView tv_search;
+
+    private List<Object> list,list_temp;
+
+    private  boolean status = false;
+
+    //软件盘弹起后所占高度阀值
+    private int keyHeight = 0;
 
     private  String title;
     private  int which;
@@ -48,12 +62,20 @@ public class CommChooseFragment extends BaseFgm {
         chooseBinding.includeTopTitle.toolBar.setBackgroundColor(Color.WHITE);
         chooseBinding.includeTopTitle.title.setTextColor(Color.BLACK);
 
+        editText = chooseBinding.edtSearch;
+        tv_search = chooseBinding.tvSearch;
+
+        editText.clearFocus();
+        keyHeight = MethodConfig.metrics.heightPixels/3;
+
+
         if(which==-1)
         {
             ((Activity)getContext()).finish();
         }
 
         list = new ArrayList<>();
+        list_temp= new ArrayList<>();
         adapter = new CommonAdapter<Object>(list,getContext(),R.layout.item_comm_ltv_view) {
             @Override
             public void convert(int position, ViewHolder holder, Object o) {
@@ -61,7 +83,7 @@ public class CommChooseFragment extends BaseFgm {
                 {
                     FriendsClientBean.ListEntity entity = (FriendsClientBean.ListEntity)o;
                     holder.setText(R.id.tv_item_view,entity.getName());
-                    holder.getConvertView().setTag(entity);
+                    holder.getConvertView().setTag(R.string.tag_value,entity);
                 }
 
             }
@@ -81,12 +103,68 @@ public class CommChooseFragment extends BaseFgm {
             }
         });
 
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (status != hasFocus && editText.getText().toString().trim().length() == 0) {
+                    status = hasFocus;
+                    StartAnimation();
+                }
+
+            }
+        });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                 list.clear();
+                for(int i=0;i<list_temp.size();i++)
+                {
+                    switch (which)
+                    {
+                        case 1:
+                        {
+                            FriendsClientBean.ListEntity entity = (FriendsClientBean.ListEntity)list_temp.get(i);
+                            if(entity.getName().contains(s.toString()))
+                            {
+                                list.add(list_temp.get(i));
+                            }
+                        }
+                        break;
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        chooseBinding.getRoot().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+
+                } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+                    editText.clearFocus();
+
+                }
+            }
+        });
+
         chooseBinding.ltvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if(which==1) {
-                    MethodConfig.chooseClient = (FriendsClientBean.ListEntity)view.getTag();
+                    MethodConfig.chooseClient = (FriendsClientBean.ListEntity)view.getTag(R.string.tag_value);
                     AppTools.putStringSharedPreferences(AppKeyMap.CUSTOMERID,MethodConfig.chooseClient.getCustomer_id());
                 }
                 Intent intent = new Intent();
@@ -101,6 +179,55 @@ public class CommChooseFragment extends BaseFgm {
                 break;
         }
     }
+
+    public void StartAnimation()
+    {
+        float x1 =0, x2 =0,x3 = 0,x4 = 0;
+        x1 = tv_search.getX();
+        x2 = editText.getX();
+        if(status)
+        {
+
+            x3 = 0;
+            x4 = x2-x1;
+        }
+        else
+        {
+            x3 = x2-x1;
+            x4 = 0;
+        }
+        TranslateAnimation animation = new TranslateAnimation(x3,x4,0,0);
+        animation.setDuration(500);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                tv_search.setText("");
+                tv_search.setVisibility(View.VISIBLE);
+                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (status) {
+                    editText.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_friend_search, 0, 0, 0);
+                    editText.requestFocus();
+                    tv_search.setVisibility(View.INVISIBLE);
+                } else {
+                    editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    editText.clearFocus();
+                    tv_search.setText("搜索");
+                    tv_search.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        tv_search.startAnimation(animation);
+    }
+
 
     @Override
     protected void noNetworkStatus() {
@@ -123,6 +250,7 @@ public class CommChooseFragment extends BaseFgm {
         {
             FriendsClientBean bean = (FriendsClientBean)t;
             list.addAll(bean.getList());
+            list_temp.addAll(bean.getList());
             adapter.notifyDataSetChanged();
         }
     }

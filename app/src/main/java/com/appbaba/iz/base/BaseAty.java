@@ -23,6 +23,7 @@ import com.appbaba.iz.model.NetworkModel;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.tools.TitleBarTools;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;

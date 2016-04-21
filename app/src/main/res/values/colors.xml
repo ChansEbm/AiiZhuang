@@ -42,7 +42,8 @@
     <!-- new -->
     <color name="transparent">#00ffffff</color>
     <color name="white">#ffffff</color>
-    <color name="half_white">#e8ffffff</color>
+    <color name="bottom_half_white">#e8ffffff</color>
+    <color name="half_white">#80ffffff</color>
     <color name="black">#000000</color>
     <color name="half_black">#80000000</color>
     <color name="application_base_color">#464646</color>

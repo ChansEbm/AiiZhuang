@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data class=".ActivityMainBinding"></data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activity.MainActivity"
@@ -19,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/half_white"
+            android:background="@color/bottom_half_white"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical">
@@ -128,4 +132,5 @@
 
         </LinearLayout>
     </RelativeLayout>
+    </FrameLayout>
 </layout>

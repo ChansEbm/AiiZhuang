@@ -9,6 +9,7 @@ import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.databinding.ActivityTransferBinding;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.ui.fragment.Comm.CommChooseFragment;
+import com.appbaba.iz.ui.fragment.Comm.CommLocationFragment;
 import com.appbaba.iz.ui.fragment.Comm.CommSellerListFragment;
 import com.appbaba.iz.ui.fragment.Comm.CommWebviewFragment;
 import com.appbaba.iz.ui.fragment.FavouriteItemDetailFragment;
@@ -16,6 +17,7 @@ import com.appbaba.iz.ui.fragment.FriendsItemAddClientFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemArticleFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemCRMFragment;
 import com.appbaba.iz.ui.fragment.FriendsItemClientFragment;
+import com.appbaba.iz.ui.fragment.FriendsItemClientSaveFragment;
 import com.appbaba.iz.ui.fragment.HomeItemContractFragment;
 import com.appbaba.iz.ui.fragment.HomeItemIntroduceFragment;
 import com.appbaba.iz.ui.fragment.HomeItemNearbyFragment;
@@ -59,6 +61,10 @@ public class TransferActivity extends BaseAty {
     private  final  int COM_H5 = 14; //H5页面
 
     private  final  int EDIT_PERSON = 15; //编辑用户
+
+    private  final  int CLIENT_COLLECTION = 16; // 客户收藏
+
+    private final  int LOCATIONCHOOSE = 17; //地址选择
 
 
 
@@ -127,6 +133,7 @@ public class TransferActivity extends BaseAty {
            case FRIEND_ARTICLE: {
                FriendsItemArticleFragment friendsItemArticleFragment = new FriendsItemArticleFragment();
                Bundle bundle = new Bundle();
+
                bundle.putString("id", getIntent().getStringExtra("id"));
                bundle.putString("title", getIntent().getStringExtra("title"));
                friendsItemArticleFragment.setArguments(bundle);
@@ -157,6 +164,18 @@ public class TransferActivity extends BaseAty {
            case EDIT_PERSON:
                MoreItemEditPersonFragment editPersonFragment = new MoreItemEditPersonFragment();
                fragmentManager.beginTransaction().add(R.id.layout_contain,editPersonFragment).commit();
+               break;
+           case CLIENT_COLLECTION:
+               FriendsItemClientSaveFragment saveFragment = new FriendsItemClientSaveFragment();
+               Bundle bundle = new Bundle();
+               bundle.putString("id", getIntent().getStringExtra("id"));
+               bundle.putString("title", getIntent().getStringExtra("title"));
+               saveFragment.setArguments(bundle);
+               fragmentManager.beginTransaction().add(R.id.layout_contain,saveFragment).commit();
+               break;
+           case LOCATIONCHOOSE:
+               CommLocationFragment locationFragment = new CommLocationFragment();
+               fragmentManager.beginTransaction().add(R.id.layout_contain,locationFragment).commit();
                break;
         }
     }

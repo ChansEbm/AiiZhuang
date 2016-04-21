@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.tools.LogTools;
 
 
 /**
@@ -16,6 +17,10 @@ import com.appbaba.iz.method.MethodConfig;
 public class SlideView extends LinearLayout {
     private Scroller scroller;
     int width = 0;
+    public boolean showing = false;//判断是否已经在横向显示
+    public  boolean moving=false; //判断是否手指在移动
+    public boolean canrun = true; //判断是否可以横向拖动
+    public   boolean isShow = false; //判断是否已经显示
     public SlideView(Context context) {
         super(context);
         InitView();
@@ -39,11 +44,11 @@ public class SlideView extends LinearLayout {
 
     public void  back()
     {
+        showing = false;
         smoothScrollTo(0, 0);
     }
 
-    boolean canrun = true;
-   public   boolean isShow = false;
+
     //调用此方法滚动到目标位置
     public void smoothScrollTo(int fx, int fy) {
         int dx = fx - scroller.getFinalX();
@@ -60,6 +65,7 @@ public class SlideView extends LinearLayout {
             } else if (fx == 0) {
                 canrun = true;
                 isShow = false;
+                showing = false;
                 smoothScrollBy(dx, 0);
             }
 
@@ -93,52 +99,66 @@ public class SlideView extends LinearLayout {
     int newX = 0;
     int newY =0;
 
+
+
     public  boolean  onRequireTouchEvent(MotionEvent event)
     {
+        switch (event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+                moving = false;
+                if(isShow)
+                {
+                    newX = 0;
+                    newY = 0;
+                    back();
+                }
+                newX =(int) event.getX();
+                newY = (int)event.getY();
+                Log.e("mm", "onRequireTouchEvent: "+newX );
+                break;
+            case  MotionEvent.ACTION_MOVE:
+            {
+                moving = true;
+                int x1 = newX-(int)event.getX();
+                int y1 = newY -(int)event.getY();
 
-         switch (event.getAction())
-         {
-             case MotionEvent.ACTION_DOWN:
-                 if(isShow)
-                 {
-                     newX = 0;
-                     newY = 0;
-                     back();
-                 }
-                 newX =(int) event.getX();
-                 newY = (int)event.getY();
-                 Log.e("mm", "onRequireTouchEvent: "+newX );
-                 break;
-             case  MotionEvent.ACTION_MOVE:
-             {
-                 int x1 = newX-(int)event.getX();
-                 int y1 = newY -(int)event.getY();
-                 Log.e("mm", "onRequireTouchEvent:x1 "+y1 );
-                 if(Math.abs(x1)>80 && Math.abs(y1)<80) {
-                     smoothScrollTo(x1, 0);
-                     return true;
-                 }
-             }
-                 break;
-             case MotionEvent.ACTION_UP:
-                 if(!isShow) {
-                     int fx = scroller.getFinalX();
-                     if (width * 0.5 > fx) {
-                         smoothScrollBy(-fx, 0);
-                         isShow = false;
-                         canrun = true;
-                     } else {
-                         int dx = width - scroller.getFinalX();
-                         canrun = false;
-                         isShow = true;
-                         smoothScrollBy(dx, 0);
-                     }
-                     Log.e("mm", "onRequireTouchEvent:f1 "+fx );
-                 }
-                 break;
-         }
+                if(Math.abs(x1)>80 && Math.abs(y1)<80) {
+                    Log.e("mm", "onRequireTouchEvent:x1 "+y1 );
+                    smoothScrollTo(x1, 0);
+                    showing = true;
+                    return true;
+                }
+                else if(x1==0 && y1==0)
+                {
+                    moving = false;
+                }
+            }
+            break;
+            case MotionEvent.ACTION_UP:
+                if(!isShow) {
+                    int fx = scroller.getFinalX();
+
+                    if (width * 0.2 > fx) {
+                        smoothScrollBy(-fx, 0);
+                        isShow = false;
+                        canrun = true;
+                        showing = false;
+                    } else {
+                        int dx = width - scroller.getFinalX();
+                        canrun = false;
+                        isShow = true;
+
+                        smoothScrollBy(dx, 0);
+                    }
+                    Log.e("mm", "onRequireTouchEvent:f1 "+fx );
+                }
+                break;
+        }
         return  false;
     }
+
+
 
     @Override
     public void computeScroll() {

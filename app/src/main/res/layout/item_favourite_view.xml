@@ -32,6 +32,8 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:layout_weight="1"
+                android:lines="1"
+                android:singleLine="true"
                 android:text="@{item.title}"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -59,7 +61,7 @@
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:drawableLeft="@mipmap/huibiaoqian"
-            android:text="@{item.desc}"/>
+            android:text="@{item.labelStr}"/>
 
     </LinearLayout>
 </layout>

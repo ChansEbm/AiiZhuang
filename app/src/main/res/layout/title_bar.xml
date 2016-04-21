@@ -15,7 +15,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimaryDark"
             android:minHeight="?attr/actionBarSize"
-            app:theme="@style/ToolBarStyle">
+            app:theme="@style/ToolBarStyle"
+            >
 
             <TextView
                 android:id="@+id/title"
@@ -29,6 +30,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="#ffffff"
+                android:gravity="center"
                 android:textSize="@dimen/text_large_size"/>
 
         </android.support.v7.widget.Toolbar>

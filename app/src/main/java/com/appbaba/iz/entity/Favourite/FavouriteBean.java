@@ -41,6 +41,18 @@ public class FavouriteBean extends BaseBean{
         private String visits;
         private String collect;
         private List<String> label;
+        private String labelStr;
+
+        @Bindable
+        public String getLabelStr()
+        {
+            labelStr="";
+            for (int i = 0 ;i<label.size();i++)
+            {
+                labelStr+=(label.get(i)+"  ");
+            }
+            return labelStr;
+        }
 
         public String getSubject_id() {
             return subject_id;

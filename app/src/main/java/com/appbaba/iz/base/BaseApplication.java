@@ -80,7 +80,7 @@ public class BaseApplication extends Application {
         MultiDex.install(this);
         FileSaveTools.getInstance().init(this);
         initGalleryFinal();
-        JPushInterface.setDebugMode(false);
+        JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         Logger.init("digital").setMethodCount(3).hideThreadInfo().setLogLevel(LogLevel.FULL);
         CrashReport.initCrashReport(getApplicationContext(), "900020359", true);

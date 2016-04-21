@@ -13,6 +13,7 @@ import com.appbaba.iz.entity.Favourite.FavouriteDetailBean;
 import com.appbaba.iz.entity.Friends.FriendsArticleBean;
 import com.appbaba.iz.entity.Friends.FriendsBean;
 import com.appbaba.iz.entity.Friends.FriendsClientBean;
+import com.appbaba.iz.entity.Friends.FriendsClientCollectionBean;
 import com.appbaba.iz.entity.Index.HomeBean;
 import com.appbaba.iz.entity.Login.AuthBean;
 import com.appbaba.iz.entity.Login.UpdatePersonBean;
@@ -133,7 +134,6 @@ public class NetworkModel<E> {
 
     public void checkPhone(String phoneNum, NetworkParams networkParams) {
         clearAllParams();
-
         params.put("phone",phoneNum);
         new OkHttpBuilder.POST(appCompatActivity).urlLogin("checkPhone").entityClass(BaseBean.class).params(params)
         .enqueue(networkParams,tOkHttpResponseListener);
@@ -284,6 +284,14 @@ public class NetworkModel<E> {
          clearAllParams();
         params.put("auth",auth);
         new OkHttpBuilder.POST(appCompatActivity).urlMarketing("customerList").entityClass(FriendsClientBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+    public void HomeMarketingCustomerCollect(@NotNull String auth,@NotNull String customer_id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("customer_id",customer_id);
+        new OkHttpBuilder.POST(appCompatActivity).urlMarketing("customerCollect").entityClass(FriendsClientCollectionBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 

@@ -16,6 +16,7 @@
             android:id="@+id/iv_item_view"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:scaleType="fitXY"
             android:src="@color/bg_gray"/>
         <TextView
             android:layout_width="match_parent"

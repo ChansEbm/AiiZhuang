@@ -112,7 +112,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
             }
         };
         recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),10)));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),4)));
         recyclerView.setAdapter(adapter);
         networkModel.HomeIndex(AppTools.getStringSharedPreferences(AppKeyMap.AUTH,""), NetworkParams.INDEX);
     }
@@ -286,7 +286,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
             case 100:
                 if(MethodConfig.chooseClient!=null)
                 {
-                    homeBinding.includeTopTitle.tvChooseClient.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+//                    homeBinding.includeTopTitle.tvChooseClient.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
                     homeBinding.includeTopTitle.tvChooseClient.setText(MethodConfig.chooseClient.getName());
                 }
                 break;

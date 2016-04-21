@@ -27,7 +27,7 @@ public class CommWebviewFragment extends BaseFgm {
         webviewBinding = (FragmentCommWebviewBinding)viewDataBinding;
 
         webviewBinding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.icon_top_back);
-        webviewBinding.includeTopTitle.title.setText(title);
+        webviewBinding.includeTopTitle.title.setText(title.trim());
         webviewBinding.webView.getSettings().setDomStorageEnabled(true);
         webviewBinding.webView.getSettings().setJavaScriptEnabled(true);
         webviewBinding.webView.setWebViewClient(new WebViewClient(){
@@ -81,6 +81,9 @@ public class CommWebviewFragment extends BaseFgm {
                 break;
             case 10:
                 url +="privacy_policy";
+                break;
+            case 11:
+                url += "subject_detail?subject_id="+value;
                 break;
             case -1:
                 url = value;

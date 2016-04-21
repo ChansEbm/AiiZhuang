@@ -143,7 +143,7 @@ public abstract class BaseFgm<E, T> extends Fragment implements View.OnClickList
                 LogTools.e("参数错误");
                 showMsgSnackBar(baseBean.getMsg());
             } else {
-                showMsgSnackBar(baseBean.getMsg());
+                //showMsgSnackBar(baseBean.getMsg());
                 if (errorCode == 0) {
                     onJsonObjectSuccess(t, paramsCode);
                 }

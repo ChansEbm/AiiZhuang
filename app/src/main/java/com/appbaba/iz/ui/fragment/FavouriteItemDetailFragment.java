@@ -2,13 +2,16 @@ package com.appbaba.iz.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -26,11 +29,13 @@ import com.appbaba.iz.entity.Favourite.FavouriteDetailBean;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.BinderOnItemClickListener;
 import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by ruby on 2016/4/7.
@@ -38,11 +43,11 @@ import java.util.List;
 public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMenuItemClickListener,BinderOnItemClickListener{
 
     private FragmentFavouriteItemDetailBinding detailBinding;
-    private RecyclerView recyclerView;
+//    private RecyclerView recyclerView;
 
     private  String title,id;
     private  int height;
-    private CommonBinderAdapter<FavouriteDetailBean.InfoEntity.DetailListEntity> adapter;
+//    private CommonBinderAdapter<FavouriteDetailBean.InfoEntity.DetailListEntity> adapter;
     private List<FavouriteDetailBean.InfoEntity.DetailListEntity> list;
 
     @Override
@@ -67,21 +72,30 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
         }
 
         list = new ArrayList<>();
-        adapter = new CommonBinderAdapter<FavouriteDetailBean.InfoEntity.DetailListEntity>(getContext(),R.layout.item_favourite_detail_view,list) {
-            @Override
-            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, FavouriteDetailBean.InfoEntity.DetailListEntity detailListEntity) {
-                ItemFavouriteDetailBinding itemFavouriteDetailBinding = (ItemFavouriteDetailBinding)viewDataBinding;
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height);
-                Picasso.with(getContext()).load(detailListEntity.getUrl()).into(itemFavouriteDetailBinding.ivItemView);
-                itemFavouriteDetailBinding.ivItemView.setLayoutParams(params);
-                itemFavouriteDetailBinding.setItem(detailListEntity);
-            }
-        };
 
-        recyclerView = detailBinding.recycler;
-        recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getContext()));
+//        adapter = new CommonBinderAdapter<FavouriteDetailBean.InfoEntity.DetailListEntity>(getContext(),R.layout.item_favourite_detail_view,list) {
+//            @Override
+//            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, FavouriteDetailBean.InfoEntity.DetailListEntity detailListEntity) {
+//                ItemFavouriteDetailBinding itemFavouriteDetailBinding = (ItemFavouriteDetailBinding)viewDataBinding;
+//                float scale = 0;
+//                try
+//                {
+//                    scale = Float.parseFloat(detailListEntity.getScale());
+//                }
+//                catch (Exception ex)
+//                {}
+//
+//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)( MethodConfig.metrics.widthPixels/scale));
+//                Picasso.with(getContext()).load(detailListEntity.getUrl()).into(itemFavouriteDetailBinding.ivItemView);
+//                itemFavouriteDetailBinding.ivItemView.setLayoutParams(params);
+//                itemFavouriteDetailBinding.setItem(detailListEntity);
+//            }
+//        };
+//
+//        recyclerView = detailBinding.recycler;
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.setAdapter(adapter);
 
-        recyclerView.setAdapter(adapter);
 
         networkModel.HomeSubjectDetail(auth,id, NetworkParams.SUBJECTDETAIL);
     }
@@ -99,7 +113,7 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
                 ((Activity)getContext()).finish();
             }
         });
-        adapter.setBinderOnItemClickListener(this);
+       // adapter.setBinderOnItemClickListener(this);
     }
 
     @Override
@@ -130,6 +144,13 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
                 Toast.makeText(getContext(),"unlike",Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_share:
+            {
+                Intent intent = new Intent(getContext(),TransferActivity.class);
+                intent.putExtra("fragment",14);
+                intent.putExtra("which",11);
+                intent.putExtra("value",id);
+                startActivity(intent);
+            }
                 Toast.makeText(getContext(),"share",Toast.LENGTH_LONG).show();
                 break;
         }
@@ -143,7 +164,35 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
             FavouriteDetailBean bean = (FavouriteDetailBean)t;
             detailBinding.setItem(bean.getInfo());
             list.addAll(bean.getInfo().getDetail_list());
-            adapter.notifyDataSetChanged();
+            AddItem(0);
+          //  recyclerView.setLayoutParams(new LinearLayout.LayoutParams(MethodConfig.metrics.widthPixels,MethodConfig.metrics.heightPixels*3));
+
+        }
+    }
+
+    public  void  AddItem(int pos)
+    {
+        for(int i=pos;i<list.size();i++)
+        {
+//            if(pos>=list.size())
+//            {
+//                break;
+//            }
+            FavouriteDetailBean.InfoEntity.DetailListEntity  detailListEntity = list.get(i);
+            ItemFavouriteDetailBinding itemFavouriteDetailBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),R.layout.item_favourite_detail_view,null,false);
+                float scale = 0;
+                try
+                {
+                    scale = Float.parseFloat(detailListEntity.getScale());
+                }
+                catch (Exception ex)
+                {}
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)( MethodConfig.metrics.widthPixels/scale));
+                Picasso.with(getContext()).load(detailListEntity.getUrl()).into(itemFavouriteDetailBinding.ivItemView);
+                itemFavouriteDetailBinding.ivItemView.setLayoutParams(params);
+                itemFavouriteDetailBinding.setItem(detailListEntity);
+            detailBinding.linearContent.addView(itemFavouriteDetailBinding.getRoot());
         }
     }
 }
