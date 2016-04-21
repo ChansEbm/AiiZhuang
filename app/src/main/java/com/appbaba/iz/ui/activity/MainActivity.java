@@ -1,14 +1,19 @@
 package com.appbaba.iz.ui.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.appbaba.iz.ActivityMainBinding;
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.impl.UpdateClickCallback;
+import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.ui.fragment.AlbumFragment;
 import com.appbaba.iz.ui.fragment.FavouriteFragment;
 import com.appbaba.iz.ui.fragment.FriendsFragment;
@@ -128,6 +133,25 @@ public class MainActivity extends BaseAty {
         if(homeFragment==null)
         {
             homeFragment = new HomeFragment();
+            homeFragment.callback = new UpdateClickCallback() {
+                @Override
+                public void Update(String id) {
+                    if(ablumFragment==null)
+                    {
+                        AppTools.putStringSharedPreferences(AppKeyMap.CATE_ID,id);
+                    }
+                    else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(AppKeyMap.CATE_ID, id);
+                        AppTools.sendBroadcast(bundle,AppKeyMap.CASE_ACTION);
+//                        Intent intent = new Intent();
+//                        intent.setAction(AppKeyMap.CASE_ACTION);
+//                        intent.putExtra();
+//                        sendBroadcast(intent);
+                    }
+                    linear_ablum.performClick();
+                }
+            };
             ft.add(R.id.layout_contain, homeFragment);
         }
         if(baseFgm!=null)

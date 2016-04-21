@@ -114,7 +114,7 @@ public class NetworkModel<E> {
         }
     }
 
-    private void addAuth() {
+    private NetworkModel addAuth() {
         if (!TextUtils.isEmpty(getAuth()))
             params.put("auth", getAuth());
         return this;

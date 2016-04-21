@@ -124,6 +124,7 @@ public class LoginActivity extends BaseAty {
                 AppTools.putStringSharedPreferences(AppKeyMap.AUTH,bean.getAuth());
                 MethodConfig.localUser = bean;
                new Prefser(AppTools.getSharePreferences()).put(AppKeyMap.CUSTOMERID, "");
+                AppTools.putStringSharedPreferences(AppKeyMap.CATE_ID,"");
                 AppTools.putStringSharedPreferences("username",edt_mobile.getText().toString());
                 AppTools.putStringSharedPreferences("password",edt_password.getText().toString());
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));

@@ -31,6 +31,7 @@ import com.appbaba.iz.entity.Index.HomeBean;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.BinderOnItemClickListener;
+import com.appbaba.iz.impl.UpdateClickCallback;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.method.SpaceItemDecoration;
 import com.appbaba.iz.tools.AppTools;
@@ -57,6 +58,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
     private CommonBinderAdapter<HomeBean.SubjectListEntity> adapter;
     private  List<HomeBean.SubjectListEntity> list;
     private  int height ;// 15 : 8 高度
+    public UpdateClickCallback callback;
 
     @Override
     protected void initViews() {
@@ -226,16 +228,16 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
                 }
             }
                 break;
-            case R.id.iv_banner:
+            case R.id.iv_banner: {
                 Intent intent = new Intent(getContext(), TransferActivity.class);
                 intent.putExtra("fragment", 14);
-                intent.putExtra("title",getString(R.string.popup_pinpaijieshao));
-                intent.putExtra("which",1);
-                if(MethodConfig.localUser!=null)
-                {
-                    intent.putExtra("value",MethodConfig.localUser.getInfo().getSeller_id());
+                intent.putExtra("title", getString(R.string.popup_pinpaijieshao));
+                intent.putExtra("which", 1);
+                if (MethodConfig.localUser != null) {
+                    intent.putExtra("value", MethodConfig.localUser.getInfo().getSeller_id());
                 }
                 startActivity(intent);
+            }
                 break;
             case R.id.relate_1:
 
@@ -245,12 +247,12 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
 
             case R.id.relate_4:
 
-            case R.id.relate_5:
-                Bundle bundle = new Bundle();
-                CasesAttrSelection selection = new CasesAttrSelection();
-                selection.setCateId((String)view.getTag());
-                bundle.putParcelable("selection", selection);
-                start(bundle, ProductActivity.class);
+            case R.id.relate_5: {
+                if(callback!=null)
+                {
+                    callback.Update((String) view.getTag());
+                }
+            }
                 break;
 
         }

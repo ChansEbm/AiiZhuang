@@ -180,7 +180,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     public void uiUpData(Intent intent) {
         String action = intent.getAction();
         if (TextUtils.equals(action, AppKeyMap.CASE_ACTION)) {
-            this.cateId = intent.getStringExtra(AppKeyMap.CATE_ID);
+            this.cateId = intent.getExtras().getString(AppKeyMap.CATE_ID);
             rbSize.setChecked(false);
             rbStyle.setChecked(false);
             rbCate.setChecked(true);

@@ -31,7 +31,6 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="#ffffff"
-                android:gravity="center"
                 android:textSize="@dimen/text_large_size"/>
 
         </android.support.v7.widget.Toolbar>
