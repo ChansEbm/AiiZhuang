@@ -17,6 +17,7 @@ import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.SellerListBean;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.model.BrandsModel;
 import com.appbaba.iz.model.RegisterModel;
 import com.appbaba.iz.tools.AppTools;
 import com.baidu.mapapi.map.Text;
@@ -30,6 +31,7 @@ public class RegisterBrandActivity extends BaseAty {
     private ViewSwitcher viewSwitcher;
 
     private RegisterModel registerModel;
+    private BrandsModel brandsModel;
 
 
     @Override
@@ -40,6 +42,7 @@ public class RegisterBrandActivity extends BaseAty {
         viewSwitcher = binding.swBg;
 
         registerModel = new RegisterModel();
+        brandsModel = new BrandsModel();
 
     }
 
@@ -52,6 +55,7 @@ public class RegisterBrandActivity extends BaseAty {
         binding.tvRegisterBrands.setOnClickListener(this);
         binding.tvRegisterMsg.setOnClickListener(this);
         binding.btnRegister.setOnClickListener(this);
+        binding.btnBrandsIn.setOnClickListener(this);
         binding.includeTopTitle.Back.setOnClickListener(this);
     }
 
@@ -97,6 +101,13 @@ public class RegisterBrandActivity extends BaseAty {
                       registerModel.setNetworkParams(NetworkParams.REGISTER);
                       networkModel.register(registerModel);
                   }
+                break;
+            case R.id.btn_brands_in:
+                if(CheckInput2())
+                {
+                    brandsModel.setNetworkParams(NetworkParams.BRANDIN);
+                    networkModel.brandsin(brandsModel);
+                }
                 break;
             case R.id._back:
                 onBackPressed();
@@ -149,6 +160,27 @@ public class RegisterBrandActivity extends BaseAty {
         return  true;
     }
 
+    public boolean CheckInput2()
+    {
+        if(TextUtils.isEmpty(binding.edtBrandsName.getText()))
+        {
+            return false;
+        }
+        brandsModel.setName(binding.edtBrandsName.getText().toString().trim());
+        if(TextUtils.isEmpty(binding.edtBrandsContract.getText()))
+        {
+            return false;
+        }
+        brandsModel.setContract(binding.edtBrandsContract.getText().toString().trim());
+        if(TextUtils.isEmpty(binding.edtBrandsMobile.getText()))
+        {
+            return  false;
+        }
+        brandsModel.setMobile(binding.edtBrandsMobile.getText().toString().trim());
+        brandsModel.setAddress(binding.edtBrandsAddress.getText().toString().trim());
+       return  true;
+    }
+
     @Override
     public void onJsonObjectResponse(Object o, NetworkParams paramsCode) {
         BaseBean bean = (BaseBean)o;
@@ -179,6 +211,17 @@ public class RegisterBrandActivity extends BaseAty {
                 onBackPressed();
             }
 
+        }
+        if(paramsCode==NetworkParams.BRANDIN)
+        {
+            AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
+            if(bean.getErrorcode()==0)
+            {
+                binding.edtBrandsAddress.getText().clear();
+                binding.edtBrandsContract.getText().clear();
+                binding.edtBrandsMobile.getText().clear();
+                binding.edtBrandsName.getText().clear();
+            }
         }
 
     }

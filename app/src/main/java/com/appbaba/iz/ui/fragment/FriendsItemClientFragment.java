@@ -1,5 +1,6 @@
 package com.appbaba.iz.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
@@ -130,7 +131,12 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
     protected void initEvents() {
 
         clientBinding.includeTopTitle.toolBar.setOnMenuItemClickListener(this);
-
+        clientBinding.includeTopTitle.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((Activity)getContext()).finish();
+            }
+        });
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

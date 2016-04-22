@@ -41,6 +41,7 @@ public class FavouriteDetailBean extends BaseBean {
         private String thumb;
         private String visits;
         private String collect;
+        private boolean is_collect;
         private List<String> label;
         private String labelStr;
 
@@ -55,11 +56,20 @@ public class FavouriteDetailBean extends BaseBean {
         }
 
 
+        public boolean is_collect() {
+            return is_collect;
+        }
+
+        public void setIs_collect(boolean is_collect) {
+            this.is_collect = is_collect;
+        }
+
         /**
          * url : http://izhuangse.appbaba.com//Public/Uploads/seller/6/cases/2016-04/5711fed6f28a9.jpg
          * desc : 在宁静无忧的家里颐养性情，抛开柴米油盐，几分从容，几分洒脱，其中真味不可言说。
          * scale : 0.48083333333333
          */
+
 
 
         private List<DetailListEntity> detail_list;

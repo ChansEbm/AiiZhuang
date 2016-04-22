@@ -117,14 +117,16 @@ public class FoundPasswordActivity extends BaseAty {
           }
         if(paramsCode==NetworkParams.FOUNDPASSWORD)
         {
+            AppTools.showNormalSnackBar(getWindow().getDecorView(),bean.getMsg());
             if(bean.getErrorcode()==0)
             {
-                onBackPressed();
+                foundPwdBinding.edtFoundNewPassword.getText().clear();
+                foundPwdBinding.edtFoundRePassword.getText().clear();
+                foundPwdBinding.edtFoundCode.getText().clear();
+                foundPwdBinding.edtFoundPhone.getText().clear();
+//                onBackPressed();
             }
-            else
-            {
-                AppTools.showNormalSnackBar(getWindow().getDecorView(),bean.getMsg());
-            }
+
         }
     }
 }

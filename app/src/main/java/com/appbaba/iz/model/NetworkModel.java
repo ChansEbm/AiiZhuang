@@ -172,6 +172,17 @@ public class NetworkModel<E> {
                 .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
     }
 
+    public void brandsin(BrandsModel model)
+    {
+        clearAllParams();
+        params.put("brand",model.getName());
+        params.put("linkman",model.getContract());
+        params.put("linkphone",model.getMobile());
+        params.put("linkaddress",model.getAddress());
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("brandReg").entityClass(BaseBean.class).params(params)
+                .enqueue(model.getNetworkParams(),tOkHttpResponseListener);
+    }
+
     public  void  isPhoneReg(String phone,NetworkParams networkParams)
     {
         clearAllParams();
@@ -284,6 +295,16 @@ public class NetworkModel<E> {
         params.put("auth",auth);
         params.put("subject_id",subject_id);
         new OkHttpBuilder.POST(appCompatActivity).urlSubject("subjectDetail").entityClass(FavouriteDetailBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  HomeSubjectCollectSubject(String auth,String customer_id,String subject_id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("auth",auth);
+        params.put("customer_id",customer_id);
+        params.put("subject_id",subject_id);
+        new OkHttpBuilder.POST(appCompatActivity).urlSubject("collectSubject").entityClass(BaseBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 
@@ -401,7 +422,7 @@ public class NetworkModel<E> {
         params.put("auth",auth);
         params.put("puch_id",push_id);
 
-        new OkHttpBuilder.POST(appCompatActivity).urlMore("logout").entityClass(BaseBean.class).params(params)
+        new OkHttpBuilder.POST(appCompatActivity).urlMore("logout").entityClass(BaseBean.class).params(params).setIsNeedLoadingDialog(false)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 

@@ -19,6 +19,7 @@ import com.appbaba.iz.ui.fragment.FavouriteFragment;
 import com.appbaba.iz.ui.fragment.FriendsFragment;
 import com.appbaba.iz.ui.fragment.HomeFragment;
 import com.appbaba.iz.ui.fragment.MoreFragment;
+import com.appbaba.iz.ui.fragment.MoreItemEditPersonFragment;
 
 public class MainActivity extends BaseAty {
 
@@ -213,6 +214,10 @@ public class MainActivity extends BaseAty {
         {
             moreFragment = new MoreFragment();
             ft.add(R.id.layout_contain,moreFragment);
+        }
+        else
+        {
+            moreFragment.StartGet();
         }
         if(baseFgm!=null)
         {

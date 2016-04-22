@@ -103,15 +103,9 @@ public class FriendsItemAddClientFragment extends BaseFgm {
             return  false;
         }
         model.setPhone(addClientBinding.edtClientPhone.getText().toString());
-        if(TextUtils.isEmpty(addClientBinding.edtClientCity.getText().toString()))
-        {
-            return  false;
-        }
+
         model.setArea_ids(addClientBinding.edtClientCity.getText().toString());
-        if(TextUtils.isEmpty(addClientBinding.edtClientAddress.getText().toString()))
-        {
-            return  false;
-        }
+
         model.setAddress(addClientBinding.edtClientAddress.getText().toString());
         return  true;
     }

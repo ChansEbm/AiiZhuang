@@ -147,6 +147,10 @@ public abstract class BaseFgm<E, T> extends Fragment implements View.OnClickList
                 if (errorCode == 0) {
                     onJsonObjectSuccess(t, paramsCode);
                 }
+                else
+                {
+                    showMsgSnackBar(baseBean.getMsg());
+                }
             }
         }
     }

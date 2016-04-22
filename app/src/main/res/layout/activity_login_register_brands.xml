@@ -315,10 +315,11 @@
                                 android:text="@string/register_activity_b_tv_brand_name"
                                 />
                         <EditText
-                        style="@style/editTextStyle1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/register_activity_tv_must_hint"
+                            android:id="@+id/edt_brands_name"
+                            style="@style/editTextStyle1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/register_activity_tv_must_hint"
                             android:drawablePadding="10dp"
                             android:drawableRight="@mipmap/icon_more_arrow"
                         />
@@ -338,6 +339,7 @@
                             android:text="@string/register_activity_b_tv_contracts"
                             />
                         <EditText
+                            android:id="@+id/edt_brands_contract"
                             style="@style/editTextStyle1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -361,6 +363,7 @@
                             android:text="@string/register_activity_b_tv_mobile"
                             />
                         <EditText
+                            android:id="@+id/edt_brands_mobile"
                             style="@style/editTextStyle1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -384,16 +387,18 @@
                             android:text="@string/register_activity_b_tv_address"
                             />
                         <EditText
+                            android:id="@+id/edt_brands_address"
                             style="@style/editTextStyle1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:drawablePadding="10dp"
                             android:drawableRight="@mipmap/icon_more_arrow"
-                            android:hint="@string/register_activity_tv_must_hint"
+                            android:hint="@string/register_activity_tv_option_hint"
                             />
                     </LinearLayout>
                     </LinearLayout>
                 <Button
+                    android:id="@+id/btn_brands_in"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"

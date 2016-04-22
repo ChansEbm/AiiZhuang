@@ -1,8 +1,11 @@
 package com.appbaba.iz.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,17 +14,40 @@ import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.FragmentMoreBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.dialog.LoadingDialog;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.tools.LogTools;
+import com.appbaba.iz.tools.OkHttpBuilder;
+import com.appbaba.iz.tools.StringFormatTools;
 import com.appbaba.iz.ui.activity.LoginActivity;
 import com.appbaba.iz.ui.activity.TransferActivity;
+import com.appbaba.iz.widget.DialogView.MyDialogView;
+import com.squareup.picasso.Cache;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.codec.language.DaitchMokotoffSoundex;
+
+import java.io.File;
+import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.SimpleFormatter;
+
+import kotlin.collections.IntIterator;
 
 /**
  * Created by ruby on 2016/4/1.
  */
 public class MoreFragment extends BaseFgm{
-    FragmentMoreBinding moreBinding;
+    private FragmentMoreBinding moreBinding;
+
+    private Handler handler;
+    private File cacheFile;
+    private LoadingDialog dialog;
     @Override
     protected void initViews() {
        moreBinding = (FragmentMoreBinding)viewDataBinding;
@@ -29,11 +55,91 @@ public class MoreFragment extends BaseFgm{
         moreBinding.includeTopTitle.title.setTextColor(Color.BLACK);
         moreBinding.includeTopTitle.toolBar.setBackgroundColor(Color.WHITE);
 
+        handler = new Handler();
+        dialog = new LoadingDialog(getContext());
          if(MethodConfig.localUser==null)
          {
              moreBinding.btnLogin.setText("登录");
          }
 
+        cacheFile = new File(getContext().getApplicationContext().getCacheDir().getPath()+File.separator+"picasso-cache");
+//        cacheFile.isDirectory()
+
+
+
+        StartGet();
+        //moreBinding.tvCacheSize.setText(String.format(Locale.CHINA,"%.1fMB",GetSize()));
+
+    }
+
+    public  float  GetSize()
+    {
+        if(cacheFile!=null) {
+            File[] files = cacheFile.listFiles();
+            if(files!=null) {
+                float ll = 0;
+                for (int i = 0; i < files.length; i++) {
+                    float x = files[i].length();
+                    ll += x;
+                }
+                return ll / 1024 / 1024 / 8;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public void StartGet()
+    {
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                String message = String.format(Locale.CHINA, "%.1fMB", GetSize());
+                HandleSetTextForSize(message);
+            }
+        };
+        timer.schedule(timerTask,0);
+    }
+    public  void StartDel()
+    {
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(cacheFile!=null) {
+                    File[] files = cacheFile.listFiles();
+                    if (files != null) {
+                        for(int i=0;i<files.length;i++)
+                           files[i].delete();
+                    }
+                }
+                StartGet();
+            }
+        };
+        timer.schedule(timerTask,0);
+    }
+
+    public void  HandleSetTextForSize(final  String message)
+    {
+        if(handler!=null) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (moreBinding.tvCacheSize != null)
+                        moreBinding.tvCacheSize.setText(message);
+                    if (dialog != null && dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -47,6 +153,7 @@ public class MoreFragment extends BaseFgm{
         moreBinding.linearService.setOnClickListener(this);
         moreBinding.linearAboutUs.setOnClickListener(this);
         moreBinding.linearGuide.setOnClickListener(this);
+        moreBinding.linearCache.setOnClickListener(this);
     }
 
     @Override
@@ -142,6 +249,26 @@ public class MoreFragment extends BaseFgm{
                 intent.putExtra("which",7);
                 intent.putExtra("value","");
                 startActivity(intent);
+            }
+                break;
+            case R.id.linear_cache: {
+                final MyDialogView myDialogView = new MyDialogView(getContext(),"提示","是否现在清理缓存？");
+                myDialogView.setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialogView.dismiss();
+                    }
+                });
+                myDialogView.setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialogView.dismiss();
+                        dialog.show();
+                        StartDel();
+                    }
+                });
+                myDialogView.show();
+
             }
                 break;
         }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.FragmentFavouriteItemDetailBinding;
 import com.appbaba.iz.FragmentHomeTopNearbyBinding;
 import com.appbaba.iz.ItemFavouriteBinding;
@@ -29,6 +30,7 @@ import com.appbaba.iz.entity.Favourite.FavouriteDetailBean;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.BinderOnItemClickListener;
 import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
 import com.squareup.picasso.Picasso;
@@ -49,6 +51,7 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
     private  int height;
 //    private CommonBinderAdapter<FavouriteDetailBean.InfoEntity.DetailListEntity> adapter;
     private List<FavouriteDetailBean.InfoEntity.DetailListEntity> list;
+    private FavouriteDetailBean bean;
 
     @Override
     protected void initViews() {
@@ -141,7 +144,16 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
         switch (item.getItemId())
         {
             case  R.id.menu_unlike:
-                Toast.makeText(getContext(),"unlike",Toast.LENGTH_LONG).show();
+                if(MethodConfig.localUser!=null)
+                {
+                    String customer_id = AppTools.getStringSharedPreferences(AppKeyMap.CUSTOMERID,"");
+                    networkModel.HomeSubjectCollectSubject(MethodConfig.localUser.getAuth(),customer_id,bean.getInfo().getSubject_id(),NetworkParams.COLLECTION);
+                }
+                else
+                {
+                    AppTools.showNormalSnackBar(getView(),"请先登录");
+                }
+
                 break;
             case R.id.menu_share:
             {
@@ -161,12 +173,33 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
     public void onJsonObjectSuccess(Object t, NetworkParams paramsCode) {
         if(paramsCode==NetworkParams.SUBJECTDETAIL)
         {
-            FavouriteDetailBean bean = (FavouriteDetailBean)t;
+            bean = (FavouriteDetailBean)t;
             detailBinding.setItem(bean.getInfo());
             list.addAll(bean.getInfo().getDetail_list());
+            if(bean.getInfo().is_collect())
+            {
+                detailBinding.includeTopTitle.toolBar.getMenu().getItem(0).setIcon(R.mipmap.icon_like);
+            }
+            else
+            {
+                detailBinding.includeTopTitle.toolBar.getMenu().getItem(0).setIcon(R.mipmap.icon_unlike);
+            }
             AddItem(0);
-          //  recyclerView.setLayoutParams(new LinearLayout.LayoutParams(MethodConfig.metrics.widthPixels,MethodConfig.metrics.heightPixels*3));
-
+        }
+        if(paramsCode==NetworkParams.COLLECTION)
+        {
+            if(bean.getErrorcode()==0) {
+                bean.getInfo().setIs_collect(!bean.getInfo().is_collect());
+                if (bean.getInfo().is_collect()) {
+                    detailBinding.includeTopTitle.toolBar.getMenu().getItem(0).setIcon(R.mipmap.icon_like);
+                } else {
+                    detailBinding.includeTopTitle.toolBar.getMenu().getItem(0).setIcon(R.mipmap.icon_unlike);
+                }
+            }
+            else
+            {
+                AppTools.showNormalSnackBar(getView(),bean.getMsg());
+            }
         }
     }
 

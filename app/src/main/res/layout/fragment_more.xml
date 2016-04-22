@@ -75,9 +75,17 @@
                             android:text="@string/more_fragment_clear_cache"
                             android:textColor="@color/black"/>
                         <LinearLayout
+                            android:id="@+id/linear_cache"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"></LinearLayout>
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/tv_cache_size"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:paddingRight="10dp"/>
+                        </LinearLayout>
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
