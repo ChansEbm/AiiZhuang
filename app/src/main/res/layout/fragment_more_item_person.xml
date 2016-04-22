@@ -156,7 +156,7 @@
                 android:textColor="@color/black"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp">
                 <TextView
@@ -164,6 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_text_gravy"
+                    android:layout_marginLeft="20dp"
                     android:text="@{item.address}"
                     android:gravity="right"/>
             </LinearLayout>

@@ -16,6 +16,7 @@ public class MethodConfig {
     public  static AuthBean localUser;
     public  static FriendsClientBean.ListEntity chooseClient;
     public  static  String jpush_id;
+    private static long ticks= 0;
 
     public  static void  SetDispaly(Context context)
     {
@@ -24,6 +25,11 @@ public class MethodConfig {
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
         MethodConfig.metrics = metrics;
+    }
+
+    public  static  void GetTicks()
+    {
+         long nowTicks = System.currentTimeMillis();
     }
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)

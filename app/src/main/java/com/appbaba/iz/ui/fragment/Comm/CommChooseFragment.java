@@ -3,8 +3,10 @@ package com.appbaba.iz.ui.fragment.Comm;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -25,6 +27,7 @@ import com.appbaba.iz.entity.Friends.FriendsClientBean;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.ui.activity.TransferActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ import java.util.List;
 /**
  * Created by ruby on 2016/4/16.
  */
-public class CommChooseFragment extends BaseFgm {
+public class CommChooseFragment extends BaseFgm implements Toolbar.OnMenuItemClickListener{
     private FragmentCommChooseBinding chooseBinding;
 
     private CommonAdapter<Object> adapter;
@@ -61,6 +64,11 @@ public class CommChooseFragment extends BaseFgm {
         chooseBinding.includeTopTitle.title.setText(title);
         chooseBinding.includeTopTitle.toolBar.setBackgroundColor(Color.WHITE);
         chooseBinding.includeTopTitle.title.setTextColor(Color.BLACK);
+        if(which==1)
+        {
+              chooseBinding.includeTopTitle.toolBar.getMenu().add(0,R.id.menu_add,0,"").setIcon(R.mipmap.icon_friend_add).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        }
 
         editText = chooseBinding.edtSearch;
         tv_search = chooseBinding.tvSearch;
@@ -83,6 +91,8 @@ public class CommChooseFragment extends BaseFgm {
                 {
                     FriendsClientBean.ListEntity entity = (FriendsClientBean.ListEntity)o;
                     holder.setText(R.id.tv_item_view,entity.getName());
+                    holder.setText(R.id.tv_item_detail_view,entity.getPhone());
+                    holder.getViews(R.id.tv_item_detail_view).setVisibility(View.VISIBLE);
                     holder.getConvertView().setTag(R.string.tag_value,entity);
                 }
 
@@ -95,6 +105,7 @@ public class CommChooseFragment extends BaseFgm {
     @Override
     protected void initEvents() {
 
+        chooseBinding.includeTopTitle.toolBar.setOnMenuItemClickListener(this);
         chooseBinding.includeTopTitle.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,5 +264,20 @@ public class CommChooseFragment extends BaseFgm {
             list_temp.addAll(bean.getList());
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.menu_add:
+                if(which==1) {
+                    Intent intent = new Intent(getContext(), TransferActivity.class);
+                    intent.putExtra("fragment", 9);
+                    startActivity(intent);
+                }
+                break;
+        }
+        return  false;
     }
 }

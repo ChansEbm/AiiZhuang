@@ -34,6 +34,7 @@ public class MainActivity extends BaseAty {
     private MoreFragment moreFragment;
     private BaseFgm baseFgm;
 
+
     @Override
     protected void initViews() {
         mainBinding = (ActivityMainBinding)viewDataBinding;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseAty {
 
         fragmentManager = getSupportFragmentManager();
 
+
 //        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)frameLayout.getLayoutParams();
 //        params.width = MethodConfig.metrics.widthPixels;
 //        params.height = MethodConfig.metrics.heightPixels + MethodConfig.dip2px(this,50);
@@ -54,15 +56,12 @@ public class MainActivity extends BaseAty {
     @Override
     protected void initEvents() {
         linear_home.setOnClickListener(this);
-
-        linear_home.performClick();
-
         linear_ablum.setOnClickListener(this);
         linear_favourite.setOnClickListener(this);
         linear_more.setOnClickListener(this);
         linear_friends.setOnClickListener(this);
-//        linear_friends.setOnClickListener(this);
-//        linear_more.setOnClickListener(this);
+
+        linear_home.performClick();
 
     }
 
@@ -144,16 +143,13 @@ public class MainActivity extends BaseAty {
                         Bundle bundle = new Bundle();
                         bundle.putString(AppKeyMap.CATE_ID, id);
                         AppTools.sendBroadcast(bundle,AppKeyMap.CASE_ACTION);
-//                        Intent intent = new Intent();
-//                        intent.setAction(AppKeyMap.CASE_ACTION);
-//                        intent.putExtra();
-//                        sendBroadcast(intent);
                     }
                     linear_ablum.performClick();
                 }
             };
             ft.add(R.id.layout_contain, homeFragment);
         }
+        homeFragment.ScrollToTop();
         if(baseFgm!=null)
         {
             ft.hide(baseFgm);
@@ -225,4 +221,6 @@ public class MainActivity extends BaseAty {
         baseFgm = moreFragment;
         ft.show(moreFragment).commit();
     }
+
+
 }

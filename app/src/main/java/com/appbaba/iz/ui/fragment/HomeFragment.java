@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.appbaba.iz.AppKeyMap;
@@ -35,6 +37,7 @@ import com.appbaba.iz.impl.UpdateClickCallback;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.method.SpaceItemDecoration;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.LoginActivity;
 import com.appbaba.iz.ui.activity.TransferActivity;
 import com.appbaba.iz.ui.activity.album.ProductActivity;
@@ -52,6 +55,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
     private  ImageView iv_banner,iv_menu;
     private RecyclerView recyclerView;
     private  PopupWindow window;
+    private ScrollView scrollview;
 
 
 
@@ -66,6 +70,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
         iv_banner = homeBinding.ivBanner;
         iv_menu = homeBinding.includeTopTitle.ivMenu;
         recyclerView = homeBinding.recycler;
+        scrollview = homeBinding.scrollView;
 
         relate_1 = homeBinding.relate1;
         relate_2 = homeBinding.relate2;
@@ -88,7 +93,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
         LinearLayout.LayoutParams p5 = ( LinearLayout.LayoutParams)relate_5.getLayoutParams();
         p2.height = MethodConfig.GetHeightFor16v9(p2.width);
 
-       p5.height= p4.height = p3.height = p2.height;
+        p5.height= p4.height = p3.height = p2.height;
         p5.width = p4.width = p3.width = p2.width;
 
         relate_2.setLayoutParams(p2);
@@ -116,9 +121,16 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
         recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),4)));
         recyclerView.setAdapter(adapter);
+//        homeBinding.scrollView.setscrol;
         networkModel.HomeIndex(AppTools.getStringSharedPreferences(AppKeyMap.AUTH,""), NetworkParams.INDEX);
     }
 
+
+    public  void  ScrollToTop()
+    {
+        if(recyclerView!=null)
+        recyclerView.clearFocus();
+    }
 
 
 

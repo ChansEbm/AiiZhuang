@@ -39,7 +39,7 @@ import java.util.logging.Logger;
 public class HomeItemScanFragment extends BaseFgm {
 
     private FragmentHomeTopScanBinding topScanBinding;
-    private TextView tv_top_simple_title,iv_back;
+    private TextView tv_top_simple_title,_back;
     private CompoundBarcodeView barcodeView;
 
     private BarcodeCallback callback = new BarcodeCallback() {
@@ -62,19 +62,15 @@ public class HomeItemScanFragment extends BaseFgm {
         String product_id = Uri.parse(path).getQueryParameter("product_id");
         if(!TextUtils.isEmpty(cases_id))
         {
-            CasesAttrSelection selection = new CasesAttrSelection();
-            selection.setCateId(cases_id);
             Bundle bundle = new Bundle();
-            bundle.putParcelable("selection", selection);
+            bundle.putString("casesId", cases_id);
             start(bundle, EffectActivity.class);
             ((Activity)getContext()).finish();
         }
         else if(!TextUtils.isEmpty(product_id))
         {
-            CasesAttrSelection selection = new CasesAttrSelection();
-            selection.setCateId(product_id);
             Bundle bundle = new Bundle();
-            bundle.putParcelable("selection", selection);
+            bundle.putString("productId", product_id);
             start(bundle, ProductActivity.class);
             ((Activity)getContext()).finish();
         }
@@ -95,7 +91,7 @@ public class HomeItemScanFragment extends BaseFgm {
          topScanBinding = (FragmentHomeTopScanBinding)viewDataBinding;
          barcodeView = topScanBinding.barcodeScanner;
          tv_top_simple_title = topScanBinding.includeTopSimpleTitle.tvTopSimpleTitle;
-         iv_back = topScanBinding.includeTopSimpleTitle.Back;
+         _back = topScanBinding.includeTopSimpleTitle.Back;
          tv_top_simple_title.setText(R.string.popup_erweima);
          barcodeView.getBarcodeView().setFramingRectSize(new Size(MethodConfig.metrics.widthPixels/2,MethodConfig.metrics.widthPixels/2));
          barcodeView.decodeContinuous(callback);
@@ -129,7 +125,7 @@ public class HomeItemScanFragment extends BaseFgm {
 
     @Override
     protected void initEvents() {
-       iv_back.setOnClickListener(this);
+       _back.setOnClickListener(this);
     }
 
     @Override
@@ -141,7 +137,7 @@ public class HomeItemScanFragment extends BaseFgm {
     protected void onClick(int id, View view) {
         switch (id)
         {
-            case R.id.iv_back:
+            case R.id._back:
                 ((Activity)getContext()).finish();
                 break;
         }

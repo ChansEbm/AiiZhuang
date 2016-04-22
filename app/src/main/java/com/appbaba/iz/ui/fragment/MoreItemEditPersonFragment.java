@@ -67,6 +67,7 @@ public class MoreItemEditPersonFragment extends BaseFgm {
            // Picasso.with(getContext()).load(MethodConfig.localUser.getInfo().getAvatar()).into(editPersonBinding.dvHead);
 
             editPersonBinding.setItem(MethodConfig.localUser.getInfo());
+            editPersonBinding.tvArea.setTag(R.string.tag_value,MethodConfig.localUser.getInfo().getArea_ids());
         }
         editPersonBinding.btnChange.setVisibility(View.GONE);
     }

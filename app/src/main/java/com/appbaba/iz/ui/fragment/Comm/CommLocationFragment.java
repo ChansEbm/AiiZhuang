@@ -170,7 +170,7 @@ public class CommLocationFragment extends BaseFgm {
                         {
                             Intent intent = new Intent();
                             intent.putExtra("area_id",locationBean.getData().get(province).getCity().get(city).getId());
-                            intent.putExtra("area_name",locationBean.getData().get(province).getCity().get(city).getName());
+                            intent.putExtra("area_name",locationBean.getData().get(province).getName()+" "+ locationBean.getData().get(province).getCity().get(city).getName());
                             ((Activity)getContext()).setResult(100,intent);
                             ((Activity)getContext()).finish();
                         }
@@ -179,7 +179,9 @@ public class CommLocationFragment extends BaseFgm {
                         area = position;
                         Intent intent = new Intent();
                         intent.putExtra("area_id",locationBean.getData().get(province).getCity().get(city).getZone().get(area).getId());
-                        intent.putExtra("area_name",locationBean.getData().get(province).getCity().get(city).getZone().get(area).getName());
+                        intent.putExtra("area_name",locationBean.getData().get(province).getName()+" "+
+                                locationBean.getData().get(province).getCity().get(city).getName()+" "+
+                                locationBean.getData().get(province).getCity().get(city).getZone().get(area).getName());
                         ((Activity)getContext()).setResult(100,intent);
                         ((Activity)getContext()).finish();
                         break;

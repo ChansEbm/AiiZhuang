@@ -13,7 +13,8 @@ import com.squareup.picasso.Picasso;
 public class Constant {
 
     @BindingAdapter(value = {"app:caseAttrTextColor"})
-    public static void caseAttrTextColor(TextView textView, boolean isCheck) {
+    public static void
+    caseAttrTextColor(TextView textView, boolean isCheck) {
         if (isCheck) {
             textView.setTextColor(textView.getResources().getColor(R.color.color_orange_light));
         } else {
