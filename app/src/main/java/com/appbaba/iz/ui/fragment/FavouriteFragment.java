@@ -73,7 +73,7 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
        // recyclerView.setLayoutParams(new LinearLayout.LayoutParams(MethodConfig.metrics.widthPixels,MethodConfig.metrics.heightPixels-100));
-        recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),10)));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),15)));
 
 
         networkModel.HomeSubject(AppTools.getStringSharedPreferences(AppKeyMap.AUTH,""),page,pagesize, NetworkParams.SUBJECT);

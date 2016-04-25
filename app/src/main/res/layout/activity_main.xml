@@ -20,7 +20,13 @@
 
         </FrameLayout>
 
+        <TextView
+            android:layout_above="@+id/linear_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bg_line"></TextView>
         <LinearLayout
+            android:id="@+id/linear_bottom"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/bottom_half_white"

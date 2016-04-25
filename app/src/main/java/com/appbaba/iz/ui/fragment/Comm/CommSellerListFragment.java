@@ -125,7 +125,6 @@ public class CommSellerListFragment extends BaseFgm {
 
                 } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
                     editText.clearFocus();
-
                 }
             }
         });
@@ -160,13 +159,13 @@ public class CommSellerListFragment extends BaseFgm {
             x4 = 0;
         }
         TranslateAnimation animation = new TranslateAnimation(x3,x4,0,0);
-        animation.setDuration(500);
+        animation.setDuration(300);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 tv_search.setText("");
                 tv_search.setVisibility(View.VISIBLE);
-                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                editText.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_friend_search_null, 0, 0, 0);
             }
 
             @Override

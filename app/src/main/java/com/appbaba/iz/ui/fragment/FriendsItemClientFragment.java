@@ -269,7 +269,7 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
             public void onAnimationStart(Animation animation) {
                 tv_search.setText("");
                 tv_search.setVisibility(View.VISIBLE);
-                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                editText.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_friend_search_null, 0, 0, 0);
             }
 
             @Override

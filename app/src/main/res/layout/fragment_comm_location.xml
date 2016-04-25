@@ -5,7 +5,8 @@
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/bg_gray">
 
         <include android:id="@+id/include_top_title"
             layout="@layout/title_bar"></include>
@@ -14,6 +15,8 @@
             android:id="@+id/ltv_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="0.5dp"></ListView>
+            android:background="@color/white"
+            android:dividerHeight="0.5dp"
+            android:divider="@color/color_bg_line"></ListView>
     </LinearLayout>
 </layout>

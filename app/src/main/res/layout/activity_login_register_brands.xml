@@ -91,7 +91,7 @@
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
                         android:paddingLeft="10dp"
-                        android:src="@mipmap/icon_more_arrow"/>
+                        android:src="@mipmap/more_arrow_right"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -321,7 +321,7 @@
                             android:layout_height="match_parent"
                             android:hint="@string/register_activity_tv_must_hint"
                             android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/icon_more_arrow"
+                            android:drawableRight="@mipmap/more_arrow_right"
                         />
                         </LinearLayout>
                     <LinearLayout
@@ -344,7 +344,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/icon_more_arrow"
+                            android:drawableRight="@mipmap/more_arrow_right"
                             android:hint="@string/register_activity_tv_must_hint"
                             />
                     </LinearLayout>
@@ -368,7 +368,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/icon_more_arrow"
+                            android:drawableRight="@mipmap/more_arrow_right"
                             android:hint="@string/register_activity_tv_must_hint"
                             />
                     </LinearLayout>
@@ -392,7 +392,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/icon_more_arrow"
+                            android:drawableRight="@mipmap/more_arrow_right"
                             android:hint="@string/register_activity_tv_option_hint"
                             />
                     </LinearLayout>

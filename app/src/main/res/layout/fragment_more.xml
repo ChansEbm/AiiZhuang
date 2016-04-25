@@ -23,7 +23,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="15dp"
                         android:padding="10dp"
                         android:id="@+id/linear_person"
                         android:background="@drawable/bg_white_both_line">
@@ -31,6 +31,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_person"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -52,6 +53,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_change_pwd"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -66,13 +68,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="15dp"
                         android:padding="10dp"
                         android:background="@drawable/bg_white_both_line">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_clear_cache"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:id="@+id/linear_cache"
@@ -102,6 +105,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_use_guide"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -122,6 +126,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_share"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -143,6 +148,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_feedback"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -164,6 +170,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_about_us"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -179,13 +186,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="15dp"
                         android:padding="10dp"
                         android:background="@drawable/bg_white_both_line">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_service"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -207,6 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_fragment_private"
+                            android:textSize="16sp"
                             android:textColor="@color/black"/>
                         <LinearLayout
                             android:layout_width="match_parent"

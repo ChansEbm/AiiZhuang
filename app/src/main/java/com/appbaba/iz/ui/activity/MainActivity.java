@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.appbaba.iz.ActivityMainBinding;
 import com.appbaba.iz.AppKeyMap;
@@ -72,7 +73,8 @@ public class MainActivity extends BaseAty {
         long ticks = MethodConfig.GetTicks();
         if(ticks>2*1000)
         {
-            AppTools.showNormalSnackBar(getWindow().getDecorView(),"再按一次退出软件");
+            Toast.makeText(this,"再按一次退出软件",Toast.LENGTH_LONG).show();
+           // AppTools.showNormalSnackBar(getWindow().getDecorView(),);
         }
         else
         {

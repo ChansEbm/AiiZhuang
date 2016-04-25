@@ -20,6 +20,7 @@ import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.entity.LocationBean;
 import com.appbaba.iz.entity.Login.UpdatePersonBean;
 import com.appbaba.iz.eum.JsonType;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.LogTools;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,7 +43,7 @@ public class CommLocationFragment extends BaseFgm {
     private List<Object> list;
 
     private  int which=0,province=-1,city=-1,area=-1;
-    private LocationBean locationBean;
+    private  LocationBean locationBean;
 
 
     @Override
@@ -91,15 +92,14 @@ public class CommLocationFragment extends BaseFgm {
 
         commLocationBinding.ltvData.setAdapter(adapter);
 
-//        Timer timer = new Timer();
-//        TimerTask timerTask = new TimerTask() {
-//            @Override
-//            public void run() {
-                ReadFile();
-//            }
-//        };
-//        timer.schedule(timerTask,0);
-
+        if(MethodConfig.locationBean==null) {
+            ReadFile();
+        }
+        else
+        {
+            locationBean = MethodConfig.locationBean;
+            UpdateListData();
+        }
     }
 
     public  void  ReadFile()
@@ -114,7 +114,7 @@ public class CommLocationFragment extends BaseFgm {
             {
                 data +=(new String(buffer,0,count));
             }
-           locationBean = gson.fromJson(data, new TypeToken<LocationBean>(){}.getType());
+           MethodConfig.locationBean = locationBean = gson.fromJson(data, new TypeToken<LocationBean>(){}.getType());
             UpdateListData();
         }catch (Exception ex)
         {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +34,7 @@ import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
+import com.google.zxing.qrcode.encoder.QRCode;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -159,6 +161,8 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
                 break;
             case R.id.menu_share:
             {
+//                String url = AppKeyMap.HEAD+"Page/subject_detail?subject_id="+id;
+//                Bitmap bitmap = MethodConfig.createImage(url);
                 Intent intent = new Intent(getContext(),TransferActivity.class);
                 intent.putExtra("fragment",14);
                 intent.putExtra("which",11);
