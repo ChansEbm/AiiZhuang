@@ -51,6 +51,8 @@
     <color name="line_gray">#e6e6e6</color>
     <color name="bg_gray">#ebebeb</color>
     <color name="text_hint_gray">#c8c8c8</color>
+    <color name="main_bottom_textview_light">#b0b0af</color>
+    <color name="main_bottom_textview_dark">#646464</color>
     <color name="popup_home_top_normal">#464646</color>
     <color name="popup_home_top_pre">#363636</color>
     <color name="more_bottom_btn_color_normal">#f05953</color>

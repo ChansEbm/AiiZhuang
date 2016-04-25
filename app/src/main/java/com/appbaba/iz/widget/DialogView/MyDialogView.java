@@ -60,6 +60,11 @@ public class MyDialogView {
 
     }
 
+    public  void  SetPositiveTag(int key,Object object)
+    {
+        btn_left.setTag(key,object);
+    }
+
     public  void  setPositiveButton(String text,View.OnClickListener onClickListener)
     {
         btn_left.setText(text);

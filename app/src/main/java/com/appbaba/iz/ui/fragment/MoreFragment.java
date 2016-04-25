@@ -28,7 +28,6 @@ import com.squareup.picasso.Cache;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.codec.language.DaitchMokotoffSoundex;
 
 import java.io.File;
 import java.util.List;
@@ -37,7 +36,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.SimpleFormatter;
 
-import kotlin.collections.IntIterator;
 
 /**
  * Created by ruby on 2016/4/1.

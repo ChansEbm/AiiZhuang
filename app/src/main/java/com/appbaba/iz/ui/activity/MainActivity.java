@@ -13,6 +13,7 @@ import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.impl.UpdateClickCallback;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.ui.fragment.AlbumFragment;
 import com.appbaba.iz.ui.fragment.FavouriteFragment;
@@ -63,6 +64,20 @@ public class MainActivity extends BaseAty {
         linear_friends.setOnClickListener(this);
 
         linear_home.performClick();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        long ticks = MethodConfig.GetTicks();
+        if(ticks>2*1000)
+        {
+            AppTools.showNormalSnackBar(getWindow().getDecorView(),"再按一次退出软件");
+        }
+        else
+        {
+            super.onBackPressed();
+        }
 
     }
 

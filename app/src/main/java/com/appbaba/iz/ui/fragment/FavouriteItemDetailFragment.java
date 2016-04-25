@@ -146,7 +146,9 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
             case  R.id.menu_unlike:
                 if(MethodConfig.localUser!=null)
                 {
+
                     String customer_id = AppTools.getStringSharedPreferences(AppKeyMap.CUSTOMERID,"");
+                    if(bean!=null && bean.getInfo()!=null)
                     networkModel.HomeSubjectCollectSubject(MethodConfig.localUser.getAuth(),customer_id,bean.getInfo().getSubject_id(),NetworkParams.COLLECTION);
                 }
                 else
@@ -176,7 +178,7 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
             bean = (FavouriteDetailBean)t;
             detailBinding.setItem(bean.getInfo());
             list.addAll(bean.getInfo().getDetail_list());
-            if(bean.getInfo().is_collect())
+            if(bean.getInfo().is_collect()==1)
             {
                 detailBinding.includeTopTitle.toolBar.getMenu().getItem(0).setIcon(R.mipmap.icon_like);
             }
@@ -189,8 +191,8 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
         if(paramsCode==NetworkParams.COLLECTION)
         {
             if(bean.getErrorcode()==0) {
-                bean.getInfo().setIs_collect(!bean.getInfo().is_collect());
-                if (bean.getInfo().is_collect()) {
+                bean.getInfo().setIs_collect(bean.getInfo().is_collect()==1? 0 : 1);
+                if (bean.getInfo().is_collect()==1) {
                     detailBinding.includeTopTitle.toolBar.getMenu().getItem(0).setIcon(R.mipmap.icon_like);
                 } else {
                     detailBinding.includeTopTitle.toolBar.getMenu().getItem(0).setIcon(R.mipmap.icon_unlike);

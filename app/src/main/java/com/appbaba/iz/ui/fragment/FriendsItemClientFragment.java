@@ -29,6 +29,7 @@ import com.appbaba.iz.adapters.CommonBinderAdapter;
 import com.appbaba.iz.adapters.CommonBinderHolder;
 import com.appbaba.iz.adapters.ViewHolder;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.Friends.FriendsBean;
 import com.appbaba.iz.entity.Friends.FriendsClientBean;
 import com.appbaba.iz.eum.NetworkParams;
@@ -315,12 +316,28 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
             }
                 break;
             case R.id.btn_item_del: {
-                AddClientModel model = (AddClientModel) view.getTag(R.string.tag_value);
-                networkModel.HomeMarketingDelCustomer(MethodConfig.localUser.getAuth(), model.getId(), NetworkParams.CUSTOMERDEL);
-                if (sliderViewTemp != null && sliderViewTemp.isShow == true) {
-                    sliderViewTemp.back();
-                    sliderViewTemp = null;
-                }
+                final MyDialogView myDialogView = new MyDialogView(getContext(),"提示","是否删除该客户？");
+
+                myDialogView.setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialogView.dismiss();
+                    }
+                });
+                myDialogView.SetPositiveTag(R.string.tag_value,view.getTag(R.string.tag_value));
+                myDialogView.setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AddClientModel model = (AddClientModel) v.getTag(R.string.tag_value);
+                        networkModel.HomeMarketingDelCustomer(MethodConfig.localUser.getAuth(), model.getId(), NetworkParams.CUSTOMERDEL);
+                        if (sliderViewTemp != null && sliderViewTemp.isShow == true) {
+                            sliderViewTemp.back();
+                            sliderViewTemp = null;
+                        }
+                        myDialogView.dismiss();
+                    }
+                });
+                myDialogView.show();
             }
                 break;
             case R.id.tv_item_call: {
@@ -392,6 +409,8 @@ public class FriendsItemClientFragment extends BaseFgm implements  Toolbar.OnMen
         }
         if(paramsCode==NetworkParams.CUSTOMERDEL)
         {
+            BaseBean bean = (BaseBean)t;
+            AppTools.showNormalSnackBar(getView(),bean.getMsg());
             networkModel.HomeMarketingCustomerList(MethodConfig.localUser.getAuth(),NetworkParams.CUSTOMERLIST);
         }
     }

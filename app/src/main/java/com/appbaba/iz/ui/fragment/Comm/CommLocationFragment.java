@@ -127,6 +127,7 @@ public class CommLocationFragment extends BaseFgm {
         list.clear();
         if(which==0)
         {
+            commLocationBinding.includeTopTitle.title.setText("选择地区");
             list.addAll(locationBean.getData());
         }
         if(which==1)

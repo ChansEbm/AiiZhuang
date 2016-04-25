@@ -45,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="12sp"
+                    android:textColor="@color/main_bottom_textview_selector"
                     android:text="@string/main_activity_bottom_home"/>
 
             </LinearLayout>
@@ -65,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="12sp"
+                    android:textColor="@color/main_bottom_textview_selector"
                     android:text="@string/main_activity_bottom_ablum"/>
             </LinearLayout>
             <LinearLayout
@@ -84,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="12sp"
+                    android:textColor="@color/main_bottom_textview_selector"
                     android:text="@string/main_activity_bottom_favourite"/>
             </LinearLayout>
             <LinearLayout
@@ -104,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="12sp"
+                    android:textColor="@color/main_bottom_textview_selector"
                     android:text="@string/main_activity_bottom_friends"/>
             </LinearLayout>
             <LinearLayout
@@ -123,6 +127,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="12sp"
+                    android:textColor="@color/main_bottom_textview_selector"
                     android:text="@string/main_activity_bottom_more"/>
             </LinearLayout>
 

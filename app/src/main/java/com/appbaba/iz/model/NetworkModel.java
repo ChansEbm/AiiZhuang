@@ -28,9 +28,7 @@ import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.tools.OkHttpBuilder;
 import com.github.pwittchen.prefser.library.Prefser;
-
-import org.antlr.v4.runtime.misc.NotNull;
-
+import com.google.repacked.antlr.v4.runtime.misc.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -294,6 +292,7 @@ public class NetworkModel<E> {
         clearAllParams();
         params.put("auth",auth);
         params.put("subject_id",subject_id);
+        addCustomerId();
         new OkHttpBuilder.POST(appCompatActivity).urlSubject("subjectDetail").entityClass(FavouriteDetailBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }

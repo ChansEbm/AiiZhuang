@@ -41,7 +41,7 @@ public class FavouriteDetailBean extends BaseBean {
         private String thumb;
         private String visits;
         private String collect;
-        private boolean is_collect;
+        private int is_collect;
         private List<String> label;
         private String labelStr;
 
@@ -56,11 +56,11 @@ public class FavouriteDetailBean extends BaseBean {
         }
 
 
-        public boolean is_collect() {
+        public int is_collect() {
             return is_collect;
         }
 
-        public void setIs_collect(boolean is_collect) {
+        public void setIs_collect(int is_collect) {
             this.is_collect = is_collect;
         }
 

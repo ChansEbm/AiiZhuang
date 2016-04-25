@@ -9,9 +9,11 @@
 
         <include android:id="@+id/include_top_title"
             layout="@layout/title_bar"></include>
+        <include layout="@layout/line"></include>
         <ListView
             android:id="@+id/ltv_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"
+            android:dividerHeight="0.5dp"></ListView>
     </LinearLayout>
 </layout>
