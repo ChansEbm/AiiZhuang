@@ -186,6 +186,7 @@
                         android:layout_height="match_parent"
                         android:layout_toRightOf="@+id/tv_1"
                         android:background="@color/transparent"
+                        android:inputType="phone"
                         android:layout_toLeftOf="@+id/tv_register_msg"
                         />
 
@@ -201,7 +202,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="20dp"
-                        android:background="@drawable/register_aty_btn_msg_normal"
+                        android:background="@drawable/register_aty_btn_msg_selector"
                         android:text="@string/register_activity_r_btn_message"/>
 
                 </RelativeLayout>>

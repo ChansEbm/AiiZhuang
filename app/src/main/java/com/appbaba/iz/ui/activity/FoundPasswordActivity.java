@@ -1,5 +1,7 @@
 package com.appbaba.iz.ui.activity;
 
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -11,6 +13,9 @@ import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.model.FoundPwdModel;
 import com.appbaba.iz.tools.AppTools;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by ruby on 2016/4/1.
  */
@@ -19,14 +24,15 @@ public class FoundPasswordActivity extends BaseAty {
 
     private FoundPwdModel model = new FoundPwdModel();
 
+    private  int count=60;
+    private CountDownTimer countDownTimer;
+
     @Override
     protected void initViews() {
 
         foundPwdBinding = (ActivityFoundPwdBinding)viewDataBinding;
         foundPwdBinding.includeTopTitle.title.setText(R.string.found_activity_tv_top_title);
         foundPwdBinding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.icon_top_back);
-
-
 
     }
 
@@ -62,6 +68,7 @@ public class FoundPasswordActivity extends BaseAty {
               {
                   if(!TextUtils.isEmpty(foundPwdBinding.edtFoundPhone.getText()))
                   {
+                      StartCount();
                       networkModel.isPhoneReg(foundPwdBinding.edtFoundPhone.getText().toString().trim(),NetworkParams.CHECKPHONEINUSE);
                   }
                   else
@@ -98,6 +105,25 @@ public class FoundPasswordActivity extends BaseAty {
           return  true;
     }
 
+    public  void  StartCount()
+    {
+        foundPwdBinding.tvMsg.setEnabled(false);
+        countDownTimer = new CountDownTimer(count*1000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                foundPwdBinding.tvMsg.setText("  (  "+millisUntilFinished/1000+"  )  ");
+            }
+
+            @Override
+            public void onFinish() {
+                foundPwdBinding.tvMsg.setEnabled(true);
+                foundPwdBinding.tvMsg.setText(getString(R.string.found_activity_btn_message));
+            }
+        };
+        countDownTimer.start();
+
+    }
+
     @Override
     public void onJsonObjectResponse(Object o, NetworkParams paramsCode) {
         BaseBean bean = (BaseBean)o;
@@ -108,11 +134,18 @@ public class FoundPasswordActivity extends BaseAty {
               }
               else
               {
+                  countDownTimer.cancel();
+                  countDownTimer.onFinish();
                   AppTools.showNormalSnackBar(getWindow().getDecorView(),bean.getMsg());
               }
           }
           if(paramsCode==NetworkParams.SENDMSG)
           {
+              if(bean.getErrorcode()!=0)
+              {
+                  countDownTimer.cancel();
+                  countDownTimer.onFinish();
+              }
               AppTools.showNormalSnackBar(getWindow().getDecorView(),bean.getMsg());
           }
         if(paramsCode==NetworkParams.FOUNDPASSWORD)

@@ -76,7 +76,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppTools.init(this);
-        SDKInitializer.initialize(getApplicationContext());
+        //SDKInitializer.initialize(getApplicationContext());
         MultiDex.install(this);
         FileSaveTools.getInstance().init(this);
         initGalleryFinal();

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.FragmentFriendClientSaveBinding;
 import com.appbaba.iz.ItemFriendClientCollectionBinding;
 import com.appbaba.iz.R;
@@ -21,11 +22,16 @@ import com.appbaba.iz.entity.Friends.FriendsClientCollectionBean;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.method.FullyGridLayoutManager;
 import com.appbaba.iz.method.MethodConfig;
+import com.appbaba.iz.tools.SDCardTools;
+import com.appbaba.iz.widget.DialogView.ShareDialogView;
 import com.appbaba.iz.widget.GridSpacingItemDecoration;
 import com.squareup.picasso.Picasso;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +48,7 @@ public class FriendsItemClientSaveFragment extends BaseFgm implements Toolbar.On
 
     private  String id,name;
     private  int height1,height2;
+    private  FriendsClientCollectionBean bean;
 
     @Override
     protected void initViews() {
@@ -50,7 +57,7 @@ public class FriendsItemClientSaveFragment extends BaseFgm implements Toolbar.On
         saveBinding = (FragmentFriendClientSaveBinding)viewDataBinding;
         saveBinding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.more_arrow_dark_left);
         saveBinding.includeTopTitle.toolBar.setBackgroundColor(Color.WHITE);
-        saveBinding.includeTopTitle.toolBar.getMenu().add(0,R.menu.menu_fav_share,0,"").setIcon(R.mipmap.icon_share_dark).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        saveBinding.includeTopTitle.toolBar.getMenu().add(0,R.id.menu_share,0,"").setIcon(R.mipmap.icon_share_dark).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         saveBinding.includeTopTitle.title.setText(name+"的收藏夹");
         saveBinding.includeTopTitle.title.setTextColor(Color.BLACK);
 
@@ -133,7 +140,7 @@ public class FriendsItemClientSaveFragment extends BaseFgm implements Toolbar.On
     public void onJsonObjectSuccess(Object t, NetworkParams paramsCode) {
         if(paramsCode==NetworkParams.CUSTOMERCOLLECTION)
         {
-            FriendsClientCollectionBean bean = (FriendsClientCollectionBean)t;
+            bean = (FriendsClientCollectionBean)t;
             list1.addAll(bean.getCases_list());
             list2.addAll(bean.getProduct_list());
             adapter1.notifyDataSetChanged();
@@ -159,6 +166,32 @@ public class FriendsItemClientSaveFragment extends BaseFgm implements Toolbar.On
         switch (item.getItemId())
         {
             case R.id.menu_share:
+                if(bean!=null) {
+                    String url = AppKeyMap.HEAD + "Page/customer_collect?customer_id=" + id;
+                    File file = new File(SDCardTools.getSDCardPosition()+"collection.png");
+                    if(!file.exists())
+                    {
+                        try {
+                            InputStream inputStream = getContext().getResources().getAssets().open("collection.png");
+                            FileOutputStream outputStream = new FileOutputStream(file);
+                            byte[] buffer = new byte[2048];
+                            int count = 0;
+                            while ( (count = inputStream.read(buffer))>0)
+                            {
+                                outputStream.write(buffer,0,count);
+                            }
+                            outputStream.close();
+                            inputStream.close();
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                    ShareDialogView dialogView = new ShareDialogView( name+"的收藏夹", name, file.getAbsolutePath(), url,getContext());
+                    dialogView.show();
+                }
                 break;
         }
         return false;

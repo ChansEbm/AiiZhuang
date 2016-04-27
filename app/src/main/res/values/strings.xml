@@ -17,9 +17,15 @@
 
     <!--label-->
     <string name="label_send_way">发送方式 :</string>
-    <string name="label_wechat_moment">微信朋友圈</string>
+    <string name="label_wechat_moment">朋友圈</string>
     <string name="label_qq">QQ</string>
     <string name="label_qzone">QQ空间</string>
+    <string name="label_wechat_friend">微信好友</string>
+    <string name="label_wechat_collection">微信收藏</string>
+    <string name="label_weibo">微博</string>
+    <string name="label_message">短信</string>
+    <string name="label_email">邮件</string>
+    <string name="label_qrcode">二维码</string>
     <string name="label_take_photo">拍照</string>
     <string name="label_select_from_album">从相册选择</string>
 

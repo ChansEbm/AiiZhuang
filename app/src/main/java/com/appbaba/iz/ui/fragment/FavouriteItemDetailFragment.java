@@ -34,6 +34,7 @@ import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
+import com.appbaba.iz.widget.DialogView.ShareDialogView;
 import com.google.zxing.qrcode.encoder.QRCode;
 import com.squareup.picasso.Picasso;
 
@@ -161,15 +162,10 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
                 break;
             case R.id.menu_share:
             {
-//                String url = AppKeyMap.HEAD+"Page/subject_detail?subject_id="+id;
-//                Bitmap bitmap = MethodConfig.createImage(url);
-                Intent intent = new Intent(getContext(),TransferActivity.class);
-                intent.putExtra("fragment",14);
-                intent.putExtra("which",11);
-                intent.putExtra("value",id);
-                startActivity(intent);
+                String url = AppKeyMap.HEAD+"Page/subject_detail?subject_id="+id;
+                ShareDialogView dialogView = new ShareDialogView(getContext(),bean.getInfo().getTitle(),bean.getInfo().getThumb(),bean.getInfo().getDesc(),url);
+                dialogView.show();
             }
-                Toast.makeText(getContext(),"share",Toast.LENGTH_LONG).show();
                 break;
         }
         return true;

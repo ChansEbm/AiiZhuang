@@ -2,6 +2,7 @@ package com.appbaba.iz.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class RegisterBrandActivity extends BaseAty {
 
     private RegisterModel registerModel;
     private BrandsModel brandsModel;
+    private CountDownTimer countDownTimer;
 
 
     @Override
@@ -92,6 +94,7 @@ public class RegisterBrandActivity extends BaseAty {
                 }
                 else
                 {
+                    StartCount();
                     networkModel.checkPhone(binding.edtRegisterPhone.getText().toString().trim(),NetworkParams.CHECKPHONE);
                 }
                 break;
@@ -181,6 +184,26 @@ public class RegisterBrandActivity extends BaseAty {
        return  true;
     }
 
+    public  void  StartCount()
+    {
+        binding.tvRegisterMsg.setEnabled(false);
+        countDownTimer = new CountDownTimer(60*1000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                binding.tvRegisterMsg.setText("  (  "+millisUntilFinished/1000+"  )  ");
+            }
+
+            @Override
+            public void onFinish() {
+                binding.tvRegisterMsg.setEnabled(true);
+                binding.tvRegisterMsg.setText(getString(R.string.register_activity_r_btn_message));
+            }
+        };
+        countDownTimer.start();
+
+    }
+
+
     @Override
     public void onJsonObjectResponse(Object o, NetworkParams paramsCode) {
         BaseBean bean = (BaseBean)o;
@@ -193,12 +216,19 @@ public class RegisterBrandActivity extends BaseAty {
             }
             else
             {
+                countDownTimer.cancel();
+                countDownTimer.onFinish();
                 AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
             }
 
         }
         if(paramsCode==NetworkParams.SENDMSG)
         {
+            if(bean.getErrorcode()!=0)
+            {
+                countDownTimer.cancel();
+                countDownTimer.onFinish();
+            }
             AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
         }
 
