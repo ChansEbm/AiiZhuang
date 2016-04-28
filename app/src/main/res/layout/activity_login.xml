@@ -136,7 +136,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/login_activity_btn_login"
                     android:textSize="17sp"
-                    android:background="@drawable/login_aty_btn_normal"
+                    android:background="@drawable/login_aty_btn_selector"
                     android:layout_toLeftOf="@+id/tv_4"/>
                 <TextView
                     android:id="@+id/tv_forget"
@@ -160,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
-                    android:background="@drawable/login_aty_btn_normal"
+                    android:background="@drawable/login_aty_btn_selector"
                     android:layout_marginTop="20dp"
                     android:text="@string/login_activity_btn_visitor"/>
 

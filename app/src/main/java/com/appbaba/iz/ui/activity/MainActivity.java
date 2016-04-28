@@ -73,7 +73,7 @@ public class MainActivity extends BaseAty {
         long ticks = MethodConfig.GetTicks();
         if(ticks>2*1000)
         {
-            Toast.makeText(this,"再按一次退出软件",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"再按一次返回键退出",Toast.LENGTH_LONG).show();
            // AppTools.showNormalSnackBar(getWindow().getDecorView(),);
         }
         else
