@@ -209,10 +209,6 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
     {
         for(int i=pos;i<list.size();i++)
         {
-//            if(pos>=list.size())
-//            {
-//                break;
-//            }
             FavouriteDetailBean.InfoEntity.DetailListEntity  detailListEntity = list.get(i);
             ItemFavouriteDetailBinding itemFavouriteDetailBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),R.layout.item_favourite_detail_view,null,false);
                 float scale = 0;

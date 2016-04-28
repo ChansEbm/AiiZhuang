@@ -239,6 +239,14 @@ public class NetworkModel<E> {
                 .entityClass(BaseBean.class).enqueue(networkParams, tOkHttpResponseListener);
     }
 
+    public  void  addCasesVisit(String casesId,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("cases_id", casesId);
+        new OkHttpBuilder.POST(appCompatActivity).urlCases("addCasesVisit").params(params)
+                .entityClass(BaseBean.class).enqueue(networkParams, tOkHttpResponseListener);
+    }
+
     public void collectProduct(String productId,NetworkParams networkParams){
         clearAllParams().addAuth().addCustomerId();
         params.put("product_id", productId);
@@ -267,6 +275,14 @@ public class NetworkModel<E> {
 //        params.put("push_id",push_id);
 //        new OkHttpBuilder.POST(appCompatActivity).urlLogin("login").entityClass(AuthBean.class).params(params)
 //                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  addProductVisit(String productId,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("product_id",productId);
+        new OkHttpBuilder.POST(appCompatActivity).urlCases("addProductVisit").params(params)
+                .entityClass(BaseBean.class).enqueue(networkParams, tOkHttpResponseListener);
     }
 
     public void  HomeIndex(String auth,NetworkParams networkParams)

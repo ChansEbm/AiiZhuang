@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.ItemProductChildLayout;
@@ -24,12 +25,15 @@ import com.appbaba.iz.adapters.CommonBinderAdapter;
 import com.appbaba.iz.adapters.CommonBinderHolder;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.entity.Base.BaseBean;
+import com.appbaba.iz.entity.main.album.CaseEntity;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.entity.main.album.ProductEntity;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
+import com.appbaba.iz.ui.activity.TransferActivity;
+import com.appbaba.iz.widget.DialogView.ShareDialogView;
 import com.github.pwittchen.prefser.library.Prefser;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +44,7 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
         .OnPageChangeListener {
     private ViewPager viewPager;
     private RecyclerView recyclerView;
+    private TextView tv_detail;
 
     private List<ProductEntity.ListBean> productList = new ArrayList<>();
     private List<ProductEntity.ListBean.CasesListBean> recyclerList = new ArrayList<>();
@@ -89,7 +94,11 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
                 if (collectProduct()) return false;
                 break;
             case R.id.menu_share:
-
+                if(productList!=null && productList.size()>0) {
+                    String url = AppKeyMap.HEAD + "Page/product_detail?product_id=" + productList.get(viewPager.getCurrentItem()).getProduct_id();
+                    ShareDialogView dialogView = new ShareDialogView(this, productList.get(viewPager.getCurrentItem()).getTitle(), productList.get(viewPager.getCurrentItem()).getThumb(), productList.get(viewPager.getCurrentItem()).getThumb(), url);
+                    dialogView.show();
+                }
                 break;
         }
 
@@ -149,6 +158,7 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
         ProductLayout productLayout = (ProductLayout) viewDataBinding;
         viewPager = productLayout.viewPager;
         recyclerView = productLayout.recyclerView;
+        tv_detail = productLayout.tvDetail;
 
         commonBinderAdapter = new CommonBinderAdapter<ProductEntity.ListBean.CasesListBean>(this, R
                 .layout.item_product, recyclerList) {
@@ -169,8 +179,10 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
                 .HORIZONTAL, false));
         commonBinderAdapter.setBinderOnItemClickListener(this);
+        tv_detail.setOnClickListener(this);
 
         networkModel.product(productId, "", "1", pageSize, selection, NetworkParams.CUPCAKE);
+        networkModel.addProductVisit(productId,NetworkParams.DONUT);
     }
 
     @Override
@@ -180,7 +192,32 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
 
     @Override
     protected void onClick(int id, View view) {
-
+        switch (id)
+        {
+            case R.id.imageView: {
+                int currentItem = viewPager.getCurrentItem();
+                ArrayList<String> photoPaths = new ArrayList<>();
+                for (ProductEntity.ListBean listBean : productList) {
+                    photoPaths.add(listBean.getImage());
+                }
+                Intent intent = new Intent(ProductActivity.this, ZoomEffectActivity.class).putExtra("index",
+                        currentItem).putStringArrayListExtra("photoPaths", photoPaths);
+                startActivity(intent);
+            }
+                break;
+            case R.id.tv_detail:
+            {
+                if(productList!=null && productList.size()>0) {
+                    Intent intent = new Intent(this, TransferActivity.class);
+                    intent.putExtra("fragment", 14);
+                    intent.putExtra("which", 13);
+                    intent.putExtra("title",productList.get(viewPager.getCurrentItem()).getTitle());
+                    intent.putExtra("value", productList.get(viewPager.getCurrentItem()).getProduct_id());
+                    startActivity(intent);
+                }
+            }
+            break;
+        }
     }
 
     @Override
@@ -255,6 +292,7 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
         start(bundle, EffectActivity.class);
     }
 
+
     class Adapter extends PagerAdapter implements View.OnClickListener {
 
         @Override
@@ -317,6 +355,8 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
                 params.width = ViewPager.LayoutParams.MATCH_PARENT;
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setLayoutParams(params);
+                imageView.setId(R.id.imageView);
+                imageView.setOnClickListener(ProductActivity.this);
                 Picasso.with(ProductActivity.this).load(imageList.get(position)).resize(
                         500, 500).into(imageView);
                 container.addView(imageView);

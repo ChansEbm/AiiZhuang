@@ -122,7 +122,12 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
         recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),4)));
         recyclerView.setAdapter(adapter);
 //        homeBinding.scrollView.setscrol;
-        networkModel.HomeIndex(AppTools.getStringSharedPreferences(AppKeyMap.AUTH,""), NetworkParams.INDEX);
+        String auth="";
+        if(MethodConfig.localUser!=null)
+        {
+            auth = MethodConfig.localUser.getAuth();
+        }
+        networkModel.HomeIndex(auth, NetworkParams.INDEX);
     }
 
 

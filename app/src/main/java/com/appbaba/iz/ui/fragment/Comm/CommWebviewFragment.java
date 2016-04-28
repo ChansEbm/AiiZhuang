@@ -88,6 +88,9 @@ public class CommWebviewFragment extends BaseFgm {
             case 12:
                 url+="customer_collect?customer_id="+value;
                 break;
+            case 13:
+                url+="product_content?product_id="+value;
+                break;
             case -1:
                 url = value;
                 break;

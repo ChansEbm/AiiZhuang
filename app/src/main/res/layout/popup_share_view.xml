@@ -11,7 +11,8 @@
             android:id="@+id/linear_bg"
             android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/dialog_content_view_bg">
+            android:background="@drawable/dialog_content_view_bg"
+            android:padding="10dp">
 
             <LinearLayout
                 android:orientation="horizontal" android:layout_width="match_parent"

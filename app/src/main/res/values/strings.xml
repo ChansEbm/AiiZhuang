@@ -179,6 +179,7 @@
 
     <!--product activity-->
     <string name="product_effect">效\n果\n图</string>
+    <string name="product_effect_detail">查看详情</string>
 
     <!--comm-->
     <string name="tag_value"></string>

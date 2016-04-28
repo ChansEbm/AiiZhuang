@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.EffectLayout;
@@ -27,6 +28,8 @@ import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.ui.activity.TransferActivity;
+import com.appbaba.iz.widget.DialogView.ShareDialogView;
 import com.appbaba.iz.widget.GridSpacingItemDecoration;
 import com.github.pwittchen.prefser.library.Prefser;
 import com.squareup.picasso.Picasso;
@@ -41,6 +44,7 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
         .OnPageChangeListener {
     private ViewPager viewPager;
     private RecyclerView recyclerView;
+
     private List<CaseEntity.ListBean> caseList = new ArrayList<>();//ViewPager list
     private List<CaseEntity.ListBean.ProductListBean> productList = new ArrayList<>();//Product list
     private CommonBinderAdapter<CaseEntity.ListBean.ProductListBean> commonBinderAdapter;
@@ -53,6 +57,7 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     private String pageSize = "10";
 
     private boolean isCollect = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +94,13 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
                 if (collectEffect()) return false;
                 break;
             case R.id.menu_share:
-
+            {
+                if(caseList!=null && caseList.size()>0) {
+                    String url = AppKeyMap.HEAD + "Page/cases_detail?cases_id=" + caseList.get(viewPager.getCurrentItem()).getCases_id();
+                    ShareDialogView dialogView = new ShareDialogView(this, caseList.get(viewPager.getCurrentItem()).getTitle(), caseList.get(viewPager.getCurrentItem()).getThumb(), caseList.get(viewPager.getCurrentItem()).getThumb(), url);
+                    dialogView.show();
+                }
+            }
                 break;
         }
 
@@ -162,7 +173,9 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 30, true));
         commonBinderAdapter.setBinderOnItemClickListener(this);
+
         networkModel.cases(casesId, "", "1", pageSize, selection, NetworkParams.CUPCAKE);
+        networkModel.addCasesVisit(casesId,NetworkParams.DONUT);
     }
 
     @Override
@@ -173,7 +186,7 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
     @Override
     protected void onClick(int id, View view) {
         switch (id) {
-            case R.id.imageView:
+            case R.id.imageView: {
                 int currentItem = viewPager.getCurrentItem();
                 ArrayList<String> photoPaths = new ArrayList<>();
                 for (CaseEntity.ListBean listBean : caseList) {
@@ -182,7 +195,9 @@ public class EffectActivity extends BaseAty<BaseBean, BaseBean> implements ViewP
                 Intent intent = new Intent(this, ZoomEffectActivity.class).putExtra("index",
                         currentItem).putStringArrayListExtra("photoPaths", photoPaths);
                 startActivity(intent);
+            }
                 break;
+
         }
     }
 

@@ -78,7 +78,7 @@ public class ZoomEffectActivity extends BaseAty {
             ViewPager.LayoutParams layoutParams = new ViewPager.LayoutParams();
             layoutParams.height = ViewPager.LayoutParams.MATCH_PARENT;
             layoutParams.width = ViewPager.LayoutParams.MATCH_PARENT;
-            Picasso.with(ZoomEffectActivity.this).load(photoPaths.get(position)).resize(600, 600)
+            Picasso.with(ZoomEffectActivity.this).load(photoPaths.get(position))
                     .into(photoView);
             container.addView(photoView, layoutParams);
             return photoView;

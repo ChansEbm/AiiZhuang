@@ -4,6 +4,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.appbaba.iz.ActivityFoundPwdBinding;
 import com.appbaba.iz.R;
@@ -150,14 +151,15 @@ public class FoundPasswordActivity extends BaseAty {
           }
         if(paramsCode==NetworkParams.FOUNDPASSWORD)
         {
-            AppTools.showNormalSnackBar(getWindow().getDecorView(),bean.getMsg());
+            Toast.makeText(this,bean.getMsg(),Toast.LENGTH_LONG).show();
+//            AppTools.showNormalSnackBar(getWindow().getDecorView(),bean.getMsg());
             if(bean.getErrorcode()==0)
             {
                 foundPwdBinding.edtFoundNewPassword.getText().clear();
                 foundPwdBinding.edtFoundRePassword.getText().clear();
                 foundPwdBinding.edtFoundCode.getText().clear();
                 foundPwdBinding.edtFoundPhone.getText().clear();
-//                onBackPressed();
+                onBackPressed();
             }
 
         }
