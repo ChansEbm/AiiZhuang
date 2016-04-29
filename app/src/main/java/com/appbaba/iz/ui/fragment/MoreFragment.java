@@ -20,16 +20,20 @@ import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.tools.OkHttpBuilder;
+import com.appbaba.iz.tools.SDCardTools;
 import com.appbaba.iz.tools.StringFormatTools;
 import com.appbaba.iz.ui.activity.LoginActivity;
 import com.appbaba.iz.ui.activity.TransferActivity;
 import com.appbaba.iz.widget.DialogView.MyDialogView;
+import com.appbaba.iz.widget.DialogView.ShareDialogView;
 import com.squareup.picasso.Cache;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -61,13 +65,7 @@ public class MoreFragment extends BaseFgm{
          }
 
         cacheFile = new File(getContext().getApplicationContext().getCacheDir().getPath()+File.separator+"picasso-cache");
-//        cacheFile.isDirectory()
-
-
-
         StartGet();
-        //moreBinding.tvCacheSize.setText(String.format(Locale.CHINA,"%.1fMB",GetSize()));
-
     }
 
     public  float  GetSize()
@@ -152,6 +150,7 @@ public class MoreFragment extends BaseFgm{
         moreBinding.linearAboutUs.setOnClickListener(this);
         moreBinding.linearGuide.setOnClickListener(this);
         moreBinding.linearCache.setOnClickListener(this);
+        moreBinding.linearShare.setOnClickListener(this);
     }
 
     @Override
@@ -267,6 +266,32 @@ public class MoreFragment extends BaseFgm{
                 });
                 myDialogView.show();
 
+            }
+                break;
+            case R.id.linear_share:
+            {
+                File file = new File(SDCardTools.getSDCardPosition()+"app_icon.png");
+                if(!file.exists())
+                {
+                    try {
+                        InputStream inputStream = getContext().getResources().getAssets().open("app_icon.png");
+                        FileOutputStream outputStream = new FileOutputStream(file);
+                        byte[] buffer = new byte[2048];
+                        int count = 0;
+                        while ( (count = inputStream.read(buffer))>0)
+                        {
+                            outputStream.write(buffer,0,count);
+                        }
+                        outputStream.close();
+                        inputStream.close();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                }
+                ShareDialogView shareDialogView = new ShareDialogView("装色","装色在手，建材营销无忧",file.getAbsolutePath(),"www.izhuangse.com",getContext());
+                shareDialogView.show();
             }
                 break;
         }

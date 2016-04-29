@@ -6,174 +6,191 @@
             name="item"
             type="com.appbaba.iz.entity.Login.AuthBean.InfoEntity"></variable>
     </data>
-<FrameLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_gray">
-    <LinearLayout
-        android:layout_width="match_parent"
+    <FrameLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-        <include
-            android:id="@+id/include_top_title"
-            layout="@layout/title_bar"></include>
+        android:background="@color/bg_gray">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            <include
+                android:id="@+id/include_top_title"
+                layout="@layout/title_bar"></include>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_white_bottom_line">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_fragment_item_person_head"
-                android:textColor="@color/black"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="10dp"
-                >
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/iv_head"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:roundBottomRight="true"
-                    app:roundBottomLeft="true"
-                    app:roundTopLeft="true"
-                    app:roundTopRight="true"
-                    app:roundedCornerRadius="5dp"
-                    app:placeholderImage="@mipmap/icon_person_head"
-                    app:placeholderImageScaleType="centerInside"
-                    />
-            </LinearLayout>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@mipmap/more_arrow_right"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@drawable/bg_white_bottom_line">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_fragment_item_person_name"
-                android:textColor="@color/black"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp">
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:background="@color/white">
                 <TextView
-                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more_fragment_item_person_head"
+                    android:textColor="@color/black"/>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
+                    android:paddingRight="10dp"
+                    >
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/dv_head"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:roundBottomRight="true"
+                        app:roundBottomLeft="true"
+                        app:roundTopLeft="true"
+                        app:roundTopRight="true"
+                        app:roundedCornerRadius="5dp"
+                        app:placeholderImage="@mipmap/icon_person_head"
+                        app:placeholderImageScaleType="centerInside"
+                        />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_change"
+                        android:background="@drawable/register_aty_r_btn_r_bg_selector"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="@color/white"
+                        android:text="@string/more_fragment_item_person_change_head"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/bg_white_bottom_line">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more_fragment_item_person_name"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/edt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:textColor="@color/color_text_gravy"
                     android:text="@{item.nickname}"
-                    android:gravity="right"/>
+                    android:textSize="@dimen/text_normal_size"
+                    android:drawableRight="@mipmap/more_arrow_right"
+                    android:gravity="right"
+                    android:drawablePadding="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:padding="10dp"/>
+
             </LinearLayout>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@mipmap/more_arrow_right"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_white_bottom_line">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_fragment_item_person_shop"
-                android:textColor="@color/black"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:background="@color/white">
                 <TextView
-                    android:id="@+id/tv_shop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more_fragment_item_person_shop"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/edt_shop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="@dimen/text_normal_size"
+                    android:drawableRight="@mipmap/more_arrow_right"
                     android:textColor="@color/color_text_gravy"
                     android:text="@{item.shop_name}"
-                    android:gravity="right"/>
-            </LinearLayout>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@mipmap/more_arrow_right"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@drawable/bg_white_bottom_line">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_fragment_item_person_are"
-                android:textColor="@color/black"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp">
-                <TextView
-                    android:id="@+id/tv_area"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_text_gravy"
-                    android:text="@{item.area_desc}"
-                    android:gravity="right"/>
-            </LinearLayout>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@mipmap/more_arrow_right"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@drawable/bg_white_bottom_line">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_fragment_item_person_address"
-                android:textColor="@color/black"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp">
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_text_gravy"
-                    android:layout_marginLeft="20dp"
-                    android:text="@{item.address}"
-                    android:gravity="right"/>
-            </LinearLayout>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@mipmap/more_arrow_right"/>
-        </LinearLayout>
-    </LinearLayout>
+                    android:drawablePadding="10dp"
+                    android:gravity="right"
+                    android:padding="10dp"/>
 
-</FrameLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:background="@color/white"
+                android:layout_marginTop="1dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more_fragment_item_person_are"
+                    android:textColor="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp">
+                    <TextView
+                        android:id="@+id/tv_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_text_gravy"
+                        android:text="@{item.area_desc}"
+                        android:gravity="right"/>
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_arrow_right"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more_fragment_item_person_address"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/edt_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:text="@{item.address}"
+                    android:textSize="@dimen/text_normal_size"
+                    android:drawableRight="@mipmap/more_arrow_right"
+                    android:lines="2"
+                    android:layout_marginLeft="20dp"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/color_text_gravy"
+                    android:gravity="top|right"
+                    android:padding="10dp"/>
+
+
+            </LinearLayout>
+            <Button
+                style="?attr/borderlessButtonStyle"
+                android:id="@+id/btn_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:background="@drawable/button_friend_add_client_selector"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:textSize="19sp"
+                android:layout_marginTop="20dp"
+                android:text="@string/found_activity_btn_upload"/>
+        </LinearLayout>
+
+    </FrameLayout>
 </layout>

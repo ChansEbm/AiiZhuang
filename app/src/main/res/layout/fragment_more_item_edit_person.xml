@@ -82,7 +82,6 @@
                         android:text="@{item.nickname}"
                         android:gravity="right"
                         android:layout_marginLeft="30dp"
-
                         android:padding="10dp"/>
 
             </LinearLayout>
