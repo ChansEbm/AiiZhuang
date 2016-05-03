@@ -319,6 +319,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
             HomeBean bean = (HomeBean)t;
             if(bean.getErrorcode()==0)
             {
+                MethodConfig.sellerInfoEntity= bean.getSeller_info();
                 Picasso.with(getContext()).load(bean.getSeller_info().getBanner()).into(iv_banner);
                 Picasso.with(getContext()).load(bean.getSeller_info().getLogo()).into(homeBinding.includeTopTitle.ivLogo);
 

@@ -27,29 +27,56 @@
             android:layout_marginTop="@dimen/super_margin_20dp"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/viewPager"
             android:layout_below="@id/viewPager"
             android:layout_marginTop="@dimen/super_margin_20dp"
-            android:orientation="vertical"
-            tools:ignore="RtlCompat">
-
+            android:orientation="horizontal"
+            android:gravity="center">
             <TextView
-                style="@style/textStyle"
-                android:textColor="@color/white"
-                android:text="@{product.cateNameDesc}"/>
+                android:id="@+id/tv_pre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginRight="15dp"
+                android:background="@mipmap/icon_pre"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                tools:ignore="RtlCompat">
 
-            <TextView
-                style="@style/textStyle"
-                android:textColor="@color/white"
-                android:text="@{product.modelDesc}"/>
+                <TextView
+                    style="@style/textStyle"
+                    android:textColor="@color/white"
+                    android:text="@{product.cateNameDesc}"/>
 
+                <TextView
+                    style="@style/textStyle"
+                    android:textColor="@color/white"
+                    android:text="@{product.modelDesc}"/>
+
+                <TextView
+                    style="@style/textStyle"
+                    android:textColor="@color/white"
+                    android:text="@{product.sizeDesc}"/>
+            </LinearLayout>
             <TextView
-                style="@style/textStyle"
-                android:textColor="@color/white"
-                android:text="@{product.sizeDesc}"/>
+                android:id="@+id/tv_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:background="@mipmap/icon_next"
+                android:layout_marginLeft="15dp"/>
         </LinearLayout>
+
+
+
+
 
     </RelativeLayout>
 </layout>

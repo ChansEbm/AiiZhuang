@@ -217,10 +217,10 @@ public class NetworkModel<E> {
                 .entityClass(CasesAttrEntity.class).enqueue(networkParams, tOkHttpResponseListener);
     }
 
-    public void cases(String productId, String keyword, String page, String pageSize,
+    public void cases(String casesId, String keyword, String page, String pageSize,
                       CasesAttrSelection casesAttrSelection, NetworkParams networkParams) {
         clearAllParams().addAuth().addCustomerId();
-        params.put("product_id", productId);
+        params.put("cases_id", casesId);
         params.put("keyword", keyword);
         params.put("page", page);
         params.put("page_size", pageSize);

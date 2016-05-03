@@ -234,7 +234,7 @@ public class RegisterBrandActivity extends BaseAty {
 
         if(paramsCode==NetworkParams.REGISTER)
         {
-            AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
+            Toast.makeText(this,bean.getMsg(),Toast.LENGTH_LONG).show();
             if(bean.getErrorcode()==0)
             {
                 AppTools.putStringSharedPreferences("username",binding.edtRegisterPhone.getText().toString().trim());
@@ -244,13 +244,15 @@ public class RegisterBrandActivity extends BaseAty {
         }
         if(paramsCode==NetworkParams.BRANDIN)
         {
-            AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
+            Toast.makeText(this,bean.getMsg(),Toast.LENGTH_LONG).show();
+//            AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
             if(bean.getErrorcode()==0)
             {
                 binding.edtBrandsAddress.getText().clear();
                 binding.edtBrandsContract.getText().clear();
                 binding.edtBrandsMobile.getText().clear();
                 binding.edtBrandsName.getText().clear();
+                onBackPressed();
             }
         }
 

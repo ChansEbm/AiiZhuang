@@ -7,9 +7,13 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.Friends.FriendsClientBean;
+import com.appbaba.iz.entity.Index.HomeBean;
 import com.appbaba.iz.entity.LocationBean;
 import com.appbaba.iz.entity.Login.AuthBean;
+import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.tools.LogTools;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -24,6 +28,7 @@ import java.util.Hashtable;
 public class MethodConfig {
     public static DisplayMetrics metrics;
     public static AuthBean localUser;
+    public  static HomeBean.SellerInfoEntity sellerInfoEntity;
     public static FriendsClientBean.ListEntity chooseClient;
     public static String jpush_id;
     private static long ticks = 0;
@@ -34,7 +39,15 @@ public class MethodConfig {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
+
         display.getMetrics(metrics);
+        if(metrics.widthPixels>metrics.heightPixels)
+        {
+            int x = metrics.widthPixels;
+            metrics.widthPixels = metrics.heightPixels;
+            metrics.heightPixels =x;
+            LogTools.e("change size");
+        }
         MethodConfig.metrics = metrics;
     }
 

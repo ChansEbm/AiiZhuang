@@ -1,11 +1,13 @@
 package com.appbaba.iz.ui.fragment.album;
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,6 +22,7 @@ import com.appbaba.iz.R;
 import com.appbaba.iz.adapters.CommonBinderAdapter;
 import com.appbaba.iz.adapters.CommonBinderHolder;
 import com.appbaba.iz.base.BaseFgm;
+import com.appbaba.iz.broadcast.UpdateUIBroadcast;
 import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.Base.Events;
 import com.appbaba.iz.entity.main.CasesAttrEntity;
@@ -62,6 +65,7 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
     private CasesAttrSelection selection = new CasesAttrSelection();//保存选择后的ids
     private CaseEntity caseEntity = new CaseEntity();
 
+
     @Override
     protected void initViews() {
         AlbumChildLayout effectLayout = (AlbumChildLayout) viewDataBinding;
@@ -78,6 +82,7 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         rbSpace = effectLayout.rbSpace;
         rbCate = effectLayout.rbCate;
         initAdapters();
+
     }
 
     @Override
@@ -124,6 +129,9 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         bodyAdapter.setBinderOnItemClickListener(this);
     }
 
+
+
+
     @Override
     protected void noNetworkStatus() {
 
@@ -160,6 +168,10 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
             this.casesAttrEntity = (CasesAttrEntity) t;
         } else if (paramsCode == NetworkParams.DONUT) {
             caseEntity = (CaseEntity) t;
+            if(caseEntity.getList()==null || caseEntity.getList().size()==0)
+            {
+                AppTools.showNormalSnackBar(parentView,"Sorry,没有找到你要的效果图");
+            }
             this.bodyList.clear();
             this.bodyList.addAll(caseEntity.getList());
             this.bodyAdapter.notifyDataSetChanged();

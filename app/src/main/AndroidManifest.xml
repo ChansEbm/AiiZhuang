@@ -65,7 +65,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity" android:screenOrientation="portrait"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".ui.activity.RegisterBrandActivity">
         </activity>
@@ -77,6 +78,7 @@
         <activity
             android:name=".ui.activity.album.EffectActivity"
             android:launchMode="singleTask"/>
+        <activity android:name=".ui.activity.album.SearchActivity"></activity>
 
         <activity
             android:name="com.mob.tools.MobUIShell"

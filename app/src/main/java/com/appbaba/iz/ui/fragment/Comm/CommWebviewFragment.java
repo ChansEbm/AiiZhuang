@@ -11,6 +11,8 @@ import com.appbaba.iz.FragmentCommWebviewBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseFgm;
 
+import cn.sharesdk.wechat.moments.WechatMoments;
+
 /**
  * Created by ruby on 2016/4/16.
  */
@@ -27,6 +29,7 @@ public class CommWebviewFragment extends BaseFgm {
         webviewBinding = (FragmentCommWebviewBinding)viewDataBinding;
 
         webviewBinding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.icon_top_back);
+        webviewBinding.includeTopTitle.toolBar.setBackgroundResource(R.color.application_base_color);
         webviewBinding.includeTopTitle.title.setText(title.trim());
         webviewBinding.webView.getSettings().setDomStorageEnabled(true);
         webviewBinding.webView.getSettings().setJavaScriptEnabled(true);

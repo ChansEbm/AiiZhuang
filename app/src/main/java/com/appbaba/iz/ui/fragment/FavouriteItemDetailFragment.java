@@ -65,7 +65,7 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
         detailBinding = (FragmentFavouriteItemDetailBinding)viewDataBinding;
 
         detailBinding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.icon_top_back);
-
+        detailBinding.includeTopTitle.toolBar.setBackgroundResource(R.color.application_base_color);
         detailBinding.includeTopTitle.toolBar.getMenu().add(Menu.NONE,R.id.menu_unlike,0,"").setIcon(R.mipmap.icon_unlike).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         detailBinding.includeTopTitle.toolBar.getMenu().add(Menu.NONE, R.id.menu_share, 1, "").setIcon(R.mipmap.icon_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         detailBinding.includeTopTitle.toolBar.setOnMenuItemClickListener(this);

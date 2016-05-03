@@ -16,6 +16,7 @@ import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.broadcast.UpdateUIBroadcast;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.ui.activity.album.SearchActivity;
 import com.appbaba.iz.ui.fragment.album.EffectFragment;
 import com.appbaba.iz.ui.fragment.album.ProductFragment;
 import com.github.pwittchen.prefser.library.Prefser;
@@ -50,6 +51,7 @@ public class AlbumFragment extends BaseFgm implements ViewPager.OnPageChangeList
 
         updateUIBroadcast = new UpdateUIBroadcast();
         updateUIBroadcast.setListener(this);
+        albumLayout.ibtnSearch.setOnClickListener(this);
         AppTools.registerBroadcast(updateUIBroadcast, AppKeyMap.CASE_ACTION);
     }
 
@@ -81,7 +83,14 @@ public class AlbumFragment extends BaseFgm implements ViewPager.OnPageChangeList
 
     @Override
     protected void onClick(int id, View view) {
-
+         switch (id)
+         {
+             case R.id.ibtn_search:
+             {
+                 start(SearchActivity.class);
+             }
+                 break;
+         }
     }
 
     @Override

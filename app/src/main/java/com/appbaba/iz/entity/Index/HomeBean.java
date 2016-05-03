@@ -69,6 +69,7 @@ public class HomeBean extends BaseBean{
         private String full_name;
         private String logo;
         private String banner;
+        private List<String> hot_label;
 
         public String getSeller_id() {
             return seller_id;
@@ -108,6 +109,14 @@ public class HomeBean extends BaseBean{
 
         public void setBanner(String banner) {
             this.banner = banner;
+        }
+
+        public List<String> getHot_label() {
+            return hot_label;
+        }
+
+        public void setHot_label(List<String> hot_label) {
+            this.hot_label = hot_label;
         }
     }
 

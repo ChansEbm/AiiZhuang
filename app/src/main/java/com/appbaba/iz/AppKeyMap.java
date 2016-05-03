@@ -67,6 +67,7 @@ public class AppKeyMap {
 
     public final static String CUSTOMERID = "customerId";
     public final static String CATE_ID = "caseId";
+    public final static String PRO_KEYWORD = "keyword";
 
     //用户标识
     public final static String AUTH = "auth";

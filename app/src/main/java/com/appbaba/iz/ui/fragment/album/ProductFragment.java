@@ -32,8 +32,10 @@ import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.entity.main.album.ProductEntity;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.tools.AppTools;
+import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.album.ProductActivity;
 import com.appbaba.iz.widget.GridSpacingItemDecoration;
+import com.github.pwittchen.prefser.library.Prefser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +66,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     private CasesAttrSelection selection = new CasesAttrSelection();//保存选择后的ids
 
     private String cateId = "";//保存从主页点击过来的id
+    private  boolean isShow = true; //（新增）判断当前是否需要弹出选择列表
     private UpdateUIBroadcast updateUIBroadcast;
 
     @Override
@@ -82,6 +85,9 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         rbSize = effectLayout.rbSpace;
         rbCate = effectLayout.rbCate;
         initAdapters();
+
+        cateId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.CATE_ID, String
+                .class, "");
 
         updateUIBroadcast = new UpdateUIBroadcast();
         updateUIBroadcast.setListener(this);
@@ -103,8 +109,14 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         radioGroup.setOnCheckedChangeListener(this);
         rbSize.setText(R.string.fragment_album_size);
         networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
-        if (!TextUtils.isEmpty(cateId))
+        if (!TextUtils.isEmpty(cateId)) {
+            isShow = false;
             selection.setCateId(cateId);
+        }
+        else
+        {
+            isShow = true;
+        }
         networkModel.product("", "", "1", "10", selection, NetworkParams.DONUT);//主体内容
     }
 
@@ -170,6 +182,10 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
             notifyCateSelection((CasesAttrEntity) t);
         } else if (paramsCode == NetworkParams.DONUT) {
             productEntity = (ProductEntity) t;
+            if(productEntity.getList()==null || productEntity.getList().size()==0)
+            {
+                AppTools.showNormalSnackBar(getView(),"Sorry,没有找到你要的产品");
+            }
             this.bodyList.clear();
             this.bodyList.addAll(productEntity.getList());
             this.bodyAdapter.notifyDataSetChanged();
@@ -180,16 +196,26 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     public void uiUpData(Intent intent) {
         String action = intent.getAction();
         if (TextUtils.equals(action, AppKeyMap.CASE_ACTION)) {
-            this.cateId = intent.getExtras().getString(AppKeyMap.CATE_ID);
-            rbSize.setChecked(false);
-            rbStyle.setChecked(false);
-            rbCate.setChecked(false);
-            selection.setSizeId("0");
-            selection.setStyleId("0");
-            selection.setSpaceId("0");
-            selection.setCateId(cateId);
-            networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
-            networkModel.product("", "", "1", "10", selection, NetworkParams.DONUT);
+            String keyword = intent.getExtras().getString(AppKeyMap.PRO_KEYWORD,"");
+                this.cateId = intent.getExtras().getString(AppKeyMap.CATE_ID,"");
+                rbSize.setChecked(false);
+                rbStyle.setChecked(false);
+                if (TextUtils.isEmpty(cateId)) {
+                    rbCate.setChecked(false);
+                    isShow = true;
+                } else {
+                    rbCate.setChecked(true);
+                    isShow = false;
+                }
+                selection.setSizeId("0");
+                selection.setStyleId("0");
+                selection.setSpaceId("0");
+                selection.setCateId(cateId);
+                // networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
+                notifyCateSelection(casesAttrEntity);
+                selectionAdapter.notifyDataSetChanged();
+
+            networkModel.product("", keyword, "1", "10", selection, NetworkParams.DONUT);
         }
     }
 
@@ -226,12 +252,19 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                 this.selectionList.addAll(casesAttrEntity.getSize_list());
                 break;
             case R.id.rb_cate://分类
+                LogTools.e(rbCate.isChecked());
                 tvSelectionTitle.setText(R.string.fragment_album_cate);
                 this.selectionList.addAll(casesAttrEntity.getCate_list());
                 break;
         }
         selectionAdapter.notifyDataSetChanged();
-        drawerLayout.openDrawer(layoutSelection);
+        if(isShow) {
+            drawerLayout.openDrawer(layoutSelection);
+        }
+        else
+        {
+            isShow = false;
+        }
     }
 
     @Override

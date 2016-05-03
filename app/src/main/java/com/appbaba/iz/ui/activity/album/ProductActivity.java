@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.ItemProductChildLayout;
@@ -217,6 +218,24 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
                 }
             }
             break;
+            case R.id.tv_pre: {
+                int index = viewPager.getCurrentItem();
+                if (index == 0) {
+                    Toast.makeText(this, "已经是第一个了", Toast.LENGTH_LONG).show();
+                } else {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                }
+            }
+                break;
+            case R.id.tv_next: {
+                int index = viewPager.getCurrentItem();
+                if (index>=(adapter.getCount()-1)) {
+                    Toast.makeText(this, "已经是最后一个了", Toast.LENGTH_LONG).show();
+                } else {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() +1);
+                }
+            }
+                break;
         }
     }
 
@@ -313,6 +332,8 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
             viewPager.setAdapter(new ChildAdapter(productList.get(position).getImage_list()));
             childLayout.indicator.setWithViewPager(viewPager);
             childLayout.setProduct(productList.get(position));
+            childLayout.tvPre.setOnClickListener(ProductActivity.this);
+            childLayout.tvNext.setOnClickListener(ProductActivity.this);
             container.addView(childLayout.getRoot());
             return childLayout.getRoot();
         }
