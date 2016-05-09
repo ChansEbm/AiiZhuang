@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data class=".ItemInspirationBinding">
+
+    </data>
+<LinearLayout
+android:orientation="vertical" android:layout_width="match_parent"
+android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@color/bg_color"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+            <TextView
+                android:id="@+id/tv_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="sdf"
+                />
+            <TextView
+                android:id="@+id/tv_item_visit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_visit"
+                android:minWidth="40dp"
+                android:textColor="@android:color/black"
+                android:drawablePadding="10dp"
+                android:padding="5dp"
+                android:layout_marginRight="5dp"
+                android:text="sdf"
+                />
+            <TextView
+                android:id="@+id/tv_item_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_collection"
+                android:minWidth="40dp"
+                android:textColor="@android:color/black"
+                android:drawablePadding="10dp"
+                android:text="sdf"
+                android:padding="5dp"
+
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_item_detail"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/icon_mark"
+            android:textColor="@color/normal_text_color"
+            android:drawablePadding="10dp"
+            android:text="sdf"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
+</layout>

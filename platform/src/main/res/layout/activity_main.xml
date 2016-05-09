@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data class="ActivityMainBinding"></data>
+    <FrameLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color">
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             >
+             <FrameLayout
+                 android:id="@+id/frame_contain"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_weight="1"></FrameLayout>
+             <LinearLayout
+                 android:visibility="gone"
+                 android:layout_width="match_parent"
+                 android:layout_height="50dp"
+                 android:orientation="horizontal"
+                 android:background="@android:color/white"
+                 >
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:orientation="vertical"
+                     android:gravity="center"
+                     android:layout_weight="1"></LinearLayout>
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:orientation="vertical"
+                     android:gravity="center"
+                     android:layout_weight="1"></LinearLayout>
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:orientation="vertical"
+                     android:gravity="center"
+                     android:layout_weight="1"></LinearLayout>
+             </LinearLayout>
+         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:padding="10dp">
+           <ImageView
+               android:id="@+id/iv_inspiration"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/main_bottom_inspiration_selector"
+               android:padding="5dp"/>
+            <ImageView
+                android:id="@+id/iv_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/main_bottom_product_selector"
+                android:padding="5dp"/>
+            <ImageView
+                android:id="@+id/iv_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/main_bottom_me_selector"
+                android:padding="5dp"/>
+        </LinearLayout>
+
+
+    </FrameLayout>
+</layout>

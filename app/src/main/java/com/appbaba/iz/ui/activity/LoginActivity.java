@@ -101,6 +101,10 @@ public class LoginActivity extends BaseAty {
              }
                  break;
              case R.id.btn_visitor:
+                 AppTools.putStringSharedPreferences(AppKeyMap.AUTH,"");
+                 MethodConfig.localUser = null;
+                 new Prefser(AppTools.getSharePreferences()).put(AppKeyMap.CUSTOMERID, "");
+                 AppTools.putStringSharedPreferences(AppKeyMap.CATE_ID,"");
                  startActivity(new Intent(getApplicationContext(),MainActivity.class));
                  finish();
                  break;

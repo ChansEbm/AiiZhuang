@@ -26,14 +26,14 @@
                     android:textSize="18sp"
                     android:text="热门搜索："/>
                 <com.appbaba.iz.widget.TagGroup
-                    android:id="@+id/tagGroup"
-                    style="@style/TagGroup.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    >
+                android:id="@+id/tagGroup"
+                style="@style/TagGroup.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
 
-                </com.appbaba.iz.widget.TagGroup>
+            </com.appbaba.iz.widget.TagGroup>
             </LinearLayout>
         </ScrollView>
 
