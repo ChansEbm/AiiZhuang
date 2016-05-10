@@ -3,12 +3,14 @@ package com.appbaba.iz.ui.activity.album;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appbaba.iz.AppKeyMap;
+import com.appbaba.iz.ItemProductBinding;
 import com.appbaba.iz.ItemProductChildLayout;
 import com.appbaba.iz.ItemProductLayout;
 import com.appbaba.iz.ProductLayout;
@@ -370,18 +373,14 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
 
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
-                ImageView imageView = new ImageView(ProductActivity.this);
-                ViewPager.LayoutParams params = new ViewPager.LayoutParams();
-                params.height = ViewPager.LayoutParams.MATCH_PARENT;
-                params.width = ViewPager.LayoutParams.MATCH_PARENT;
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setLayoutParams(params);
-                imageView.setId(R.id.imageView);
+                ItemProductBinding binding = DataBindingUtil.inflate(LayoutInflater.from(ProductActivity.this),R.layout.item_product_view,null,false);
+
+                ImageView imageView = binding.imageView;
+
                 imageView.setOnClickListener(ProductActivity.this);
-                Picasso.with(ProductActivity.this).load(imageList.get(position)).resize(
-                        500, 500).into(imageView);
-                container.addView(imageView);
-                return imageView;
+                Picasso.with(ProductActivity.this).load(imageList.get(position)).into(imageView);
+                container.addView(binding.getRoot());
+                return binding.getRoot();
             }
 
             @Override

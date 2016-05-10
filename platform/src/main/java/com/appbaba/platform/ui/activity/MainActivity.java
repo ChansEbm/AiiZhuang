@@ -62,11 +62,13 @@ public class MainActivity extends BaseActivity{
             case R.id.iv_inspiration: {
                 iv_temp = binding.ivInspiration;
                 InspirationFragmentSelector();
+
             }
                 break;
             case R.id.iv_product: {
                 iv_temp = binding.ivProduct;
                 ProductFragmentSelector();
+                parentView.postInvalidate();
             }
                 break;
             case R.id.iv_me: {

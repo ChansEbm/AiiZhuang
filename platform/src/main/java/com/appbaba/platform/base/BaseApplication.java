@@ -13,6 +13,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         MethodConfig.context = this;
+        MethodConfig.SetDispaly(this);
         Fresco.initialize(this);
     }
 }

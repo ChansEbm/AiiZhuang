@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 /**
  * Created by ruby on 2016/5/4.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements View.OnClickListener{
     protected ViewDataBinding viewDataBinding;
     protected View parentView;
 
@@ -36,6 +36,11 @@ public abstract class BaseFragment extends Fragment {
         return parentView;
     }
 
+    @Override
+    public void onClick(View v) {
+        OnClick(v.getId(),v);
+    }
+
     protected   void  StartActivity(Class cls)
     {
         startActivity(new Intent(getContext(),cls));
@@ -45,6 +50,6 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void InitData(); //加载数据
     protected abstract void InitEvent(); //加载方法
     protected abstract void InitListening(); //加载监听
-
+    protected abstract void OnClick(int id,View view);
     protected abstract int getContentView();
 }

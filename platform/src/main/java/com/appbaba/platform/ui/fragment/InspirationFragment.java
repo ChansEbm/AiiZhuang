@@ -74,6 +74,11 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
     }
 
     @Override
+    protected void OnClick(int id, View view) {
+
+    }
+
+    @Override
     protected int getContentView() {
         return R.layout.fragment_inspiration;
     }

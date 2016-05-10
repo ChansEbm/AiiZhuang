@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,11 +32,13 @@ import com.appbaba.iz.entity.main.CasesAttrEntity;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.entity.main.album.ProductEntity;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.album.ProductActivity;
 import com.appbaba.iz.widget.GridSpacingItemDecoration;
 import com.github.pwittchen.prefser.library.Prefser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +71,8 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     private String cateId = "";//保存从主页点击过来的id
     private  boolean isShow = true; //（新增）判断当前是否需要弹出选择列表
     private UpdateUIBroadcast updateUIBroadcast;
+
+    private int height=0;//图片尺寸高度
 
     @Override
     protected void initViews() {
@@ -104,6 +109,8 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
+        height = (MethodConfig.metrics.widthPixels-10*4)/3;
+
         recyclerView.setHasFixedSize(true);
         rvSelection.setHasFixedSize(true);
         radioGroup.setOnCheckedChangeListener(this);
@@ -138,7 +145,11 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
             @Override
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int
                     position, ProductEntity.ListBean listBean) {
-                ((ItemAlbumProductLayout) viewDataBinding).setProduct(listBean);
+                ItemAlbumProductLayout itemAlbumProductLayout= (ItemAlbumProductLayout) viewDataBinding;
+                itemAlbumProductLayout.setProduct(listBean);
+                Picasso.with(getContext()).load(listBean.getThumb()).into(itemAlbumProductLayout.imageView);
+                itemAlbumProductLayout.linearItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
+
             }
         };
         selectionAdapter.setBinderOnItemClickListener(this);

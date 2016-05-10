@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activity.IndexActivity"
-            android:theme="@style/FullTheme">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,11 +20,14 @@
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask">
+
+        </activity>
         <activity
             android:name=".ui.activity.InspirationDetailActivity"
             android:label="@string/title_activity_inspiration_detail"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".ui.activity.MeSettingActivity"></activity>
     </application>
 
 </manifest>

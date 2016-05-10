@@ -9,20 +9,27 @@
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="wrap_content"
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:background="@drawable/bg_white_gravy_selector"
                   android:gravity="center_horizontal"
-                  android:minHeight="145dp"
                   android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/linear_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"
-            app:loadImage="@{product.thumb}"/>
+            />
+        </LinearLayout>
 
         <TextView
             style="@style/textStyle"
