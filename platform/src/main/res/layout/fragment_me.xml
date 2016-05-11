@@ -126,19 +126,15 @@
                         <LinearLayout
                             android:id="@+id/linear_move"
                             android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@color/color_white">
+                            android:layout_height="2dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="20dp"
                                 android:layout_marginLeft="20dp"
-                                android:background="@android:color/holo_blue_bright"/>
+                                android:background="@color/application_base_color"/>
                         </LinearLayout>
                     </LinearLayout>
-
-
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1px"

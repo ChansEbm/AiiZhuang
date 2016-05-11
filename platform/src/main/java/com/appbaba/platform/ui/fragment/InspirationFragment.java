@@ -23,6 +23,7 @@ import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
 import com.appbaba.platform.ui.activity.InspirationDetailActivity;
+import com.appbaba.platform.ui.activity.InspirationSearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,12 +71,18 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
 
     @Override
     protected void InitListening() {
-          commonBinderAdapter.setBinderOnItemClickListener(this);
+        binding.ivSearch.setOnClickListener(this);
+        commonBinderAdapter.setBinderOnItemClickListener(this);
     }
 
     @Override
     protected void OnClick(int id, View view) {
-
+        switch (id)
+        {
+            case R.id.iv_search:
+                StartActivity(InspirationSearchActivity.class);
+                break;
+        }
     }
 
     @Override

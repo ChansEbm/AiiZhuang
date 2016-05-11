@@ -1,10 +1,17 @@
 package com.appbaba.platform.ui.activity;
 
+import android.content.res.TypedArray;
 import android.databinding.ViewDataBinding;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AndroidException;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.appbaba.platform.ActivityInspirationDetailBinding;
 import com.appbaba.platform.R;
@@ -79,7 +86,7 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
         return R.layout.activity_inspiration_detail;
     }
 
-    private  float x =0;
+    private  float x =0,y=0,height=0,height1=0;
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         int maxScroll = appBarLayout.getTotalScrollRange();
@@ -87,13 +94,25 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
         if(x==0)
         {
             x = dv_head.getX();
-//            y=dv_head.getY();
-//            height = dv_head.getHeight();
+            y=dv_head.getY();
+            height = dv_head.getHeight();
+            height1 = binding.tvTopTitle.getHeight();
         }
-        if(percentage<0.5f) {
-            dv_head.setScaleX(1 - percentage);
-            dv_head.setScaleY(1 - percentage);
+            dv_head.setScaleX(1 - 0.5f*percentage);
+            dv_head.setScaleY(1 - 0.5f*percentage);
+        if(percentage==0)
+        {
+            binding.tvName.setAlpha(1);
         }
+        else
+        {
+            binding.tvName.setAlpha(0);
+        }
+        binding.tvTopTitle.setAlpha(percentage);
         dv_head.setX(x- x*percentage);
+        float k = y+height*percentage*0.5f*0.5f-(binding.toolbar.getHeight()-height/2)/2*percentage;
+        float k1 = k+(height-height1)/2;
+        dv_head.setY(k);
+        binding.tvTopTitle.setY(k1);
     }
 }

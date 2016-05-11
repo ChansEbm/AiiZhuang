@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.appbaba.platform.R;
+import com.appbaba.platform.impl.OkHttpResponseListener;
 
 /**
  * Created by ruby on 2016/5/4.

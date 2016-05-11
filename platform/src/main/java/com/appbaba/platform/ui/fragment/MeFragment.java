@@ -86,7 +86,6 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.e("gd",position+"  "+positionOffset+"   "+positionOffsetPixels);
         linear_move.setX(moveWidth*position+moveWidth*positionOffset);
     }
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data class=".ActivityInspirationSearchBinding"></data>
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/include_top_title"
+        layout="@layout/title_bar"> </include>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="热门搜索："/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <com.appbaba.platform.widget.TagGroup
+                android:id="@+id/tagGroup"
+                style="@style/TagGroup.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp">
+
+            </com.appbaba.platform.widget.TagGroup>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
+</layout>
