@@ -91,37 +91,41 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/linear_title_parent"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:layout_weight="1">
-                            <TextView
+                            <com.appbaba.platform.widget.MyTextView
+                                android:id="@+id/tv_my_collection"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp"
                                 android:gravity="center"
                                 android:layout_weight="1"
-                                android:text="我的收藏"/>
+                                app:text="@string/fragment_me_collection"/>
 
 
-                            <TextView
+                            <com.appbaba.platform.widget.MyTextView
+                                android:id="@+id/tv_my_export"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textColor="@android:color/black"
                                 android:gravity="center"
                                 android:layout_weight="1"
                                 android:textSize="16sp"
-                                android:text="我的发布"/>
+                                app:text="@string/fragment_me_export"/>
 
-                            <TextView
+                            <com.appbaba.platform.widget.MyTextView
+                                android:id="@+id/tv_my_like"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textColor="@android:color/black"
                                 android:gravity="center"
                                 android:textSize="16sp"
                                 android:layout_weight="1"
-                                android:text="我的关注"/>
+                                app:text="@string/fragment_me_like"/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/linear_move"

@@ -52,4 +52,7 @@
     <declare-styleable name="Themes">
         <attr name="tagGroupStyle" format="reference" />
     </declare-styleable>
+    <declare-styleable name="GradientTextView">
+        <attr name="text" format="string"></attr>
+    </declare-styleable>
 </resources>

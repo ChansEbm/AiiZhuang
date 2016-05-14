@@ -17,6 +17,7 @@ import com.appbaba.platform.base.BaseFragment;
 import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.GridSpacingItemDecoration;
 import com.appbaba.platform.method.SpaceItemDecoration;
+import com.appbaba.platform.ui.activity.ProductDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * Created by ruby on 2016/5/4.
  */
-public class ProductFragment extends BaseFragment {
+public class ProductFragment extends BaseFragment implements BinderOnItemClickListener{
     private FragmentProductBinding binding;
     private RecyclerView recyclerView;
 
@@ -79,6 +80,7 @@ adapter = new CommonBinderAdapter<Object>(getContext(),R.layout.item_product_vie
 
             }
         });
+        adapter.setBinderOnItemClickListener(this);
     }
 
     @Override
@@ -90,5 +92,15 @@ adapter = new CommonBinderAdapter<Object>(getContext(),R.layout.item_product_vie
     @Override
     protected int getContentView() {
         return R.layout.fragment_product;
+    }
+
+    @Override
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
+        StartActivity(ProductDetailActivity.class);
+    }
+
+    @Override
+    public void onBinderItemLongClick(View clickItem, int parentId, int pos) {
+
     }
 }

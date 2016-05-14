@@ -31,6 +31,7 @@ public class InspirationSearchActivity extends BaseActivity {
             tags.add(""+System.currentTimeMillis()/10000);
         }
         tagGroup.setTags(tags);
+
     }
 
     @Override

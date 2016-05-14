@@ -26,6 +26,9 @@
 
         </activity>
         <activity android:name=".ui.activity.InspirationSearchActivity"></activity>
+        <activity android:name=".ui.activity.ProductDetailActivity"></activity>
+        <activity android:name=".ui.activity.DesignWorksActivity"></activity>
+        <activity android:name=".ui.activity.DesignWorkDetailActivity"></activity>
         <activity
             android:name=".ui.activity.InspirationDetailActivity"
             android:label="@string/title_activity_inspiration_detail"

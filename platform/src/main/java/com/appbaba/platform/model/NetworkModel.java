@@ -85,17 +85,7 @@ public class NetworkModel<E> {
      * @return the user's auth
      */
     private String getAuth() {
-        if (AppKeyMap.IS_DEBUG) {
-            return "ADUPMwxrV2VRYgBnB2BQZVRrUWUFMwdnVWxQZgZlA2EBYA4zBjNTYFcyUmNXYgZlBTULPQBkAmADPlZnAjADZAAODzcMPFdh==";
-        } else {
-            if (AppKeyMap.isAuthEmpty()) {
-                LogTools.e("Auth is null,plz check");
-                return "";
-            } else {
-                return AppTools.getStringSharedPreferences(AppKeyMap.AUTH,
-                        "ADAPMAw2V2RRMQAyB2VQYVRlUWUFYwcwVT1QYwZmA2MBPg5kBmFTMFdoUjBXbQY4BTcLOAA1AmcDOFZhAmADZAAODz4MPQ==");
-            }
-        }
+        return AppTools.getStringSharedPreferences(AppKeyMap.AUTH,"");
     }
 
     private NetworkModel addAuth() {

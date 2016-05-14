@@ -1,6 +1,9 @@
 package com.appbaba.platform.ui.fragment;
 
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,6 +26,7 @@ import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
 import com.appbaba.platform.ui.activity.MeSettingActivity;
+import com.appbaba.platform.widget.MyTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +62,8 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
 
     @Override
     protected void InitEvent() {
-
+//        Shader shader = new LinearGradient(0,0,0,30, Color.RED,Color.BLACK, Shader.TileMode.CLAMP);
+//        binding.tvMyCollection.getPaint().setShader(shader);
     }
 
     @Override
@@ -84,8 +89,28 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
         return R.layout.fragment_me;
     }
 
+    int first=0;
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if(first==0)
+        {
+            binding.tvMyCollection.setMM(moveWidth);
+            first = 1;
+        }
+        if(positionOffsetPixels>0)
+        {
+            MyTextView textView1 = (MyTextView)binding.linearTitleParent.getChildAt(position);
+            MyTextView textView2 = (MyTextView)binding.linearTitleParent.getChildAt(position+1);
+            textView1.setMM(-1*(int)((1-positionOffset)*moveWidth));
+            textView2.setMM((int)(positionOffset*moveWidth));
+        }
+        else if(positionOffsetPixels<0)
+        {
+            MyTextView textView1 = (MyTextView)binding.linearTitleParent.getChildAt(position);
+            MyTextView textView2 = (MyTextView)binding.linearTitleParent.getChildAt(position-1);
+            textView1.setMM((int)((1-positionOffset)*moveWidth));
+            textView2.setMM(-1*(int)(positionOffset*moveWidth));
+        }
         linear_move.setX(moveWidth*position+moveWidth*positionOffset);
     }
 

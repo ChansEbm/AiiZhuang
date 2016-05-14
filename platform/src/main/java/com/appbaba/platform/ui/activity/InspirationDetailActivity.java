@@ -18,13 +18,14 @@ import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseActivity;
+import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.SpaceItemDecoration;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InspirationDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener{
+public class InspirationDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,BinderOnItemClickListener{
 
 
     private ActivityInspirationDetailBinding binding;
@@ -74,6 +75,7 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     @Override
     protected void InitListening() {
         mAppBarLayout.addOnOffsetChangedListener(this);
+        adapter.setBinderOnItemClickListener(this);
     }
 
     @Override
@@ -114,5 +116,15 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
         float k1 = k+(height-height1)/2;
         dv_head.setY(k);
         binding.tvTopTitle.setY(k1);
+    }
+
+    @Override
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
+        StartActivity(DesignWorksActivity.class);
+    }
+
+    @Override
+    public void onBinderItemLongClick(View clickItem, int parentId, int pos) {
+
     }
 }

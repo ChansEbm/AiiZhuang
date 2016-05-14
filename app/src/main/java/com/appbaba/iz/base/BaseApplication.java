@@ -83,7 +83,7 @@ public class BaseApplication extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         Logger.init("digital").setMethodCount(3).hideThreadInfo().setLogLevel(LogLevel.FULL);
-        CrashReport.initCrashReport(getApplicationContext(), "900020359", true);
+       // CrashReport.initCrashReport(getApplicationContext(), "900020359", true);
         MethodConfig.SetDispaly(this);
         MethodConfig.jpush_id = JPushInterface.getRegistrationID(getApplicationContext());
     }
