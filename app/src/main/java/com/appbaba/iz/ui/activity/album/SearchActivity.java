@@ -51,6 +51,12 @@ public class SearchActivity extends BaseAty implements Toolbar.OnMenuItemClickLi
                 finish();
             }
         });
+        binding.includeTopTitle.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         binding.includeTopTitle.toolBar.setOnMenuItemClickListener(this);
 
     }

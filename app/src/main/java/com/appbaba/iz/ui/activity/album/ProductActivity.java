@@ -4,17 +4,23 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +44,7 @@ import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.TransferActivity;
 import com.appbaba.iz.widget.DialogView.ShareDialogView;
+import com.appbaba.iz.widget.ScrollView.DragLayout;
 import com.github.pwittchen.prefser.library.Prefser;
 import com.squareup.picasso.Picasso;
 
@@ -172,6 +179,18 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
                 ((ItemProductLayout) viewDataBinding).setProduct(casesListBean);
             }
         };
+
+        //productLayout.linearBg.getLayoutParams().height = MethodConfig.metrics.heightPixels- MethodConfig.dip2px(this,75);
+        productLayout.webView.getSettings().setDomStorageEnabled(true);
+        productLayout.webView.getSettings().setJavaScriptEnabled(true);
+        productLayout.webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -184,9 +203,27 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
                 .HORIZONTAL, false));
         commonBinderAdapter.setBinderOnItemClickListener(this);
         tv_detail.setOnClickListener(this);
+        ((ProductLayout)viewDataBinding).tvDetailBack.setOnClickListener(this);
 
         networkModel.product(productId, "", "1", pageSize, selection, NetworkParams.CUPCAKE);
         networkModel.addProductVisit(productId,NetworkParams.DONUT);
+
+        DragLayout.ShowNextPageNotifier notifier = new DragLayout.ShowNextPageNotifier() {
+            @Override
+            public void onDragNext() {
+
+                ((ProductLayout)viewDataBinding).tvDetailBack.setVisibility(View.VISIBLE);
+                ((ProductLayout)viewDataBinding).tvDetail.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onDragPre() {
+                ((ProductLayout)viewDataBinding).tvDetailBack.setVisibility(View.GONE);
+                ((ProductLayout)viewDataBinding).tvDetail.setVisibility(View.VISIBLE);
+            }
+        };
+
+        ((ProductLayout)viewDataBinding).dragLayout.setNextPageListener(notifier);
     }
 
     @Override
@@ -212,13 +249,15 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
             case R.id.tv_detail:
             {
                 if(productList!=null && productList.size()>0) {
-                    Intent intent = new Intent(this, TransferActivity.class);
-                    intent.putExtra("fragment", 14);
-                    intent.putExtra("which", 13);
-                    intent.putExtra("title",productList.get(viewPager.getCurrentItem()).getTitle());
-                    intent.putExtra("value", productList.get(viewPager.getCurrentItem()).getProduct_id());
-                    startActivity(intent);
+                    ProductLayout d = (ProductLayout)viewDataBinding;
+                    d.dragLayout.Back(1);
                 }
+            }
+            break;
+            case R.id.tv_detail_back:
+            {
+                ProductLayout d = (ProductLayout)viewDataBinding;
+                d.dragLayout.Back(2);
             }
             break;
             case R.id.tv_pre: {
@@ -298,6 +337,9 @@ public class ProductActivity extends BaseAty<BaseBean, BaseBean> implements View
         this.isCollect = productList.get(position).getIs_collect().equals("1");
         titleBarTools.setTitle(productList.get(position).getTitle());
         invalidateOptionsMenu();
+        String url = AppKeyMap.HEAD+"Page/";
+        url+="product_content?product_id="+productList.get(viewPager.getCurrentItem()).getProduct_id();
+        ((ProductLayout)viewDataBinding).webView.loadUrl(url);
     }
 
     @Override

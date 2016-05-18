@@ -1,63 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data class=".ProductLayout"/>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <com.appbaba.iz.widget.ScrollView.DragLayout
+        android:id="@+id/dragLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"
-        android:orientation="vertical"
-        tools:context="com.appbaba.iz.ui.activity.album.EffectActivity">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/title_bar"/>
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        <LinearLayout
+            android:id="@+id/linear_bg"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/small_margin_5dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            tools:context="com.appbaba.iz.ui.activity.album.EffectActivity">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
+
+            <include
+                android:id="@+id/include_top_title"
+                layout="@layout/title_bar"/>
+            <FrameLayout
+                android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </FrameLayout>
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/small_margin_5dp"
+                android:layout_weight="1">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1a1a1a"
+                android:gravity="center_vertical"
+                android:minHeight="136dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textStyle"
+                    android:layout_marginEnd="@dimen/large_margin_15dp"
+                    android:layout_marginStart="@dimen/large_margin_15dp"
+                    android:text="@string/product_effect"
+                    android:textColor="@color/white"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="108dp"/>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bottom_yellow"
+                android:padding="10dp"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:text="@string/product_effect_detail"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#1a1a1a"
-            android:gravity="center_vertical"
-            android:minHeight="136dp"
-            android:orientation="horizontal">
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <TextView
-                style="@style/textStyle"
-                android:layout_marginEnd="@dimen/large_margin_15dp"
-                android:layout_marginStart="@dimen/large_margin_15dp"
-                android:text="@string/product_effect"
-                android:textColor="@color/white"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/tv_detail_back"
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="108dp"/>
-
+                android:layout_height="wrap_content"
+                android:background="@color/bottom_yellow"
+                android:padding="10dp"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:text="@string/product_effect_detail"/>
+            <com.appbaba.iz.widget.CustWebView
+                android:id="@+id/webView"
+                android:background="@color/dark_gray"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></com.appbaba.iz.widget.CustWebView>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bottom_yellow"
-            android:padding="10dp"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:text="@string/product_effect_detail"/>
 
-    </LinearLayout>
+</com.appbaba.iz.widget.ScrollView.DragLayout>
+
 </layout>
