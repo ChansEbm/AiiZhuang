@@ -7,13 +7,14 @@
     <FrameLayout
         android:id="@+id/item_contain"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@color/bg_color">
         <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scaleType="fitXY"
-        android:src="@mipmap/test4"/>
+            android:adjustViewBounds="true"
+        android:src="@mipmap/tm"/>
     </FrameLayout>
     <TextView
         android:layout_width="match_parent"

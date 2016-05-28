@@ -3,10 +3,14 @@ package com.appbaba.platform.base;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.appbaba.platform.R;
 import com.appbaba.platform.impl.OkHttpResponseListener;
@@ -30,6 +34,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         else
         {
             throw new IllegalStateException("not invoke setContentView");
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            // Translucent status bar
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            parentView.setFitsSystemWindows(true);
         }
         InitView();
         InitData();

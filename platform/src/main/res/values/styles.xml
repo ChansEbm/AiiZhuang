@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="BaseAppTheme" />
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--沉浸式状态栏-->
         <!--<item name="android:fitsSystemWindows">true</item>-->

@@ -68,15 +68,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_gravity="bottom">
-                    <ImageView
-                        android:layout_width="@dimen/image_width"
-                        android:layout_height="@dimen/image_width"
-                        android:src="@mipmap/ic_launcher"
+                    android:layout_gravity="bottom"
+                    >
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center_horizontal|bottom"
                         app:layout_anchor="@id/toolbar"
+                        app:roundAsCircle="true"
+                        app:placeholderImage="@mipmap/icon_person"
+                        android:layout_marginBottom="10dp"
                         />
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="18sp"
+                        android:text="立即登录"
+                        android:background="@drawable/btn_login_bg_normal"/>
+                    <TextView
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
@@ -87,7 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:background="@color/color_white"
-
+                        android:layout_marginTop="10dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -104,6 +115,7 @@
                                 android:textSize="16sp"
                                 android:gravity="center"
                                 android:layout_weight="1"
+                                app:normal_color="@color/color_text_gravy"
                                 app:text="@string/fragment_me_collection"/>
 
 
@@ -111,17 +123,17 @@
                                 android:id="@+id/tv_my_export"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:textColor="@android:color/black"
                                 android:gravity="center"
                                 android:layout_weight="1"
                                 android:textSize="16sp"
+                                app:normal_color="@color/color_text_gravy"
                                 app:text="@string/fragment_me_export"/>
 
                             <com.appbaba.platform.widget.MyTextView
                                 android:id="@+id/tv_my_like"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:textColor="@android:color/black"
+                                app:normal_color="@color/color_text_gravy"
                                 android:gravity="center"
                                 android:textSize="16sp"
                                 android:layout_weight="1"
@@ -154,6 +166,7 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/bg_color"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </android.support.v4.view.ViewPager>

@@ -74,10 +74,11 @@ public class ZoomEffectActivity extends BaseAty {
         public Object instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(ZoomEffectActivity.this);
             photoView.enable();
-            photoView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            photoView.setScaleType(ImageView.ScaleType.FIT_XY);
             ViewPager.LayoutParams layoutParams = new ViewPager.LayoutParams();
             layoutParams.height = ViewPager.LayoutParams.MATCH_PARENT;
             layoutParams.width = ViewPager.LayoutParams.MATCH_PARENT;
+            photoView.setAdjustViewBounds(true);
             Picasso.with(ZoomEffectActivity.this).load(photoPaths.get(position))
                     .into(photoView);
             container.addView(photoView, layoutParams);

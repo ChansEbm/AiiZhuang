@@ -4,8 +4,10 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.view.menu.MenuWrapperFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -19,9 +21,11 @@ import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseFragment;
 import com.appbaba.platform.databinding.ItemRippleBinding;
+import com.appbaba.platform.impl.AnimationCallBack;
 import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
+import com.appbaba.platform.tools.LogTools;
 import com.appbaba.platform.ui.activity.InspirationDetailActivity;
 import com.appbaba.platform.ui.activity.InspirationSearchActivity;
 
@@ -37,6 +41,7 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
 
     private CommonBinderAdapter<Object> commonBinderAdapter;
     private List<Object> list;
+    private AnimationCallBack callBack;
 
     @Override
     protected void InitView() {
@@ -44,7 +49,7 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
         recyclerView = binding.recycle;
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new SpaceItemDecoration(2));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(20));
     }
 
     @Override
@@ -66,7 +71,26 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
 
     @Override
     protected void InitEvent() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if(newState==1)
+                {
+                    callBack.StartAnimation();
+                }
+                else if(newState==0)
+                {
+                    callBack.EndAnimation();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
     }
 
     @Override
@@ -98,5 +122,10 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
     @Override
     public void onBinderItemLongClick(View clickItem, int parentId, int pos) {
 
+    }
+
+    public void  setCallBack(AnimationCallBack callBack)
+    {
+        this.callBack = callBack;
     }
 }

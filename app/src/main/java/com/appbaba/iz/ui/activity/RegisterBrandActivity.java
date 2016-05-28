@@ -18,6 +18,7 @@ import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.SellerListBean;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.model.BrandsModel;
 import com.appbaba.iz.model.RegisterModel;
 import com.appbaba.iz.tools.AppTools;
@@ -45,6 +46,7 @@ public class RegisterBrandActivity extends BaseAty {
 
         registerModel = new RegisterModel();
         brandsModel = new BrandsModel();
+
 
     }
 
@@ -209,7 +211,6 @@ public class RegisterBrandActivity extends BaseAty {
         BaseBean bean = (BaseBean)o;
         if(paramsCode==NetworkParams.CHECKPHONE)
         {
-
             if(bean.getErrorcode()==0)
             {
                 networkModel.sendSmsCode(binding.edtRegisterPhone.getText().toString().trim(),NetworkParams.SENDMSG);
@@ -245,7 +246,7 @@ public class RegisterBrandActivity extends BaseAty {
         if(paramsCode==NetworkParams.BRANDIN)
         {
             Toast.makeText(this,bean.getMsg(),Toast.LENGTH_LONG).show();
-//            AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
+//          AppTools.showNormalSnackBar(this.getWindow().getDecorView(),bean.getMsg());
             if(bean.getErrorcode()==0)
             {
                 binding.edtBrandsAddress.getText().clear();
@@ -255,7 +256,6 @@ public class RegisterBrandActivity extends BaseAty {
                 onBackPressed();
             }
         }
-
     }
 
     @Override

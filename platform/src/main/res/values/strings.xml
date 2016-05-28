@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"Platform "</string>
+    <string name="app_name">装色</string>
 
     <!--相关验证提示-->
     <string name="invalid_code">无效验证码,请输入6位数验证码</string>

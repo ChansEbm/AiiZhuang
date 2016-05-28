@@ -96,8 +96,8 @@ public class FavouriteFragment extends BaseFgm implements BinderOnItemClickListe
              @Override
              public boolean onTouch(View v, MotionEvent event) {
                  if(event.getAction()==MotionEvent.ACTION_UP && canPageUper) {
-                     View chilidView = favouriteBinding.scrollView.getChildAt(0);
-                     if (chilidView!=null && chilidView.getHeight()==favouriteBinding.scrollView.getScrollY()+favouriteBinding.scrollView.getHeight()) {
+                     View childView = favouriteBinding.scrollView.getChildAt(0);
+                     if (childView!=null && childView.getHeight()==favouriteBinding.scrollView.getScrollY()+favouriteBinding.scrollView.getHeight()) {
                          page++;
                          networkModel.HomeSubject(AppTools.getStringSharedPreferences(AppKeyMap.AUTH,""),page,pagesize, NetworkParams.SUBJECT);
                      }

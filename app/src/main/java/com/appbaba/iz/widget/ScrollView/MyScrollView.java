@@ -1,6 +1,7 @@
 package com.appbaba.iz.widget.ScrollView;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;

@@ -242,9 +242,13 @@ public class DragLayout extends ViewGroup {
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
 		// 统一交给mDragHelper处理，由DragHelperCallback实现拖动效果
+           try {
+			   mDragHelper.processTouchEvent(e); // 该行代码可能会抛异常，正式发布时请将这行代码加上try catch
+			   return true;
 
-			mDragHelper.processTouchEvent(e); // 该行代码可能会抛异常，正式发布时请将这行代码加上try catch
-			return true;
+		   }
+		   catch (Exception ex)
+		   {return false;}
 
 
 	}

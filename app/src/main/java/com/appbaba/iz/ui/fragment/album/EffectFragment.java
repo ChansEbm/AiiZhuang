@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,6 +31,7 @@ import com.appbaba.iz.entity.main.album.CaseEntity;
 import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.UpdateUIListener;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.ui.activity.album.EffectActivity;
 import com.appbaba.iz.widget.GridSpacingItemDecoration;
@@ -64,6 +66,8 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
 
     private CasesAttrSelection selection = new CasesAttrSelection();//保存选择后的ids
     private CaseEntity caseEntity = new CaseEntity();
+    private int height = 0;
+
 
 
     @Override
@@ -81,7 +85,11 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         rbStyle = effectLayout.rbStyle;
         rbSpace = effectLayout.rbSpace;
         rbCate = effectLayout.rbCate;
+
+        height = MethodConfig.GetHeightFor4v3((MethodConfig.metrics.widthPixels - 3 * MethodConfig.dip2px(getContext(),10))/2);
+
         initAdapters();
+
 
     }
 
@@ -120,7 +128,8 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int
                     position, CaseEntity.ListBean listBean) {
                 ItemAlbumLayout albumLayout = (ItemAlbumLayout) viewDataBinding;
-                Picasso.with(getContext()).load(listBean.getThumb()).resize(300, 300).into
+                albumLayout.imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
+                Picasso.with(getContext()).load(listBean.getThumb()).into
                         (albumLayout.imageView);
                 ((ItemAlbumLayout) viewDataBinding).setAlbum(listBean);
             }

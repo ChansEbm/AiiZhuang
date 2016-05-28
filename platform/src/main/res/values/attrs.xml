@@ -54,5 +54,7 @@
     </declare-styleable>
     <declare-styleable name="GradientTextView">
         <attr name="text" format="string"></attr>
+        <attr name="normal_color" format="color"></attr>
+        <attr name="press_color" format="color"></attr>
     </declare-styleable>
 </resources>

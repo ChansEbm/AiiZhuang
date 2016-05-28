@@ -10,12 +10,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appbaba.iz.AlbumChildLayout;
 import com.appbaba.iz.AppKeyMap;
@@ -73,6 +75,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     private UpdateUIBroadcast updateUIBroadcast;
 
     private int height=0;//图片尺寸高度
+    private int currentPage = 1;
 
     @Override
     protected void initViews() {
@@ -124,7 +127,41 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         {
             isShow = true;
         }
-        networkModel.product("", "", "1", "10", selection, NetworkParams.DONUT);//主体内容
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int state = 0;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                LinearLayoutManager lm= (LinearLayoutManager) recyclerView.getLayoutManager();
+                int top=lm.findViewByPosition(lm.findFirstVisibleItemPosition()).getTop();
+                Log.e("wer",""+lm.findFirstVisibleItemPosition()+ "   "+top);
+                 if(newState==0)
+                {
+                    if(state>top)
+                    {
+                        state = top;
+                    }
+                    else if(state==top)
+                    {
+                        currentPage++;
+                        GetData();
+                    }
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+        GetData();
+    }
+
+    public void GetData()
+    {
+
+        networkModel.product("", "", ""+currentPage, "10", selection, NetworkParams.DONUT);
     }
 
     /**
@@ -193,11 +230,14 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
             notifyCateSelection((CasesAttrEntity) t);
         } else if (paramsCode == NetworkParams.DONUT) {
             productEntity = (ProductEntity) t;
+            currentPage = productEntity.getCond().getPage();
             if(productEntity.getList()==null || productEntity.getList().size()==0)
             {
                 AppTools.showNormalSnackBar(getView(),"Sorry,没有找到你要的产品");
             }
-            this.bodyList.clear();
+            if(currentPage==1) {
+                this.bodyList.clear();
+            }
             this.bodyList.addAll(productEntity.getList());
             this.bodyAdapter.notifyDataSetChanged();
         }
@@ -226,7 +266,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                 notifyCateSelection(casesAttrEntity);
                 selectionAdapter.notifyDataSetChanged();
 
-            networkModel.product("", keyword, "1", "10", selection, NetworkParams.DONUT);
+            GetData();
         }
     }
 
@@ -283,7 +323,8 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         switch (parentId) {
             case R.id.rv_selection:
                 modifierSelections(pos);//改变条件栏的效果样式并且保存好各种id
-                networkModel.product("", "", "1", "20", selection, NetworkParams.DONUT);//然后获取数据
+                currentPage = 1;
+                GetData();
                 break;
             case R.id.recyclerView:
                 Bundle bundle = new Bundle();

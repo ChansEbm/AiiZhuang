@@ -58,12 +58,15 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Y0yPIO0cobNihgxbqh7WTz5VGg2201US"/>
 
-        <activity android:name=".ui.activity.LoginActivity">
+        <activity android:name=".ui.activity.IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.LoginActivity">
+
         </activity>
         <activity android:name=".ui.activity.MainActivity" android:screenOrientation="portrait"
             android:launchMode="singleTask">

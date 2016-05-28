@@ -158,6 +158,7 @@ public class CaseEntity extends BaseBean {
         private String thumb;
         private String image;
         private String is_collect;
+
         /**
          * product_id : 1
          * title : 产品一
@@ -238,6 +239,8 @@ public class CaseEntity extends BaseBean {
             private String model;
             private String thumb;
             private String image;
+            private int location_x;
+            private int location_y;
 
             public String getProduct_id() {
                 return product_id;
@@ -281,6 +284,21 @@ public class CaseEntity extends BaseBean {
 
             public void setImage(String image) {
                 this.image = image;
+            }
+            public int getLocation_x() {
+                return location_x;
+            }
+
+            public void setLocation_x(int location_x) {
+                this.location_x = location_x;
+            }
+
+            public int getLocation_y() {
+                return location_y;
+            }
+
+            public void setLocation_y(int location_y) {
+                this.location_y = location_y;
             }
         }
     }

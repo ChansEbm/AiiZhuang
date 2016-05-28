@@ -6,16 +6,11 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.appbaba.platform.R;
@@ -24,48 +19,41 @@ import com.appbaba.platform.R;
  * Created by ruby on 2016/5/13.
  */
 public class MyTextView extends TextView {
-    private  int mm = 0;
+    private  int mm = 0; //渲染的距离  <0:从x=0开始  >0:从width开始
     private String text="";
+    private Paint mPaint;
+    private PorterDuffXfermode fermode;
+    private int normalColor,pressColor;
 
     public MyTextView(Context context) {
         super(context);
-        xformode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
-        init(context);
+        fermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
     }
 
     public MyTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        xformode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
+        fermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GradientTextView);
         text = a.getString(R.styleable.GradientTextView_text);
-        init(context);
+         normalColor = a.getColor(R.styleable.GradientTextView_normal_color,-1);
+        pressColor = a.getColor(R.styleable.GradientTextView_press_color,-1);
     }
 
     public MyTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GradientTextView);
         text = a.getString(R.styleable.GradientTextView_text);
-        xformode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
-        init(context);
+        fermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
     }
 
-    float scale=0;
-    public void init(Context context)
-    {
-        Resources resources = context.getResources();
-         scale = resources.getDisplayMetrics().density;
-    }
 
 
     public void setMM(int x) {
         this.mm = x;
     }
 
-    Paint mPaint;
-    private float mTextHeight;
-    private float mTextWidth;
 
-    private PorterDuffXfermode xformode;
+
     @Override
     protected void onDraw(Canvas canvas) {
 
@@ -81,7 +69,13 @@ public class MyTextView extends TextView {
         paint.setTextSize(getTextSize());
         // text shadow
         mPaint = paint;
-        mPaint.setColor(Color.BLACK);
+        if(normalColor==-1) {
+            mPaint.setColor(Color.RED);
+        }
+        else
+        {
+            mPaint.setColor(normalColor);
+        }
         // draw text to the Canvas center
         Rect bounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), bounds);
@@ -90,8 +84,14 @@ public class MyTextView extends TextView {
 
         canvasTmp.drawText(text, x, y, paint);
         canvas.drawText(text,x,y,mPaint);
-        paint.setXfermode(xformode);
-        paint.setColor(Color.RED);
+        paint.setXfermode(fermode);
+        if(pressColor==-1) {
+            paint.setColor(Color.BLACK);
+        }
+        else
+        {
+            paint.setColor(pressColor);
+        }
         Rect rect;
         if(mm>0)
          rect = new Rect(0,0,mm,getHeight());
