@@ -254,7 +254,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textPassword"
-                        android:hint="@string/register_activity_tv_option_hint"
+                        android:hint="@string/register_activity_tv_must_hint"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -277,7 +277,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textPassword"
-                        android:hint="@string/register_activity_tv_option_hint"
+                        android:hint="@string/register_activity_tv_must_hint"
                         />
                 </LinearLayout>
 </LinearLayout>
@@ -314,7 +314,7 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
+                        android:paddingRight="20dp"
                         android:background="@drawable/bg_white_bottom_line">
                             <TextView
                                 style="@style/textStyle"
@@ -329,7 +329,7 @@
                             android:layout_height="match_parent"
                             android:hint="@string/register_activity_tv_must_hint"
                             android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/more_arrow_right"
+
                         />
                         </LinearLayout>
                     <LinearLayout
@@ -338,7 +338,7 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
+                        android:paddingRight="20dp"
                         android:background="@drawable/bg_white_bottom_line">
                         <TextView
                             style="@style/textStyle"
@@ -352,7 +352,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/more_arrow_right"
+
                             android:hint="@string/register_activity_tv_must_hint"
                             />
                     </LinearLayout>
@@ -362,7 +362,7 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
+                        android:paddingRight="20dp"
                         android:background="@drawable/bg_white_bottom_line">
                         <TextView
                             style="@style/textStyle"
@@ -376,7 +376,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/more_arrow_right"
+
                             android:hint="@string/register_activity_tv_must_hint"
                             />
                     </LinearLayout>
@@ -386,7 +386,7 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
+                        android:paddingRight="20dp"
                         android:background="@drawable/bg_white_bottom_line">
                         <TextView
                             style="@style/textStyle"
@@ -400,7 +400,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/more_arrow_right"
+
                             android:hint="@string/register_activity_tv_option_hint"
                             />
                     </LinearLayout>

@@ -4,25 +4,35 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by ruby on 2016/5/14.
  */
-public class NavViewPager extends RelativeLayout implements ViewPager.OnPageChangeListener{
+public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPageChangeListener{
     private Context context;
-    private ViewPager viewPager;
+    private SlowViewPager viewPager;
     private PointsView pointsView;
     private CallAction callAction;
+    private List<String> list = new ArrayList<>();
+    private Timer timer;
+    private TimerTask timerTask;
+    private Handler handler;
+    private int space = 0 ;//动画间隔时间
 
     public NavViewPager(Context context) {
         super(context);
@@ -45,9 +55,9 @@ public class NavViewPager extends RelativeLayout implements ViewPager.OnPageChan
 
     public void InitView()
     {
-        viewPager = new ViewPager(context);
+        viewPager = new SlowViewPager(context);
         pointsView = new PointsView(context);
-
+        handler = new Handler();
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         viewPager.setLayoutParams(params);
         LayoutParams params1 =new LayoutParams(200, 40);
@@ -58,8 +68,18 @@ public class NavViewPager extends RelativeLayout implements ViewPager.OnPageChan
         this.addView(viewPager);
         this.addView(pointsView);
         viewPager.addOnPageChangeListener(this);
+
+        timer = new Timer();
     }
 
+    /**
+     *
+     * @param pointStyle 圆点or横线  PointsView.POINT_STYLE_CIRCLE  PointsView.POINT_STYLE_LINE
+     * @param bgColor 背景颜色
+     * @param baseColor 原始颜色
+     * @param selectColor 选择颜色
+     * @param radius 半径
+     */
     public void SetPointViewStyle(int pointStyle, @ColorInt int bgColor,@ColorInt int baseColor,@ColorInt int selectColor, int radius)
     {
         if(pointStyle== PointsView.POINT_STYLE_LINE || pointStyle== PointsView.POINT_STYLE_CIRCLE) {
@@ -86,7 +106,6 @@ public class NavViewPager extends RelativeLayout implements ViewPager.OnPageChan
     public void  SetAdapter(PagerAdapter adapter)
     {
         viewPager.setAdapter(adapter);
-        List<String> list = new ArrayList<>();
         for(int i=0;i<adapter.getCount();i++)
         {
             list.add(""+i);
@@ -107,7 +126,20 @@ public class NavViewPager extends RelativeLayout implements ViewPager.OnPageChan
 
     public void Next()
     {
-        viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(viewPager.getCurrentItem()==list.size()-1)
+                {
+                    ScrollEnd();
+                }
+                else {
+                    viewPager.setCurrentItem((viewPager.getCurrentItem() + 1) % list.size());
+                }
+
+            }
+        });
+
     }
 
     public void ScrollEnd()
@@ -136,6 +168,30 @@ public class NavViewPager extends RelativeLayout implements ViewPager.OnPageChan
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public void AutoScroll(int spaceTime)
+    {
+        this.space = spaceTime;
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(list.size()>0)
+                {
+                    if(GetVPCurrentIndex()==list.size()-1)
+                    {
+                        try {
+                            Thread.sleep(space);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        timer.cancel();
+                    }
+                    Next();
+                }
+            }
+        };
+        timer.schedule(timerTask,space,space);
     }
 
     public class PointsView extends View {

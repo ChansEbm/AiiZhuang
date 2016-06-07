@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-<data class=".ItemProductBinding"></data>
+<data class=".ItemProductBinding">
+    <variable
+        name="item"
+        type="com.appbaba.platform.entity.product.ProductListBean.ProductsEntity"></variable>
+</data>
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,17 +12,16 @@
     android:padding="10dp">
 
     <ImageView
+        android:id="@+id/iv_item"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:src="@color/lite_blue"
-        android:adjustViewBounds="true"
-
+        android:src="@color/bg_color"
         android:scaleType="fitXY"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:text="sdf"
+        android:text="@{item.title}"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
         android:paddingTop="2dp"
@@ -33,9 +36,8 @@
         android:paddingBottom="2dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-
-        android:background="@color/item_product_tv_bg"
-        android:text="sdf"
+        android:background="@color/base_color_tv_bg"
+        android:text="@{item.price}"
         android:textSize="13sp"/>
 </LinearLayout>
 </layout>

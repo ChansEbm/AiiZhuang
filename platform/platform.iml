@@ -201,5 +201,6 @@
     <orderEntry type="library" exported="" name="adapters-1.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.7.1" level="project" />
     <orderEntry type="module" module-name="zxing-android-embedded" exported="" />
+    <orderEntry type="module" module-name="easeui" exported="" />
   </component>
 </module>

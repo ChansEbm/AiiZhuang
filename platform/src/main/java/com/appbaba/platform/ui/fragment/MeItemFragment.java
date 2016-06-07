@@ -6,10 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.appbaba.platform.FragmentMeItemBinding;
+import com.appbaba.platform.ItemCollectionBinding;
+import com.appbaba.platform.ItemUserCollectionBinding;
 import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseFragment;
+import com.appbaba.platform.entity.User.BaseItemBean;
 import com.appbaba.platform.method.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -22,8 +25,17 @@ public class MeItemFragment extends BaseFragment {
     private FragmentMeItemBinding binding;
     private RecyclerView recyclerView;
 
-    private CommonBinderAdapter<Object> adapter;
-    private List<Object> list;
+    private CommonBinderAdapter<BaseItemBean> adapter;
+    private List<BaseItemBean> list;
+    private int index= 0 ;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     @Override
     protected void InitView() {
@@ -31,17 +43,21 @@ public class MeItemFragment extends BaseFragment {
         recyclerView = binding.recycle;
     }
 
+    public void  AddListData(List<BaseItemBean> dataList)
+    {
+         list.addAll(dataList);
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void InitData() {
         list = new ArrayList<>();
-        for(int i=0;i<20;i++)
-        {
-            list.add(new Object());
-        }
-        adapter = new CommonBinderAdapter<Object>(getContext(),R.layout.item_collection_view,list) {
-            @Override
-            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, Object o) {
 
+        adapter = new CommonBinderAdapter<BaseItemBean>(getContext(),R.layout.item_user_bottom_collection_view,list) {
+            @Override
+            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, BaseItemBean o) {
+                ItemUserCollectionBinding collectionBinding = (ItemUserCollectionBinding)viewDataBinding;
+                collectionBinding.setItem(o);
             }
         };
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

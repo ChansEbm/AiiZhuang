@@ -77,15 +77,20 @@
                     android:id="@+id/edt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@color/white"
                     android:textColor="@color/color_text_gravy"
                     android:text="@{item.nickname}"
                     android:textSize="@dimen/text_normal_size"
-                    android:drawableRight="@mipmap/more_arrow_right"
                     android:gravity="right"
-                    android:drawablePadding="10dp"
                     android:layout_marginLeft="30dp"
                     android:padding="10dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_arrow_right"
+                    android:visibility="invisible"
+                    android:layout_marginRight="10dp"/>
 
             </LinearLayout>
             <LinearLayout
@@ -106,16 +111,21 @@
                     android:id="@+id/edt_shop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@color/white"
                     android:layout_marginLeft="20dp"
                     android:textSize="@dimen/text_normal_size"
-                    android:drawableRight="@mipmap/more_arrow_right"
                     android:textColor="@color/color_text_gravy"
                     android:text="@{item.shop_name}"
                     android:drawablePadding="10dp"
                     android:gravity="right"
                     android:padding="10dp"/>
-
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_arrow_right"
+                    android:visibility="invisible"
+                    android:layout_marginRight="10dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -164,17 +174,22 @@
                     android:id="@+id/edt_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@color/white"
                     android:text="@{item.address}"
                     android:textSize="@dimen/text_normal_size"
-                    android:drawableRight="@mipmap/more_arrow_right"
                     android:lines="2"
                     android:layout_marginLeft="20dp"
                     android:drawablePadding="10dp"
                     android:textColor="@color/color_text_gravy"
                     android:gravity="top|right"
                     android:padding="10dp"/>
-
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_arrow_right"
+                    android:visibility="invisible"
+                    android:layout_marginRight="10dp"/>
 
             </LinearLayout>
             <Button

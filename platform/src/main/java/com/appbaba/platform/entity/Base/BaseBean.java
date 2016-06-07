@@ -13,11 +13,21 @@ public class BaseBean extends BaseObservable implements Serializable {
 
     private int errorcode;
     private String msg;
+    private String token;
     private int isNext;
     private int page;
     private String total;
     private View.OnClickListener onClickListener;
     private String tag;
+    private String picture_thumb;
+
+    public String getPicture_thumb() {
+        return picture_thumb;
+    }
+
+    public void setPicture_thumb(String picture_thumb) {
+        this.picture_thumb = picture_thumb;
+    }
 
     public int getErrorcode() {
         return errorcode;
@@ -33,6 +43,14 @@ public class BaseBean extends BaseObservable implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public int getIsNext() {

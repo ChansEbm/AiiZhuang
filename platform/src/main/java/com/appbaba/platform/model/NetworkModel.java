@@ -7,6 +7,11 @@ import android.text.TextUtils;
 
 import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.User.UserBean;
+import com.appbaba.platform.entity.inspiration.InspirationDetailBean;
+import com.appbaba.platform.entity.inspiration.InspirationListBean;
+import com.appbaba.platform.entity.product.ProductDetailBean;
+import com.appbaba.platform.entity.product.ProductListBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.OkHttpResponseListener;
 import com.appbaba.platform.tools.AppTools;
@@ -14,6 +19,7 @@ import com.appbaba.platform.tools.LogTools;
 import com.appbaba.platform.tools.OkHttpBuilder;
 import com.github.pwittchen.prefser.library.Prefser;
 import com.google.repacked.antlr.v4.runtime.misc.NotNull;
+import com.squareup.okhttp.internal.Network;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,6 +98,89 @@ public class NetworkModel<E> {
         if (!TextUtils.isEmpty(getAuth()))
             params.put("auth", getAuth());
         return this;
+    }
+
+    public void InspirationList(int page, NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("page",""+page);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlInspiration("inspirationList").entityClass(InspirationListBean.class).enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void InspirationDetail(String inspiration_id, NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("inspiration_id",inspiration_id);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlInspiration("inspirationDetail").entityClass(InspirationDetailBean.class).enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void ProductList(int page,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("page",""+page);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlGoods("goodsList").entityClass(ProductListBean.class).enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void ProductDetail(String id,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("goods_id",id);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlGoods("goodsDetail").entityClass(ProductDetailBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void CheckReg(String phoneNum,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("tell",phoneNum);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlLogin("checkReg").entityClass(BaseBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void SendSmsCode(String phoneNum,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("phone",phoneNum);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlLogin("sendSmsCode").entityClass(BaseBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void Register(String phoneNum,String password,String code,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("tell",phoneNum);
+        params.put("password",password);
+        params.put("code",code);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlLogin("register").entityClass(BaseBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void Login(String phoneNum,String password,String token,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("tell",phoneNum);
+        params.put("password",password);
+        params.put("token",token);
+        params.put("num","12");
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlLogin("login").entityClass(UserBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public  void  MeChangeHead(String token,List<String> files,String key,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("uploadAvatar").entityClass(BaseBean.class).params(params,files,key)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void MeChangeName(String token,String new_name,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("new_name",new_name);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("modUserName").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
     }
 
 

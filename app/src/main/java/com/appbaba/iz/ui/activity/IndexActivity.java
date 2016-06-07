@@ -1,9 +1,12 @@
 package com.appbaba.iz.ui.activity;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +17,15 @@ import com.appbaba.iz.ActivityIndexBinding;
 import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.eum.NetworkParams;
+import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.widget.NavViewPager;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -28,11 +36,24 @@ public class IndexActivity extends BaseAty {
 
     private ActivityIndexBinding indexBinding;
     private NavViewPager viewPager;
-    private boolean isFirst = true;
+    private boolean isFirst = false;
+    private Handler handler;
     @Override
     protected void initViews() {
-          indexBinding = (ActivityIndexBinding)viewDataBinding;
-          viewPager = indexBinding.navViewpager;
+        handler = new Handler();
+        indexBinding = (ActivityIndexBinding)viewDataBinding;
+        viewPager = indexBinding.navViewpager;
+        String first = AppTools.getSharePreferences().getString("first","");
+        if(TextUtils.isEmpty(first))
+        {
+            AppTools.putStringSharedPreferences("first","1");
+        }
+        else
+        {
+            isFirst = true;
+            start(LoginActivity.class);
+            finish();
+        }
     }
     @Override
     protected void onResume() {
@@ -48,12 +69,32 @@ public class IndexActivity extends BaseAty {
 
     @Override
     protected void initEvents() {
+        if(isFirst)
+        {
+            return;
+        }
         final List<ImageView> list = new ArrayList<>();
-        for(int i=0;i<3;i++)
+        for(int i=0;i<4;i++)
         {
             ImageView imageView = new ImageView(getBaseContext());
             imageView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-            imageView.setBackgroundColor(i % 2 == 0 ? Color.GREEN : Color.BLACK);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            switch (i)
+            {
+                case 0:
+                    imageView.setImageResource(R.mipmap.icon_index_first);
+                    break;
+                case 1:
+                    imageView.setImageResource(R.mipmap.icon_index_second);
+                    break;
+                case 2:
+                    imageView.setImageResource(R.mipmap.icon_index_third);
+                    break;
+                case 3:
+                    imageView.setImageResource(R.mipmap.icon_index_forth);
+                    break;
+            }
+
             list.add(imageView);
         }
          viewPager.SetAdapter(new PagerAdapter() {
@@ -88,30 +129,10 @@ public class IndexActivity extends BaseAty {
                 finish();
             }
         });
-        CountDownTimer timer = new CountDownTimer(1500*viewPager.GetVPCount(),1500) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if(!isFirst) {
-                    viewPager.Next();
-                }
-                else
-                {
-                    isFirst = false;
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                if(viewPager.GetVPCurrentIndex()==list.size()-1) {
-                    viewPager.ScrollEnd();
-                }
-                else
-                {
-                    this.start();
-                }
-            }
-        };
-        timer.start();
+        viewPager.SetPointViewStyle(NavViewPager.PointsView.POINT_STYLE_CIRCLE,Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT,0);
+        viewPager.AutoScroll(1500);
+//        ImageView img;
+//        img.setImageURI(Uri.);
     }
 
     @Override

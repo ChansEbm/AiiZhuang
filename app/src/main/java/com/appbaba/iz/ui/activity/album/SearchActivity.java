@@ -84,6 +84,7 @@ public class SearchActivity extends BaseAty implements Toolbar.OnMenuItemClickLi
                     Toast.makeText(SearchActivity.this, "请输入要搜索内容", Toast.LENGTH_LONG).show();
                 } else {
                     Bundle bundle = new Bundle();
+                    bundle.putBoolean("isEffect",getIntent().getBooleanExtra("isEffect",false));
                     bundle.putString(AppKeyMap.PRO_KEYWORD, binding.includeTopTitle.edtSearch.getText().toString().trim());
                     AppTools.sendBroadcast(bundle, AppKeyMap.CASE_ACTION);
                     finish();

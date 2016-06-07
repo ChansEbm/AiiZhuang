@@ -37,28 +37,14 @@ public class AppKeyMap {
     public final static int LOLLIPOP = 0x08f;
     public final static int MARSHMALLOW = 0x09f;
 
-    public final static String HEAD = "http://izhuangse.appbaba.com/Api/";
-    public final static String HEAD_API_CASE = HEAD + "Cases/";
-    public final static String HEAD_API_COMMON = HEAD + "Common/";
+    public final static String BASEURL = "http://www.izhuangse.com";
+    public final static String HEAD = BASEURL + "/Api/User/";
+    public final static String HEAD_API_Inspiration = HEAD + "Inspiration/";
+    public final static String HEAD_API_GOODS = HEAD + "Goods/";
     public final static String HEAD_API_LOGIN = HEAD + "Login/";
-    public final static String HEAD_API_INDEX = HEAD + "Index/";
-    public final static String HEAD_API_SUBJECT = HEAD + "Subject/";
-    public final static String HEAD_API_MARKETING = HEAD + "Marketing/";
-    public final static String HEAD_API_MORE = HEAD + "More/";
+    public final static String HEAD_API_USER = HEAD + "User/";
 
 
-//    public final static String HEAD_API_WORKER = HEAD + "ApiWorker/";
-//    public final static String HEAD_API_ORDER = HEAD + "ApiOrder/";
-//    public final static String HEAD_API_ACCE_ORDER = HEAD + "ApiAcceOrder/";
-//    public final static String HEAD_APINEARORDER = HEAD + "ApiNearOrder/";
-//    public final static String HEAD_APIMEMBER = HEAD + "ApiMember/";
-//    public final static String HEAD_APIPAGES = HEAD + "ApiPages/";
-//    public final static String HEAD_APIPUSH = HEAD + "ApiPush/";
-//    public final static String HEAD_ABOUT_US = HEAD_APIPAGES + "aboutUs";
-//    public final static String HEAD_MUSTREAD = HEAD_APIPAGES + "mustRead";
-//    public final static String HEAD_JOINTPRICE = HEAD_APIPAGES + "jointPrice";
-//    public final static String HEAD_REGISTERAGREEMENT = HEAD_APIPAGES + "registerAgreement";
-//    public final static String HEAD_QUERYLOGISTICS = HEAD_APIPAGES + "queryLogistics";
 
     public final static String CONTENT_JPG = "image/jpg";
     public final static String CONTENT_PNG = "image/png";
@@ -66,9 +52,7 @@ public class AppKeyMap {
     public final static String CONTENT_MP3 = "audio/mp3";
     public final static String CONTENT_OCT = "application/octet-stream";
 
-    public final static String CUSTOMERID = "customerId";
-    public final static String CATE_ID = "caseId";
-    public final static String PRO_KEYWORD = "keyword";
+
 
     //用户标识
     public final static String AUTH = "auth";

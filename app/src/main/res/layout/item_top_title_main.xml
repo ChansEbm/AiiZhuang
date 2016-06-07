@@ -8,7 +8,6 @@
        android:id="@+id/iv_logo"
        android:layout_width="100dp"
        android:layout_height="match_parent"
-       android:src="@mipmap/icon_top_left_logo"
        android:layout_centerVertical="true"
        android:layout_alignParentLeft="true"
        android:scaleType="centerInside"

@@ -87,7 +87,9 @@ public class AlbumFragment extends BaseFgm implements ViewPager.OnPageChangeList
          {
              case R.id.ibtn_search:
              {
-                 start(SearchActivity.class);
+                 Intent intent = new Intent(getContext(),SearchActivity.class);
+                 intent.putExtra("isEffect",rbEffect.isChecked());
+                 startActivity(intent);
              }
                  break;
          }
@@ -133,8 +135,12 @@ public class AlbumFragment extends BaseFgm implements ViewPager.OnPageChangeList
     @Override
     public void uiUpData(Intent intent) {
         String action = intent.getAction();
-        if (TextUtils.equals(action, AppKeyMap.CASE_ACTION))
-            toggleChecked(PRODUCT);
+        if (TextUtils.equals(action, AppKeyMap.CASE_ACTION)) {
+            String cateId = intent.getExtras().getString(AppKeyMap.CATE_ID,"");
+            if(!TextUtils.isEmpty(cateId)) {
+                toggleChecked(PRODUCT);
+            }
+        }
     }
 
     @Override

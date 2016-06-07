@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data class="ItemRippleBinding"></data>
 
-
+<RelativeLayout android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
         <com.skyfishjy.library.RippleBackground
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/content"
-            app:rb_color="#ffffff"
-            app:rb_radius="2dp"
-            app:rb_rippleAmount="2"
+            app:rb_color="#40000000"
+            app:rb_radius="3dp"
+            app:rb_rippleAmount="3"
             app:rb_duration="3000"
             app:rb_scale="5">
             <ImageView
@@ -22,7 +23,29 @@
                 android:src="@mipmap/icon_ripple"/>
         </com.skyfishjy.library.RippleBackground>
 
-
+    <LinearLayout
+        android:id="@+id/item_rip_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="3dp"
+        android:visibility="gone"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/item_textview_bg">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_ripple"/>
+        <TextView
+            android:id="@+id/tv_item_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/white"
+            />
+    </LinearLayout>
+</RelativeLayout>
 
 
 </layout>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data class=".ActivityProductDetailBinding"></data>
+    <data class=".ActivityProductDetailBinding">
+        <variable
+            name="item"
+            type="com.appbaba.platform.entity.product.ProductDetailBean.GoodsEntity"></variable>
+    </data>
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,41 +25,46 @@
         <ImageView
             android:id="@+id/iv_detail"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@color/lite_blue"/>
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
+            android:adjustViewBounds="true"
+            android:src="@color/bg_color"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:padding="10dp"
-            android:text="sdfsdf"/>
+            
+            android:text="@{item.title}"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/item_product_tv_bg"
-            android:padding="5dp"
+            android:background="@color/base_color_tv_bg"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_marginLeft="10dp"
-            android:text="sdf"/>
+            android:text="@{item.price}"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="产品描述"
+            android:text="@{item.desc}"
             android:padding="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            android:text="图文内容"/>
+            android:text="@{item.content}"/>
 
         </LinearLayout>
         </ScrollView>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp">
+            android:padding="10dp">
             <ImageView
                 android:id="@+id/iv_heart"
                 android:layout_width="wrap_content"
@@ -71,16 +80,19 @@
                 android:layout_marginLeft="10dp"
                 android:src="@mipmap/icon_share"/>
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="立即购买"
                 android:layout_centerVertical="true"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/base_color_tv_bg"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:background="@color/item_product_tv_bg"/>
+                />
 
         </RelativeLayout>
     </LinearLayout>

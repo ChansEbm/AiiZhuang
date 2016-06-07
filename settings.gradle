@@ -1,1 +1,1 @@
-include ':app', ':zxing-android-embedded', ':platform'
+include ':app', ':zxing-android-embedded', ':platform', ':easeui'

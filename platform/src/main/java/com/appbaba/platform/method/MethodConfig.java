@@ -7,6 +7,8 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.appbaba.platform.entity.User.UserInfo;
+
 /**
  * Created by ruby on 2016/5/4.
  */
@@ -16,6 +18,7 @@ public class MethodConfig {
 
     public static Context context;
     public static DisplayMetrics metrics;
+    public static UserInfo userInfo;
 
     public static void SetDispaly(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -38,6 +41,11 @@ public class MethodConfig {
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    public static  int GetHeight(int width,int w,int h)
+    {
+        return width*h/w;
     }
 
     public static long GetTicks() {

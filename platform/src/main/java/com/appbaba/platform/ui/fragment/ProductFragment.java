@@ -1,26 +1,37 @@
 package com.appbaba.platform.ui.fragment;
 
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.appbaba.platform.FragmentProductBinding;
+import com.appbaba.platform.ItemCollectionBinding;
+import com.appbaba.platform.ItemProductBinding;
 import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseFragment;
+import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.product.ProductListBean;
+import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.AnimationCallBack;
 import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.GridSpacingItemDecoration;
+import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
 import com.appbaba.platform.ui.activity.ProductDetailActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +43,13 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
     private FragmentProductBinding binding;
     private RecyclerView recyclerView;
 
-    private CommonBinderAdapter<Object> adapter;
-    private List<Object> list;
+    private CommonBinderAdapter<ProductListBean.ProductsEntity> adapter;
+    private List<ProductListBean.ProductsEntity> list;
     private int gridMode = 0;
     private GridSpacingItemDecoration gridSpacingItemDecoration;
     private SpaceItemDecoration spaceItemDecoration;
     private AnimationCallBack callBack;
+    private int height = 0;
 
     @Override
     protected void InitView() {
@@ -53,13 +65,12 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
     @Override
     protected void InitData() {
         list = new ArrayList<>();
-        for (int i=0;i<60;i++)
-        {
-            list.add(new Object());
-        }
+        height = (MethodConfig.metrics.widthPixels-MethodConfig.dip2px(getContext(),41))/2;
+
       spaceItemDecoration =  new SpaceItemDecoration(2);
       gridSpacingItemDecoration =  new GridSpacingItemDecoration(2,5,true);
-        SetRecyclerViewData();
+      networkModel.ProductList(1, NetworkParams.CUPCAKE);
+      SetRecyclerViewData();
     }
 
     @Override
@@ -118,29 +129,39 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
     {
         if (gridMode==0)
         {
-            adapter = new CommonBinderAdapter<Object>(getContext(),R.layout.item_product_view,list) {
+            adapter = new CommonBinderAdapter<ProductListBean.ProductsEntity>(getContext(),R.layout.item_product_view,list) {
                 @Override
-                public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, Object o) {
-
+                public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, ProductListBean.ProductsEntity o) {
+                    ItemProductBinding itemProductBinding = (ItemProductBinding)viewDataBinding;
+                    itemProductBinding.setItem(o);
+                    itemProductBinding.ivItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
+                    if(!TextUtils.isEmpty(o.getThumb())) {
+                        Picasso.with(getContext()).load(o.getThumb()).into(itemProductBinding.ivItem);
+                    }
                 }
             };
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-           recyclerView.removeItemDecoration(spaceItemDecoration);
+            recyclerView.removeItemDecoration(spaceItemDecoration);
             recyclerView.addItemDecoration(gridSpacingItemDecoration);
             recyclerView.setAdapter(adapter);
+            adapter.setBinderOnItemClickListener(this);
         }
         else
         {
-            adapter = new CommonBinderAdapter<Object>(getContext(),R.layout.item_collection_view,list) {
+            adapter = new CommonBinderAdapter<ProductListBean.ProductsEntity>(getContext(),R.layout.item_collection_view,list) {
                 @Override
-                public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, Object o) {
-
+                public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, ProductListBean.ProductsEntity o) {
+                    ItemCollectionBinding itemCollectionBinding = (ItemCollectionBinding)viewDataBinding;
+                    itemCollectionBinding.setItem(o);
+                    if(!TextUtils.isEmpty(o.getThumb())) {
+                        Picasso.with(getContext()).load(o.getThumb()).into(itemCollectionBinding.ivItem);
+                    }
                 }
             };
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.removeItemDecoration(gridSpacingItemDecoration);
-            recyclerView.addItemDecoration(spaceItemDecoration);
             recyclerView.setAdapter(adapter);
+            adapter.setBinderOnItemClickListener(this);
         }
     }
 
@@ -152,7 +173,10 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
 
     @Override
     public void onBinderItemClick(View clickItem, int parentId, int pos) {
-        StartActivity(ProductDetailActivity.class);
+        String id =  list.get(pos).getId();
+        Intent intent = new Intent(getContext(),ProductDetailActivity.class);
+        intent.putExtra("id",id);
+        startActivity(intent);
     }
 
     @Override
@@ -163,5 +187,15 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
     public void  setCallBack(AnimationCallBack callBack)
     {
         this.callBack = callBack;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
+
+        ProductListBean bean = (ProductListBean)baseBean;
+        if(bean.getErrorcode()==0) {
+            list.addAll(bean.getProducts());
+            adapter.notifyDataSetChanged();
+        }
     }
 }

@@ -1,71 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data class=".ActivityMeSettingBinding"></data>
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white">
+    android:background="@color/bg_color">
     <include
         android:id="@+id/include_top_title"
         layout="@layout/title_bar"></include>
     <include layout="@layout/line_view"></include>
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <TextView
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/application_base_color"
-            android:text="@string/activity_me_setting_cache"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="6.7M"
-            android:paddingRight="10dp"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_more_arrow_black_right"/>
-    </LinearLayout>
-    <include layout="@layout/line_view"></include>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/application_base_color"
-            android:text="@string/activity_me_setting_evaluate"/>
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:id="@+id/linear_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/color_white"
+                android:padding="10dp"
+               >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_more_arrow_black_right"/>
-    </LinearLayout>
-    <include layout="@layout/line_view"></include>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/application_base_color"
-            android:text="@string/activity_me_setting_about_us"/>
+                    android:textColor="@color/application_base_color"
+                    android:text="@string/activity_me_setting_head"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_more_arrow_black_right"/>
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
+                    android:paddingRight="10dp"
+                    >
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/dv_head"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:roundAsCircle="true"
+                        app:placeholderImage="@mipmap/icon_person"
+                        app:placeholderImageScaleType="centerInside"
+                        />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_change"
+                        android:background="@color/bg_color"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="@color/white"
+                        android:text="更换头像"/>
+                </LinearLayout>
+            </LinearLayout>
+            <include layout="@layout/line_view"></include>
+            <LinearLayout
+                android:id="@+id/linear_change_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/color_white"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/application_base_color"
+                    android:text="@string/activity_me_setting_change_username"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_more_arrow_black_right"/>
+            </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:background="@color/color_white"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/application_base_color"
+                    android:text="@string/activity_me_setting_cache"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="6.7M"
+                    android:paddingRight="10dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_more_arrow_black_right"/>
+            </LinearLayout>
+            <include layout="@layout/line_view"></include>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/color_white"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/application_base_color"
+                    android:text="@string/activity_me_setting_evaluate"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_more_arrow_black_right"/>
+            </LinearLayout>
+            <include layout="@layout/line_view"></include>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/color_white"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/application_base_color"
+                    android:text="@string/activity_me_setting_feedback"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_more_arrow_black_right"/>
+            </LinearLayout>
+            <include layout="@layout/line_view"></include>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/color_white"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/application_base_color"
+                    android:text="@string/activity_me_setting_about_us"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_more_arrow_black_right"/>
+            </LinearLayout>
+            <include layout="@layout/line_view"></include>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/color_white"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/application_base_color"
+                    android:text="@string/activity_me_setting_agreement"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_more_arrow_black_right"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_me_setting_version"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/color_white"
+                android:background="@color/bg_color_dark"
+                android:text="@string/activity_me_setting_logout"/>
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>
 </layout>

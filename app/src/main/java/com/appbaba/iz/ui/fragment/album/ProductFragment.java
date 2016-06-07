@@ -6,11 +6,13 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -59,6 +61,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     private RadioButton rbSize;
     private RadioButton rbCate;
     private TextView tvSelectionTitle;
+    private SwipeRefreshLayout swRefresh;
 
     private List<CasesAttrEntity.AttrParent> selectionList = new ArrayList<>();
     private List<ProductEntity.ListBean> bodyList = new ArrayList<>();
@@ -76,6 +79,8 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
 
     private int height=0;//图片尺寸高度
     private int currentPage = 1;
+    private int state = 0,offset=0;
+    private String keyword = "";
 
     @Override
     protected void initViews() {
@@ -96,6 +101,9 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
 
         cateId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.CATE_ID, String
                 .class, "");
+
+        swRefresh = effectLayout.swRefresh;
+        swRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
 
         updateUIBroadcast = new UpdateUIBroadcast();
         updateUIBroadcast.setListener(this);
@@ -125,43 +133,60 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         }
         else
         {
-            isShow = true;
+            isShow = false;
         }
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int state = 0;
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
-                LinearLayoutManager lm= (LinearLayoutManager) recyclerView.getLayoutManager();
-                int top=lm.findViewByPosition(lm.findFirstVisibleItemPosition()).getTop();
-                Log.e("wer",""+lm.findFirstVisibleItemPosition()+ "   "+top);
-                 if(newState==0)
-                {
-                    if(state>top)
-                    {
-                        state = top;
-                    }
-                    else if(state==top)
-                    {
-                        currentPage++;
-                        GetData();
-                    }
-                }
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
+        swRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+            public void onRefresh() {
+                bodyList.clear();
+                currentPage=1;
+                keyword = "";
+                GetData();
             }
         });
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_MOVE:
+                        if(bodyList.size()%12==0) {
+                            if (state == 0) {
+                                state = (int) event.getY();
+                            }
+                            int k = (int) event.getY();
+                            if(recyclerView.computeVerticalScrollOffset()>offset)
+                            {
+                                offset = recyclerView.computeVerticalScrollOffset();
+                            }
+                            if ((k - state) < (-1) * 50 && offset== recyclerView.computeVerticalScrollOffset()) {
+                                GridLayoutManager lm = (GridLayoutManager) recyclerView.getLayoutManager();
+                                int index = lm.findLastVisibleItemPosition();
+                                if (index == (bodyList.size() - 1)) {
+                                    currentPage++;
+                                    GetData();
+                                }
+                            }
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        state = 0;
+                        break;
+                }
+                return false;
+            }
+        });
+
         GetData();
     }
 
     public void GetData()
     {
-
-        networkModel.product("", "", ""+currentPage, "10", selection, NetworkParams.DONUT);
+        state = 0;
+        offset =0 ;
+        networkModel.product("", keyword, ""+currentPage, "12", selection, NetworkParams.DONUT);
     }
 
     /**
@@ -230,10 +255,21 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
             notifyCateSelection((CasesAttrEntity) t);
         } else if (paramsCode == NetworkParams.DONUT) {
             productEntity = (ProductEntity) t;
-            currentPage = productEntity.getCond().getPage();
-            if(productEntity.getList()==null || productEntity.getList().size()==0)
+
+            if( productEntity.getList()==null || productEntity.getList().size()==0)
             {
-                AppTools.showNormalSnackBar(getView(),"Sorry,没有找到你要的产品");
+                if(currentPage==1) {
+                    AppTools.showNormalSnackBar(getView(), "Sorry,没有找到你要的产品");
+                }
+                else
+                {
+                    currentPage--;
+                    AppTools.showNormalSnackBar(getView(), "Sorry,已经最后一页了");
+                    return;
+                }
+            }
+            else{
+                currentPage = productEntity.getCond().getPage();
             }
             if(currentPage==1) {
                 this.bodyList.clear();
@@ -241,19 +277,27 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
             this.bodyList.addAll(productEntity.getList());
             this.bodyAdapter.notifyDataSetChanged();
         }
+        if(swRefresh.isRefreshing())
+        {
+            swRefresh.setRefreshing(false);
+        }
     }
 
     @Override
     public void uiUpData(Intent intent) {
         String action = intent.getAction();
         if (TextUtils.equals(action, AppKeyMap.CASE_ACTION)) {
-            String keyword = intent.getExtras().getString(AppKeyMap.PRO_KEYWORD,"");
+            if(intent.getExtras().getBoolean("isEffect",false))
+            {
+                return;
+            }
+                keyword = intent.getExtras().getString(AppKeyMap.PRO_KEYWORD,"");
                 this.cateId = intent.getExtras().getString(AppKeyMap.CATE_ID,"");
                 rbSize.setChecked(false);
                 rbStyle.setChecked(false);
                 if (TextUtils.isEmpty(cateId)) {
                     rbCate.setChecked(false);
-                    isShow = true;
+                 //   isShow = true;
                 } else {
                     rbCate.setChecked(true);
                     isShow = false;
@@ -266,6 +310,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                 notifyCateSelection(casesAttrEntity);
                 selectionAdapter.notifyDataSetChanged();
 
+            currentPage = 1;
             GetData();
         }
     }
@@ -324,12 +369,13 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
             case R.id.rv_selection:
                 modifierSelections(pos);//改变条件栏的效果样式并且保存好各种id
                 currentPage = 1;
+                keyword = "";
                 GetData();
                 break;
             case R.id.recyclerView:
                 Bundle bundle = new Bundle();
                 int page = productEntity.getCond().getPage();
-                String pageSize = String.valueOf((page * 10));
+                String pageSize = String.valueOf((page * 12));
                 bundle.putInt("index", pos);
                 bundle.putParcelable("selection", selection);
                 bundle.putString("pageSize", pageSize);

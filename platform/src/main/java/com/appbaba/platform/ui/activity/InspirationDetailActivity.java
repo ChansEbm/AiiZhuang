@@ -1,29 +1,45 @@
 package com.appbaba.platform.ui.activity;
 
 import android.content.res.TypedArray;
+import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AndroidException;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appbaba.platform.ActivityInspirationDetailBinding;
+import com.appbaba.platform.ItemInspirationDetailBinding;
 import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseActivity;
+import com.appbaba.platform.databinding.ItemRippleBinding;
+import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.inspiration.InspirationDetailBean;
+import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.BinderOnItemClickListener;
+import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class InspirationDetailActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,BinderOnItemClickListener{
 
@@ -34,8 +50,12 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     private SimpleDraweeView dv_head;
     private RecyclerView recyclerView;
 
-    private CommonBinderAdapter<Object> adapter;
-    private List<Object> list;
+    private CommonBinderAdapter<InspirationDetailBean.InspirationEntity.InspirationBottomEntity> adapter;
+    private List<InspirationDetailBean.InspirationEntity.InspirationBottomEntity> list;
+    private HashMap<String,ItemRippleBinding> tempBindingMap = new HashMap<>();
+
+    private String id;
+    private boolean isFirst= true;
 
     @Override
     protected void InitView() {
@@ -48,14 +68,33 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
 
     @Override
     protected void InitData() {
+        id = getIntent().getStringExtra("id");
         list = new ArrayList<>();
-        for(int i=0;i<10;i++)
-        {
-            list.add(new Object());
-        }
-          adapter = new CommonBinderAdapter<Object>(this,R.layout.item_inspiration_detail_view,list) {
+
+          adapter = new CommonBinderAdapter<InspirationDetailBean.InspirationEntity.InspirationBottomEntity>(this,R.layout.item_inspiration_detail_view,list) {
               @Override
-              public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, Object o) {
+              public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position,final InspirationDetailBean.InspirationEntity.InspirationBottomEntity o) {
+                final  ItemInspirationDetailBinding itemInspirationDetailBinding = (ItemInspirationDetailBinding)viewDataBinding;
+                  itemInspirationDetailBinding.setItem(o);
+                  if(!TextUtils.isEmpty(o.getThumb()))
+                  Picasso.with(InspirationDetailActivity.this).load(o.getThumb()).into(itemInspirationDetailBinding.ivItem, new Callback() {
+                      @Override
+                      public void onSuccess() {
+                          Timer timer = new Timer();
+                          TimerTask timerTask = new TimerTask() {
+                              @Override
+                              public void run() {
+                                  Refresh(itemInspirationDetailBinding.getRoot(),o);
+                              }
+                          };
+                          timer.schedule(timerTask,2000);
+                      }
+
+                      @Override
+                      public void onError() {
+
+                      }
+                  });
 
               }
           };
@@ -65,6 +104,10 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+
+        if(!TextUtils.isEmpty(id)) {
+            networkModel.InspirationDetail(id, NetworkParams.CUPCAKE);
+        }
     }
 
     @Override
@@ -91,6 +134,10 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     private  float x =0,y=0,height=0,height1=0;
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        if(isFirst)
+        {
+            return;
+        }
         int maxScroll = appBarLayout.getTotalScrollRange();
         float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
         if(x==0)
@@ -105,10 +152,16 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
         if(percentage==0)
         {
             binding.tvName.setAlpha(1);
+            if(binding.tvSayHello.getVisibility()!=View.VISIBLE)
+            ShowOrHide(false);
         }
         else
         {
             binding.tvName.setAlpha(0);
+            if(percentage==1 && binding.tvSayHello.getVisibility()!=View.INVISIBLE)
+            {
+                ShowOrHide(true);
+            }
         }
         binding.tvTopTitle.setAlpha(percentage);
         dv_head.setX(x- x*percentage);
@@ -126,5 +179,92 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     @Override
     public void onBinderItemLongClick(View clickItem, int parentId, int pos) {
 
+    }
+
+    @Override
+    public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
+        if(baseBean.getErrorcode()==0)
+        {
+            InspirationDetailBean bean = (InspirationDetailBean)baseBean;
+            list.addAll(bean.getInspiration().getInspiration_bottom());
+            adapter.notifyDataSetChanged();
+            binding.setItem(bean.getInspiration().getInspiration_top());
+        }
+        isFirst = false;
+    }
+
+    Handler handler = new Handler();
+    public void  Refresh(final View view,final InspirationDetailBean.InspirationEntity.InspirationBottomEntity entity)
+    {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(view !=null && view.getTag(R.string.tag_value)==null)
+                {
+                    ItemInspirationDetailBinding itemInspirationDetailBinding = DataBindingUtil.bind(view);
+                    if(itemInspirationDetailBinding.ivItem.getHeight()>0)
+                    {
+                        for(int i=0;i<entity.getGoods().size();i++) {
+                            int x = Integer.parseInt(entity.getGoods().get(i).getLocation_x());
+                            int y = Integer.parseInt(entity.getGoods().get(i).getLocation_y());
+                            if (x > 0 && y > 0) {
+                                final String productID = entity.getGoods().get(i).getGoods_id();
+                                final ItemRippleBinding rippleBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.item_rip_view, null, false);
+                                rippleBinding.getRoot().setX(MethodConfig.metrics.widthPixels * x / 100 - MethodConfig.dip2px(InspirationDetailActivity.this, 30) / 2);
+                                rippleBinding.getRoot().setY(itemInspirationDetailBinding.ivItem.getHeight() * y / 100 - MethodConfig.dip2px(InspirationDetailActivity.this, 30) / 2);
+                                rippleBinding.tvItemView.setText(entity.getGoods().get(i).getModel());
+                                itemInspirationDetailBinding.itemContain.addView(rippleBinding.getRoot());
+                                rippleBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (tempBindingMap.containsKey(productID)) {
+                                            if (tempBindingMap.get(productID) != null){
+                                                ItemRippleBinding tempBinding = tempBindingMap.get(productID);
+                                                tempBinding.content.startRippleAnimation();
+                                                tempBinding.content.setVisibility(View.VISIBLE);
+                                                tempBinding.itemRipBg.setVisibility(View.GONE);
+
+                                                tempBindingMap.put(productID, null);
+                                                if (tempBinding == rippleBinding) {
+                                                    return;
+                                                }
+                                            }
+                                        }
+
+                                        rippleBinding.itemRipBg.setVisibility(View.VISIBLE);
+                                        rippleBinding.content.setVisibility(View.GONE);
+                                        rippleBinding.content.stopRippleAnimation();
+                                        tempBindingMap.put(productID, rippleBinding);
+                                    }
+                                });
+                                rippleBinding.content.startRippleAnimation();
+                            }
+                            view.setTag(R.string.tag_value,"true");
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    public void ShowOrHide(boolean isShow)
+    {
+        if(isShow)
+        {
+            TranslateAnimation animation = new TranslateAnimation(0,0,0,binding.tvSayHello.getHeight());
+            animation.setDuration(200);
+            animation.setInterpolator(new AccelerateInterpolator());
+            binding.tvSayHello.startAnimation(animation);
+            binding.tvSayHello.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            TranslateAnimation animation = new TranslateAnimation(0,0,binding.tvSayHello.getHeight(),0);
+            animation.setDuration(200);
+            animation.setInterpolator(new AccelerateInterpolator());
+            binding.tvSayHello.startAnimation(animation);
+            binding.tvSayHello.setVisibility(View.VISIBLE);
+        }
     }
 }

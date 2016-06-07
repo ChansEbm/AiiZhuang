@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -56,6 +58,7 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
     private RadioButton rbSpace;
     private RadioButton rbCate;
     private TextView tvSelectionTitle;
+    private SwipeRefreshLayout swRefresh;
 
     private List<CasesAttrEntity.AttrParent> selectionList = new ArrayList<>();
     private List<CaseEntity.ListBean> bodyList = new ArrayList<>();
@@ -63,10 +66,13 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
     private CommonBinderAdapter<CaseEntity.ListBean> bodyAdapter;
 
     private CasesAttrEntity casesAttrEntity;
-
+    private UpdateUIBroadcast updateUIBroadcast;
     private CasesAttrSelection selection = new CasesAttrSelection();//保存选择后的ids
     private CaseEntity caseEntity = new CaseEntity();
     private int height = 0;
+    private int currentPage = 1,pageNum = 12;
+    private int state = 0,offset = 0;
+    private String keyword= "";
 
 
 
@@ -86,10 +92,15 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         rbSpace = effectLayout.rbSpace;
         rbCate = effectLayout.rbCate;
 
+        swRefresh = effectLayout.swRefresh;
+        swRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         height = MethodConfig.GetHeightFor4v3((MethodConfig.metrics.widthPixels - 3 * MethodConfig.dip2px(getContext(),10))/2);
 
         initAdapters();
 
+        updateUIBroadcast = new UpdateUIBroadcast();
+        updateUIBroadcast.setListener(this);
+        AppTools.registerBroadcast(updateUIBroadcast, AppKeyMap.CASE_ACTION);
 
     }
 
@@ -107,7 +118,58 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         rvSelection.setHasFixedSize(true);
         radioGroup.setOnCheckedChangeListener(this);
         networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
-        networkModel.cases("", "", "1", "10", selection, NetworkParams.DONUT);//主体内容
+
+        swRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                bodyList.clear();
+                currentPage=1;
+                keyword = "";
+                GetData();
+            }
+        });
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_MOVE:
+                        if(bodyList.size()%pageNum==0) {
+                            if (state == 0) {
+                                state = (int) event.getY();
+                            }
+                            int k = (int) event.getY();
+                            if(recyclerView.computeVerticalScrollOffset()>offset)
+                            {
+                                offset = recyclerView.computeVerticalScrollOffset();
+                            }
+                            if ((k - state) < (-1) * 50 && offset== recyclerView.computeVerticalScrollOffset()) {
+                                LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
+                                int index = lm.findLastVisibleItemPosition();
+                                if (index == (bodyList.size() - 1)) {
+                                    currentPage++;
+                                    GetData();
+                                }
+                            }
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        state = 0;
+                        break;
+                }
+                return false;
+            }
+        });
+        GetData();
+
+    }
+
+    public void GetData()
+    {
+        state = 0;
+        offset = 0;
+        networkModel.cases("", keyword, ""+currentPage, ""+pageNum, selection, NetworkParams.DONUT);//主体内容
     }
 
     /**
@@ -147,6 +209,20 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
     }
 
     @Override
+    public void uiUpData(Intent intent) {
+        String action = intent.getAction();
+        if (TextUtils.equals(action, AppKeyMap.CASE_ACTION)) {
+            if(intent.getExtras().getBoolean("isEffect",false))
+            {
+                keyword = intent.getExtras().getString(AppKeyMap.PRO_KEYWORD,"");
+                currentPage = 1;
+                GetData();
+            }
+
+        }
+    }
+
+    @Override
     protected void onClick(int id, View view) {
         switch (id) {
             case R.id.rb_style:
@@ -179,11 +255,25 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
             caseEntity = (CaseEntity) t;
             if(caseEntity.getList()==null || caseEntity.getList().size()==0)
             {
-                AppTools.showNormalSnackBar(parentView,"Sorry,没有找到你要的效果图");
+                if(currentPage==1) {
+                    AppTools.showNormalSnackBar(getView(), "Sorry,没有找到你要的效果图");
+                }
+                else
+                {
+                    currentPage--;
+                    AppTools.showNormalSnackBar(getView(), "Sorry,已经最后一页了");
+                    return;
+                }
             }
-            this.bodyList.clear();
+            if(currentPage==1) {
+                this.bodyList.clear();
+            }
             this.bodyList.addAll(caseEntity.getList());
             this.bodyAdapter.notifyDataSetChanged();
+        }
+        if(swRefresh.isRefreshing())
+        {
+            swRefresh.setRefreshing(false);
         }
     }
 
@@ -217,12 +307,14 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         switch (parentId) {
             case R.id.rv_selection:
                 modifierSelections(pos);//改变条件栏的效果样式并且保存好各种id
-                networkModel.cases("", "", "1", "20", selection, NetworkParams.DONUT);//然后获取数据
+                currentPage = 1;
+                keyword="";
+                GetData();
                 break;
             case R.id.recyclerView:
                 Bundle bundle = new Bundle();
                 int page = caseEntity.getCond().getPage();
-                String pageSize = String.valueOf((page * 10));
+                String pageSize = String.valueOf((page * pageNum));
                 bundle.putInt("index", pos);
                 bundle.putParcelable("selection", selection);
                 bundle.putString("pageSize", pageSize);

@@ -89,17 +89,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         switch (id)
         {
             case R.id.iv_inspiration: {
-                viewPager.setCurrentItem(0,false);
+                viewPager.setCurrentItem(0);
                 iv_temp = binding.ivInspiration;
             }
                 break;
             case R.id.iv_product: {
-                viewPager.setCurrentItem(1,false);
+                viewPager.setCurrentItem(1);
                 iv_temp = binding.ivProduct;
             }
                 break;
             case R.id.iv_me: {
-                viewPager.setCurrentItem(2,false);
+                viewPager.setCurrentItem(2);
                 iv_temp = binding.ivMe;
             }
                 break;
@@ -114,6 +114,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
         else
         {
+            MethodConfig.userInfo = null;
             super.onBackPressed();
         }
     }

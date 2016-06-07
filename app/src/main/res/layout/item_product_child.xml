@@ -42,26 +42,42 @@
                 android:background="@mipmap/icon_pre"
                 />
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                >
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:orientation="vertical"
                 tools:ignore="RtlCompat">
 
-                <TextView
+                <com.appbaba.iz.widget.MyMarqueeTextView
                     style="@style/textStyle"
                     android:textColor="@color/white"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:ellipsize="marquee"
                     android:text="@{product.cateNameDesc}"/>
 
-                <TextView
+                <com.appbaba.iz.widget.MyMarqueeTextView
                     style="@style/textStyle"
                     android:textColor="@color/white"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:ellipsize="marquee"
                     android:text="@{product.modelDesc}"/>
 
-                <TextView
+                <com.appbaba.iz.widget.MyMarqueeTextView
                     style="@style/textStyle"
                     android:textColor="@color/white"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:ellipsize="marquee"
                     android:text="@{product.sizeDesc}"/>
+            </LinearLayout>
             </LinearLayout>
             <TextView
                 android:id="@+id/tv_next"

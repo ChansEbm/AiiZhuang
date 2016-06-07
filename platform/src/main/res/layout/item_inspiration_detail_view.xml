@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data class=".ItemInspirationDetailBinding"></data>
+    <data class=".ItemInspirationDetailBinding">
+        <variable
+            name="item"
+            type="com.appbaba.platform.entity.inspiration.InspirationDetailBean.InspirationEntity.InspirationBottomEntity"></variable>
+    </data>
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <FrameLayout
+    android:layout_height="wrap_content"
+    android:background="@color/color_white">
+
+    <RelativeLayout
         android:id="@+id/item_contain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_color">
+        android:background="@color/bg_color"
+        android:layout_marginTop="10dp">
         <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
+            android:id="@+id/iv_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
-        android:src="@mipmap/tm"/>
-    </FrameLayout>
+        />
+    </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="sdfsdf"/>
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@{item.desc}"/>
 
 </LinearLayout>
 </layout>

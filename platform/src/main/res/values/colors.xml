@@ -20,10 +20,16 @@
     <color name="application_base_color">#000000</color>
     <color name="line_color">#eeeeee</color>
     <color name="bg_color">#ebebeb</color>
+
+    <color name="base_color_tv_bg">#ffdc38</color>
+    <color name="base_color_tv_text">#fffefe</color>
+
+    <color name="bg_color_dark">#787878</color>
+    <color name="bg_color_light">#c8c8c8</color>
+
     <color name="title_color">#eeeeee</color>
     <color name="normal_text_color">#c3c3c3</color>
     <color name="press_text_color">#eeeeee</color>
     <color name="normal_control_bg_color">#eeeeee</color>
     <color name="press_control_color">#eeeeee</color>
-    <color name="item_product_tv_bg">#fedb37</color>
 </resources>

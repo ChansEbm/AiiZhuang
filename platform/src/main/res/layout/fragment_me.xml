@@ -71,6 +71,7 @@
                     android:layout_gravity="bottom"
                     >
                     <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/dv_head"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_gravity="center_horizontal|bottom"
@@ -80,19 +81,22 @@
                         android:layout_marginBottom="10dp"
                         />
                     <TextView
+                        android:id="@+id/tv_login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:padding="5dp"
                         android:text="立即登录"
-                        android:background="@drawable/btn_login_bg_normal"/>
+                        android:background="@drawable/btn_login_bg_selector"/>
                     <TextView
+                        android:id="@+id/tv_name"
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/color_white"
                         android:textSize="18sp"
-                        android:gravity="center"
-                        android:text="sdfsdf"/>
+                        android:gravity="center"/>
                     <LinearLayout
                         android:id="@+id/linear_tab"
                         android:layout_width="match_parent"

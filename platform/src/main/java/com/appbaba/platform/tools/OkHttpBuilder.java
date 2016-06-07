@@ -167,82 +167,30 @@ public class OkHttpBuilder {
             this.appCompatActivity = appCompatActivity;
         }
 
-        /**
-         * the url which we need to browse
-         *
-         * @param loginUrl
-         * @return this
-         */
-        public POST urlLogin(String url) {
-            this.fullUrl = AppKeyMap.HEAD_API_LOGIN + url;
+
+        public POST urlInspiration(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_Inspiration + url;
             return this;
         }
 
-        public POST urlCases(String url) {
-            this.fullUrl = AppKeyMap.HEAD_API_CASE + url;
-            return this;
-        }
-        public  POST urlComm(String url)
-        {
-            this.fullUrl = AppKeyMap.HEAD_API_COMMON+url;
-            return  this;
-        }
-
-        public  POST urlIndex(String url)
-        {
-            this.fullUrl = AppKeyMap.HEAD_API_INDEX + url;
-            return  this;
-        }
-
-        public  POST urlSubject(String url)
-        {
-            this.fullUrl = AppKeyMap.HEAD_API_SUBJECT + url;
-            return  this;
-        }
-
-        public  POST urlMarketing(String url)
-        {
-            this.fullUrl = AppKeyMap.HEAD_API_MARKETING + url;
-            return  this;
-        }
-
-        public  POST urlMore(String url)
-        {
-            this.fullUrl = AppKeyMap.HEAD_API_MORE + url;
+        public POST urlGoods(String url) {
+            this.fullUrl = AppKeyMap.HEAD_API_GOODS + url;
             return this;
         }
 
+        public POST urlLogin(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_LOGIN+url;
+            return this;
+        }
 
+        public POST urlUser(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_USER+url;
+            return this;
+        }
 
-//        public POST urlWorker(String workerUrl) {
-//            this.fullUrl = AppKeyMap.HEAD_API_WORKER + workerUrl;
-//            return this;
-//        }
-//
-//        public POST urlOrder(String orderUrl) {
-//            this.fullUrl = AppKeyMap.HEAD_API_ORDER + orderUrl;
-//            return this;
-//        }
-//
-//        public POST urlApiAccessOrder(String apiAccessOrderUrl) {
-//            this.fullUrl = AppKeyMap.HEAD_API_ACCE_ORDER + apiAccessOrderUrl;
-//            return this;
-//        }
-//
-//        public POST urlAPInearOrder(String nearOrderUrl) {
-//            this.fullUrl = AppKeyMap.HEAD_APINEARORDER + nearOrderUrl;
-//            return this;
-//        }
-//
-//        public POST urlAPIMember(String memberUrl) {
-//            this.fullUrl = AppKeyMap.HEAD_APIMEMBER + memberUrl;
-//            return this;
-//        }
-//
-//        public POST urlAPIPush(String pushUrl) {
-//            this.fullUrl = AppKeyMap.HEAD_APIPUSH + pushUrl;
-//            return this;
-//        }
 
         /**
          * the params what we need to upload

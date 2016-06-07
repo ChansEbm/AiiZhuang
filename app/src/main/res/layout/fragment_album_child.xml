@@ -7,7 +7,10 @@
             name="events"
             type="com.appbaba.iz.entity.Base.Events"/>
     </data>
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/sw_Refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
@@ -81,5 +84,7 @@
                 android:layout_height="match_parent"
                 />
         </LinearLayout>
+
     </android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

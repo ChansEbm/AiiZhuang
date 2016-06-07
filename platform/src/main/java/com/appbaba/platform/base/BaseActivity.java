@@ -13,14 +13,20 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.appbaba.platform.R;
+import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.OkHttpResponseListener;
+import com.appbaba.platform.model.NetworkModel;
+
+import java.util.List;
 
 /**
  * Created by ruby on 2016/5/4.
  */
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener{
+public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity implements View.OnClickListener,OkHttpResponseListener{
     protected ViewDataBinding viewDataBinding;
     protected View parentView;
+    protected NetworkModel networkModel;
     private boolean isFirstRunnable = true;
 
     @Override
@@ -43,6 +49,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             parentView.setFitsSystemWindows(true);
         }
+        networkModel = new NetworkModel(this);
+        networkModel.setResultCallBack(this);
         InitView();
         InitData();
         InitEvent();
@@ -57,6 +65,32 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected   void  StartActivity(Class cls)
     {
         startActivity(new Intent(this,cls));
+    }
+
+    @Override
+    public void onJsonObjectResponse(Object o, NetworkParams paramsCode) {
+          try
+          {
+              onJsonObjectSuccess((E)o,paramsCode);
+          }
+          catch (Exception ex)
+          {
+              ex.printStackTrace();
+          }
+    }
+
+    @Override
+    public void onJsonArrayResponse(List t, NetworkParams paramsCode) {
+
+    }
+
+    @Override
+    public void onError(String error, NetworkParams paramsCode) {
+
+    }
+
+    public void onJsonObjectSuccess(E e, NetworkParams paramsCode) {
+
     }
 
     protected abstract void InitView(); //view 初始

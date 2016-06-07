@@ -14,6 +14,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocationListener;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -308,8 +309,10 @@ public class AppTools {
     public static void showActionSnackBar(View view, CharSequence charSequence, CharSequence
             actionCharSequence, View.OnClickListener
                                                   onClickListener) {
-        SnakeTools.getInstance().showSnackBar(context, view, charSequence, actionCharSequence,
-                onClickListener);
+        //临时需求需要更改为toast显示
+        Toast.makeText(context,charSequence.toString(),Toast.LENGTH_LONG).show();
+//        SnakeTools.getInstance().showSnackBar(context, view, charSequence, actionCharSequence,
+//                onClickListener);
     }
 
     public static void showNormalSnackBar(View view, CharSequence charSequence) {
