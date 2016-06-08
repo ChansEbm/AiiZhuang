@@ -33,10 +33,12 @@
                         android:textSize="15sp"
                         android:text="@string/activity_me_designer_name"/>
                     <EditText
+                        android:id="@+id/edt_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
-                        android:padding="10dp"
+                        android:gravity="right"
+                        android:paddingRight="15dp"
                         android:background="@color/color_white"/>
                 </LinearLayout>
                 <include layout="@layout/line_view"></include>
@@ -51,9 +53,13 @@
                         android:textSize="15sp"
                         android:text="@string/activity_me_designer_email"/>
                     <EditText
+                        android:id="@+id/edt_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
+                        android:gravity="right"
+                        android:inputType="textEmailAddress"
+                        android:paddingRight="15dp"
                         android:background="@color/color_white"/>
                 </LinearLayout>
                 <include layout="@layout/line_view"></include>
@@ -68,9 +74,13 @@
                         android:textSize="15sp"
                         android:text="@string/activity_me_designer_wechat"/>
                     <EditText
+                        android:id="@+id/edt_wechat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
+                        android:inputType="text"
+                        android:gravity="right"
+                        android:paddingRight="15dp"
                         android:background="@color/color_white"/>
                 </LinearLayout>
                 <include layout="@layout/line_view"></include>
@@ -84,10 +94,13 @@
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:text="@string/activity_me_designer_city"/>
-                    <EditText
+                    <TextView
+                        android:id="@+id/tv_city_select"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
+                        android:drawablePadding="10dp"
+                        android:gravity="right"
                         android:drawableRight="@mipmap/icon_more_arrow_black_right"
                         android:background="@color/color_white"/>
                 </LinearLayout>
@@ -103,9 +116,15 @@
                         android:textSize="15sp"
                         android:text="@string/activity_me_designer_id_num"/>
                     <EditText
+                        android:id="@+id/edt_carID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
+                        android:inputType="number"
+                        android:digits="0123456789xX"
+                        android:gravity="right"
+                        android:lines="1"
+                        android:paddingRight="15dp"
                         android:background="@color/color_white"/>
                 </LinearLayout>
                 <include layout="@layout/line_view"></include>
@@ -113,17 +132,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:padding="10dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:text="@string/activity_me_designer_id_photo"/>
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:background="@color/color_white"/>
+                 <LinearLayout
+                     android:id="@+id/linear_photo"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:gravity="right|center_vertical">
+                    <ImageView
+                        android:id="@+id/iv_id_1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="5dp"/>
+                    <ImageView
+                        android:id="@+id/iv_id_2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="5dp"/>
+                     <ImageView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:src="@mipmap/icon_more_arrow_black_right"/>
+                 </LinearLayout>
                 </LinearLayout>
                 <include layout="@layout/line_view"></include>
                 <LinearLayout
@@ -138,12 +173,14 @@
                         android:layout_marginBottom="10dp"
                         android:text="@string/activity_me_designer_myself"/>
                     <EditText
+                        android:id="@+id/edt_myself"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:lines="5"
                         android:hint="@string/activity_me_designer_hint_myself"
                         android:gravity="top"
+                        android:textColorHint="@color/bg_color_light"
                         android:background="@color/color_white"/>
                 </LinearLayout>
                 <include layout="@layout/line_view"></include>
@@ -152,6 +189,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

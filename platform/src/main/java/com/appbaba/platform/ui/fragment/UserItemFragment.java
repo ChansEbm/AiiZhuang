@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by ruby on 2016/5/10.
  */
-public class MeItemFragment extends BaseFragment {
+public class UserItemFragment extends BaseFragment {
     private FragmentMeItemBinding binding;
     private RecyclerView recyclerView;
 
@@ -45,6 +45,9 @@ public class MeItemFragment extends BaseFragment {
 
     public void  AddListData(List<BaseItemBean> dataList)
     {
+        if(list==null)
+            return;
+         list.clear();
          list.addAll(dataList);
         adapter.notifyDataSetChanged();
     }

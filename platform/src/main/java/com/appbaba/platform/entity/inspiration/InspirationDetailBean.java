@@ -1,11 +1,14 @@
 package com.appbaba.platform.entity.inspiration;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.text.TextUtils;
 
 import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.entity.Base.BaseBean;
 
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by ruby on 2016/5/31.
@@ -28,7 +31,7 @@ public class InspirationDetailBean extends BaseBean {
         this.inspiration = inspiration;
     }
 
-    public static class InspirationEntity {
+    public static class InspirationEntity{
         /**
          * id : 1
          * title : 加西亚瓷砖
@@ -65,13 +68,23 @@ public class InspirationDetailBean extends BaseBean {
             this.inspiration_bottom = inspiration_bottom;
         }
 
-        public static class InspirationTopEntity {
+        public static class InspirationTopEntity extends BaseObservable{
             private String id;
             private String title;
-            private String thumb;
+            private String stylist_id;
+            private String inspiration_thumb;
+            private String user_thumb;
             private String label;
             private String desc;
             private String name;
+
+            public String getStylist_id() {
+                return stylist_id;
+            }
+
+            public void setStylist_id(String stylist_id) {
+                this.stylist_id = stylist_id;
+            }
 
             public String getId() {
                 return id;
@@ -89,12 +102,20 @@ public class InspirationDetailBean extends BaseBean {
                 this.title = title;
             }
 
-            public String getThumb() {
-                return thumb;
+            public String getInspiration_thumb() {
+                return AppKeyMap.BASEURL+inspiration_thumb;
             }
 
-            public void setThumb(String thumb) {
-                this.thumb = thumb;
+            public void setInspiration_thumb(String inspiration_thumb) {
+                this.inspiration_thumb = inspiration_thumb;
+            }
+
+            public String getUser_thumb() {
+                return AppKeyMap.BASEURL+user_thumb;
+            }
+
+            public void setUser_thumb(String user_thumb) {
+                this.user_thumb = user_thumb;
             }
 
             public String getLabel() {
@@ -113,8 +134,10 @@ public class InspirationDetailBean extends BaseBean {
                 this.desc = desc;
             }
 
+            @Bindable
             public String getName() {
-                return name;
+
+                return TextUtils.isEmpty(name) ? "无名" : name;
             }
 
             public void setName(String name) {

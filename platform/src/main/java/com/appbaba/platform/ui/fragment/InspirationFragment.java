@@ -1,43 +1,32 @@
 package com.appbaba.platform.ui.fragment;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.view.menu.MenuWrapperFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 
 import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.FragmentInspirationBinding;
 import com.appbaba.platform.ItemInspirationBinding;
-import com.appbaba.platform.PopupRippleBinding;
 import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseFragment;
-import com.appbaba.platform.databinding.ItemRippleBinding;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.inspiration.InspirationEntity;
 import com.appbaba.platform.entity.inspiration.InspirationListBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.AnimationCallBack;
 import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
-import com.appbaba.platform.tools.AppTools;
-import com.appbaba.platform.tools.LogTools;
-import com.appbaba.platform.ui.activity.InspirationDetailActivity;
-import com.appbaba.platform.ui.activity.InspirationSearchActivity;
+import com.appbaba.platform.ui.activity.inspiration.InspirationDetailActivity;
+import com.appbaba.platform.ui.activity.inspiration.InspirationSearchActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -50,14 +39,15 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
     private FragmentInspirationBinding binding;
     private RecyclerView recyclerView;
 
-    private CommonBinderAdapter<InspirationListBean.InspirationEntity> commonBinderAdapter;
-    private List<InspirationListBean.InspirationEntity> list;
+    private CommonBinderAdapter<InspirationEntity> commonBinderAdapter;
+    private List<InspirationEntity> list;
     private AnimationCallBack callBack;
     private int height = 0; // 4:3 比例的高度
 
     @Override
     protected void InitView() {
         binding = (FragmentInspirationBinding)viewDataBinding;
+
         recyclerView = binding.recycle;
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -70,15 +60,14 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
         height = MethodConfig.GetHeight(MethodConfig.metrics.widthPixels,4,3);
         list =new ArrayList<>();
 
-        commonBinderAdapter = new CommonBinderAdapter<InspirationListBean.InspirationEntity>(getContext(),R.layout.item_inspiration_view,list) {
+        commonBinderAdapter = new CommonBinderAdapter<InspirationEntity>(getContext(),R.layout.item_inspiration_view,list) {
             @Override
-            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, InspirationListBean.InspirationEntity o) {
+            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, InspirationEntity o) {
                 ItemInspirationBinding itemInspirationBinding = (ItemInspirationBinding)viewDataBinding;
                 itemInspirationBinding.setItem(o);
                 itemInspirationBinding.ivItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
-                itemInspirationBinding.ivItem.setBackgroundColor(Color.DKGRAY);
                 if(!TextUtils.isEmpty(o.getThumb()))
-                Picasso.with(getContext()).load(AppKeyMap.HEAD+o.getThumb()).into(itemInspirationBinding.ivItem);
+                Picasso.with(getContext()).load(o.getThumb()).into(itemInspirationBinding.ivItem);
             }
         };
         recyclerView.setAdapter(commonBinderAdapter);

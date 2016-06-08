@@ -2,12 +2,16 @@ package com.appbaba.platform.method;
 
 import android.content.Context;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appbaba.platform.entity.User.UserInfo;
+import com.appbaba.platform.entity.comm.LocationBean;
 
 /**
  * Created by ruby on 2016/5/4.
@@ -19,6 +23,7 @@ public class MethodConfig {
     public static Context context;
     public static DisplayMetrics metrics;
     public static UserInfo userInfo;
+    public static LocationBean locationBean;
 
     public static void SetDispaly(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -64,5 +69,17 @@ public class MethodConfig {
             }
         });
 
+    }
+
+    public static boolean EmptyEditText(EditText... editTexts)
+    {
+        for(int i=0;i<editTexts.length;i++)
+        {
+            if(TextUtils.isEmpty(editTexts[i].getText()))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

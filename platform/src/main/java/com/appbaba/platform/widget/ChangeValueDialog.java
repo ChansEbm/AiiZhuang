@@ -56,7 +56,7 @@ public class ChangeValueDialog implements OkHttpResponseListener {
             public void onClick(View v) {
                  if(!TextUtils.isEmpty(changeNameBinding.edtMsgCode.getText()))
                  {
-                     networkModel.MeChangeName(MethodConfig.userInfo.getToken(),changeNameBinding.edtMsgCode.getText().toString().trim(),NetworkParams.DONUT);
+                     networkModel.UserChangeName(MethodConfig.userInfo.getToken(),changeNameBinding.edtMsgCode.getText().toString().trim(),NetworkParams.DONUT);
                  }
             }
         });

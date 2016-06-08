@@ -5,6 +5,15 @@ package com.appbaba.platform.entity.User;
  */
 public class UserInfo {
     private String username,password,token,imgUrl,name,eusername,epassword,etoken;
+    private  int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public String getUsername() {
         return username;

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.appbaba.platform.R;
 import com.appbaba.platform.entity.Base.BaseBean;
@@ -71,6 +72,11 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
     public void onJsonObjectResponse(Object o, NetworkParams paramsCode) {
           try
           {
+              E e = (E)o;
+              if( e.getErrorcode()!=0)
+              {
+                  Toast.makeText(this,e.getMsg(),Toast.LENGTH_LONG).show();
+              }
               onJsonObjectSuccess((E)o,paramsCode);
           }
           catch (Exception ex)

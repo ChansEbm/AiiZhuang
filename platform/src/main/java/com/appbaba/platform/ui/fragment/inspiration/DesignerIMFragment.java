@@ -1,13 +1,24 @@
-package com.appbaba.platform.ui.fragment;
+package com.appbaba.platform.ui.fragment.inspiration;
 
 import android.view.View;
 
+import com.appbaba.platform.R;
 import com.appbaba.platform.base.BaseFragment;
 
 /**
- * Created by ruby on 2016/5/28.
+ * Created by ruby on 2016/6/8.
  */
-public class ErrorFragment extends BaseFragment {
+public class DesignerIMFragment extends BaseFragment {
+
+    private String designerID = "";
+
+    public String getDesignerID() {
+        return designerID;
+    }
+
+    public void setDesignerID(String designerID) {
+        this.designerID = designerID;
+    }
     @Override
     protected void InitView() {
 
@@ -35,6 +46,6 @@ public class ErrorFragment extends BaseFragment {
 
     @Override
     protected int getContentView() {
-        return 0;
+        return R.layout.fragment_designer_im;
     }
 }

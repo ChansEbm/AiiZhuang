@@ -1,22 +1,19 @@
-package com.appbaba.platform.ui.activity;
+package com.appbaba.platform.ui.activity.inspiration;
 
-import android.content.res.TypedArray;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.AndroidException;
-import android.util.Log;
-import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appbaba.platform.ActivityInspirationDetailBinding;
 import com.appbaba.platform.ItemInspirationDetailBinding;
@@ -60,7 +57,8 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     @Override
     protected void InitView() {
         binding = (ActivityInspirationDetailBinding)viewDataBinding;
-
+        binding.toolbar.setNavigationIcon(R.mipmap.icon_back);
+        binding.toolbar.getMenu().add(0,R.id.action_share,0,"").setIcon(R.mipmap.icon_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         mAppBarLayout   = binding.appbar;
         dv_head = binding.dvHead;
         recyclerView = binding.recycle;
@@ -112,17 +110,43 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
 
     @Override
     protected void InitEvent() {
-
+        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        binding.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_share:
+                        Toast.makeText(InspirationDetailActivity.this,"hehe",Toast.LENGTH_LONG).show();
+                        break;
+                }
+                return false;
+            }
+        });
     }
+
 
     @Override
     protected void InitListening() {
+        binding.dvHead.setOnClickListener(this);
         mAppBarLayout.addOnOffsetChangedListener(this);
         adapter.setBinderOnItemClickListener(this);
     }
 
     @Override
     protected void OnClick(int id, View view) {
+        switch (id)
+        {
+            case R.id.dv_head:
+                Intent intent = new Intent(this,DesignWorkDetailActivity.class);
+                intent.putExtra("designerID",(String) view.getTag(R.string.tag_value));
+                startActivity(intent);
+                break;
+        }
 
     }
 
@@ -189,6 +213,15 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
             list.addAll(bean.getInspiration().getInspiration_bottom());
             adapter.notifyDataSetChanged();
             binding.setItem(bean.getInspiration().getInspiration_top());
+            if(TextUtils.isEmpty(bean.getInspiration().getInspiration_top().getUser_thumb()))
+            {
+                binding.dvHead.setImageURI(Uri.parse(""));
+            }
+            else
+            {
+                binding.dvHead.setImageURI(Uri.parse(bean.getInspiration().getInspiration_top().getUser_thumb()));
+            }
+            binding.dvHead.setTag(R.string.tag_value,bean.getInspiration().getInspiration_top().getStylist_id());
         }
         isFirst = false;
     }

@@ -22,6 +22,7 @@ import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.hyphenate.easeui.controller.EaseUI;
 
 import java.io.File;
 
@@ -44,6 +45,7 @@ public class BaseApplication extends Application {
         MethodConfig.SetDispaly(this);
         Fresco.initialize(this);
         AppTools.init(this);
+        EaseUI.getInstance().init(this,null);
         initGalleryFinal();
     }
 

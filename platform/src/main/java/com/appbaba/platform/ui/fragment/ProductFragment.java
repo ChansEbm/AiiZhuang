@@ -3,13 +3,10 @@ package com.appbaba.platform.ui.fragment;
 
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,7 +27,7 @@ import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.GridSpacingItemDecoration;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
-import com.appbaba.platform.ui.activity.ProductDetailActivity;
+import com.appbaba.platform.ui.activity.products.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

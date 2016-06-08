@@ -191,6 +191,12 @@ public class OkHttpBuilder {
             return this;
         }
 
+        public POST urlDesign(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_DESIGNER+url;
+            return this;
+        }
+
 
         /**
          * the params what we need to upload

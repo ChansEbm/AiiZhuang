@@ -43,6 +43,7 @@ public class AppKeyMap {
     public final static String HEAD_API_GOODS = HEAD + "Goods/";
     public final static String HEAD_API_LOGIN = HEAD + "Login/";
     public final static String HEAD_API_USER = HEAD + "User/";
+    public final static String HEAD_API_DESIGNER = HEAD + "Design/";
 
 
 

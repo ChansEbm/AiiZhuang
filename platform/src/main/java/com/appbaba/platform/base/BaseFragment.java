@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.appbaba.platform.entity.Base.BaseBean;
 import com.appbaba.platform.eum.NetworkParams;
@@ -61,6 +62,11 @@ public abstract class BaseFragment<E extends BaseBean> extends Fragment implemen
     public void onJsonObjectResponse(Object o, NetworkParams paramsCode) {
         try
         {
+            E e = (E)o;
+            if( e.getErrorcode()!=0)
+            {
+                Toast.makeText(getContext(),e.getMsg(),Toast.LENGTH_LONG).show();
+            }
             onJsonObjectSuccess((E)o,paramsCode);
         }
         catch (Exception ex)

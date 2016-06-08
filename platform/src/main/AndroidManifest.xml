@@ -69,15 +69,18 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".ui.activity.InspirationSearchActivity"></activity>
-        <activity android:name=".ui.activity.ProductDetailActivity"></activity>
-        <activity android:name=".ui.activity.DesignWorksActivity"></activity>
-        <activity android:name=".ui.activity.DesignWorkDetailActivity"></activity>
+        <activity android:name=".ui.activity.inspiration.InspirationSearchActivity"></activity>
+        <activity android:name=".ui.activity.products.ProductDetailActivity"></activity>
+        <activity android:name=".ui.activity.inspiration.DesignWorksActivity"></activity>
+        <activity android:name=".ui.activity.inspiration.DesignWorkDetailActivity"></activity>
+        <activity android:name=".ui.activity.user.UserBeDesignerActivity"></activity>
+        <activity android:name=".ui.activity.comm.CommLocationActivity"></activity>
+        <activity android:name=".ui.activity.user.DesignerCenterActivity"></activity>
         <activity
-            android:name=".ui.activity.InspirationDetailActivity"
+            android:name=".ui.activity.inspiration.InspirationDetailActivity"
             android:label="@string/title_activity_inspiration_detail"
             android:theme="@style/AppTheme"></activity>
-        <activity android:name=".ui.activity.MeSettingActivity"></activity>
+        <activity android:name=".ui.activity.user.UserSettingActivity"></activity>
     </application>
 
 </manifest>

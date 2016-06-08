@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<data class=".ActivityDesignerCenterBinding"></data>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/icon_back"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+        <com.appbaba.platform.widget.MyTextView
+            android:id="@+id/tv_my_inspiration"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="20sp"
+            app:normal_color="@color/normal_text_color"
+            app:text="我的灵感"/>
+        <com.appbaba.platform.widget.MyTextView
+            android:id="@+id/tv_my_product"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="20sp"
+            app:normal_color="@color/normal_text_color"
+            app:text="我的商品"/>
+        </LinearLayout>
+       <TextView
+          android:id="@+id/tv_push_inspiration"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="发布灵感"/>
+
+        </LinearLayout>
+   <com.appbaba.platform.widget.SlowViewPager
+       android:id="@+id/viewpager"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"></com.appbaba.platform.widget.SlowViewPager>
+
+</LinearLayout>
+</layout>

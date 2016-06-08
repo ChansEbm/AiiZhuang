@@ -1,15 +1,9 @@
 package com.appbaba.platform.ui.activity;
 
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.ViewDragHelper;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -23,7 +17,7 @@ import com.appbaba.platform.databinding.ActivityMainBinding;
 import com.appbaba.platform.impl.AnimationCallBack;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.ui.fragment.InspirationFragment;
-import com.appbaba.platform.ui.fragment.MeFragment;
+import com.appbaba.platform.ui.fragment.UserFragment;
 import com.appbaba.platform.ui.fragment.ProductFragment;
 
 
@@ -35,7 +29,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private Fragment fragment_temp;
     private InspirationFragment inspirationFragment;
     private ProductFragment productFragment;
-    private MeFragment meFragment;
+    private UserFragment meFragment;
     private ImageView iv_temp;
     private ViewPager viewPager;
 
@@ -248,7 +242,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 }
                 case 2:{
                     if (meFragment == null) {
-                        meFragment = new MeFragment();
+                        meFragment = new UserFragment();
                     }
                     return meFragment;
                 }

@@ -88,7 +88,7 @@
                            android:id="@+id/tv_top_title"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:text="@{item.title}"
+                           android:text="@{item.name}"
                            android:textSize="25sp"
                            android:layout_centerInParent="true"
                            android:alpha="0"
@@ -102,10 +102,8 @@
                                android:id="@+id/dv_head"
                                android:layout_width="60dp"
                                android:layout_height="100dp"
-
-
                                app:roundAsCircle="true"
-                               app:placeholderImage="@color/base_color_tv_bg"
+                               app:placeholderImage="@mipmap/icon_yellow_head"
                                />
                            <TextView
                                android:id="@+id/tv_name"
@@ -129,10 +127,7 @@
                     app:title=""
                     >
 
-                   <ImageView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:src="@mipmap/icon_back"/>
+
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.CollapsingToolbarLayout>

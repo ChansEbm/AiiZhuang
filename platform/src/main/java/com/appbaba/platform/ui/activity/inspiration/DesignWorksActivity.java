@@ -1,4 +1,4 @@
-package com.appbaba.platform.ui.activity;
+package com.appbaba.platform.ui.activity.inspiration;
 
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.LinearLayoutManager;

@@ -94,6 +94,7 @@ public class UserBean extends BaseBean {
             private String picture_thumb;
             private String name;
             private String token;
+            private int type;
 
             public String getEasemob_password() {
                 return easemob_password;
@@ -101,6 +102,14 @@ public class UserBean extends BaseBean {
 
             public void setEasemob_password(String easemob_password) {
                 this.easemob_password = easemob_password;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
             }
 
             public String getEasemob_username() {

@@ -2,11 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <data class=".FragmentMeBinding"></data>
-<LinearLayout
+    <data class=".FragmentUserBinding"></data>
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     >
 
     <android.support.design.widget.CoordinatorLayout
@@ -120,7 +119,7 @@
                                 android:gravity="center"
                                 android:layout_weight="1"
                                 app:normal_color="@color/color_text_gravy"
-                                app:text="@string/fragment_me_collection"/>
+                                app:text="@string/fragment_user_love"/>
 
 
                             <com.appbaba.platform.widget.MyTextView
@@ -131,7 +130,7 @@
                                 android:layout_weight="1"
                                 android:textSize="16sp"
                                 app:normal_color="@color/color_text_gravy"
-                                app:text="@string/fragment_me_export"/>
+                                app:text="@string/fragment_user_collection"/>
 
                             <com.appbaba.platform.widget.MyTextView
                                 android:id="@+id/tv_my_like"
@@ -141,7 +140,7 @@
                                 android:gravity="center"
                                 android:textSize="16sp"
                                 android:layout_weight="1"
-                                app:text="@string/fragment_me_like"/>
+                                app:text="@string/fragment_user_like"/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/linear_move"
@@ -176,6 +175,35 @@
         </android.support.v4.view.ViewPager>
 
 
+
     </android.support.design.widget.CoordinatorLayout>
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/linear_be_designer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/base_color_tv_bg"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_type"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/icon_designer"/>
+        <TextView
+            android:id="@+id/tv_design_detail"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="成为设计师"/>
+    </LinearLayout>
+
+</RelativeLayout>
 </layout>

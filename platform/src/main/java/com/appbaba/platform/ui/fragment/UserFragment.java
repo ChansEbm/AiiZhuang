@@ -1,44 +1,33 @@
 package com.appbaba.platform.ui.fragment;
 
-import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appbaba.platform.AppKeyMap;
-import com.appbaba.platform.FragmentMeBinding;
+import com.appbaba.platform.FragmentUserBinding;
 import com.appbaba.platform.R;
-import com.appbaba.platform.adapters.CommonBinderAdapter;
-import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseFragment;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.User.BaseItemBean;
 import com.appbaba.platform.entity.User.UserBean;
 import com.appbaba.platform.entity.User.UserInfo;
 import com.appbaba.platform.eum.NetworkParams;
-import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.impl.LoginCallBack;
 import com.appbaba.platform.method.MethodConfig;
-import com.appbaba.platform.method.SpaceItemDecoration;
 import com.appbaba.platform.tools.AppTools;
-import com.appbaba.platform.ui.activity.MeSettingActivity;
+import com.appbaba.platform.ui.activity.user.DesignerCenterActivity;
+import com.appbaba.platform.ui.activity.user.UserBeDesignerActivity;
+import com.appbaba.platform.ui.activity.user.UserSettingActivity;
 import com.appbaba.platform.widget.LoginDialog;
 import com.appbaba.platform.widget.MyTextView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +35,8 @@ import java.util.List;
 /**
  * Created by ruby on 2016/5/4.
  */
-public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeListener{
-    private FragmentMeBinding binding;
+public class UserFragment extends BaseFragment implements ViewPager.OnPageChangeListener{
+    private FragmentUserBinding binding;
     private ViewPager viewPager;
     private LinearLayout linear_move;
 
@@ -56,7 +45,7 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
 
     @Override
     protected void InitView() {
-        binding = (FragmentMeBinding)viewDataBinding;
+        binding = (FragmentUserBinding)viewDataBinding;
         viewPager = binding.viewpager;
         linear_move = binding.linearMove;
     }
@@ -69,13 +58,13 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
 
     @Override
     protected void InitData() {
-        fragments = new ArrayList<>();
-        for(int i=0;i<3;i++)
-        {
-            MeItemFragment itemFragment = new MeItemFragment();
-            itemFragment.setIndex(i);
-            fragments.add(itemFragment);
-        }
+            fragments = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                UserItemFragment itemFragment = new UserItemFragment();
+                itemFragment.setIndex(i);
+                fragments.add(itemFragment);
+            }
+
         moveWidth = linear_move.getLayoutParams().width = MethodConfig.metrics.widthPixels/3;
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(new MyPageAdapter(getChildFragmentManager()));
@@ -91,6 +80,7 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
          viewPager.addOnPageChangeListener(this);
          binding.ivSetting.setOnClickListener(this);
          binding.tvLogin.setOnClickListener(this);
+        binding.linearBeDesigner.setOnClickListener(this);
     }
 
     @Override
@@ -98,7 +88,7 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
         switch (id)
         {
             case R.id.iv_setting:
-                StartActivity(MeSettingActivity.class);
+                startActivityForResult(new Intent(getContext(),UserSettingActivity.class),101);
                 break;
             case R.id.tv_login:
                 String username = AppTools.getSharePreferences().getString("username","");
@@ -124,6 +114,22 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
                     networkModel.Login(username,password,"", NetworkParams.DONUT);
                 }
                 break;
+            case R.id.linear_be_designer:
+            {
+                if(MethodConfig.userInfo.getType()==2)
+                {
+                    Toast.makeText(getContext(),"已经在审核啦",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(MethodConfig.userInfo.getType()!=1) {
+                    StartActivity(UserBeDesignerActivity.class);
+                }
+                else
+                {
+                     StartActivity(DesignerCenterActivity.class);
+                }
+            }
+                break;
         }
     }
 
@@ -131,6 +137,16 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
     @Override
     protected int getContentView() {
         return R.layout.fragment_me;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode)
+        {
+            case 101:
+                binding.tvLogin.performClick();
+                break;
+        }
     }
 
     int first=0;
@@ -160,10 +176,11 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
 
     @Override
     public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
+        if(paramsCode==NetworkParams.DONUT)
+        {
         if(baseBean.getErrorcode()==0)
         {
-            if(paramsCode==NetworkParams.DONUT)
-            {
+
                 String username = MethodConfig.userInfo.getUsername();
                 String password = MethodConfig.userInfo.getPassword();
                 AppTools.putStringSharedPreferences("username",username);
@@ -174,33 +191,43 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
                 MethodConfig.userInfo.setToken(userbean.getUser().getUser_infor().getToken());
                 MethodConfig.userInfo.setUsername(username);
                 MethodConfig.userInfo.setPassword(password);
+                MethodConfig.userInfo.setType(userbean.getUser().getUser_infor().getType());
                 MethodConfig.userInfo.setImgUrl(AppKeyMap.BASEURL+userbean.getUser().getUser_infor().getPicture_thumb());
                 MethodConfig.userInfo.setEusername(userbean.getUser().getUser_infor().getEasemob_username());
                 MethodConfig.userInfo.setEpassword(userbean.getUser().getUser_infor().getEasemob_password());
-                InitUserInfo();
                 for(int i = 0 ;i <fragments.size();i++)
                 {
                     switch (i)
                     {
                         case 0:
-                            ((MeItemFragment)fragments.get(i)).AddListData(userbean.getUser().getInspiration_list());
+                            ((UserItemFragment)fragments.get(i)).AddListData(userbean.getUser().getInspiration_list());
                             break;
                         case 1:
-                            ((MeItemFragment)fragments.get(i)).AddListData(userbean.getUser().getFavorite_list());
+                            ((UserItemFragment)fragments.get(i)).AddListData(userbean.getUser().getFavorite_list());
                             break;
                         case 2:
-                            ((MeItemFragment)fragments.get(i)).AddListData(userbean.getUser().getConcern_list());
+                            ((UserItemFragment)fragments.get(i)).AddListData(userbean.getUser().getConcern_list());
                             break;
                     }
-
                 }
             }
+            else {
+            LoginDialog loginDialog = new LoginDialog(getContext());
+            loginDialog.callBack = new LoginCallBack() {
+                @Override
+                public void Login(String username, String password, String token) {
+                    networkModel.Login(username,password,token,NetworkParams.DONUT);
+                }
+            };
+            loginDialog.Show();
         }
+        }
+        InitUserInfo();
     }
 
     public void InitUserInfo()
     {
-        if(MethodConfig.userInfo!=null)
+        if(MethodConfig.userInfo!=null && !TextUtils.isEmpty(MethodConfig.userInfo.getToken()))
         {
             binding.tvName.setVisibility(View.VISIBLE);
             binding.tvLogin.setVisibility(View.GONE);
@@ -209,7 +236,44 @@ public class MeFragment extends BaseFragment implements ViewPager.OnPageChangeLi
             {
                 binding.dvHead.setImageURI(Uri.parse(MethodConfig.userInfo.getImgUrl()));
             }
+            else
+            {
+                binding.dvHead.setImageURI(Uri.parse(""));
+            }
+            binding.ivType.setImageResource(R.mipmap.icon_designer);
+            if(MethodConfig.userInfo.getType()==0)
+            {
+                binding.linearBeDesigner.setVisibility(View.VISIBLE);
+                binding.tvDesignDetail.setText("成为设计师");
+            }
+            else if(MethodConfig.userInfo.getType()==1)
+            {
+                binding.linearBeDesigner.setVisibility(View.VISIBLE);
+                binding.ivType.setImageResource(R.mipmap.icon_center);
+                binding.tvDesignDetail.setText("设计师中心");
+            }
+            else if(MethodConfig.userInfo.getType()==2)
+            {
+                binding.linearBeDesigner.setVisibility(View.VISIBLE);
+                binding.tvDesignDetail.setText("资格审核中");
+            }
         }
+        else {
+            binding.dvHead.setImageURI(Uri.parse(""));
+            binding.tvName.setVisibility(View.GONE);
+            binding.tvLogin.setVisibility(View.VISIBLE);
+            binding.linearBeDesigner.setVisibility(View.GONE);
+
+            if(MethodConfig.userInfo==null || TextUtils.isEmpty(MethodConfig.userInfo.getToken()))
+            {
+                if(fragments!=null) {
+                    for (int i = 0; i < fragments.size(); i++) {
+                        ((UserItemFragment) fragments.get(i)).AddListData(new ArrayList<BaseItemBean>());
+                    }
+                }
+            }
+        }
+
     }
 
     @Override

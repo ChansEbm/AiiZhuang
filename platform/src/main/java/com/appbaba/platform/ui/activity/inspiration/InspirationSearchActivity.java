@@ -1,4 +1,4 @@
-package com.appbaba.platform.ui.activity;
+package com.appbaba.platform.ui.activity.inspiration;
 
 import android.view.View;
 

@@ -1,4 +1,4 @@
-package com.appbaba.platform.ui.activity;
+package com.appbaba.platform.ui.activity.products;
 
 import android.graphics.Color;
 import android.text.TextUtils;
