@@ -28,6 +28,7 @@ import com.appbaba.platform.method.GridSpacingItemDecoration;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
 import com.appbaba.platform.ui.activity.products.ProductDetailActivity;
+import com.appbaba.platform.ui.activity.products.ProductWebDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -171,7 +172,7 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
     @Override
     public void onBinderItemClick(View clickItem, int parentId, int pos) {
         String id =  list.get(pos).getId();
-        Intent intent = new Intent(getContext(),ProductDetailActivity.class);
+        Intent intent = new Intent(getContext(),ProductWebDetailActivity.class);
         intent.putExtra("id",id);
         startActivity(intent);
     }

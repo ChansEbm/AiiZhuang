@@ -61,11 +61,19 @@ public class DesignerCenterActivity extends BaseActivity implements SlowViewPage
     @Override
     protected void InitListening() {
         viewPager.addOnPageChangeListener(this);
+        binding.tvPushInspiration.setOnClickListener(this);
     }
 
     @Override
     protected void OnClick(int id, View view) {
-
+         switch (id)
+         {
+             case R.id.tv_push_inspiration:
+             {
+                  StartActivity(InspirationUploadActivity.class);
+             }
+                 break;
+         }
     }
 
     @Override

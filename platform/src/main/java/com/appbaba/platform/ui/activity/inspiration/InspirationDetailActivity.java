@@ -58,7 +58,8 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     protected void InitView() {
         binding = (ActivityInspirationDetailBinding)viewDataBinding;
         binding.toolbar.setNavigationIcon(R.mipmap.icon_back);
-        binding.toolbar.getMenu().add(0,R.id.action_share,0,"").setIcon(R.mipmap.icon_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        binding.toolbar.getMenu().add(0,R.id.action_collection,0,"").setIcon(R.mipmap.icon_heart_y_n).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        binding.toolbar.getMenu().add(0,R.id.action_share,1,"").setIcon(R.mipmap.icon_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         mAppBarLayout   = binding.appbar;
         dv_head = binding.dvHead;
         recyclerView = binding.recycle;
@@ -142,8 +143,14 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
         switch (id)
         {
             case R.id.dv_head:
+                String designerID = (String) view.getTag(R.string.tag_value);
+                if(TextUtils.isEmpty(designerID))
+                {
+                    Toast.makeText(this,"设计师获取失败",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent intent = new Intent(this,DesignWorkDetailActivity.class);
-                intent.putExtra("designerID",(String) view.getTag(R.string.tag_value));
+                intent.putExtra("designerID",designerID);
                 startActivity(intent);
                 break;
         }
@@ -197,7 +204,9 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
 
     @Override
     public void onBinderItemClick(View clickItem, int parentId, int pos) {
-        StartActivity(DesignWorksActivity.class);
+        Intent intent = new Intent(this,InspirationWebDetailActivity.class);
+        intent.putExtra("id",list.get(pos).getId());
+        startActivity(intent);
     }
 
     @Override

@@ -8,11 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.appbaba.platform.ActivityDesignWorkDetailBinding;
 import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.base.BaseActivity;
+import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.eum.NetworkParams;
+import com.appbaba.platform.impl.UpdateClickCallback;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.ui.fragment.inspiration.DesignerDetailFragment;
 import com.appbaba.platform.ui.fragment.inspiration.DesignerIMFragment;
@@ -54,7 +58,19 @@ public class DesignWorkDetailActivity extends BaseActivity implements SlowViewPa
 
     @Override
     protected void InitEvent() {
-
+        detailFragment.callback = new UpdateClickCallback() {
+            @Override
+            public void Update(String id) {
+                binding.ivCare.setTag(R.string.tag_value,id);
+                  if(id.equals(""+0))
+                  {
+                      binding.ivCare.setImageResource(R.mipmap.icon_care);
+                  }
+                else {
+                      binding.ivCare.setImageResource(R.mipmap.icon_care);
+                  }
+            }
+        };
     }
 
     @Override
@@ -121,6 +137,36 @@ public class DesignWorkDetailActivity extends BaseActivity implements SlowViewPa
         @Override
         public int getCount() {
             return 2;
+        }
+    }
+
+    @Override
+    public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
+        Toast.makeText(this,baseBean.getMsg(),Toast.LENGTH_LONG).show();
+        if(baseBean.getErrorcode()==0)
+        {
+            String id = (String) binding.ivCare.getTag(R.string.tag_value);
+            if("0".equals(id))
+            {
+                binding.ivCare.setTag(R.string.tag_value,"1");
+                binding.ivCare.setImageResource(R.mipmap.icon_not_care);
+            }
+            else
+            {
+                binding.ivCare.setTag(R.string.tag_value,"0");
+                binding.ivCare.setImageResource(R.mipmap.icon_care);
+            }
+        }
+    }
+
+    public void Care(View view)
+    {
+        if(MethodConfig.IsLogin()) {
+            networkModel.Subscribe(MethodConfig.userInfo.getToken(), designerID, NetworkParams.CUPCAKE);
+        }
+        else
+        {
+            Toast.makeText(this,"请先登录",Toast.LENGTH_LONG).show();
         }
     }
 }

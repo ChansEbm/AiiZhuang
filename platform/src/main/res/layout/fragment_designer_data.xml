@@ -17,7 +17,6 @@
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 android:minHeight="100dp"
-                android:adjustViewBounds="true"
                 android:background="@color/bg_color_light"/>
             <TextView
                 android:id="@+id/tv_title"
@@ -38,32 +37,52 @@
                 android:layout_marginRight="20dp"
                 android:text="@{item.introduce}"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="10dp">
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
-                    android:text="@{item.inspiration_count}"
-                    android:gravity="center"
-                    android:minWidth="40dp"
-                    android:background="@android:color/black"
-                    android:textColor="@android:color/white"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="25sp"
-                    android:text="个作品"
-                    android:gravity="center"
+                    android:layout_centerInParent="true">
+                    <TextView
+                        android:id="@+id/tv_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:text="@{item.inspiration_count}"
+                        android:gravity="center"
+                        android:minWidth="40dp"
+                        android:background="@android:color/black"
+                        android:textColor="@android:color/white"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:text="个作品"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:layout_toRightOf="@+id/tv_1"
+                        android:textColor="@android:color/black"/>
+                </LinearLayout>
 
-                    android:textColor="@android:color/black"/>
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_all_design"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@color/base_color_tv_bg"
+                    android:padding="5dp"
+                    android:textColor="@android:color/black"
+                    android:text="全部作品"/>
+
+            </RelativeLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycle"
                 android:layout_width="match_parent"

@@ -25,6 +25,18 @@ public class MethodConfig {
     public static UserInfo userInfo;
     public static LocationBean locationBean;
 
+    public static boolean IsLogin()
+    {
+        if(userInfo==null || TextUtils.isEmpty(userInfo.getToken()))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public static void SetDispaly(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();

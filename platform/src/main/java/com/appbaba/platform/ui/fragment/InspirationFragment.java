@@ -3,9 +3,11 @@ package com.appbaba.platform.ui.fragment;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -43,12 +45,16 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
     private List<InspirationEntity> list;
     private AnimationCallBack callBack;
     private int height = 0; // 4:3 比例的高度
+    private int currentPage = 1;
 
     @Override
     protected void InitView() {
         binding = (FragmentInspirationBinding)viewDataBinding;
 
         recyclerView = binding.recycle;
+        swipeRefreshLayout = binding.swRefresh;
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),10)));
@@ -72,7 +78,7 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
         };
         recyclerView.setAdapter(commonBinderAdapter);
 
-        networkModel.InspirationList(1,NetworkParams.CUPCAKE);
+        networkModel.InspirationList(currentPage,NetworkParams.CUPCAKE);
 
     }
 
@@ -95,7 +101,16 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                swipeRefreshLayout.setEnabled(recyclerView.computeVerticalScrollOffset() == 0);
+            }
+        });
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                list.clear();
+                currentPage = 1;
+                networkModel.InspirationList(currentPage,NetworkParams.CUPCAKE);
             }
         });
     }
@@ -146,5 +161,6 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
               list.addAll(bean.getInspiration());
               commonBinderAdapter.notifyDataSetChanged();
          }
+
     }
 }

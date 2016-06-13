@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data class=".FragmentInspirationBinding"></data>
 <FrameLayout
    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,17 +26,19 @@
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
-    <ImageView
+    <com.appbaba.platform.widget.IconImageView
         android:id="@+id/iv_search"
-        android:layout_width="37dp"
-        android:layout_height="37dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@mipmap/icon_search_black_bg"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
+        app:widthPx="66"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"/>
 
     </RelativeLayout>
     </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>
 </layout>

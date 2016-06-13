@@ -15,6 +15,7 @@ android:layout_height="wrap_content">
         android:layout_height="wrap_content"
         android:minHeight="100dp"
         android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         android:background="@color/bg_color_light"
         />
     <LinearLayout

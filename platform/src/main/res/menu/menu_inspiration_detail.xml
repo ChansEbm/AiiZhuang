@@ -3,9 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.inspiration.InspirationDetailActivity">
     <item
+        android:id="@+id/action_collection"
+        android:orderInCategory="100"
+        android:title=""
+        android:icon="@mipmap/icon_heart_y_n"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_share"
         android:orderInCategory="100"
         android:title=""
         android:icon="@mipmap/icon_share"
         app:showAsAction="always" />
+
+
 </menu>

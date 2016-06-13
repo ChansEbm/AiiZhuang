@@ -1,5 +1,6 @@
 package com.appbaba.platform.ui.fragment.inspiration;
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,9 +22,13 @@ import com.appbaba.platform.entity.inspiration.InspirationDetailBean;
 import com.appbaba.platform.entity.inspiration.InspirationEntity;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.BinderOnItemClickListener;
+import com.appbaba.platform.impl.UpdateClickCallback;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
+import com.appbaba.platform.ui.activity.inspiration.DesignWorksActivity;
 import com.squareup.picasso.Picasso;
+
+import org.apache.http.impl.client.EntityEnclosingRequestWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,7 @@ public class DesignerDetailFragment extends BaseFragment {
     private String designerID = "";
     private int height = 0; // 4:3 比例的高度
 
+    public UpdateClickCallback callback;
 
     @Override
     protected void InitView() {
@@ -65,7 +71,12 @@ public class DesignerDetailFragment extends BaseFragment {
             }
         };
         recyclerView.setAdapter(adapter);
-        networkModel.DesignerProfile(designerID, NetworkParams.CUPCAKE);
+        String token = "";
+        if(MethodConfig.IsLogin())
+        {
+            token = MethodConfig.userInfo.getToken();
+        }
+        networkModel.DesignerProfile(token,designerID, NetworkParams.CUPCAKE);
     }
 
     @Override
@@ -75,12 +86,19 @@ public class DesignerDetailFragment extends BaseFragment {
 
     @Override
     protected void InitListening() {
-
+        binding.tvAllDesign.setOnClickListener(this);
     }
 
     @Override
     protected void OnClick(int id, View view) {
-
+        switch (id)
+        {
+            case R.id.tv_all_design:
+                Intent intent = new Intent(getContext(), DesignWorksActivity.class);
+                intent.putExtra("designerID",designerID);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override
@@ -96,6 +114,11 @@ public class DesignerDetailFragment extends BaseFragment {
            {
                DesignerDetailBean detailBean = (DesignerDetailBean) baseBean;
                binding.setItem(detailBean.getInfor());
+               if(callback!=null)
+               {
+                   callback.Update(""+detailBean.getInfor().getSubscribe());
+               }
+               binding.ivTopView.getLayoutParams().height = MethodConfig.metrics.heightPixels/2;
                Picasso.with(getContext()).load(detailBean.getInfor().getBackground()).into(binding.ivTopView);
                list.addAll(detailBean.getInspiration_list());
                adapter.notifyDataSetChanged();

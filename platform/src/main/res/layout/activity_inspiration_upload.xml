@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <data class=".ActivityInspirationBinding"></data>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data class=".ActivityInspirationUploadBinding"></data>
+    <FrameLayout android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color">
     <LinearLayout
@@ -10,10 +15,11 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:orientation="horizontal">
-        <ImageView
+        <com.appbaba.platform.widget.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_back"/>
+            android:src="@mipmap/icon_back"
+            app:widthPx="66"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -21,8 +27,9 @@
             android:id="@+id/tv_title"
             android:textSize="20sp"
             android:gravity="center"
-            android:text="sdf"/>
+            android:text="发布灵感"/>
         <TextView
+            android:id="@+id/tv_upload"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -43,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="标题"/>
             <EditText
+                android:id="@+id/edt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"/>
@@ -60,6 +68,7 @@
                 android:layout_gravity="top"
                 android:text="摘要"/>
             <EditText
+                android:id="@+id/edt_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="4"
@@ -76,22 +85,24 @@
                 android:layout_height="wrap_content"
                 android:text="标签"/>
             <EditText
+                android:id="@+id/edt_mark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"/>
         </LinearLayout>
         <include layout="@layout/line_view"></include>
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>
         <TextView
+            android:id="@+id/tv_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -100,8 +111,6 @@
             android:background="@drawable/btn_add_bg_normal"
             android:textSize="25sp"
             android:gravity="center"
-            android:layout_alignParentBottom="true"/>
-    </RelativeLayout>
-
-</LinearLayout>
+            android:layout_gravity="bottom"/>
+    </FrameLayout>
 </layout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data class="ActivityMainBinding"></data>
     <FrameLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -52,24 +53,28 @@
             android:orientation="horizontal"
             android:layout_gravity="bottom"
             android:layout_margin="10dp">
-           <ImageView
+           <com.appbaba.platform.widget.IconImageView
                android:id="@+id/iv_inspiration"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:src="@drawable/main_bottom_inspiration_selector"
-               android:padding="5dp"/>
-            <ImageView
+               app:widthPx="100"
+               android:layout_margin="5dp"
+               />
+            <com.appbaba.platform.widget.IconImageView
                 android:id="@+id/iv_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/main_bottom_product_selector"
-                android:padding="5dp"/>
-            <ImageView
+                app:widthPx="100"
+                android:layout_margin="5dp"/>
+            <com.appbaba.platform.widget.IconImageView
                 android:id="@+id/iv_me"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/main_bottom_me_selector"
-                android:padding="5dp"/>
+                app:widthPx="100"
+                android:layout_margin="5dp"/>
         </LinearLayout>
 
 

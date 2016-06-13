@@ -78,7 +78,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
-                        android:inputType="text"
+                        android:inputType="textEmailAddress"
                         android:gravity="right"
                         android:paddingRight="15dp"
                         android:background="@color/color_white"/>
@@ -120,7 +120,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
-                        android:inputType="number"
                         android:digits="0123456789xX"
                         android:gravity="right"
                         android:lines="1"

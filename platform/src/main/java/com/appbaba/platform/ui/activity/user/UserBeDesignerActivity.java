@@ -102,13 +102,14 @@ public class UserBeDesignerActivity extends BaseActivity {
                                 String path = resultList.get(0).getPhotoPath();
                                 if(TextUtils.isEmpty(correct) || which%2==0) {
                                     binding.ivId1.setImageURI(Uri.parse("file://" + path));
-                                    correct = path;
+                                    correct = pathToCompress(path);
                                 }
                                 else if(TextUtils.isEmpty(opposite) || which%2==1)
                                 {
                                     binding.ivId2.setImageURI(Uri.parse("file://" + path));
-                                    opposite = path;
+                                    opposite = pathToCompress(path);
                                 }
+
                                 which++;
                             }
                         }
@@ -129,12 +130,12 @@ public class UserBeDesignerActivity extends BaseActivity {
                                 String path = resultList.get(0).getPhotoPath();
                                 if(TextUtils.isEmpty(correct) || which%2==0) {
                                     binding.ivId1.setImageURI(Uri.parse("file://" + path));
-                                    correct = path;
+                                    correct = pathToCompress(path);
                                 }
                                 else if(TextUtils.isEmpty(opposite) || which%2==1)
                                 {
                                     binding.ivId2.setImageURI(Uri.parse("file://" + path));
-                                    opposite = path;
+                                    opposite = pathToCompress(path);
                                 }
                                 which++;
                             }
@@ -161,6 +162,14 @@ public class UserBeDesignerActivity extends BaseActivity {
                  Toast.makeText(this,"请上传身份证照",Toast.LENGTH_LONG).show();
                  return;
              }
+//             else
+//             {
+//                 correct = pathToCompress(correct);
+//             }
+//             if(!TextUtils.isEmpty(opposite))
+//             {
+//                 opposite = pathToCompress(opposite);
+//             }
              networkModel.UserBeDesigner(MethodConfig.userInfo.getToken(),binding.edtName.getText().toString().trim(),
                      binding.edtEmail.getText().toString().trim(),binding.edtWechat.getText().toString().trim(),
                      binding.edtCarID.getText().toString().trim(),binding.tvCitySelect.getText().toString().trim(),
@@ -169,6 +178,56 @@ public class UserBeDesignerActivity extends BaseActivity {
         else {
              Toast.makeText(this,"请先填写完整",Toast.LENGTH_LONG).show();
          }
+    }
+
+    public  String pathToCompress(String path)
+    {
+        File fileR = new File(path);
+        String p1 = fileR.getParentFile().getAbsolutePath() + File.separator + "correct.png";
+        String p2 = fileR.getParentFile().getAbsolutePath() + File.separator + "opposite.png";
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        File file;
+        if(path.equals(correct)) {
+            file = new File(p1);
+        }
+        else {
+            file = new File(p2);
+        }
+        if(file.exists())
+        {
+            if(!(path.equals(p1) || path.equals(p2)))
+            {
+                file.delete();
+            }
+
+        }
+        int size = bitmap.getByteCount();
+        if(size>2*1024*1024)
+        {
+            float x = (2*1024*1024)/(size*1.0f);
+            Matrix matrix = new Matrix();
+            float scale = (float) Math.sqrt(x);
+            matrix.postScale(scale,scale);
+            Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                bitmap1.compress(Bitmap.CompressFormat.PNG,100,fos);
+                fos.close();
+                bitmap1.recycle();
+                return file.getAbsolutePath();
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+
+        }
+        else
+        {
+            return path;
+        }
+
     }
     @Override
     protected int getContentView() {

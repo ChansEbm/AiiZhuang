@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -28,6 +29,8 @@ import com.appbaba.platform.ui.activity.user.UserBeDesignerActivity;
 import com.appbaba.platform.ui.activity.user.UserSettingActivity;
 import com.appbaba.platform.widget.LoginDialog;
 import com.appbaba.platform.widget.MyTextView;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,6 +198,23 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                 MethodConfig.userInfo.setImgUrl(AppKeyMap.BASEURL+userbean.getUser().getUser_infor().getPicture_thumb());
                 MethodConfig.userInfo.setEusername(userbean.getUser().getUser_infor().getEasemob_username());
                 MethodConfig.userInfo.setEpassword(userbean.getUser().getUser_infor().getEasemob_password());
+
+            EMClient.getInstance().login(MethodConfig.userInfo.getEusername(), MethodConfig.userInfo.getEpassword(), new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    Log.e("hx login","success");
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+                }
+
+                @Override
+                public void onProgress(int i, String s) {
+
+                }
+            });
                 for(int i = 0 ;i <fragments.size();i++)
                 {
                     switch (i)

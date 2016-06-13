@@ -52,6 +52,7 @@ public class DesignerDetailBean extends BaseBean {
         private String introduce;
         private String background;
         private String inspiration_count;
+        private int subscribe;
 
         public String getName() {
             return name;
@@ -83,6 +84,14 @@ public class DesignerDetailBean extends BaseBean {
 
         public void setInspiration_count(String inspiration_count) {
             this.inspiration_count = inspiration_count;
+        }
+
+        public int getSubscribe() {
+            return subscribe;
+        }
+
+        public void setSubscribe(int subscribe) {
+            this.subscribe = subscribe;
         }
     }
 

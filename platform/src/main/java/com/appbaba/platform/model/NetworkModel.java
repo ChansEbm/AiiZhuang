@@ -10,10 +10,14 @@ import android.text.TextUtils;
 
 import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.User.BaseItemBean;
 import com.appbaba.platform.entity.User.DesignerDetailBean;
+import com.appbaba.platform.entity.User.DesignerEMBean;
 import com.appbaba.platform.entity.User.MyInspirationBean;
 import com.appbaba.platform.entity.User.MyProductBean;
 import com.appbaba.platform.entity.User.UserBean;
+import com.appbaba.platform.entity.comm.InspirationPhotoBean;
+import com.appbaba.platform.entity.inspiration.AllInspirationBean;
 import com.appbaba.platform.entity.inspiration.InspirationDetailBean;
 import com.appbaba.platform.entity.inspiration.InspirationListBean;
 import com.appbaba.platform.entity.product.ProductDetailBean;
@@ -24,6 +28,9 @@ import com.appbaba.platform.tools.AppTools;
 import com.appbaba.platform.tools.LogTools;
 import com.appbaba.platform.tools.OkHttpBuilder;
 import com.github.pwittchen.prefser.library.Prefser;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.repacked.antlr.v4.runtime.misc.NotNull;
 import com.squareup.okhttp.internal.Network;
 
@@ -122,6 +129,31 @@ public class NetworkModel<E> {
         new OkHttpBuilder.POST(appCompatActivity).params(params).urlInspiration("inspirationDetail").entityClass(InspirationDetailBean.class).enqueue(networkParams,tOkHttpResponseListener);
     }
 
+    public void UploadInspiration(String token, String title, String desc, String label, List<InspirationPhotoBean> list,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("token",token);
+        params.put("title",title);
+        params.put("desc",desc);
+        params.put("label",label);
+        List<List<String>> lists = new ArrayList<>();
+        List<String> list1 = new ArrayList<>();
+        JsonArray jsonArray = new JsonArray();
+
+        for(int i =0;i<list.size();i++)
+        {
+           JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("desc",list.get(i).getDetail());
+            jsonArray.add(jsonObject);
+           list1.add(list.get(i).getImageUrl());
+        }
+        lists.add(list1);
+        String data = jsonArray.toString();
+        params.put("design",data);
+        new OkHttpBuilder.POST(appCompatActivity).params(params,lists,"image").urlInspiration("publish").
+                entityClass(BaseBean.class).enqueue(networkParams,tOkHttpResponseListener);
+    }
+
     public void ProductList(int page,NetworkParams networkParams)
     {
         params.clear();
@@ -199,24 +231,35 @@ public class NetworkModel<E> {
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 
+    public void GetUserEMID(String token,String design_id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("design_id",design_id);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("getEasemobUserName").entityClass(DesignerEMBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
     public void UserBeDesigner(String token,String name,String email,String wechat,String cardID,String city,String myself,String file1,String file2,NetworkParams networkParams)
     {
         clearAllParams();
         params.put("token",token);
-        params.put("name",name);
+        params.put("real_name",name);
         params.put("email",email);
         params.put("wechat",wechat);
         params.put("city",city);
         params.put("id_card",cardID);
         params.put("introduce",myself);
         params.put("name",name);
+        List<List<String>> lists = new ArrayList<>();
         List<String> list = new ArrayList<>();
         list.add(file1);
-        if(!TextUtils.isEmpty(file2))
-        list.add(file2);
-        List<List<String>> lists = new ArrayList<>();
         lists.add(list);
-
+        if(!TextUtils.isEmpty(file2)) {
+            List<String> list2 = new ArrayList<>();
+            list.add(file2);
+            lists.add(list2);
+        }
         if(list.size()==2) {
             new OkHttpBuilder.POST(appCompatActivity).urlDesign("become").entityClass(BaseBean.class).params(params, lists, "correct", "opposite")
                     .enqueue(networkParams, tOkHttpResponseListener);
@@ -227,13 +270,31 @@ public class NetworkModel<E> {
         }
     }
 
-    public void DesignerProfile(String userID,NetworkParams networkParams)
+
+    public void DesignerProfile(String token,String userID,NetworkParams networkParams)
     {
         clearAllParams();
+        params.put("token",token);
         params.put("user_id",userID);
         new OkHttpBuilder.POST(appCompatActivity).urlDesign("profile").entityClass(DesignerDetailBean.class).params(params)
                 .enqueue(networkParams, tOkHttpResponseListener);
     }
+   public void Collections(String userID,NetworkParams networkParams)
+   {
+       clearAllParams();
+       params.put("user_id",userID);
+       new OkHttpBuilder.POST(appCompatActivity).urlDesign("collections").entityClass(AllInspirationBean.class).params(params)
+               .enqueue(networkParams, tOkHttpResponseListener);
+   }
+
+   public void Subscribe(String token,String subscribe_id,NetworkParams networkParams)
+   {
+       clearAllParams();
+       params.put("token",token);
+       params.put("subscribe_id",subscribe_id);
+       new OkHttpBuilder.POST(appCompatActivity).urlDesign("subscribe").entityClass(BaseBean.class).params(params)
+               .enqueue(networkParams, tOkHttpResponseListener);
+   }
 
 
     public void MyInspiration(String token,int page,int num,NetworkParams networkParams)

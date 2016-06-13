@@ -11,11 +11,12 @@
         android:orientation="horizontal"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
-        <ImageView
+        <com.appbaba.platform.widget.IconImageView
             android:id="@+id/iv_back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/icon_back"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_back"
+            app:widthPx="66"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -43,6 +44,7 @@
           android:id="@+id/tv_push_inspiration"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:textSize="15sp"
            android:text="发布灵感"/>
 
         </LinearLayout>

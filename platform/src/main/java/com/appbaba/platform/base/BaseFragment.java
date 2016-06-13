@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public abstract class BaseFragment<E extends BaseBean> extends Fragment implemen
     protected ViewDataBinding viewDataBinding;
     protected View parentView;
     protected NetworkModel networkModel;
+    protected SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -73,7 +75,10 @@ public abstract class BaseFragment<E extends BaseBean> extends Fragment implemen
         {
             ex.printStackTrace();
         }
-
+        if(swipeRefreshLayout!=null && swipeRefreshLayout.isRefreshing())
+        {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -83,7 +88,11 @@ public abstract class BaseFragment<E extends BaseBean> extends Fragment implemen
 
     @Override
     public void onError(String error, NetworkParams paramsCode) {
-
+         if(swipeRefreshLayout!=null && swipeRefreshLayout.isRefreshing())
+         {
+             swipeRefreshLayout.setRefreshing(false);
+         }
+        Toast.makeText(getContext(),"获取失败",Toast.LENGTH_LONG).show();
     }
 
     public void onJsonObjectSuccess(E e, NetworkParams paramsCode) {

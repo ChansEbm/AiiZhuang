@@ -19,6 +19,7 @@ import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.ui.fragment.InspirationFragment;
 import com.appbaba.platform.ui.fragment.UserFragment;
 import com.appbaba.platform.ui.fragment.ProductFragment;
+import com.hyphenate.chat.EMClient;
 
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener{
@@ -109,6 +110,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         else
         {
             MethodConfig.userInfo = null;
+            EMClient.getInstance().logout(true);
             super.onBackPressed();
         }
     }

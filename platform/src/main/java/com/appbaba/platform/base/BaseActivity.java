@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -81,6 +82,7 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
           }
           catch (Exception ex)
           {
+              Toast.makeText(this,"操作失败",Toast.LENGTH_LONG).show();
               ex.printStackTrace();
           }
     }
@@ -92,7 +94,8 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
 
     @Override
     public void onError(String error, NetworkParams paramsCode) {
-
+        Toast.makeText(this,"操作失败",Toast.LENGTH_LONG).show();
+        Log.e("onError",error);
     }
 
     public void onJsonObjectSuccess(E e, NetworkParams paramsCode) {

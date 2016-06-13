@@ -47,7 +47,18 @@ public class DesignMyInspirationFragment extends BaseFragment {
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, MyInspirationBean.MyInspirationEntity myInspirationEntity) {
                 ItemMyInspirationBinding itemMyInspirationBinding = (ItemMyInspirationBinding)viewDataBinding;
                 itemMyInspirationBinding.setItem(myInspirationEntity);
+                if(myInspirationEntity.getStatus().equals("1"))
+                {
+                    itemMyInspirationBinding.tvStatus.setText("审核通过");
+                    itemMyInspirationBinding.tvStatus.setBackgroundResource(R.color.base_color_tv_bg);
+                }
+                else
+                {
+                    itemMyInspirationBinding.tvStatus.setText("审核通过");
+                    itemMyInspirationBinding.tvStatus.setBackgroundResource(R.color.color_text_gravy);
+                }
                 Picasso.with(getContext()).load(myInspirationEntity.getThumb()).into(itemMyInspirationBinding.ivItem);
+
             }
         };
         recyclerView.setAdapter(adapter);
