@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data class=".ItemChatFriendViewBinding"></data>
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/dv_item"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:roundAsCircle="true"
+        android:layout_gravity="left|top"
+        app:placeholderImage="@mipmap/icon_person"
+        />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left|center">
+        <TextView
+            android:id="@+id/tv_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_bunble_left"
+            android:textSize="15sp"
+
+            />
+        <ImageView
+            android:id="@+id/iv_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_bunble_left"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:adjustViewBounds="true"
+            android:visibility="gone"
+            />
+    </FrameLayout>
+
+
+</LinearLayout>
+</layout>

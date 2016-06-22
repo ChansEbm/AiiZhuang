@@ -31,6 +31,19 @@
     <string name="label_take_photo">拍照</string>
     <string name="label_select_from_album">从相册选择</string>
 
+
+    <!--label-->
+    <string name="label_send_way">发送方式 :</string>
+    <string name="label_wechat_moment">朋友圈</string>
+    <string name="label_qq">QQ</string>
+    <string name="label_qzone">QQ空间</string>
+    <string name="label_wechat_friend">微信好友</string>
+    <string name="label_wechat_collection">微信收藏</string>
+    <string name="label_weibo">微博</string>
+    <string name="label_message">短信</string>
+    <string name="label_email">邮件</string>
+    <string name="label_qrcode">二维码</string>
+
     <!--常用-->
     <string name="positive">确定</string>
     <string name="negative">取消</string>
@@ -50,7 +63,8 @@
     <string name="activity_me_setting_cache">清理缓存</string>
     <string name="activity_me_setting_evaluate">对我们的评价</string>
     <string name="activity_me_setting_about_us">关于我们</string>
-    <string name="activity_me_setting_agreement">服务条款及隐私政策</string>
+    <string name="activity_me_setting_agreement">服务条款</string>
+    <string name="activity_me_setting_private">隐私政策</string>
     <string name="activity_me_setting_version">当前版本</string>
     <string name="activity_me_setting_login">登录</string>
     <string name="activity_me_setting_logout">登出当前账号</string>
@@ -65,7 +79,10 @@
     <string name="activity_me_designer_myself">自我介绍</string>
     <string name="activity_me_designer_hint_myself">自我介绍</string>
     <string name="activity_me_designer_upload">提交</string>
-
+    <string name="activity_user_feedback_edt_hint">请在这里填写你对装色的意见，我们将不断改进，感谢支持。</string>
+    <string name="activity_user_feedback_title">意见反馈</string>
+    <string name="activity_user_feedback_remind">请留下手机或微信号，我们将尽快与您联系。</string>
+    <string name="activity_user_btn_send">发送</string>
     
     
     <string name="fragment_title_inspiration">灵感</string>
@@ -80,6 +97,7 @@
     <string name="fragment_user_collection">我的收藏</string>
     <string name="fragment_user_export">我的发布</string>
     <string name="fragment_user_like">我的关注</string>
+   
     
     
     

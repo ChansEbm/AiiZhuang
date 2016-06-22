@@ -1,5 +1,6 @@
 package com.appbaba.platform.entity.User;
 
+import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.entity.Base.BaseBean;
 
 import java.util.List;
@@ -121,7 +122,7 @@ public class UserBean extends BaseBean {
             }
 
             public String getPicture_thumb() {
-                return picture_thumb;
+                return AppKeyMap.BASEURL+picture_thumb;
             }
 
             public void setPicture_thumb(String picture_thumb) {

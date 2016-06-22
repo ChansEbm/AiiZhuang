@@ -1,21 +1,22 @@
 package com.appbaba.platform.model;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.entity.Base.BaseBean;
-import com.appbaba.platform.entity.User.BaseItemBean;
+import com.appbaba.platform.entity.User.FriendsBean;
+import com.appbaba.platform.entity.comm.BaseHotWordsBean;
 import com.appbaba.platform.entity.User.DesignerDetailBean;
 import com.appbaba.platform.entity.User.DesignerEMBean;
 import com.appbaba.platform.entity.User.MyInspirationBean;
 import com.appbaba.platform.entity.User.MyProductBean;
 import com.appbaba.platform.entity.User.UserBean;
+import com.appbaba.platform.entity.User.UserCollectionListBean;
+import com.appbaba.platform.entity.User.UserConcernListBean;
+import com.appbaba.platform.entity.User.UserInspirationListBean;
 import com.appbaba.platform.entity.comm.InspirationPhotoBean;
 import com.appbaba.platform.entity.inspiration.AllInspirationBean;
 import com.appbaba.platform.entity.inspiration.InspirationDetailBean;
@@ -28,18 +29,14 @@ import com.appbaba.platform.tools.AppTools;
 import com.appbaba.platform.tools.LogTools;
 import com.appbaba.platform.tools.OkHttpBuilder;
 import com.github.pwittchen.prefser.library.Prefser;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.repacked.antlr.v4.runtime.misc.NotNull;
-import com.squareup.okhttp.internal.Network;
+import com.github.pwittchen.prefser.library.TypeToken;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by ChanZeeBm on 2015/12/26.
@@ -115,11 +112,46 @@ public class NetworkModel<E> {
         return this;
     }
 
-    public void InspirationList(int page, NetworkParams networkParams)
+    public void  BaseHotWords(NetworkParams networkParams)
+    {
+        params.clear();
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlBase("hot_words").
+                entityClass(BaseHotWordsBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void FeedBack(String token,String msg,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("token",token);
+        params.put("content",msg);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlBase("feed_back").
+                entityClass(BaseBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void InspirationList(int page,int num ,NetworkParams networkParams)
     {
         params.clear();
         params.put("page",""+page);
+        params.put("num",""+num);
         new OkHttpBuilder.POST(appCompatActivity).params(params).urlInspiration("inspirationList").entityClass(InspirationListBean.class).enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void  SearchInspiration(String word, String sort, List<String> styleList,List<String> spaceList,int page,int num,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("page",""+page);
+        params.put("num",""+num);
+        params.put("word",word);
+        params.put("sort",sort);
+        List<List<String>> lists = new ArrayList<>();
+        lists.add(styleList);
+        lists.add(spaceList);
+        new OkHttpBuilder.POST(appCompatActivity).params(params,lists,"style[]","space[]").
+                urlInspiration("search").
+                entityClass(InspirationListBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
     }
 
     public void InspirationDetail(String inspiration_id, NetworkParams networkParams)
@@ -138,27 +170,42 @@ public class NetworkModel<E> {
         params.put("label",label);
         List<List<String>> lists = new ArrayList<>();
         List<String> list1 = new ArrayList<>();
-        JsonArray jsonArray = new JsonArray();
+        List<String> names = new ArrayList<>();
 
         for(int i =0;i<list.size();i++)
         {
-           JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("desc",list.get(i).getDetail());
-            jsonArray.add(jsonObject);
            list1.add(list.get(i).getImageUrl());
+            names.add(list.get(i).getDetail());
         }
+        lists.add(names);
         lists.add(list1);
-        String data = jsonArray.toString();
-        params.put("design",data);
-        new OkHttpBuilder.POST(appCompatActivity).params(params,lists,"image").urlInspiration("publish").
+
+        new OkHttpBuilder.POST(appCompatActivity).params(params,lists,"design[][desc]","image[]").urlInspiration("publish").
                 entityClass(BaseBean.class).enqueue(networkParams,tOkHttpResponseListener);
     }
 
-    public void ProductList(int page,NetworkParams networkParams)
+    public void ProductList(int page,int num,NetworkParams networkParams)
     {
         params.clear();
         params.put("page",""+page);
+        params.put("num",""+num);
         new OkHttpBuilder.POST(appCompatActivity).params(params).urlGoods("goodsList").entityClass(ProductListBean.class).enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void  SearchProduct(String word, String sort, List<String> styleList,List<String> spaceList,int page,int num,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("page",""+page);
+        params.put("num",""+num);
+        params.put("word",word);
+        params.put("sort",sort);
+        List<List<String>> lists = new ArrayList<>();
+        lists.add(styleList);
+        lists.add(spaceList);
+        new OkHttpBuilder.POST(appCompatActivity).params(params,lists,"style[]","space[]").
+                urlGoods("search").
+                entityClass(ProductListBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
     }
 
     public void ProductDetail(String id,NetworkParams networkParams)
@@ -166,6 +213,24 @@ public class NetworkModel<E> {
         params.clear();
         params.put("goods_id",id);
         new OkHttpBuilder.POST(appCompatActivity).params(params).urlGoods("goodsDetail").entityClass(ProductDetailBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void Collect(String token,String id,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("token",token);
+        params.put("good_id",id);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlGoods("collect").entityClass(BaseBean.class).
+                enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void GetCheckCollect(String token,String id,NetworkParams networkParams)
+    {
+        params.clear();
+        params.put("token",token);
+        params.put("good_id",id);
+        new OkHttpBuilder.POST(appCompatActivity).params(params).urlGoods("getCheckCollect").entityClass(BaseBean.class).
                 enqueue(networkParams,tOkHttpResponseListener);
     }
 
@@ -197,10 +262,12 @@ public class NetworkModel<E> {
 
     public void Login(String phoneNum,String password,String token,NetworkParams networkParams)
     {
+        String pushID = AppTools.getSharePreferences().getString(JPushInterface.EXTRA_REGISTRATION_ID,"");
         params.clear();
         params.put("tell",phoneNum);
         params.put("password",password);
         params.put("token",token);
+        params.put("push_id",pushID);
         params.put("num","12");
         new OkHttpBuilder.POST(appCompatActivity).params(params).urlLogin("login").entityClass(UserBean.class).
                 enqueue(networkParams,tOkHttpResponseListener);
@@ -237,6 +304,54 @@ public class NetworkModel<E> {
         params.put("token",token);
         params.put("design_id",design_id);
         new OkHttpBuilder.POST(appCompatActivity).urlUser("getEasemobUserName").entityClass(DesignerEMBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void GetFriendList(String token,int page,int num,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("page",""+page);
+        params.put("num",""+num);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("get_friends_list").entityClass(FriendsBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void UserInspiration(String token,int page,int num,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("page",""+page);
+        params.put("num",""+num);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("userInspiration").entityClass(UserInspirationListBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+    public void UserKeep(String token,int page,int num,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("page",""+page);
+        params.put("num",""+num);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("userKeep").entityClass(UserCollectionListBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void  AddFriend(String token,String friendID,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("friend_id",friendID);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("add_friend").entityClass(UserCollectionListBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void UserConcern(String token,int page,int num,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("page",""+page);
+        params.put("num",""+num);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("userConcern").entityClass(UserConcernListBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 
@@ -279,6 +394,15 @@ public class NetworkModel<E> {
         new OkHttpBuilder.POST(appCompatActivity).urlDesign("profile").entityClass(DesignerDetailBean.class).params(params)
                 .enqueue(networkParams, tOkHttpResponseListener);
     }
+
+    public void GetCheckSubscribe(String token,String designerID,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("subscribe_id",designerID);
+        new OkHttpBuilder.POST(appCompatActivity).urlDesign("getCheckSubscribe").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams, tOkHttpResponseListener);
+    }
    public void Collections(String userID,NetworkParams networkParams)
    {
        clearAllParams();
@@ -296,6 +420,23 @@ public class NetworkModel<E> {
                .enqueue(networkParams, tOkHttpResponseListener);
    }
 
+    public void ClickLove(String token,String inspiration_id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("inspiration_id",inspiration_id);
+        new OkHttpBuilder.POST(appCompatActivity).urlDesign("clickLove").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams, tOkHttpResponseListener);
+    }
+
+    public void GetCheckLove(String token,String inspiration_id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("inspiration_id",inspiration_id);
+        new OkHttpBuilder.POST(appCompatActivity).urlDesign("getCheckLove").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams, tOkHttpResponseListener);
+    }
 
     public void MyInspiration(String token,int page,int num,NetworkParams networkParams)
     {
@@ -316,6 +457,8 @@ public class NetworkModel<E> {
         new OkHttpBuilder.POST(appCompatActivity).urlGoods("myGoods").entityClass(MyProductBean.class).params(params)
                 .enqueue(networkParams, tOkHttpResponseListener);
     }
+
+
 
 
 }

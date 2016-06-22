@@ -1,5 +1,6 @@
 package com.appbaba.platform.ui.activity.user;
 
+import android.content.Intent;
 import android.print.PrintJobId;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +18,6 @@ import com.appbaba.platform.ui.fragment.user.DesignMyProductFragment;
 import com.appbaba.platform.widget.MyTextView;
 import com.appbaba.platform.widget.SlowViewPager;
 
-import org.apache.http.impl.client.EntityEnclosingRequestWrapper;
 
 /**
  * Created by ruby on 2016/6/8.
@@ -62,15 +62,20 @@ public class DesignerCenterActivity extends BaseActivity implements SlowViewPage
     protected void InitListening() {
         viewPager.addOnPageChangeListener(this);
         binding.tvPushInspiration.setOnClickListener(this);
+        binding.ivBack.setOnClickListener(this);
     }
 
     @Override
     protected void OnClick(int id, View view) {
          switch (id)
          {
+             case R.id.iv_back:
+                 onBackPressed();
+                 break;
              case R.id.tv_push_inspiration:
              {
-                  StartActivity(InspirationUploadActivity.class);
+                 Intent intent = new Intent(this,InspirationUploadActivity.class);
+                  startActivityForResult(intent,101);
              }
                  break;
          }
@@ -107,6 +112,14 @@ public class DesignerCenterActivity extends BaseActivity implements SlowViewPage
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==101)
+        {
+            inspirationFragment.Refresh();
+        }
     }
 
     public class MyFragmentAdapter extends FragmentPagerAdapter

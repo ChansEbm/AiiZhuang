@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ArrowKeyMovementMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -69,6 +70,8 @@ public class TagGroup extends ViewGroup {
     private final float default_vertical_spacing;
     private final float default_horizontal_padding;
     private final float default_vertical_padding;
+
+    public List<TagView> tagViews = new ArrayList<>();
 
     /** Indicates whether this TagGroup is set up to APPEND mode or DISPLAY mode. Default is false. */
     private boolean isAppendMode;
@@ -206,6 +209,11 @@ public class TagGroup extends ViewGroup {
             }
             appendInputTag();
         }
+    }
+
+    public void  GetTagView()
+    {
+        return;
     }
 
     @Override
@@ -387,11 +395,22 @@ public class TagGroup extends ViewGroup {
         return tagList.toArray(new String[tagList.size()]);
     }
 
+    public List<String> tagNames = new ArrayList<>();
     /**
      * @see #setTags(String...)
      */
     public void setTags(List<String> tagList) {
+        tagNames.clear();
+        tagViews.clear();
+        tagNames.addAll(tagList);
         setTags(tagList.toArray(new String[tagList.size()]));
+    }
+
+    private boolean allChecked = false;
+    public void setTagsAll(List<String> tagList) {
+
+        allChecked = true;
+        setTags(tagList);
     }
 
     /**
@@ -417,7 +436,7 @@ public class TagGroup extends ViewGroup {
      * @return the tag view at the specified position or null if the position
      * does not exists within this group.
      */
-    protected TagView getTagAt(int index) {
+    public TagView getTagAt(int index) {
         return (TagView) getChildAt(index);
     }
 
@@ -489,6 +508,9 @@ public class TagGroup extends ViewGroup {
      */
     protected void appendTag(CharSequence tag) {
         final TagView newTag = new TagView(getContext(), TagView.STATE_NORMAL, tag);
+        newTag.setTag(R.string.tag_value,tagViews.size());
+        newTag.setChecked(allChecked);
+        tagViews.add(newTag);
         newTag.setOnClickListener(mInternalTagClickListener);
         addView(newTag);
     }
@@ -641,6 +663,8 @@ public class TagGroup extends ViewGroup {
                 }
             } else {
                 if (mOnTagClickListener != null) {
+                    if(!allChecked)
+                    tag.setChecked(!tag.isChecked);
                     mOnTagClickListener.onTagClick(tag.getText().toString());
                 }
             }
@@ -650,7 +674,7 @@ public class TagGroup extends ViewGroup {
     /**
      * The tag view which has two states can be either NORMAL or INPUT.
      */
-    class TagView extends TextView {
+    public  class TagView extends TextView {
         public static final int STATE_NORMAL = 1;
         public static final int STATE_INPUT = 2;
 
@@ -744,7 +768,6 @@ public class TagGroup extends ViewGroup {
 
             if (state == STATE_INPUT) {
                 requestFocus();
-
                 // Handle the ENTER key down.
                 setOnEditorActionListener(new OnEditorActionListener() {
                     @Override
@@ -829,9 +852,7 @@ public class TagGroup extends ViewGroup {
             isChecked = checked;
             // Make the checked mark drawing region.
             setPadding(horizontalPadding,
-                    verticalPadding,
-                    isChecked ? (int) (horizontalPadding + getHeight() / 2.5f + CHECKED_MARKER_OFFSET)
-                            : horizontalPadding,
+                    verticalPadding, horizontalPadding,
                     verticalPadding);
             invalidatePaint();
         }
@@ -888,9 +909,15 @@ public class TagGroup extends ViewGroup {
                     }
                 }
             } else {
-                mBorderPaint.setColor(borderColor);
-                mBackgroundPaint.setColor(backgroundColor);
-                setTextColor(textColor);
+                if (isChecked) {
+                    mBorderPaint.setColor(checkedBorderColor);
+                    mBackgroundPaint.setColor(checkedBackgroundColor);
+                    setTextColor(checkedTextColor);
+                } else {
+                    mBorderPaint.setColor(borderColor);
+                    mBackgroundPaint.setColor(backgroundColor);
+                    setTextColor(textColor);
+                }
             }
 
             if (isPressed) {
@@ -907,15 +934,15 @@ public class TagGroup extends ViewGroup {
             canvas.drawRect(mHorizontalBlankFillRectF, mBackgroundPaint);
             canvas.drawRect(mVerticalBlankFillRectF, mBackgroundPaint);
 
-            if (isChecked) {
-                canvas.save();
-                canvas.rotate(45, mCheckedMarkerBound.centerX(), mCheckedMarkerBound.centerY());
-                canvas.drawLine(mCheckedMarkerBound.left, mCheckedMarkerBound.centerY(),
-                        mCheckedMarkerBound.right, mCheckedMarkerBound.centerY(), mCheckedMarkerPaint);
-                canvas.drawLine(mCheckedMarkerBound.centerX(), mCheckedMarkerBound.top,
-                        mCheckedMarkerBound.centerX(), mCheckedMarkerBound.bottom, mCheckedMarkerPaint);
-                canvas.restore();
-            }
+//            if (isChecked) {
+//                canvas.save();
+//                canvas.rotate(45, mCheckedMarkerBound.centerX(), mCheckedMarkerBound.centerY());
+//                canvas.drawLine(mCheckedMarkerBound.left, mCheckedMarkerBound.centerY(),
+//                        mCheckedMarkerBound.right, mCheckedMarkerBound.centerY(), mCheckedMarkerPaint);
+//                canvas.drawLine(mCheckedMarkerBound.centerX(), mCheckedMarkerBound.top,
+//                        mCheckedMarkerBound.centerX(), mCheckedMarkerBound.bottom, mCheckedMarkerPaint);
+//                canvas.restore();
+//            }
             canvas.drawPath(mBorderPath, mBorderPaint);
             super.onDraw(canvas);
         }
@@ -928,7 +955,7 @@ public class TagGroup extends ViewGroup {
             int right = (int) (left + w - borderStrokeWidth * 2);
             int bottom = (int) (top + h - borderStrokeWidth * 2);
 
-            int d = 20;
+            int d = 0;
 
             mLeftCornerRectF.set(left, top, left + d, top + d);
             mRightCornerRectF.set(right - d, top, right, top + d);
@@ -965,44 +992,51 @@ public class TagGroup extends ViewGroup {
                     bottom - h / 2 + m / 2);
 
             // Ensure the checked mark drawing region is correct across screen orientation changes.
-            if (isChecked) {
-                setPadding(horizontalPadding,
-                        verticalPadding,
-                        (int) (horizontalPadding + h / 2.5f + CHECKED_MARKER_OFFSET),
-                        verticalPadding);
-            }
+//            if (isChecked) {
+//                setPadding(horizontalPadding,
+//                        verticalPadding,
+//                        (int) (horizontalPadding + h / 2.5f + CHECKED_MARKER_OFFSET),
+//                        verticalPadding);
+//            }
         }
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             if (mState == STATE_INPUT) {
+                Log.e("test","change");
                 // The INPUT tag doesn't change background color on the touch event.
                 return super.onTouchEvent(event);
             }
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN: {
-                    getDrawingRect(mOutRect);
-                    isPressed = true;
-                    invalidatePaint();
-                    invalidate();
-                    break;
-                }
-                case MotionEvent.ACTION_MOVE: {
-                    if (!mOutRect.contains((int) event.getX(), (int) event.getY())) {
-                        isPressed = false;
-                        invalidatePaint();
-                        invalidate();
-                    }
-                    break;
-                }
-                case MotionEvent.ACTION_UP: {
-                    isPressed = false;
-                    invalidatePaint();
-                    invalidate();
-                    break;
-                }
-            }
+//            switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN: {
+//                    isPressed = true;
+//                    getDrawingRect(mOutRect);
+//                    invalidatePaint();
+//                    invalidate();
+//                    break;
+//                }
+//                case MotionEvent.ACTION_MOVE: {
+//
+//                    if (!mOutRect.contains((int) event.getX(), (int) event.getY())) {
+//                        Log.e("test","out");
+//                        isPressed = false;
+//                        invalidatePaint();
+//                        invalidate();
+//                    }
+//                    else
+//                    {
+//                        Log.e("test","in"+"  x:"+mOutRect.width()+"    "+mOutRect.height());
+//                    }
+//                    break;
+//                }
+//                case MotionEvent.ACTION_UP: {
+//                    isPressed = false;
+//                    invalidatePaint();
+//                    invalidate();
+//                    break;
+//                }
+//            }
             return super.onTouchEvent(event);
         }
 

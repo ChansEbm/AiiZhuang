@@ -4,6 +4,8 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Path;
 import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,6 +16,7 @@ import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseActivity;
+import com.appbaba.platform.entity.Base.BaseBean;
 import com.appbaba.platform.entity.comm.InspirationPhotoBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.eum.PhotoPopupOpts;
@@ -47,17 +50,38 @@ public class InspirationUploadActivity extends BaseActivity {
         binding.recycle.addItemDecoration(new SpaceItemDecoration(10));
     }
 
+    public void Back(View view)
+    {
+        onBackPressed();
+    }
+
     @Override
     protected void InitData() {
         height = MethodConfig.GetHeight(MethodConfig.metrics.widthPixels,16,9);
         list = new ArrayList<>();
         adapter =  new CommonBinderAdapter<InspirationPhotoBean>(this,R.layout.item_inspiration_design_view,list) {
             @Override
-            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, InspirationPhotoBean inspirationPhotoBean) {
+            public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, final int position, InspirationPhotoBean inspirationPhotoBean) {
                 ItemInspirationDesignViewBinding itemInspirationDesignViewBinding = (ItemInspirationDesignViewBinding)viewDataBinding;
                 Picasso.with(InspirationUploadActivity.this).load(Uri.parse("file://"+inspirationPhotoBean.getImageUrl())).resize(MethodConfig.metrics.widthPixels,height).into(itemInspirationDesignViewBinding.ivItem);
                 itemInspirationDesignViewBinding.ivItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
                 itemInspirationDesignViewBinding.edtItem.setText(inspirationPhotoBean.getDetail());
+                itemInspirationDesignViewBinding.edtItem.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                           list.get(position).setDetail(s.toString());
+                    }
+                });
             }
         };
         binding.recycle.setAdapter(adapter);
@@ -107,10 +131,8 @@ public class InspirationUploadActivity extends BaseActivity {
                             if(reqeustCode==101 && resultList.size()>0)
                             {
                                 InspirationPhotoBean bean = new InspirationPhotoBean();
-
                                 String path = resultList.get(0).getPhotoPath();
                                 bean.setImageUrl(path);
-                                bean.setDetail("sdfsdf");
                                 list.add(bean);
                                 adapter.notifyDataSetChanged();
                             }
@@ -133,7 +155,6 @@ public class InspirationUploadActivity extends BaseActivity {
                                 InspirationPhotoBean bean = new InspirationPhotoBean();
                                 String path = resultList.get(0).getPhotoPath();
                                 bean.setImageUrl(path);
-                                bean.setDetail("sdfsdf");
                                 list.add(bean);
                                 adapter.notifyDataSetChanged();
                             }
@@ -154,5 +175,17 @@ public class InspirationUploadActivity extends BaseActivity {
     @Override
     protected int getContentView() {
         return R.layout.activity_inspiration_upload;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
+        if(baseBean.getErrorcode()==0)
+        {
+            if(paramsCode==NetworkParams.CUPCAKE)
+            {
+                setResult(101);
+                finish();
+            }
+        }
     }
 }

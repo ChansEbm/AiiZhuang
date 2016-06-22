@@ -1,5 +1,6 @@
 package com.appbaba.platform.entity.User;
 
+import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.entity.Base.BaseBean;
 
 import java.util.List;
@@ -31,6 +32,15 @@ public class MyInspirationBean extends BaseBean {
         private String title;
         private String thumb;
         private String status;
+        private String status_color;
+
+        public String getStatus_color() {
+            return status_color;
+        }
+
+        public void setStatus_color(String status_color) {
+            this.status_color = status_color;
+        }
 
         public String getId() {
             return id;
@@ -49,7 +59,7 @@ public class MyInspirationBean extends BaseBean {
         }
 
         public String getThumb() {
-            return thumb;
+            return AppKeyMap.BASEURL+thumb;
         }
 
         public void setThumb(String thumb) {

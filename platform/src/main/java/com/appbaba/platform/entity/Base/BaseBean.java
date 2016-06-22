@@ -4,6 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
+import com.appbaba.platform.AppKeyMap;
+
 import java.io.Serializable;
 
 /**
@@ -16,13 +18,31 @@ public class BaseBean extends BaseObservable implements Serializable {
     private String token;
     private int isNext;
     private int page;
+    private int status;
     private String total;
     private View.OnClickListener onClickListener;
     private String tag;
     private String picture_thumb;
+    private String picture;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getPicture() {
+        return AppKeyMap.BASEURL+picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public String getPicture_thumb() {
-        return picture_thumb;
+        return AppKeyMap.BASEURL+picture_thumb;
     }
 
     public void setPicture_thumb(String picture_thumb) {

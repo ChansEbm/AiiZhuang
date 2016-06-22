@@ -11,6 +11,7 @@ public class InspirationEntity {
     private String id;
     private String title;
     private String label;
+    private String image;
     private String thumb;
     private String visit;
     private String love;
@@ -40,17 +41,17 @@ public class InspirationEntity {
     }
 
     public String getThumb() {
-        if(TextUtils.isEmpty(thumb)) {
-            return thumb;
+        if(TextUtils.isEmpty(image)) {
+            return image;
         }
         else
         {
-            return AppKeyMap.BASEURL + thumb;
+            return AppKeyMap.BASEURL + image;
         }
     }
 
     public void setThumb(String thumb) {
-        this.thumb = thumb;
+        this.image = thumb;
     }
 
     public String getVisit() {
@@ -67,5 +68,13 @@ public class InspirationEntity {
 
     public void setLove(String love) {
         this.love = love;
+    }
+
+    public String getImage() {
+        return AppKeyMap.BASEURL+thumb;
+    }
+
+    public void setImage(String image) {
+        this.thumb = image;
     }
 }

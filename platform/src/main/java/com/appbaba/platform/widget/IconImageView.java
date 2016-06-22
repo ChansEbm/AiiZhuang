@@ -45,7 +45,6 @@ public class IconImageView extends ImageView {
                 widthPx = 66;
             }
             int value = MethodConfig.metrics.widthPixels*widthPx/750;
-            Log.e("sdf","================================="+value);
             setMeasuredDimension(value,value);
         }
     }

@@ -26,9 +26,9 @@ import com.appbaba.platform.impl.UpdateClickCallback;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
 import com.appbaba.platform.ui.activity.inspiration.DesignWorksActivity;
+import com.appbaba.platform.ui.activity.inspiration.InspirationDetailActivity;
 import com.squareup.picasso.Picasso;
 
-import org.apache.http.impl.client.EntityEnclosingRequestWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by ruby on 2016/6/8.
  */
-public class DesignerDetailFragment extends BaseFragment {
+public class DesignerDetailFragment extends BaseFragment implements BinderOnItemClickListener{
     private FragmentDetailBinding binding;
     private RecyclerView recyclerView;
 
@@ -44,8 +44,7 @@ public class DesignerDetailFragment extends BaseFragment {
     private CommonBinderAdapter<InspirationEntity> adapter;
     private String designerID = "";
     private int height = 0; // 4:3 比例的高度
-
-    public UpdateClickCallback callback;
+    private DesignerDetailBean detailBean;
 
     @Override
     protected void InitView() {
@@ -53,6 +52,7 @@ public class DesignerDetailFragment extends BaseFragment {
         recyclerView = binding.recycle;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(getContext(),10)));
+        recyclerView.clearFocus();
     }
 
     @Override
@@ -71,12 +71,14 @@ public class DesignerDetailFragment extends BaseFragment {
             }
         };
         recyclerView.setAdapter(adapter);
-        String token = "";
-        if(MethodConfig.IsLogin())
+        if(detailBean!=null)
         {
-            token = MethodConfig.userInfo.getToken();
+            binding.setItem(detailBean.getInfor());
+            binding.ivTopView.getLayoutParams().height = MethodConfig.metrics.heightPixels/2;
+            Picasso.with(getContext()).load(detailBean.getInfor().getBackground()).into(binding.ivTopView);
+            list.addAll(detailBean.getInspiration_list());
+            adapter.notifyDataSetChanged();
         }
-        networkModel.DesignerProfile(token,designerID, NetworkParams.CUPCAKE);
     }
 
     @Override
@@ -87,6 +89,7 @@ public class DesignerDetailFragment extends BaseFragment {
     @Override
     protected void InitListening() {
         binding.tvAllDesign.setOnClickListener(this);
+        adapter.setBinderOnItemClickListener(this);
     }
 
     @Override
@@ -96,6 +99,21 @@ public class DesignerDetailFragment extends BaseFragment {
             case R.id.tv_all_design:
                 Intent intent = new Intent(getContext(), DesignWorksActivity.class);
                 intent.putExtra("designerID",designerID);
+                intent.putExtra("name",binding.tvTitle.getText().toString().trim());
+                intent.putExtra("desc",binding.tvDetail.getText().toString().trim());
+                if(detailBean==null)
+                {
+                    intent.putExtra("image","");
+                }
+                else {
+                    if(MethodConfig.userImage.containsKey(designerID))
+                    {
+                        intent.putExtra("image",MethodConfig.userImage.get(designerID));
+                    }
+                    else {
+                        intent.putExtra("image",detailBean.getInfor().getBackground());
+                    }
+                }
                 startActivity(intent);
                 break;
         }
@@ -106,26 +124,6 @@ public class DesignerDetailFragment extends BaseFragment {
         return R.layout.fragment_designer_data;
     }
 
-    @Override
-    public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
-        if(paramsCode==NetworkParams.CUPCAKE)
-        {
-           if(baseBean.getErrorcode()==0)
-           {
-               DesignerDetailBean detailBean = (DesignerDetailBean) baseBean;
-               binding.setItem(detailBean.getInfor());
-               if(callback!=null)
-               {
-                   callback.Update(""+detailBean.getInfor().getSubscribe());
-               }
-               binding.ivTopView.getLayoutParams().height = MethodConfig.metrics.heightPixels/2;
-               Picasso.with(getContext()).load(detailBean.getInfor().getBackground()).into(binding.ivTopView);
-               list.addAll(detailBean.getInspiration_list());
-               adapter.notifyDataSetChanged();
-           }
-        }
-    }
-
     public String getDesignerID() {
         return designerID;
     }
@@ -134,4 +132,20 @@ public class DesignerDetailFragment extends BaseFragment {
         this.designerID = designerID;
     }
 
+   public void AddBeanData(DesignerDetailBean detailBean)
+   {
+       this.detailBean = detailBean;
+   }
+
+    @Override
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
+        Intent intent = new Intent(getContext(),InspirationDetailActivity.class);
+        intent.putExtra("id",list.get(pos).getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBinderItemLongClick(View clickItem, int parentId, int pos) {
+
+    }
 }

@@ -6,8 +6,10 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:clipToPadding="true"
-        android:background="@color/color_white" >
+        android:background="@color/color_white"
+        android:paddingTop="@dimen/status_bar_size">
         <android.support.v4.widget.DrawerLayout
+            android:id="@+id/drawerLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -20,12 +22,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp">
-                    <ImageView
+                    <com.appbaba.platform.widget.IconImageView
                         android:id="@+id/iv_top_left"
                         android:layout_width="37dp"
                         android:layout_height="37dp"
-                        android:background="@mipmap/icon_grid"
-                        android:layout_marginLeft="10dp"/>
+                        android:background="@mipmap/icon_list"
+                        android:layout_marginLeft="10dp"
+                        app:widthPx="66"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -34,27 +37,34 @@
                         android:text="商品"
                         android:textSize="18sp"
                         android:textColor="@android:color/black"/>
-                    <ImageView
+                    <com.appbaba.platform.widget.IconImageView
                         android:id="@+id/iv_top_right"
                         android:layout_width="37dp"
                         android:layout_height="37dp"
                         android:layout_marginRight="10dp"
-                        android:background="@mipmap/icon_search_black_bg"/>
+                        android:background="@mipmap/icon_search_black_bg"
+                        app:widthPx="66"/>
                 </LinearLayout>
                 <include layout="@layout/line_view"></include>
 
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swRefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycle"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/bg_color"></android.support.v7.widget.RecyclerView>
+                </android.support.v4.widget.SwipeRefreshLayout>
             </LinearLayout>
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/frame_search_content"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
-                android:background="@color/color_white"></LinearLayout>
+                android:background="@color/color_white"></FrameLayout>
         </android.support.v4.widget.DrawerLayout>
 
     </FrameLayout>

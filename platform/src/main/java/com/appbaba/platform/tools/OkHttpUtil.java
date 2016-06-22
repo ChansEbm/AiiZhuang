@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.appbaba.platform.eum.JsonType;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.OkHttpResponseListener;
-import com.baidu.mapapi.map.Text;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;

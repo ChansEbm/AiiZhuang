@@ -21,7 +21,15 @@ public class InspirationListBean extends BaseBean {
      * love : 0
      */
 
-    private List<InspirationEntity> inspiration;
+    private List<InspirationEntity> inspiration,result;
+
+    public List<InspirationEntity> getResult() {
+        return result;
+    }
+
+    public void setResult(List<InspirationEntity> result) {
+        this.result = result;
+    }
 
     public List<InspirationEntity> getInspiration() {
         return inspiration;

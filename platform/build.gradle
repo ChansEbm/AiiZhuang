@@ -11,6 +11,10 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
     dataBinding {
         enabled = true
@@ -100,5 +104,8 @@ dependencies {
     compile files('libs/ShareSDK-ShortMessage-2.7.1.jar')
     compile files('libs/ShareSDK-SinaWeibo-2.7.1.jar')
     compile files('libs/ShareSDK-Wechat-2.7.1.jar')
-    compile project(':easeui')
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/glide-3.6.1.jar')
+    compile files('libs/hyphenatechat_3.1.3.jar')
+    compile files('libs/org.apache.http.legacy.jar')
 }

@@ -49,7 +49,7 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
             window.setFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            parentView.setFitsSystemWindows(true);
+            //parentView.setFitsSystemWindows(true);
         }
         networkModel = new NetworkModel(this);
         networkModel.setResultCallBack(this);
@@ -57,6 +57,15 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
         InitData();
         InitEvent();
         InitListening();
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Override

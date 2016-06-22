@@ -39,7 +39,7 @@ dependencies {
     //解决多包问题
     compile 'com.android.support:multidex:1.0.0'
     //facebook的图片加载
-    compile 'com.facebook.fresco:fresco:0.8.+'
+    compile 'com.facebook.fresco:fresco:0.10.0'
     //recyclerView的分割线
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
     //log框架

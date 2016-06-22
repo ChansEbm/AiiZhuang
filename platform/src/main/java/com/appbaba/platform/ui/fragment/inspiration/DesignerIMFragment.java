@@ -11,16 +11,13 @@ import com.appbaba.platform.FragmentDesignerIMBinding;
 import com.appbaba.platform.R;
 import com.appbaba.platform.base.BaseFragment;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.User.DesignerDetailBean;
 import com.appbaba.platform.entity.User.DesignerEMBean;
+import com.appbaba.platform.entity.User.FriendsBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.method.MethodConfig;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.EMError;
-import com.hyphenate.chat.EMChatManager;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.ui.EaseChatFragment;
-import com.hyphenate.exceptions.HyphenateException;
+import com.appbaba.platform.ui.fragment.comm.CommChatFragment;
+
 
 /**
  * Created by ruby on 2016/6/8.
@@ -30,8 +27,13 @@ public class DesignerIMFragment extends BaseFragment {
     private FragmentDesignerIMBinding binding;
     private ViewSwitcher viewSwitcher;
 
-    private Handler handler;
-    private String designerEmID;
+    private CommChatFragment chatFragment;
+
+    public String designerID = "";
+    public String designerEmID="",designerImage="",designerName="";
+
+    public DesignerDetailBean detailBean;
+
 
     @Override
     protected void InitView() {
@@ -42,21 +44,9 @@ public class DesignerIMFragment extends BaseFragment {
 
     @Override
     protected void InitData() {
-        handler = new Handler();
-        if(EMClient.getInstance().isLoggedInBefore())
-        {
-            viewSwitcher.showNext();
-        }
-        else
-        {
-            if(MethodConfig.userInfo!=null && !TextUtils.isEmpty(MethodConfig.userInfo.getToken()))
-            {
-                binding.etUsername.setText(MethodConfig.userInfo.getEusername());
-                binding.etPassword.setText(MethodConfig.userInfo.getEpassword());
-            }
-        }
         if(MethodConfig.IsLogin()) {
             networkModel.GetUserEMID(MethodConfig.userInfo.getToken(), designerID, NetworkParams.CUPCAKE);
+            viewSwitcher.showNext();
         }
     }
 
@@ -65,6 +55,7 @@ public class DesignerIMFragment extends BaseFragment {
 
     }
 
+
     @Override
     protected void InitListening() {
         binding.btnLogin.setOnClickListener(this);
@@ -72,57 +63,9 @@ public class DesignerIMFragment extends BaseFragment {
 
     @Override
     protected void OnClick(int id, View view) {
-          switch (id)
-          {
-              case R.id.btn_login:
-              {
-
-                          //登录
-                          EMClient.getInstance().login(binding.etUsername.getText().toString(),binding.etPassword.getText().toString(), new EMCallBack() {
-
-                              @Override
-                              public void onSuccess() {
-                                 onSuccessDo();
-                              }
-
-                              @Override
-                              public void onProgress(int progress, String status) {
-
-                              }
-
-                              @Override
-                              public void onError(int code, String error) {
-                                  onFailureDo();
-                              }
-                          });
-
-              }
-                  break;
-          }
     }
 
-    EaseChatFragment easeChatFragment;
-    public void onSuccessDo()
-    {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                viewSwitcher.showNext();
-                //.putExtra(EaseConstant.EXTRA_USER_ID, conversation.getUserName()));
-//                EaseChatFragment easeChatFragment = new
-            }
-        });
-    }
 
-    public void onFailureDo()
-    {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                    Toast.makeText(getContext(), "登录失败", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
 
     @Override
     protected int getContentView() {
@@ -137,23 +80,37 @@ public class DesignerIMFragment extends BaseFragment {
             {
                 DesignerEMBean emBean = (DesignerEMBean) baseBean;
                 designerEmID = emBean.getDesign_infor().getEasemob_username();
-                easeChatFragment = new EaseChatFragment();
-                //传入参数
-                Intent intent = new Intent();
-                intent.putExtra(EaseConstant.EXTRA_USER_ID, designerEmID);
-                easeChatFragment.setArguments(intent.getExtras());
-                getChildFragmentManager().beginTransaction().add(R.id.frame_content,easeChatFragment).commit();
+                chatFragment = new CommChatFragment();
+                chatFragment.toChatUsername = designerEmID;
+                chatFragment.toChatUserImage = MethodConfig.userImage.containsKey(designerID) ? MethodConfig.userImage.get(designerID) : designerImage;
+                networkModel.GetFriendList(MethodConfig.userInfo.getToken(),1,100,NetworkParams.FROYO);
+
+                getChildFragmentManager().beginTransaction().add(R.id.frame_content,chatFragment).commit();
+            }
+            else if(paramsCode==NetworkParams.DONUT)
+            {
+                Toast.makeText(getContext(),"你和对方已经成为好友啦",Toast.LENGTH_LONG).show();
+
+            }
+            else if(paramsCode==NetworkParams.FROYO)
+            {
+                FriendsBean friendsBean = (FriendsBean)baseBean;//坑爹的加好友方式
+                boolean hasFriend = false;
+                for(int i=0;i<friendsBean.getFriends_list().size();i++)
+                {
+                    if(designerID.equals(""+friendsBean.getFriends_list().get(i).getFriend_id()))
+                    {
+                        hasFriend = true;
+                        break;
+                    }
+                }
+                if(!hasFriend)
+                {
+                    networkModel.AddFriend(MethodConfig.userInfo.getToken(),designerID,NetworkParams.DONUT);
+                }
+
             }
         }
     }
 
-    private String designerID = "";
-
-    public String getDesignerID() {
-        return designerID;
-    }
-
-    public void setDesignerID(String designerID) {
-        this.designerID = designerID;
-    }
 }

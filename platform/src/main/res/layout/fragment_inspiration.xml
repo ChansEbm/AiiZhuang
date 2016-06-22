@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color">
 
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swRefresh"
         android:layout_width="match_parent"
@@ -32,7 +36,7 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/icon_search_black_bg"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/status_bar_size"
         app:widthPx="66"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"/>
@@ -40,5 +44,13 @@
     </RelativeLayout>
     </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
+        <FrameLayout
+            android:id="@+id/frame_search_content"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@color/color_white"></FrameLayout>
+    </android.support.v4.widget.DrawerLayout>
+
 </FrameLayout>
 </layout>

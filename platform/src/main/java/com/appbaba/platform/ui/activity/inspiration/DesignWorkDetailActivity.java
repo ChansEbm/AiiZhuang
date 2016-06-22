@@ -15,6 +15,7 @@ import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
 import com.appbaba.platform.base.BaseActivity;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.User.DesignerDetailBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.UpdateClickCallback;
 import com.appbaba.platform.method.MethodConfig;
@@ -37,6 +38,7 @@ public class DesignWorkDetailActivity extends BaseActivity implements SlowViewPa
     private int moveWidth,isFirst = 0;
 
     private String designerID = "";
+    private DesignerDetailBean detailBean;
 
     @Override
     protected void InitView() {
@@ -49,28 +51,27 @@ public class DesignWorkDetailActivity extends BaseActivity implements SlowViewPa
         detailFragment = new DesignerDetailFragment();
         imFragment = new DesignerIMFragment();
         moveWidth = MethodConfig.dip2px(this,50);
-        viewPager.setAdapter(new DesignerFragmentAdapter(getSupportFragmentManager()));
-        designerID = getIntent().getStringExtra("designerID");
-        detailFragment.setDesignerID(designerID);
-        imFragment.setDesignerID(designerID);
 
+        designerID = getIntent().getStringExtra("designerID");
+
+        if(MethodConfig.IsLogin())
+        networkModel.GetCheckSubscribe(MethodConfig.userInfo.getToken(),designerID,NetworkParams.DONUT);
+
+        String token = "";
+        if(MethodConfig.IsLogin())
+        {
+            token = MethodConfig.userInfo.getToken();
+        }
+        networkModel.DesignerProfile(token,designerID, NetworkParams.FROYO);
     }
 
+    public void Back(View view)
+    {
+        onBackPressed();
+    }
     @Override
     protected void InitEvent() {
-        detailFragment.callback = new UpdateClickCallback() {
-            @Override
-            public void Update(String id) {
-                binding.ivCare.setTag(R.string.tag_value,id);
-                  if(id.equals(""+0))
-                  {
-                      binding.ivCare.setImageResource(R.mipmap.icon_care);
-                  }
-                else {
-                      binding.ivCare.setImageResource(R.mipmap.icon_care);
-                  }
-            }
-        };
+
     }
 
     @Override
@@ -145,16 +146,26 @@ public class DesignWorkDetailActivity extends BaseActivity implements SlowViewPa
         Toast.makeText(this,baseBean.getMsg(),Toast.LENGTH_LONG).show();
         if(baseBean.getErrorcode()==0)
         {
-            String id = (String) binding.ivCare.getTag(R.string.tag_value);
-            if("0".equals(id))
-            {
-                binding.ivCare.setTag(R.string.tag_value,"1");
-                binding.ivCare.setImageResource(R.mipmap.icon_not_care);
+            if(paramsCode==NetworkParams.CUPCAKE) {
+                networkModel.GetCheckSubscribe(MethodConfig.userInfo.getToken(),designerID,NetworkParams.DONUT);
             }
-            else
+            else if(paramsCode==NetworkParams.DONUT)
             {
-                binding.ivCare.setTag(R.string.tag_value,"0");
-                binding.ivCare.setImageResource(R.mipmap.icon_care);
+                int isSub = baseBean.getStatus();
+                if (isSub==1) {
+                    binding.ivCare.setImageResource(R.mipmap.icon_not_care);
+                } else {
+                    binding.ivCare.setImageResource(R.mipmap.icon_care);
+                }
+            }
+            else if(paramsCode == NetworkParams.FROYO)
+            {
+                detailBean = (DesignerDetailBean) baseBean;
+                detailFragment.AddBeanData(detailBean);
+                detailFragment.setDesignerID(designerID);
+                imFragment.designerID = designerID;
+                imFragment.designerName = detailBean.getInfor().getName();
+                viewPager.setAdapter(new DesignerFragmentAdapter(getSupportFragmentManager()));
             }
         }
     }

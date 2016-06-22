@@ -61,7 +61,7 @@
                         android:id="@+id/btn_change"
                         android:background="@color/bg_color"
                         android:layout_marginLeft="20dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_white"
                         android:text="更换头像"/>
                 </LinearLayout>
             </LinearLayout>
@@ -88,6 +88,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_cache"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -101,6 +102,7 @@
                     android:textColor="@color/application_base_color"
                     android:text="@string/activity_me_setting_cache"/>
                 <TextView
+                    android:id="@+id/tv_cache"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="6.7M"
@@ -110,27 +112,29 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_more_arrow_black_right"/>
             </LinearLayout>
-            <include layout="@layout/line_view"></include>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/color_white"
-                android:padding="10dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/application_base_color"
-                    android:text="@string/activity_me_setting_evaluate"/>
+            <!--<include layout="@layout/line_view"></include>-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/linear_evaluate"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:background="@color/color_white"-->
+                <!--android:padding="10dp">-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textColor="@color/application_base_color"-->
+                    <!--android:text="@string/activity_me_setting_evaluate"/>-->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_more_arrow_black_right"/>
-            </LinearLayout>
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@mipmap/icon_more_arrow_black_right"/>-->
+            <!--</LinearLayout>-->
             <include layout="@layout/line_view"></include>
             <LinearLayout
+                android:id="@+id/linear_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -150,6 +154,7 @@
             </LinearLayout>
             <include layout="@layout/line_view"></include>
             <LinearLayout
+                android:id="@+id/linear_about_us"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -169,6 +174,7 @@
             </LinearLayout>
             <include layout="@layout/line_view"></include>
             <LinearLayout
+                android:id="@+id/linear_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -180,6 +186,26 @@
                     android:layout_weight="1"
                     android:textColor="@color/application_base_color"
                     android:text="@string/activity_me_setting_agreement"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_more_arrow_black_right"/>
+            </LinearLayout>
+            <include layout="@layout/line_view"></include>
+            <LinearLayout
+                android:id="@+id/linear_private"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/color_white"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/application_base_color"
+                    android:text="@string/activity_me_setting_private"/>
 
                 <ImageView
                     android:layout_width="wrap_content"

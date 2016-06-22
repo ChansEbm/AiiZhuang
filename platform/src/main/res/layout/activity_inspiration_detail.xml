@@ -8,7 +8,9 @@
             name="item"
             type="com.appbaba.platform.entity.inspiration.InspirationDetailBean.InspirationEntity.InspirationTopEntity"></variable>
     </data>
-
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,7 +57,7 @@
                        android:id="@+id/tv_title"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:textSize="18sp"
+                       android:textSize="20sp"
                        android:text="@{item.title}"
                        android:gravity="center"
                        android:padding="5dp"
@@ -67,6 +69,7 @@
                        android:drawableLeft="@mipmap/icon_mark"
                        android:textColor="@color/normal_text_color"
                        android:singleLine="true"
+                       android:layout_marginTop="3dp"
                        android:drawablePadding="10dp"
                        android:text="@{item.label}"
                        android:layout_gravity="center"
@@ -75,6 +78,7 @@
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:textColor="@color/normal_text_color"
+                       android:layout_marginTop="10dp"
                        android:paddingLeft="10dp"
                        android:paddingRight="10dp"
                        android:text="@{item.desc}"
@@ -93,6 +97,17 @@
                            android:layout_centerInParent="true"
                            android:alpha="0"
                            android:textColor="@android:color/black"/>
+                       <ImageView
+                           android:id="@+id/iv_top_right"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+
+                           android:layout_marginRight="15dp"
+                           android:scaleType="centerInside"
+                           android:src="@mipmap/icon_msg_hx"
+                           android:layout_centerVertical="true"
+                           android:layout_alignParentRight="true"
+                           android:alpha="1"/>
                        <LinearLayout
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
@@ -100,7 +115,7 @@
                            android:gravity="center">
                            <com.facebook.drawee.view.SimpleDraweeView
                                android:id="@+id/dv_head"
-                               android:layout_width="60dp"
+                               android:layout_width="80dp"
                                android:layout_height="100dp"
                                app:roundAsCircle="true"
                                app:placeholderImage="@mipmap/icon_yellow_head"
@@ -145,18 +160,29 @@
           </android.support.v7.widget.RecyclerView>
 
 
-        <TextView
-            android:id="@+id/tv_say_hello"
+        <LinearLayout
+            android:id="@+id/linear_say_hello"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_anchor="@id/recycle"
             app:layout_anchorGravity="bottom"
             android:background="@color/base_color_tv_bg"
-            android:textColor="@android:color/black"
-            android:text="跟他打个招呼~"
-            android:visibility="invisible"
-            android:gravity="center"
-            android:padding="10dp"/>
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_say_hello"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:drawableLeft="@mipmap/icon_msg_hx"
+                android:drawablePadding="10dp"
+                android:textColor="@android:color/black"
+                android:text="跟他打个招呼~"
+                android:visibility="visible"
+                android:gravity="center"
+                android:padding="10dp"/>
+        </LinearLayout>
+
 
     </android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
 </layout>

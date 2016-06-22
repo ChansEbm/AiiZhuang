@@ -16,6 +16,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.appbaba.platform.ActivityInspirationDetailBinding;
+import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.ItemInspirationDetailBinding;
 import com.appbaba.platform.R;
 import com.appbaba.platform.adapters.CommonBinderAdapter;
@@ -28,6 +29,11 @@ import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
+import com.appbaba.platform.ui.activity.comm.CommChatActivity;
+import com.appbaba.platform.ui.activity.comm.CommWebActivity;
+import com.appbaba.platform.ui.activity.comm.CommZoomActivity;
+import com.appbaba.platform.ui.activity.products.ProductWebDetailActivity;
+import com.appbaba.platform.widget.DialogView.ShareDialogView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -52,7 +58,14 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     private HashMap<String,ItemRippleBinding> tempBindingMap = new HashMap<>();
 
     private String id;
-    private boolean isFirst= true;
+    private boolean isFirst= true,isFirstIn = true;
+    private InspirationDetailBean detailBean;
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+    }
 
     @Override
     protected void InitView() {
@@ -63,6 +76,19 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
         mAppBarLayout   = binding.appbar;
         dv_head = binding.dvHead;
         recyclerView = binding.recycle;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!TextUtils.isEmpty(id))
+        {
+            String tid = getIntent().getStringExtra("id");
+            if(!TextUtils.isEmpty(tid) && !tid.equals(id))
+            {
+                InitData();
+            }
+        }
     }
 
     @Override
@@ -99,13 +125,17 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
           };
 
         recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new SpaceItemDecoration(1));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(MethodConfig.dip2px(this,10)));
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
         if(!TextUtils.isEmpty(id)) {
             networkModel.InspirationDetail(id, NetworkParams.CUPCAKE);
+            if(MethodConfig.IsLogin())
+            {
+                networkModel.GetCheckLove(MethodConfig.userInfo.getToken(), id, NetworkParams.FROYO);
+            }
         }
     }
 
@@ -122,7 +152,21 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_share:
-                        Toast.makeText(InspirationDetailActivity.this,"hehe",Toast.LENGTH_LONG).show();
+                        if(detailBean!=null) {
+                            String url = AppKeyMap.HEAD_API_PAGE_INSPIRATION + id;
+                            ShareDialogView dialogView = new ShareDialogView(InspirationDetailActivity.this, detailBean.getInspiration().getInspiration_top().getTitle(), detailBean.getInspiration().getInspiration_top().getInspiration_thumb(), detailBean.getInspiration().getInspiration_top().getDesc(), url);
+                            dialogView.show();
+                        }
+                        break;
+                    case R.id.action_collection:
+                        if(MethodConfig.IsLogin())
+                        {
+                            networkModel.ClickLove(MethodConfig.userInfo.getToken(),id,NetworkParams.DONUT);
+                        }
+                        else
+                        {
+                            Toast.makeText(InspirationDetailActivity.this,"请先登录",Toast.LENGTH_LONG).show();
+                        }
                         break;
                 }
                 return false;
@@ -134,6 +178,8 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     @Override
     protected void InitListening() {
         binding.dvHead.setOnClickListener(this);
+        binding.linearSayHello.setOnClickListener(this);
+        binding.ivTopRight.setOnClickListener(this);
         mAppBarLayout.addOnOffsetChangedListener(this);
         adapter.setBinderOnItemClickListener(this);
     }
@@ -142,16 +188,32 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     protected void OnClick(int id, View view) {
         switch (id)
         {
-            case R.id.dv_head:
+            case R.id.dv_head: {
                 String designerID = (String) view.getTag(R.string.tag_value);
-                if(TextUtils.isEmpty(designerID))
-                {
-                    Toast.makeText(this,"设计师获取失败",Toast.LENGTH_LONG).show();
+                if (TextUtils.isEmpty(designerID)) {
+                    Toast.makeText(this, "设计师获取失败", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Intent intent = new Intent(this,DesignWorkDetailActivity.class);
-                intent.putExtra("designerID",designerID);
+                Intent intent = new Intent(this, DesignWorkDetailActivity.class);
+                intent.putExtra("designerID", designerID);
                 startActivity(intent);
+            }
+                break;
+            case R.id.linear_say_hello:
+            case R.id.iv_top_right:
+            {
+                if(MethodConfig.IsLogin()) {
+                    Intent intent = new Intent(this, CommChatActivity.class);
+                    intent.putExtra("id", detailBean.getInspiration().getInspiration_top().getStylist_id());
+                    intent.putExtra("name", detailBean.getInspiration().getInspiration_top().getName());
+                    intent.putExtra("image", detailBean.getInspiration().getInspiration_top().getUser_thumb());
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(this,"请先登录",Toast.LENGTH_LONG).show();
+                }
+            }
                 break;
         }
 
@@ -162,7 +224,7 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
         return R.layout.activity_inspiration_detail;
     }
 
-    private  float x =0,y=0,height=0,height1=0;
+    private  float x =0,y=0,height=0,height1=0,height2=0;
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         if(isFirst)
@@ -177,35 +239,40 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
             y=dv_head.getY();
             height = dv_head.getHeight();
             height1 = binding.tvTopTitle.getHeight();
+            height2 = binding.ivTopRight.getHeight();
         }
             dv_head.setScaleX(1 - 0.5f*percentage);
             dv_head.setScaleY(1 - 0.5f*percentage);
         if(percentage==0)
         {
             binding.tvName.setAlpha(1);
-            if(binding.tvSayHello.getVisibility()!=View.VISIBLE)
+            if(binding.linearSayHello.getVisibility()!=View.VISIBLE)
             ShowOrHide(false);
         }
         else
         {
             binding.tvName.setAlpha(0);
-            if(percentage==1 && binding.tvSayHello.getVisibility()!=View.INVISIBLE)
+            if(percentage==1 && binding.linearSayHello.getVisibility()!=View.INVISIBLE)
             {
                 ShowOrHide(true);
             }
         }
+        binding.ivTopRight.setAlpha(percentage);
         binding.tvTopTitle.setAlpha(percentage);
         dv_head.setX(x- x*percentage);
         float k = y+height*percentage*0.5f*0.5f-(binding.toolbar.getHeight()-height/2)/2*percentage;
         float k1 = k+(height-height1)/2;
+        float k2 = k+(height-height2)/2;
         dv_head.setY(k);
         binding.tvTopTitle.setY(k1);
+        binding.ivTopRight.setY(k2);
     }
 
     @Override
     public void onBinderItemClick(View clickItem, int parentId, int pos) {
-        Intent intent = new Intent(this,InspirationWebDetailActivity.class);
-        intent.putExtra("id",list.get(pos).getId());
+        Intent intent = new Intent(this,CommZoomActivity.class);
+        intent.putExtra("name",list.get(pos).getTitle());
+        intent.putExtra("url",list.get(pos).getThumb());
         startActivity(intent);
     }
 
@@ -216,23 +283,41 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
 
     @Override
     public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
-        if(baseBean.getErrorcode()==0)
-        {
-            InspirationDetailBean bean = (InspirationDetailBean)baseBean;
-            list.addAll(bean.getInspiration().getInspiration_bottom());
-            adapter.notifyDataSetChanged();
-            binding.setItem(bean.getInspiration().getInspiration_top());
-            if(TextUtils.isEmpty(bean.getInspiration().getInspiration_top().getUser_thumb()))
+        if(baseBean.getErrorcode()==0) {
+            if (paramsCode == NetworkParams.CUPCAKE) {
+                InspirationDetailBean bean = (InspirationDetailBean) baseBean;
+                detailBean = bean;
+                list.addAll(bean.getInspiration().getInspiration_bottom());
+                adapter.notifyDataSetChanged();
+                binding.setItem(bean.getInspiration().getInspiration_top());
+                if (TextUtils.isEmpty(bean.getInspiration().getInspiration_top().getUser_thumb())) {
+                    binding.dvHead.setImageURI(Uri.parse(""));
+                } else {
+                    MethodConfig.userImage.put(detailBean.getInspiration().getInspiration_top().getStylist_id(),bean.getInspiration().getInspiration_top().getUser_thumb());
+                    binding.dvHead.setImageURI(Uri.parse(bean.getInspiration().getInspiration_top().getUser_thumb()));
+                }
+                binding.dvHead.setTag(R.string.tag_value, bean.getInspiration().getInspiration_top().getStylist_id());
+                isFirst = false;
+            } else if (paramsCode == NetworkParams.DONUT) {
+                networkModel.GetCheckLove(MethodConfig.userInfo.getToken(), id, NetworkParams.FROYO);
+            } else if (paramsCode == NetworkParams.FROYO)
             {
-                binding.dvHead.setImageURI(Uri.parse(""));
+                if(baseBean.getStatus()==1)
+                {
+                    if(!isFirstIn)
+                     Toast.makeText(this,"成功点赞",Toast.LENGTH_LONG).show();
+                      binding.toolbar.getMenu().getItem(0).setIcon(R.mipmap.icon_heart_y_r);
+                }
+                else
+                {
+                    if(!isFirstIn)
+                    Toast.makeText(this,"已取消",Toast.LENGTH_LONG).show();
+                    binding.toolbar.getMenu().getItem(0).setIcon(R.mipmap.icon_heart_y_n);
+                }
+                isFirstIn = false;
             }
-            else
-            {
-                binding.dvHead.setImageURI(Uri.parse(bean.getInspiration().getInspiration_top().getUser_thumb()));
-            }
-            binding.dvHead.setTag(R.string.tag_value,bean.getInspiration().getInspiration_top().getStylist_id());
         }
-        isFirst = false;
+
     }
 
     Handler handler = new Handler();
@@ -247,6 +332,7 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
                     if(itemInspirationDetailBinding.ivItem.getHeight()>0)
                     {
                         for(int i=0;i<entity.getGoods().size();i++) {
+                            final InspirationDetailBean.InspirationEntity.InspirationBottomEntity.GoodsEntity goodsEntity = entity.getGoods().get(i);
                             int x = Integer.parseInt(entity.getGoods().get(i).getLocation_x());
                             int y = Integer.parseInt(entity.getGoods().get(i).getLocation_y());
                             if (x > 0 && y > 0) {
@@ -272,10 +358,28 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
                                                 }
                                             }
                                         }
-
                                         rippleBinding.itemRipBg.setVisibility(View.VISIBLE);
                                         rippleBinding.content.setVisibility(View.GONE);
                                         rippleBinding.content.stopRippleAnimation();
+                                        rippleBinding.itemRipBg.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                               String url =  goodsEntity.getBuy_link();
+                                                String id = goodsEntity.getGoods_id();
+                                                if(TextUtils.isEmpty(id))
+                                                {
+                                                    Toast.makeText(InspirationDetailActivity.this,"商品ID不存在",Toast.LENGTH_LONG).show();
+                                                }
+                                                else
+                                                {
+                                                    Intent intent = new Intent(InspirationDetailActivity.this,ProductWebDetailActivity.class);
+                                                    intent.putExtra("id",id);
+                                                    intent.putExtra("url",url);
+                                                    startActivity(intent);
+
+                                                }
+                                            }
+                                        });
                                         tempBindingMap.put(productID, rippleBinding);
                                     }
                                 });
@@ -294,19 +398,19 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     {
         if(isShow)
         {
-            TranslateAnimation animation = new TranslateAnimation(0,0,0,binding.tvSayHello.getHeight());
+            TranslateAnimation animation = new TranslateAnimation(0,0,0,binding.linearSayHello.getHeight());
             animation.setDuration(200);
             animation.setInterpolator(new AccelerateInterpolator());
-            binding.tvSayHello.startAnimation(animation);
-            binding.tvSayHello.setVisibility(View.INVISIBLE);
+            binding.linearSayHello.startAnimation(animation);
+            binding.linearSayHello.setVisibility(View.INVISIBLE);
         }
         else
         {
-            TranslateAnimation animation = new TranslateAnimation(0,0,binding.tvSayHello.getHeight(),0);
+            TranslateAnimation animation = new TranslateAnimation(0,0,binding.linearSayHello.getHeight(),0);
             animation.setDuration(200);
             animation.setInterpolator(new AccelerateInterpolator());
-            binding.tvSayHello.startAnimation(animation);
-            binding.tvSayHello.setVisibility(View.VISIBLE);
+            binding.linearSayHello.startAnimation(animation);
+            binding.linearSayHello.setVisibility(View.VISIBLE);
         }
     }
 }

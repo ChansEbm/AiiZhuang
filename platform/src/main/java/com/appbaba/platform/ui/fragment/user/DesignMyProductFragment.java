@@ -1,6 +1,7 @@
 package com.appbaba.platform.ui.fragment.user;
 
 import android.databinding.ViewDataBinding;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -14,6 +15,7 @@ import com.appbaba.platform.entity.Base.BaseBean;
 import com.appbaba.platform.entity.User.MyProductBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.method.MethodConfig;
+import com.appbaba.platform.method.SpaceItemDecoration;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -31,11 +33,12 @@ public class DesignMyProductFragment extends BaseFragment {
     private List<MyProductBean.MyGoodsEntity> list;
     private CommonBinderAdapter<MyProductBean.MyGoodsEntity> adapter;
 
-    private int page=0,num=12;
+    private int page=1,num=12;
     @Override
     protected void InitView() {
-          binding = (FragmentMyProductBinding)viewDataBinding;
+        binding = (FragmentMyProductBinding)viewDataBinding;
         recyclerView = binding.recycle;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -46,6 +49,7 @@ public class DesignMyProductFragment extends BaseFragment {
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, MyProductBean.MyGoodsEntity myGoodsEntity) {
                 ItemMyProductBinding itemMyProductBinding = (ItemMyProductBinding)viewDataBinding;
                 itemMyProductBinding.setItem(myGoodsEntity);
+                itemMyProductBinding.tvItemStatus.setVisibility(View.GONE);
                 Picasso.with(getContext()).load(myGoodsEntity.getThumb()).into(itemMyProductBinding.ivItem);
             }
         };

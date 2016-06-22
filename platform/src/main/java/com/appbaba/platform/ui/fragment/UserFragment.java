@@ -2,6 +2,7 @@ package com.appbaba.platform.ui.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,16 +22,21 @@ import com.appbaba.platform.entity.User.BaseItemBean;
 import com.appbaba.platform.entity.User.UserBean;
 import com.appbaba.platform.entity.User.UserInfo;
 import com.appbaba.platform.eum.NetworkParams;
+import com.appbaba.platform.impl.AnimationCallBack;
 import com.appbaba.platform.impl.LoginCallBack;
+import com.appbaba.platform.method.HYMethod;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.tools.AppTools;
 import com.appbaba.platform.ui.activity.user.DesignerCenterActivity;
+import com.appbaba.platform.ui.activity.user.FriendsActivity;
 import com.appbaba.platform.ui.activity.user.UserBeDesignerActivity;
 import com.appbaba.platform.ui.activity.user.UserSettingActivity;
 import com.appbaba.platform.widget.LoginDialog;
 import com.appbaba.platform.widget.MyTextView;
-import com.hyphenate.EMCallBack;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +48,14 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
     private FragmentUserBinding binding;
     private ViewPager viewPager;
     private LinearLayout linear_move;
-
+    private AnimationCallBack callBack;
     private List<Fragment> fragments;
     private int moveWidth = 0;
+
+    private int hxCount = 0,jpCount = 0;
+    private Handler handler = new Handler();
+
+    private EMMessageListener listener;
 
     @Override
     protected void InitView() {
@@ -59,12 +70,19 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
         InitUserInfo();
     }
 
+
+
+    public void  setCallBack(AnimationCallBack callBack)
+    {
+        this.callBack = callBack;
+    }
     @Override
     protected void InitData() {
             fragments = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
                 UserItemFragment itemFragment = new UserItemFragment();
                 itemFragment.setIndex(i);
+                itemFragment.setCallBack(callBack);
                 fragments.add(itemFragment);
             }
 
@@ -75,15 +93,68 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     protected void InitEvent() {
+        listener = new EMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> list) {
+                hxCount+=list.size();
+                UpdateCountView();
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageReadAckReceived(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageDeliveryAckReceived(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage emMessage, Object o) {
+
+            }
+        };
+        EMClient.getInstance().chatManager().addMessageListener(listener);
     }
+
 
     @Override
     protected void InitListening() {
 
          viewPager.addOnPageChangeListener(this);
+        binding.tvMyCollection.setOnClickListener(this);
+        binding.tvMyExport.setOnClickListener(this);
+        binding.tvMyLike.setOnClickListener(this);
+
          binding.ivSetting.setOnClickListener(this);
          binding.tvLogin.setOnClickListener(this);
         binding.linearBeDesigner.setOnClickListener(this);
+        binding.ivBubble.setOnClickListener(this);
+    }
+
+    public void UpdateCountView()
+    {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(hxCount==0)
+                {
+                    binding.tvHxCount.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    binding.tvHxCount.setText(""+hxCount);
+                    binding.tvHxCount.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -133,6 +204,27 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                 }
             }
                 break;
+            case R.id.tv_my_collection:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.tv_my_export:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.tv_my_like:
+                viewPager.setCurrentItem(2);
+                break;
+            case R.id.iv_bubble:
+                if(MethodConfig.IsLogin())
+                {
+                    hxCount = 0;
+                    UpdateCountView();
+                    StartActivity(FriendsActivity.class);
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"你还没有登录...",Toast.LENGTH_LONG).show();
+                }
+                break;
         }
     }
 
@@ -179,11 +271,11 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
+        MethodConfig.userBean = null;
         if(paramsCode==NetworkParams.DONUT)
         {
         if(baseBean.getErrorcode()==0)
         {
-
                 String username = MethodConfig.userInfo.getUsername();
                 String password = MethodConfig.userInfo.getPassword();
                 AppTools.putStringSharedPreferences("username",username);
@@ -195,26 +287,11 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                 MethodConfig.userInfo.setUsername(username);
                 MethodConfig.userInfo.setPassword(password);
                 MethodConfig.userInfo.setType(userbean.getUser().getUser_infor().getType());
-                MethodConfig.userInfo.setImgUrl(AppKeyMap.BASEURL+userbean.getUser().getUser_infor().getPicture_thumb());
+                MethodConfig.userInfo.setImgUrl(userbean.getUser().getUser_infor().getPicture_thumb());
                 MethodConfig.userInfo.setEusername(userbean.getUser().getUser_infor().getEasemob_username());
                 MethodConfig.userInfo.setEpassword(userbean.getUser().getUser_infor().getEasemob_password());
-
-            EMClient.getInstance().login(MethodConfig.userInfo.getEusername(), MethodConfig.userInfo.getEpassword(), new EMCallBack() {
-                @Override
-                public void onSuccess() {
-                    Log.e("hx login","success");
-                }
-
-                @Override
-                public void onError(int i, String s) {
-
-                }
-
-                @Override
-                public void onProgress(int i, String s) {
-
-                }
-            });
+            HYMethod hyMethod = new HYMethod();
+            hyMethod.Login(MethodConfig.userInfo.getEusername(),MethodConfig.userInfo.getEpassword(),null);
                 for(int i = 0 ;i <fragments.size();i++)
                 {
                     switch (i)
@@ -252,6 +329,7 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
             binding.tvName.setVisibility(View.VISIBLE);
             binding.tvLogin.setVisibility(View.GONE);
             binding.tvName.setText(MethodConfig.userInfo.getName());
+
             if(!TextUtils.isEmpty(MethodConfig.userInfo.getImgUrl()))
             {
                 binding.dvHead.setImageURI(Uri.parse(MethodConfig.userInfo.getImgUrl()));
@@ -293,8 +371,8 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                 }
             }
         }
-
     }
+
 
     @Override
     public void onPageSelected(int position) {

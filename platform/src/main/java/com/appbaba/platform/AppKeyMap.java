@@ -37,8 +37,9 @@ public class AppKeyMap {
     public final static int LOLLIPOP = 0x08f;
     public final static int MARSHMALLOW = 0x09f;
 
-    public final static String BASEURL = "http:/192.168.200.251";
+    public final static String BASEURL = "http://192.168.200.251";
     public final static String HEAD = BASEURL + "/Api/User/";
+    public final static String HEAD_API_BASE = HEAD + "Base/";
     public final static String HEAD_API_Inspiration = HEAD + "Inspiration/";
     public final static String HEAD_API_GOODS = HEAD + "Goods/";
     public final static String HEAD_API_LOGIN = HEAD + "Login/";
@@ -46,6 +47,8 @@ public class AppKeyMap {
     public final static String HEAD_API_DESIGNER = HEAD + "Design/";
     public final static String HEAD_API_PAGE_PRODUCT = BASEURL+"/Api/Mer/Page/goods?goods_id=";
     public final static String HEAD_API_PAGE_INSPIRATION = BASEURL+"/Api/Mer/Page/detail?inspiration_id=";
+    public final static String HEAD_API_PAGE_ALLDESIGN = BASEURL+"/Api/Mer/Page/opus?stylist_id=";
+    public final static String HEAD_API_PAGE=BASEURL+"/Api/Mer/Page/";
 
 
 

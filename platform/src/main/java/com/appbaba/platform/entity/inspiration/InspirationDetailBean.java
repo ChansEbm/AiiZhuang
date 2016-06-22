@@ -149,7 +149,7 @@ public class InspirationDetailBean extends BaseBean {
             private String id;
             private String title;
             private String desc;
-            private String thumb;
+            private String image;
             /**
              * location_x : 32
              * location_y : 33
@@ -184,17 +184,17 @@ public class InspirationDetailBean extends BaseBean {
             }
 
             public String getThumb() {
-                if(TextUtils.isEmpty(thumb)) {
-                    return thumb;
+                if(TextUtils.isEmpty(image)) {
+                    return image;
                 }
                 else
                 {
-                    return AppKeyMap.BASEURL + thumb;
+                    return AppKeyMap.BASEURL + image;
                 }
             }
 
             public void setThumb(String thumb) {
-                this.thumb = thumb;
+                this.image = thumb;
             }
 
             public List<GoodsEntity> getGoods() {
@@ -208,7 +208,8 @@ public class InspirationDetailBean extends BaseBean {
             public static class GoodsEntity {
                 private String location_x;
                 private String location_y;
-                private String model;
+                private String title;
+                private String buy_link;
                 private String goods_id;
 
                 public String getLocation_x() {
@@ -228,11 +229,11 @@ public class InspirationDetailBean extends BaseBean {
                 }
 
                 public String getModel() {
-                    return model;
+                    return title;
                 }
 
                 public void setModel(String model) {
-                    this.model = model;
+                    this.title = model;
                 }
 
                 public String getGoods_id() {
@@ -241,6 +242,14 @@ public class InspirationDetailBean extends BaseBean {
 
                 public void setGoods_id(String goods_id) {
                     this.goods_id = goods_id;
+                }
+
+                public String getBuy_link() {
+                    return buy_link;
+                }
+
+                public void setBuy_link(String buy_link) {
+                    this.buy_link = buy_link;
                 }
             }
         }

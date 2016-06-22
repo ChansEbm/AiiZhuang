@@ -20,6 +20,7 @@
     <color name="application_base_color">#000000</color>
     <color name="line_color">#eeeeee</color>
     <color name="bg_color">#ebebeb</color>
+    <color name="search_gray">#969696</color>
 
     <color name="base_color_tv_bg">#ffdc38</color>
     <color name="base_color_tv_text">#fffefe</color>
@@ -32,4 +33,6 @@
     <color name="press_text_color">#eeeeee</color>
     <color name="normal_control_bg_color">#eeeeee</color>
     <color name="press_control_color">#eeeeee</color>
+    <color name="normal_orange_color">#f39800</color>
+    <color name="normal_red_color">#ff5454</color>
 </resources>

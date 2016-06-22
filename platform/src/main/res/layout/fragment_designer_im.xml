@@ -7,9 +7,7 @@
     <ViewSwitcher
         android:id="@+id/viewSwitcher"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:inAnimation="@anim/slide_in_from_left"
-        android:outAnimation="@anim/slide_out_to_right">
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

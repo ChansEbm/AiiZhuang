@@ -168,6 +168,12 @@ public class OkHttpBuilder {
         }
 
 
+        public POST urlBase(String url)
+        {
+            this.fullUrl = AppKeyMap.HEAD_API_BASE + url;
+            return this;
+        }
+
         public POST urlInspiration(String url)
         {
             this.fullUrl = AppKeyMap.HEAD_API_Inspiration + url;

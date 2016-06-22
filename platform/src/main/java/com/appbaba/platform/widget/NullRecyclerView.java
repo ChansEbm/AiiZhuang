@@ -32,7 +32,7 @@ public class NullRecyclerView extends RecyclerView {
         super.onDraw(c);
         if(getAdapter().getItemCount()==0) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_error);
-            c.drawBitmap(bitmap, getWidth() / 2 - bitmap.getWidth() / 2, 100, new Paint());
+            c.drawBitmap(bitmap, getWidth() / 2 - bitmap.getWidth() / 2,getHeight()/2-bitmap.getHeight()/2, new Paint());
             bitmap.recycle();
         }
     }

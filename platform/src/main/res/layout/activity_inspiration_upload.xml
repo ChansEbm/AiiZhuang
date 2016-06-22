@@ -5,6 +5,7 @@
     <data class=".ActivityInspirationUploadBinding"></data>
     <FrameLayout android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -19,7 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_back"
-            app:widthPx="66"/>
+            app:widthPx="66"
+            android:onClick="Back"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -35,6 +37,15 @@
             android:gravity="center"
             android:text="提交审核"/>
     </LinearLayout>
+
+    <com.appbaba.platform.widget.ScrollView.MyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+           >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +64,8 @@
                 android:id="@+id/edt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white"/>
+                android:background="@color/color_white"
+                android:paddingLeft="10dp"/>
         </LinearLayout>
         <include layout="@layout/line_view"></include>
         <LinearLayout
@@ -72,6 +84,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="4"
+                android:textSize="15sp"
+                android:paddingLeft="10dp"
+                android:gravity="top|left"
                 android:background="@color/color_white"/>
         </LinearLayout>
         <include layout="@layout/line_view"></include>
@@ -88,6 +103,7 @@
                 android:id="@+id/edt_mark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
                 android:background="@color/color_white"/>
         </LinearLayout>
         <include layout="@layout/line_view"></include>
@@ -95,22 +111,24 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
     </android.support.v7.widget.RecyclerView>
-
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:text="+"
+        android:background="@drawable/btn_add_bg_normal"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_gravity="bottom"/>
 
 </LinearLayout>
-        <TextView
-            android:id="@+id/tv_add"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:text="+"
-            android:background="@drawable/btn_add_bg_normal"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:layout_gravity="bottom"/>
+    </com.appbaba.platform.widget.ScrollView.MyScrollView>
+</LinearLayout>
     </FrameLayout>
 </layout>

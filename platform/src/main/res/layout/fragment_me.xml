@@ -3,207 +3,440 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data class=".FragmentUserBinding"></data>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <android.support.design.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:paddingTop="@dimen/status_bar_size"
         >
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            >
-
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing"
+            android:layout_height="wrap_content">
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                >
+                android:src="@mipmap/icon_me_bg"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:background="@android:color/black"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    >
+                    <ImageView
+                        android:id="@+id/iv_bubble"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:src="@mipmap/icon_bubble"
+                       />
+                    <TextView
+                        android:id="@+id/tv_hx_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"
+                        android:background="@drawable/tv_circle"
+                        android:padding="2dp"
+                        android:textSize="10sp"
+                        android:text="dd"
+                        android:gravity="center"
+                        android:layout_gravity="right"
+                        android:visibility="visible"
+                        />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/iv_setting">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_jp_msg"
+                        android:padding="10dp"
+                        />
+                    <TextView
+                        android:id="@+id/tv_jp_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/tv_circle"
+                        android:padding="2dp"
+                        android:textSize="10sp"
+                        android:text="21"
+                        android:layout_gravity="right"
+                        android:visibility="invisible"
+                        />
+                </FrameLayout>
+
+
                 <ImageView
+                    android:id="@+id/iv_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_settings"
+                    android:padding="10dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="bottom"
+                >
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/dv_head"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    app:roundAsCircle="true"
+                    app:placeholderImage="@mipmap/icon_person"
+                    />
+                <TextView
+                    android:id="@+id/tv_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="14sp"
+                    android:padding="6dp"
+                    android:text="立即登录"
+                    android:textColor="@color/color_white"
+                    android:background="@drawable/btn_login_bg_selector"/>
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/icon_me_bg"
-                    android:scaleType="fitXY"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/black"/>
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_white"
+                    android:textSize="18sp"
+                    android:gravity="center"/>
+                <LinearLayout
+                    android:id="@+id/linear_tab"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:theme="@style/ThemeOverlay.AppCompat.Dark"
-                    app:layout_collapseMode="pin"
-                    app:title=""
-                    >
+                    android:background="@color/color_white"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
                     <LinearLayout
+                        android:id="@+id/linear_title_parent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:gravity="center_vertical|right">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:src="@mipmap/icon_bubble"/>
-                        <ImageView
-                            android:id="@+id/iv_setting"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/icon_settings"
-                            android:padding="10dp"/>
-                    </LinearLayout>
-
-
-
-                </android.support.v7.widget.Toolbar>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="bottom"
-                    >
-                    <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/dv_head"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center_horizontal|bottom"
-                        app:layout_anchor="@id/toolbar"
-                        app:roundAsCircle="true"
-                        app:placeholderImage="@mipmap/icon_person"
-                        android:layout_marginBottom="10dp"
-                        />
-                    <TextView
-                        android:id="@+id/tv_login"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="16sp"
-                        android:padding="5dp"
-                        android:text="立即登录"
-                        android:background="@drawable/btn_login_bg_selector"/>
-                    <TextView
-                        android:id="@+id/tv_name"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_white"
-                        android:textSize="18sp"
-                        android:gravity="center"/>
-                    <LinearLayout
-                        android:id="@+id/linear_tab"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:background="@color/color_white"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/linear_title_parent"
+                        android:layout_weight="1">
+                        <com.appbaba.platform.widget.MyTextView
+                            android:id="@+id/tv_my_collection"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:layout_weight="1">
-                            <com.appbaba.platform.widget.MyTextView
-                                android:id="@+id/tv_my_collection"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:textColor="@android:color/black"
-                                android:textSize="16sp"
-                                android:gravity="center"
-                                android:layout_weight="1"
-                                app:normal_color="@color/color_text_gravy"
-                                app:text="@string/fragment_user_love"/>
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            app:normal_color="@color/color_text_gravy"
+                            app:text="@string/fragment_user_love"/>
 
 
-                            <com.appbaba.platform.widget.MyTextView
-                                android:id="@+id/tv_my_export"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:layout_weight="1"
-                                android:textSize="16sp"
-                                app:normal_color="@color/color_text_gravy"
-                                app:text="@string/fragment_user_collection"/>
-
-                            <com.appbaba.platform.widget.MyTextView
-                                android:id="@+id/tv_my_like"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:normal_color="@color/color_text_gravy"
-                                android:gravity="center"
-                                android:textSize="16sp"
-                                android:layout_weight="1"
-                                app:text="@string/fragment_user_like"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/linear_move"
+                        <com.appbaba.platform.widget.MyTextView
+                            android:id="@+id/tv_my_export"
                             android:layout_width="match_parent"
-                            android:layout_height="2dp">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="20dp"
-                                android:layout_marginLeft="20dp"
-                                android:background="@color/application_base_color"/>
-                        </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:textSize="16sp"
+                            app:normal_color="@color/color_text_gravy"
+                            app:text="@string/fragment_user_collection"/>
+
+                        <com.appbaba.platform.widget.MyTextView
+                            android:id="@+id/tv_my_like"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:normal_color="@color/color_text_gravy"
+                            android:gravity="center"
+                            android:textSize="16sp"
+                            android:layout_weight="1"
+                            app:text="@string/fragment_user_like"/>
                     </LinearLayout>
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/linear_move"
                         android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="@color/line_color"/>
+                        android:layout_height="2dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:background="@color/application_base_color"/>
+                    </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+            </LinearLayout>
 
+        </FrameLayout>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_color"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+            </android.support.v4.view.ViewPager>
 
+      </LinearLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_color"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        </android.support.v4.view.ViewPager>
-
-
-
-    </android.support.design.widget.CoordinatorLayout>
-    <LinearLayout
-        android:id="@+id/linear_be_designer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@color/base_color_tv_bg"
-        android:gravity="center"
-        android:layout_margin="10dp"
-        android:visibility="gone">
-        <ImageView
-            android:id="@+id/iv_type"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/icon_designer"/>
-        <TextView
-            android:id="@+id/tv_design_detail"
-            android:layout_marginTop="5dp"
+        <LinearLayout
+            android:id="@+id/linear_be_designer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="成为设计师"/>
-    </LinearLayout>
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/base_color_tv_bg"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/iv_type"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/icon_designer"/>
+            <TextView
+                android:id="@+id/tv_design_detail"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="成为设计师"/>
+        </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
 </layout>
+
+<!--&lt;!&ndash;suppress XmlUnusedNamespaceDeclaration &ndash;&gt;-->
+<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools">-->
+    <!--<data class=".FragmentUserBinding"></data>-->
+<!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--&gt;-->
+
+    <!--<android.support.design.widget.CoordinatorLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--&gt;-->
+
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:id="@+id/appbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+            <!--&gt;-->
+
+            <!--<android.support.design.widget.CollapsingToolbarLayout-->
+                <!--android:id="@+id/collapsing"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"-->
+                <!--&gt;-->
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:src="@mipmap/icon_me_bg"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:background="@android:color/black"/>-->
+                <!--<android.support.v7.widget.Toolbar-->
+                    <!--android:id="@+id/toolbar"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="?attr/actionBarSize"-->
+                    <!--app:theme="@style/ThemeOverlay.AppCompat.Dark"-->
+                    <!--app:layout_collapseMode="pin"-->
+                    <!--app:title=""-->
+                    <!--&gt;-->
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:orientation="horizontal"-->
+                        <!--android:gravity="center_vertical|right">-->
+                        <!--<ImageView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:padding="10dp"-->
+                            <!--android:src="@mipmap/icon_bubble"/>-->
+                        <!--<ImageView-->
+                            <!--android:id="@+id/iv_setting"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:src="@mipmap/icon_settings"-->
+                            <!--android:padding="10dp"/>-->
+                    <!--</LinearLayout>-->
+
+
+
+                <!--</android.support.v7.widget.Toolbar>-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--&gt;-->
+                    <!--<com.facebook.drawee.view.SimpleDraweeView-->
+                        <!--android:id="@+id/dv_head"-->
+                        <!--android:layout_width="100dp"-->
+                        <!--android:layout_height="100dp"-->
+                        <!--android:layout_gravity="center_horizontal|bottom"-->
+                        <!--app:layout_anchor="@id/toolbar"-->
+                        <!--app:roundAsCircle="true"-->
+                        <!--app:placeholderImage="@mipmap/icon_person"-->
+                        <!--android:layout_marginBottom="10dp"-->
+                        <!--/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_login"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:padding="5dp"-->
+                        <!--android:text="立即登录"-->
+                        <!--android:background="@drawable/btn_login_bg_selector"/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_name"-->
+                        <!--android:visibility="gone"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="@color/color_white"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:gravity="center"/>-->
+                    <!--<LinearLayout-->
+                        <!--android:id="@+id/linear_tab"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="?attr/actionBarSize"-->
+                        <!--android:background="@color/color_white"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:orientation="vertical">-->
+
+                        <!--<LinearLayout-->
+                            <!--android:id="@+id/linear_title_parent"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:orientation="horizontal"-->
+                            <!--android:layout_weight="1">-->
+                            <!--<com.appbaba.platform.widget.MyTextView-->
+                                <!--android:id="@+id/tv_my_collection"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:textColor="@android:color/black"-->
+                                <!--android:textSize="16sp"-->
+                                <!--android:gravity="center"-->
+                                <!--android:layout_weight="1"-->
+                                <!--app:normal_color="@color/color_text_gravy"-->
+                                <!--app:text="@string/fragment_user_love"/>-->
+
+
+                            <!--<com.appbaba.platform.widget.MyTextView-->
+                                <!--android:id="@+id/tv_my_export"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:gravity="center"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:textSize="16sp"-->
+                                <!--app:normal_color="@color/color_text_gravy"-->
+                                <!--app:text="@string/fragment_user_collection"/>-->
+
+                            <!--<com.appbaba.platform.widget.MyTextView-->
+                                <!--android:id="@+id/tv_my_like"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--app:normal_color="@color/color_text_gravy"-->
+                                <!--android:gravity="center"-->
+                                <!--android:textSize="16sp"-->
+                                <!--android:layout_weight="1"-->
+                                <!--app:text="@string/fragment_user_like"/>-->
+                        <!--</LinearLayout>-->
+                        <!--<LinearLayout-->
+                            <!--android:id="@+id/linear_move"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="2dp">-->
+                            <!--<TextView-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:layout_marginRight="20dp"-->
+                                <!--android:layout_marginLeft="20dp"-->
+                                <!--android:background="@color/application_base_color"/>-->
+                        <!--</LinearLayout>-->
+                    <!--</LinearLayout>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="1px"-->
+                        <!--android:background="@color/line_color"/>-->
+                <!--</LinearLayout>-->
+
+
+            <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+        <!--</android.support.design.widget.AppBarLayout>-->
+
+
+        <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/viewpager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/bg_color"-->
+            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+        <!--</android.support.v4.view.ViewPager>-->
+
+
+
+    <!--</android.support.design.widget.CoordinatorLayout>-->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/linear_be_designer"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:paddingRight="15dp"-->
+        <!--android:paddingTop="8dp"-->
+        <!--android:paddingBottom="8dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:background="@color/base_color_tv_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:visibility="gone">-->
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_type"-->
+            <!--android:layout_width="25dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:src="@mipmap/icon_designer"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_design_detail"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="成为设计师"/>-->
+    <!--</LinearLayout>-->
+
+<!--</RelativeLayout>-->
+<!--</layout>-->

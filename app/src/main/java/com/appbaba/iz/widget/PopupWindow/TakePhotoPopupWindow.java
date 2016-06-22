@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.appbaba.iz.PopupTakePhotoBinding;
 import com.appbaba.iz.R;
-import com.appbaba.iz.databinding.PopupTakePhotoBinding;
 import com.appbaba.iz.eum.PhotoPopupOpts;
 import com.appbaba.iz.impl.OnPhotoOptsSelectListener;
 

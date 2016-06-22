@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.appbaba.platform.FragmentCommSearchBinding;
 import com.appbaba.platform.entity.Base.BaseBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.OkHttpResponseListener;
 import com.appbaba.platform.model.NetworkModel;
 import com.appbaba.platform.tools.LogTools;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.List;
 

@@ -23,7 +23,7 @@ public class ProductListBean extends BaseBean {
      * price : 100.00
      */
 
-    private List<ProductsEntity> products;
+    private List<ProductsEntity> products,result;
 
     public List<ProductsEntity> getProducts() {
         return products;
@@ -33,11 +33,28 @@ public class ProductListBean extends BaseBean {
         this.products = products;
     }
 
+    public List<ProductsEntity> getResult() {
+        return result;
+    }
+
+    public void setResult(List<ProductsEntity> result) {
+        this.result = result;
+    }
+
     public static class ProductsEntity extends BaseObservable{
         private String id;
         private String title;
-        private String thumb;
+        private String image;
         private String price;
+        private String buy_link;
+
+        public String getBuy_link() {
+            return buy_link;
+        }
+
+        public void setBuy_link(String buy_link) {
+            this.buy_link = buy_link;
+        }
 
         public String getId() {
             return id;
@@ -57,17 +74,17 @@ public class ProductListBean extends BaseBean {
         }
 
         public String getThumb() {
-            if(TextUtils.isEmpty(thumb)) {
-                return thumb;
+            if(TextUtils.isEmpty(image)) {
+                return image;
             }
             else
             {
-                return AppKeyMap.BASEURL + thumb;
+                return AppKeyMap.BASEURL + image;
             }
         }
 
         public void setThumb(String thumb) {
-            this.thumb = thumb;
+            this.image = thumb;
         }
 
         @Bindable

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data class=".ItemSearchListBinding"></data>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_marginTop="5dp"
+       >
+       <TextView
+           android:id="@+id/tv_item_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="15sp"
+           android:paddingTop="5dp"
+           android:paddingBottom="5dp"
+           android:paddingLeft="10dp"
+           android:paddingRight="10dp"
+           android:textColor="@android:color/black"
+           android:background="@color/base_color_tv_bg"
+           />
+       <TextView
+           android:id="@+id/tv_item_all"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="right"
+           android:text="全部"
+           android:textSize="15sp"
+           android:textColor="@color/search_gray"
+           android:drawablePadding="5dp"
+           android:drawableRight="@mipmap/icon_more_arrow_down"/>
+
+
+
+   </LinearLayout>
+    <com.appbaba.platform.widget.TagGroup
+        android:id="@+id/tagGroup"
+        style="@style/TagGroup.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+       >
+
+    </com.appbaba.platform.widget.TagGroup>
+</LinearLayout>
+</layout>
