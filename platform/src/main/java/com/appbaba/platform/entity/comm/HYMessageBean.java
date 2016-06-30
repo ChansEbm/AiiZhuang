@@ -4,8 +4,8 @@ package com.appbaba.platform.entity.comm;
  * Created by ruby on 2016/6/17.
  */
 public class HYMessageBean {
-    private String name,userID,thumb,msg,image,status;
-    private int type,imageWidth,imageHeight;
+    private String name,userID,thumb,msg,image,status,voice;
+    private int type,imageWidth,imageHeight,voiceLength,which;
 
     public int getImageWidth() {
         return imageWidth;
@@ -77,5 +77,29 @@ public class HYMessageBean {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getVoice() {
+        return voice;
+    }
+
+    public void setVoice(String voice) {
+        this.voice = voice;
+    }
+
+    public int getWhich() {
+        return which;
+    }
+
+    public void setWhich(int which) {
+        this.which = which;
+    }
+
+    public int getVoiceLength() {
+        return voiceLength;
+    }
+
+    public void setVoiceLenght(int voiceLength) {
+        this.voiceLength = voiceLength;
     }
 }

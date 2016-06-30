@@ -73,6 +73,8 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
     private int currentPage = 1,pageNum = 12;
     private int state = 0,offset = 0;
     private String keyword= "";
+    private String caseId,spaceId,styleId;
+    private  boolean isShow = true; //（新增）判断当前是否需要弹出选择列表
 
 
 
@@ -98,6 +100,13 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
 
         initAdapters();
 
+        caseId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.E_CATE_ID, String
+                .class, "");
+        styleId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.E_STYLE_ID, String
+                .class, "");
+        spaceId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.SPACE_ID, String
+                .class, "");
+
         updateUIBroadcast = new UpdateUIBroadcast();
         updateUIBroadcast.setListener(this);
         AppTools.registerBroadcast(updateUIBroadcast, AppKeyMap.CASE_ACTION);
@@ -119,12 +128,31 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
         radioGroup.setOnCheckedChangeListener(this);
         networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
 
+
+        if (!TextUtils.isEmpty(caseId) || !TextUtils.isEmpty(styleId) || !TextUtils.isEmpty(spaceId)) {
+            isShow = false;
+            selection.setCateId(caseId);
+            selection.setSpaceId(spaceId);
+            selection.setStyleId(styleId);
+        }
+        else
+        {
+            isShow = true;
+        }
+
+
         swRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 bodyList.clear();
                 currentPage=1;
                 keyword = "";
+                spaceId ="";
+                caseId="";
+                styleId = "";
+                MethodConfig.ClearEffectSelection();
+                selection = new CasesAttrSelection();
+                ClearSelction(casesAttrEntity);
                 GetData();
             }
         });
@@ -165,11 +193,77 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
 
     }
 
+    private void ClearSelction(CasesAttrEntity t)
+    {
+        List<CasesAttrEntity.CateListBean> caseList = t.getCate_list();
+        List<CasesAttrEntity.SizeListBean> sizeList = t.getSize_list();
+        List<CasesAttrEntity.StyleListBean> styleList = t.getStyle_list();
+        for (int i = 0; i < caseList.size(); i++) {
+            CasesAttrEntity.CateListBean cateListBean = caseList.get(i);
+            cateListBean.setCheck(false);
+        }
+        for (int i = 0; i < sizeList.size(); i++) {
+            CasesAttrEntity.SizeListBean sizeListBean = sizeList.get(i);
+            sizeListBean.setCheck(false);
+        }
+        for (int i = 0; i < styleList.size(); i++) {
+            CasesAttrEntity.StyleListBean styleListBean = styleList.get(i);
+            styleListBean.setCheck(false);
+        }
+        rbStyle.setText(R.string.fragment_album_style);
+        rbSpace.setText(R.string.fragment_album_space);
+        rbCate.setText(R.string.fragment_album_cate);
+    }
+
     public void GetData()
     {
         state = 0;
         offset = 0;
         networkModel.cases("", keyword, ""+currentPage, ""+pageNum, selection, NetworkParams.DONUT);//主体内容
+    }
+
+    private void resetAllSelection() {
+        for (CasesAttrEntity.AttrParent parent : selectionList) {
+            parent.setCheck(false);
+        }
+    }
+    private void notifyCateSelection(CasesAttrEntity t) {
+        if (TextUtils.isEmpty(caseId) && TextUtils.isEmpty(spaceId) && TextUtils.isEmpty(styleId))
+            return;
+        resetAllSelection();
+        List<CasesAttrEntity.CateListBean> caseList = t.getCate_list();
+        List<CasesAttrEntity.SpaceListBean> spaceList = t.getSpace_list();
+        List<CasesAttrEntity.StyleListBean> styleList = t.getStyle_list();
+
+        for (int i = 0; i < caseList.size(); i++) {
+            CasesAttrEntity.CateListBean cateListBean = caseList.get(i);
+            if (TextUtils.equals(cateListBean.getCate_id(), caseId)) {
+                cateListBean.setCheck(true);
+                rbCate.setChecked(true);
+                rbCate.setText(cateListBean.getTitle());
+                break;
+            }
+        }
+        for (int i = 0; i < spaceList.size(); i++) {
+            CasesAttrEntity.SpaceListBean spaceListBean = spaceList.get(i);
+            if(TextUtils.equals(spaceListBean.getSize_id(), spaceId))
+            {
+                spaceListBean.setCheck(true);
+                rbSpace.setChecked(true);
+                rbSpace.setText(spaceListBean.getTitle());
+                break;
+            }
+        }
+        for (int i = 0; i < styleList.size(); i++) {
+            CasesAttrEntity.StyleListBean styleListBean = styleList.get(i);
+            if(TextUtils.equals(styleListBean.getStyle_id(), styleId))
+            {
+                styleListBean.setCheck(true);
+                rbStyle.setChecked(true);
+                rbStyle.setText(styleListBean.getTitle());
+                break;
+            }
+        }
     }
 
     /**
@@ -218,6 +312,40 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
                 currentPage = 1;
                 GetData();
             }
+            else if(!intent.getExtras().containsKey("isEffect"))
+            {
+                this.caseId = intent.getExtras().getString(AppKeyMap.E_CATE_ID,"");
+                this.styleId = intent.getExtras().getString(AppKeyMap.E_STYLE_ID,"");
+                this.spaceId = intent.getExtras().getString(AppKeyMap.SPACE_ID,"");
+
+                if (TextUtils.isEmpty(caseId)) {
+                    rbCate.setChecked(false);
+                } else {
+                    rbCate.setChecked(true);
+                    isShow = false;
+                }
+                if (TextUtils.isEmpty(spaceId)) {
+                    rbSpace.setChecked(false);
+                } else {
+                    rbSpace.setChecked(true);
+                    isShow = false;
+                }
+                if (TextUtils.isEmpty(styleId)) {
+                    rbStyle.setChecked(false);
+                } else {
+                    rbStyle.setChecked(true);
+                    isShow = false;
+                }
+                selection.setSizeId("0");
+                selection.setStyleId(styleId);
+                selection.setSpaceId(spaceId);
+                selection.setCateId(caseId);
+                notifyCateSelection(casesAttrEntity);
+                selectionAdapter.notifyDataSetChanged();
+
+                currentPage = 1;
+                GetData();
+            }
 
         }
     }
@@ -251,6 +379,7 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
     public void onJsonObjectSuccess(BaseBean t, NetworkParams paramsCode) {
         if (paramsCode == NetworkParams.CUPCAKE) {//means selection data return
             this.casesAttrEntity = (CasesAttrEntity) t;
+            notifyCateSelection(casesAttrEntity);
         } else if (paramsCode == NetworkParams.DONUT) {
             caseEntity = (CaseEntity) t;
             if(caseEntity.getList()==null || caseEntity.getList().size()==0)
@@ -299,7 +428,14 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
                 break;
         }
         selectionAdapter.notifyDataSetChanged();
-        drawerLayout.openDrawer(layoutSelection);
+        if(isShow) {
+            drawerLayout.openDrawer(layoutSelection);
+        }
+        else
+        {
+            isShow = false;
+        }
+//        drawerLayout.openDrawer(layoutSelection);
     }
 
     @Override
@@ -324,6 +460,8 @@ public class EffectFragment extends BaseFgm<BaseBean, BaseBean> implements Radio
     }
 
     private void modifierSelections(int pos) {
+        if(selectionList.size()==0)
+            return;
         CasesAttrEntity.AttrParent attrParent = selectionList.get(pos);
         for (CasesAttrEntity.AttrParent parent : selectionList) {
             parent.setCheck(false);

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class=".ItemAlbumProductListLayout">
+
+        <variable
+            name="product"
+            type="com.appbaba.iz.entity.main.album.ProductEntity.ListBean"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_gravy_selector"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linear_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+                android:padding="5dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/textStyle"
+                    android:layout_marginTop="@dimen/small_margin_5dp"
+                    android:singleLine="true"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:text="@{product.model}"/>
+                <TextView
+                    style="@style/textStyle"
+                    android:layout_marginTop="@dimen/small_margin_5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/color_text_gravy"
+                    android:text="@{product.cate_name}"/>
+                <TextView
+                    style="@style/textStyle"
+                    android:layout_marginTop="@dimen/small_margin_5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/color_text_gravy"
+                    android:text="@{product.sizeDetail}"
+                    android:layout_marginBottom="5dp"/>
+                <include layout="@layout/line"></include>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

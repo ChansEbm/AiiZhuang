@@ -193,10 +193,18 @@ public class ProductEntity extends BaseBean {
             return sizeDesc;
         }
 
+        @Bindable
+        public String getSizeDetail()
+        {
+            this.sizeDetail = "规格："+getWidth()+"x"+getHeight();
+            return sizeDetail;
+        }
+
 
         private String cateNameDesc;
         private String modelDesc;
         private String sizeDesc;
+        private String sizeDetail;
         private String width;
         private String height;
         private List<String> image_list;

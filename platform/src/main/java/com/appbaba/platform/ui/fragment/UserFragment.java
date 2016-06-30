@@ -1,6 +1,7 @@
 package com.appbaba.platform.ui.fragment;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.FragmentUserBinding;
 import com.appbaba.platform.R;
 import com.appbaba.platform.base.BaseFragment;
+import com.appbaba.platform.broadcast.UpdateUIBroadcast;
 import com.appbaba.platform.entity.Base.BaseBean;
 import com.appbaba.platform.entity.User.BaseItemBean;
 import com.appbaba.platform.entity.User.UserBean;
@@ -24,11 +26,13 @@ import com.appbaba.platform.entity.User.UserInfo;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.AnimationCallBack;
 import com.appbaba.platform.impl.LoginCallBack;
+import com.appbaba.platform.impl.UpdateUIListener;
 import com.appbaba.platform.method.HYMethod;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.tools.AppTools;
 import com.appbaba.platform.ui.activity.user.DesignerCenterActivity;
 import com.appbaba.platform.ui.activity.user.FriendsActivity;
+import com.appbaba.platform.ui.activity.user.MessageListActivity;
 import com.appbaba.platform.ui.activity.user.UserBeDesignerActivity;
 import com.appbaba.platform.ui.activity.user.UserSettingActivity;
 import com.appbaba.platform.widget.LoginDialog;
@@ -55,22 +59,44 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
     private int hxCount = 0,jpCount = 0;
     private Handler handler = new Handler();
 
-    private EMMessageListener listener;
+    private UpdateUIBroadcast receiver;
+
+    private UpdateUIListener uiListener = new UpdateUIListener() {
+        @Override
+        public void uiUpData(Intent intent) {
+            if(intent.getAction().equals(AppKeyMap.MESSAGE_ACTION))
+            {
+                List<EMMessage> list = intent.getExtras().getParcelableArrayList("message");
+                hxCount+=list.size();
+                UpdateCountView();
+            }
+            else if(intent.getAction().equals(AppKeyMap.MESSAGE_UN_READ)) {
+                jpCount++;
+                // UpdateCountView();
+                GetUnReadMsg();
+                if (!MethodConfig.IsLogin()) {
+                    InitUserInfo();
+                }
+            }
+
+        }
+    };
 
     @Override
     protected void InitView() {
         binding = (FragmentUserBinding)viewDataBinding;
         viewPager = binding.viewpager;
         linear_move = binding.linearMove;
+
+        binding.linearBeDesigner.getLayoutParams().height = MethodConfig.metrics.widthPixels*100/750;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        GetUnReadMsg();
         InitUserInfo();
     }
-
-
 
     public void  setCallBack(AnimationCallBack callBack)
     {
@@ -89,38 +115,16 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
         moveWidth = linear_move.getLayoutParams().width = MethodConfig.metrics.widthPixels/3;
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(new MyPageAdapter(getChildFragmentManager()));
+
+        receiver = new UpdateUIBroadcast();
+        receiver.setListener(uiListener);
+        AppTools.registerBroadcast(receiver,AppKeyMap.MESSAGE_ACTION);
+        AppTools.registerBroadcast(receiver,AppKeyMap.MESSAGE_UN_READ);
     }
 
     @Override
     protected void InitEvent() {
-        listener = new EMMessageListener() {
-            @Override
-            public void onMessageReceived(List<EMMessage> list) {
-                hxCount+=list.size();
-                UpdateCountView();
-            }
 
-            @Override
-            public void onCmdMessageReceived(List<EMMessage> list) {
-
-            }
-
-            @Override
-            public void onMessageReadAckReceived(List<EMMessage> list) {
-
-            }
-
-            @Override
-            public void onMessageDeliveryAckReceived(List<EMMessage> list) {
-
-            }
-
-            @Override
-            public void onMessageChanged(EMMessage emMessage, Object o) {
-
-            }
-        };
-        EMClient.getInstance().chatManager().addMessageListener(listener);
     }
 
 
@@ -136,6 +140,7 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
          binding.tvLogin.setOnClickListener(this);
         binding.linearBeDesigner.setOnClickListener(this);
         binding.ivBubble.setOnClickListener(this);
+        binding.ivMsg.setOnClickListener(this);
     }
 
     public void UpdateCountView()
@@ -151,6 +156,16 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                 {
                     binding.tvHxCount.setText(""+hxCount);
                     binding.tvHxCount.setVisibility(View.VISIBLE);
+                }
+
+                if(jpCount==0)
+                {
+                    binding.tvJpCount.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    binding.tvJpCount.setText(""+jpCount);
+                    binding.tvJpCount.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -224,6 +239,14 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                 {
                     Toast.makeText(getContext(),"你还没有登录...",Toast.LENGTH_LONG).show();
                 }
+                break;
+            case R.id.iv_msg:
+            {
+                if(MethodConfig.IsLogin())
+                {
+                    StartActivity(MessageListActivity.class);
+                }
+            }
                 break;
         }
     }
@@ -308,7 +331,7 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                     }
                 }
             }
-            else {
+            else{
             LoginDialog loginDialog = new LoginDialog(getContext());
             loginDialog.callBack = new LoginCallBack() {
                 @Override
@@ -319,12 +342,20 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
             loginDialog.Show();
         }
         }
+        else if(paramsCode==NetworkParams.LOLLIPOP)
+        {
+             if(baseBean.getErrorcode()==0)
+             {
+                 jpCount = baseBean.getData();
+                 UpdateCountView();
+             }
+        }
         InitUserInfo();
     }
 
     public void InitUserInfo()
     {
-        if(MethodConfig.userInfo!=null && !TextUtils.isEmpty(MethodConfig.userInfo.getToken()))
+        if(MethodConfig.IsLogin())
         {
             binding.tvName.setVisibility(View.VISIBLE);
             binding.tvLogin.setVisibility(View.GONE);
@@ -355,6 +386,9 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                 binding.linearBeDesigner.setVisibility(View.VISIBLE);
                 binding.tvDesignDetail.setText("资格审核中");
             }
+            hxCount = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+            UpdateCountView();
+
         }
         else {
             binding.dvHead.setImageURI(Uri.parse(""));
@@ -362,7 +396,7 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
             binding.tvLogin.setVisibility(View.VISIBLE);
             binding.linearBeDesigner.setVisibility(View.GONE);
 
-            if(MethodConfig.userInfo==null || TextUtils.isEmpty(MethodConfig.userInfo.getToken()))
+            if(!MethodConfig.IsLogin())
             {
                 if(fragments!=null) {
                     for (int i = 0; i < fragments.size(); i++) {
@@ -371,6 +405,12 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
                 }
             }
         }
+    }
+
+    public void GetUnReadMsg()
+    {
+        if(MethodConfig.IsLogin())
+        networkModel.GetMessageRead(MethodConfig.userInfo.getToken(),NetworkParams.LOLLIPOP);
     }
 
 

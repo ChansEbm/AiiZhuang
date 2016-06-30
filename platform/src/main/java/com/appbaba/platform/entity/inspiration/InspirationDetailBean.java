@@ -103,7 +103,15 @@ public class InspirationDetailBean extends BaseBean {
             }
 
             public String getInspiration_thumb() {
-                return AppKeyMap.BASEURL+inspiration_thumb;
+                if(TextUtils.isEmpty(inspiration_thumb))
+                {
+                    return "";
+                }
+                else
+                {
+                     return AppKeyMap.BASEURL+inspiration_thumb;
+                }
+
             }
 
             public void setInspiration_thumb(String inspiration_thumb) {
@@ -150,6 +158,7 @@ public class InspirationDetailBean extends BaseBean {
             private String title;
             private String desc;
             private String image;
+            private double proportion;
             /**
              * location_x : 32
              * location_y : 33
@@ -181,6 +190,14 @@ public class InspirationDetailBean extends BaseBean {
 
             public void setDesc(String desc) {
                 this.desc = desc;
+            }
+
+            public double getProportion() {
+                return proportion;
+            }
+
+            public void setProportion(double proportion) {
+                this.proportion = proportion;
             }
 
             public String getThumb() {

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.appbaba.iz.AlbumChildLayout;
 import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.ItemAlbumProductLayout;
+import com.appbaba.iz.ItemAlbumProductListLayout;
 import com.appbaba.iz.ItemAlbumSelectionLayout;
 import com.appbaba.iz.R;
 import com.appbaba.iz.adapters.CommonBinderAdapter;
@@ -44,8 +45,11 @@ import com.appbaba.iz.widget.GridSpacingItemDecoration;
 import com.github.pwittchen.prefser.library.Prefser;
 import com.squareup.picasso.Picasso;
 
+import org.stringtemplate.v4.ST;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,12 +72,16 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     private CommonBinderAdapter<CasesAttrEntity.AttrParent> selectionAdapter;
     private CommonBinderAdapter<ProductEntity.ListBean> bodyAdapter;
 
+    private GridSpacingItemDecoration itemDecoration;
     private CasesAttrEntity casesAttrEntity;
     private ProductEntity productEntity = new ProductEntity();
 
     private CasesAttrSelection selection = new CasesAttrSelection();//保存选择后的ids
 
+
     private String cateId = "";//保存从主页点击过来的id
+    private String styleId = "";
+    private String sizeId ="";
     private  boolean isShow = true; //（新增）判断当前是否需要弹出选择列表
     private UpdateUIBroadcast updateUIBroadcast;
 
@@ -97,9 +105,15 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         rbStyle = effectLayout.rbStyle;
         rbSize = effectLayout.rbSpace;
         rbCate = effectLayout.rbCate;
+
+        itemDecoration = new GridSpacingItemDecoration(3, 10, true);
         initAdapters();
 
-        cateId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.CATE_ID, String
+        cateId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.P_CATE_ID, String
+                .class, "");
+        styleId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.P_STYLE_ID, String
+                .class, "");
+        sizeId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.SIZE_ID, String
                 .class, "");
 
         swRefresh = effectLayout.swRefresh;
@@ -117,7 +131,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         rvSelection.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recyclerView.setAdapter(bodyAdapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
+        recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         height = (MethodConfig.metrics.widthPixels-10*4)/3;
@@ -127,9 +141,11 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         radioGroup.setOnCheckedChangeListener(this);
         rbSize.setText(R.string.fragment_album_size);
         networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
-        if (!TextUtils.isEmpty(cateId)) {
+        if (!TextUtils.isEmpty(cateId) || !TextUtils.isEmpty(sizeId) || !TextUtils.isEmpty(styleId)) {
             isShow = false;
             selection.setCateId(cateId);
+            selection.setSizeId(sizeId);
+            selection.setStyleId(styleId);
         }
         else
         {
@@ -141,7 +157,13 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
             public void onRefresh() {
                 bodyList.clear();
                 currentPage=1;
+                cateId = "";
+                sizeId = "";
+                styleId="";
                 keyword = "";
+                MethodConfig.ClearProductSelection();
+                selection = new CasesAttrSelection();
+               ClearSelction(casesAttrEntity);
                 GetData();
             }
         });
@@ -162,12 +184,24 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                                 offset = recyclerView.computeVerticalScrollOffset();
                             }
                             if ((k - state) < (-1) * 50 && offset== recyclerView.computeVerticalScrollOffset()) {
-                                GridLayoutManager lm = (GridLayoutManager) recyclerView.getLayoutManager();
-                                int index = lm.findLastVisibleItemPosition();
-                                if (index == (bodyList.size() - 1)) {
-                                    currentPage++;
-                                    GetData();
+                                if(recyclerView.getLayoutManager().getClass().equals(LinearLayoutManager.class))
+                                {
+                                    LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
+                                    int index = lm.findLastVisibleItemPosition();
+                                    if (index == (bodyList.size() - 1)) {
+                                        currentPage++;
+                                        GetData();
+                                    }
                                 }
+                                else {
+                                    GridLayoutManager lm = (GridLayoutManager) recyclerView.getLayoutManager();
+                                    int index = lm.findLastVisibleItemPosition();
+                                    if (index == (bodyList.size() - 1)) {
+                                        currentPage++;
+                                        GetData();
+                                    }
+                                }
+
                             }
                         }
                         break;
@@ -218,6 +252,45 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         bodyAdapter.setBinderOnItemClickListener(this);
     }
 
+    public void ChangeListStyle(int style)
+    {
+        if(style == 1) {
+            bodyAdapter = new CommonBinderAdapter<ProductEntity.ListBean>(getContext(), R.layout
+                    .item_album_product_list_view, bodyList) {
+
+                @Override
+                public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int
+                        position, ProductEntity.ListBean listBean) {
+                    ItemAlbumProductListLayout itemAlbumProductLayout = (ItemAlbumProductListLayout) viewDataBinding;
+                    itemAlbumProductLayout.setProduct(listBean);
+                    Picasso.with(getContext()).load(listBean.getThumb()).resize(500, 500).into(itemAlbumProductLayout.imageView);
+                }
+            };
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.removeItemDecoration(itemDecoration);
+        }
+        else
+        {
+            bodyAdapter = new CommonBinderAdapter<ProductEntity.ListBean>(getContext(), R.layout
+                    .item_album_product, bodyList) {
+
+                @Override
+                public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int
+                        position, ProductEntity.ListBean listBean) {
+                    ItemAlbumProductLayout itemAlbumProductLayout= (ItemAlbumProductLayout) viewDataBinding;
+                    itemAlbumProductLayout.setProduct(listBean);
+                    Picasso.with(getContext()).load(listBean.getThumb()).into(itemAlbumProductLayout.imageView);
+                    itemAlbumProductLayout.linearItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
+
+                }
+            };
+            recyclerView.addItemDecoration(itemDecoration);
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        }
+        recyclerView.setAdapter(bodyAdapter);
+        bodyAdapter.setBinderOnItemClickListener(this);
+    }
+
     @Override
     protected void noNetworkStatus() {
 
@@ -252,7 +325,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     public void onJsonObjectSuccess(BaseBean t, NetworkParams paramsCode) {
         if (paramsCode == NetworkParams.CUPCAKE) {//means selection data return
             this.casesAttrEntity = (CasesAttrEntity) t;
-            notifyCateSelection((CasesAttrEntity) t);
+            notifyCateSelection(casesAttrEntity);
         } else if (paramsCode == NetworkParams.DONUT) {
             productEntity = (ProductEntity) t;
 
@@ -292,18 +365,34 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                 return;
             }
                 keyword = intent.getExtras().getString(AppKeyMap.PRO_KEYWORD,"");
-                this.cateId = intent.getExtras().getString(AppKeyMap.CATE_ID,"");
-                rbSize.setChecked(false);
-                rbStyle.setChecked(false);
+                this.cateId = intent.getExtras().getString(AppKeyMap.P_CATE_ID,"");
+                this.styleId = intent.getExtras().getString(AppKeyMap.P_STYLE_ID,"");
+                this.sizeId = intent.getExtras().getString(AppKeyMap.SIZE_ID,"");
+
+            if(this.sizeId.equals("m"))//非搜索 + 效果图
+            {
+                return;
+            }
                 if (TextUtils.isEmpty(cateId)) {
                     rbCate.setChecked(false);
-                 //   isShow = true;
                 } else {
                     rbCate.setChecked(true);
                     isShow = false;
                 }
-                selection.setSizeId("0");
-                selection.setStyleId("0");
+            if (TextUtils.isEmpty(sizeId)) {
+                rbSize.setChecked(false);
+            } else {
+                rbSize.setChecked(true);
+                isShow = false;
+            }
+            if (TextUtils.isEmpty(styleId)) {
+                rbStyle.setChecked(false);
+            } else {
+                rbStyle.setChecked(true);
+                isShow = false;
+            }
+                selection.setSizeId(sizeId);
+                selection.setStyleId(styleId);
                 selection.setSpaceId("0");
                 selection.setCateId(cateId);
                 // networkModel.casesAttrs(NetworkParams.CUPCAKE);//获取风格、空间、分类
@@ -315,17 +404,62 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
         }
     }
 
+    private void ClearSelction(CasesAttrEntity t)
+    {
+        List<CasesAttrEntity.CateListBean> caseList = t.getCate_list();
+        List<CasesAttrEntity.SizeListBean> sizeList = t.getSize_list();
+        List<CasesAttrEntity.StyleListBean> styleList = t.getStyle_list();
+        for (int i = 0; i < caseList.size(); i++) {
+            CasesAttrEntity.CateListBean cateListBean = caseList.get(i);
+                cateListBean.setCheck(false);
+        }
+        for (int i = 0; i < sizeList.size(); i++) {
+            CasesAttrEntity.SizeListBean sizeListBean = sizeList.get(i);
+                sizeListBean.setCheck(false);
+        }
+        for (int i = 0; i < styleList.size(); i++) {
+            CasesAttrEntity.StyleListBean styleListBean = styleList.get(i);
+                styleListBean.setCheck(false);
+        }
+        rbStyle.setText(R.string.fragment_album_style);
+        rbSize.setText(R.string.fragment_album_size);
+        rbCate.setText(R.string.fragment_album_cate);
+    }
+
     private void notifyCateSelection(CasesAttrEntity t) {
-        if (TextUtils.isEmpty(cateId))
+        if (TextUtils.isEmpty(cateId) && TextUtils.isEmpty(sizeId) && TextUtils.isEmpty(sizeId))
             return;
         resetAllSelection();
         List<CasesAttrEntity.CateListBean> caseList = t.getCate_list();
+        List<CasesAttrEntity.SizeListBean> sizeList = t.getSize_list();
+        List<CasesAttrEntity.StyleListBean> styleList = t.getStyle_list();
+
         for (int i = 0; i < caseList.size(); i++) {
             CasesAttrEntity.CateListBean cateListBean = caseList.get(i);
             if (TextUtils.equals(cateListBean.getCate_id(), cateId)) {
                 cateListBean.setCheck(true);
                 rbCate.setChecked(true);
                 rbCate.setText(cateListBean.getTitle());
+                break;
+            }
+        }
+        for (int i = 0; i < sizeList.size(); i++) {
+            CasesAttrEntity.SizeListBean sizeListBean = sizeList.get(i);
+            if(TextUtils.equals(sizeListBean.getSize_id(), sizeId))
+            {
+                sizeListBean.setCheck(true);
+                rbSize.setChecked(true);
+                rbSize.setText(sizeListBean.getTitle());
+                break;
+            }
+        }
+        for (int i = 0; i < styleList.size(); i++) {
+            CasesAttrEntity.StyleListBean styleListBean = styleList.get(i);
+            if(TextUtils.equals(styleListBean.getStyle_id(), styleId))
+            {
+                styleListBean.setCheck(true);
+                rbStyle.setChecked(true);
+                rbStyle.setText(styleListBean.getTitle());
                 break;
             }
         }
@@ -344,7 +478,7 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
                 this.selectionList.addAll(casesAttrEntity.getStyle_list());
                 break;
             case R.id.rb_space://尺寸
-                tvSelectionTitle.setText(R.string.fragment_album_space);
+                tvSelectionTitle.setText(R.string.fragment_album_size);
                 this.selectionList.addAll(casesAttrEntity.getSize_list());
                 break;
             case R.id.rb_cate://分类
@@ -385,6 +519,8 @@ public class ProductFragment extends BaseFgm<BaseBean, BaseBean> implements Radi
     }
 
     private void modifierSelections(int pos) {
+        if(selectionList.size()==0)
+            return;
         CasesAttrEntity.AttrParent attrParent = selectionList.get(pos);
         resetAllSelection();
         attrParent.setCheck(true);

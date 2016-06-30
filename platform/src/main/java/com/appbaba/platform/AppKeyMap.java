@@ -17,8 +17,10 @@ public class AppKeyMap {
     public final static String PWD_REGEX = "^[A-Za-z0-9]+$";
     //邮编正则
     public final static String ZIP_CODE_REGEX = "^[1-9]\\d{5}$";
-    //case action
-    public final static String CASE_ACTION = "android.intent.action.CASE";
+
+
+    public final static String MESSAGE_UN_READ = "android.intent.action.MSG_UN_READ";
+    public final static String MESSAGE_ACTION = "android.intent.action.message";
     //检测无网络action
     public final static String NO_NETWORK_ACTION = "android.intent.action.NO_NETWORK";
     //默认动画执行时间 300ms
@@ -37,7 +39,7 @@ public class AppKeyMap {
     public final static int LOLLIPOP = 0x08f;
     public final static int MARSHMALLOW = 0x09f;
 
-    public final static String BASEURL = "http://192.168.200.251";
+    public final static String BASEURL = "http://www.izhuangse.com";
     public final static String HEAD = BASEURL + "/Api/User/";
     public final static String HEAD_API_BASE = HEAD + "Base/";
     public final static String HEAD_API_Inspiration = HEAD + "Inspiration/";

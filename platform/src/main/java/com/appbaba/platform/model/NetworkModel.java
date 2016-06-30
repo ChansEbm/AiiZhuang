@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.entity.Base.BaseBean;
 import com.appbaba.platform.entity.User.FriendsBean;
+import com.appbaba.platform.entity.User.MessageDetailBean;
+import com.appbaba.platform.entity.User.MessageListBean;
 import com.appbaba.platform.entity.comm.BaseHotWordsBean;
 import com.appbaba.platform.entity.User.DesignerDetailBean;
 import com.appbaba.platform.entity.User.DesignerEMBean;
@@ -25,6 +27,7 @@ import com.appbaba.platform.entity.product.ProductDetailBean;
 import com.appbaba.platform.entity.product.ProductListBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.OkHttpResponseListener;
+import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.tools.AppTools;
 import com.appbaba.platform.tools.LogTools;
 import com.appbaba.platform.tools.OkHttpBuilder;
@@ -262,7 +265,7 @@ public class NetworkModel<E> {
 
     public void Login(String phoneNum,String password,String token,NetworkParams networkParams)
     {
-        String pushID = AppTools.getSharePreferences().getString(JPushInterface.EXTRA_REGISTRATION_ID,"");
+        String pushID = MethodConfig.jpush_id;
         params.clear();
         params.put("tell",phoneNum);
         params.put("password",password);
@@ -355,6 +358,34 @@ public class NetworkModel<E> {
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
 
+    public void GetMessageRead(String token,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("is_read").entityClass(BaseBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+
+    }
+
+    public void UserMessageList(String token,int page,int num,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("page",""+page);
+        params.put("num",""+num);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("my_push_imformation").entityClass(MessageListBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
+    public void UserMessageDetail(String token,String id,NetworkParams networkParams)
+    {
+        clearAllParams();
+        params.put("token",token);
+        params.put("user_push_id",""+id);
+        new OkHttpBuilder.POST(appCompatActivity).urlUser("my_push_imformation_detail").entityClass(MessageDetailBean.class).params(params)
+                .enqueue(networkParams,tOkHttpResponseListener);
+    }
+
     public void UserBeDesigner(String token,String name,String email,String wechat,String cardID,String city,String myself,String file1,String file2,NetworkParams networkParams)
     {
         clearAllParams();
@@ -423,8 +454,8 @@ public class NetworkModel<E> {
     public void ClickLove(String token,String inspiration_id,NetworkParams networkParams)
     {
         clearAllParams();
-        params.put("token",token);
-        params.put("inspiration_id",inspiration_id);
+        params.put("token",""+token);
+        params.put("inspiration_id",""+inspiration_id);
         new OkHttpBuilder.POST(appCompatActivity).urlDesign("clickLove").entityClass(BaseBean.class).params(params)
                 .enqueue(networkParams, tOkHttpResponseListener);
     }

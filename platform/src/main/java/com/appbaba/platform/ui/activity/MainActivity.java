@@ -59,6 +59,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     protected void InitView() {
+        SetWindowFit();
          binding = (ActivityMainBinding)viewDataBinding;
         viewPager = binding.viewpager;
         viewPager.setOffscreenPageLimit(3);
@@ -186,6 +187,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                hyMethod.Login(MethodConfig.userInfo.getEusername(), MethodConfig.userInfo.getEpassword(), new EMCallBack() {
                    @Override
                    public void onSuccess() {
+                       EMClient.getInstance().groupManager().loadAllGroups();
+                       EMClient.getInstance().chatManager().loadAllConversations();
                        //EMClient.getInstance().chatManager().addMessageListener(MainActivity.this);
                    }
 
@@ -199,9 +202,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
                    }
                });
-               viewPager.setAdapter(adapter);
            }
        }
+        viewPager.setAdapter(adapter);
     }
 
     @Override

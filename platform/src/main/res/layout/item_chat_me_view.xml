@@ -7,16 +7,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
+        <TextView
+            android:id="@+id/tv_time_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            android:layout_marginRight="5dp"
+            />
        <FrameLayout
-           android:layout_width="match_parent"
+           android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_weight="1"
+           android:layout_gravity="center_vertical"
            >
         <TextView
             android:id="@+id/tv_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_bunble_right"
+            android:background="@drawable/icon_bubble_right"
             android:textSize="15sp"
             android:gravity="left|center"
             android:layout_gravity="right"
@@ -25,12 +34,21 @@
                android:id="@+id/iv_item"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:background="@drawable/icon_bunble_right"
+               android:background="@drawable/icon_bubble_right"
                android:adjustViewBounds="true"
                android:maxHeight="200dp"
                android:maxWidth="200dp"
                android:layout_gravity="right"
                android:visibility="gone"
+               />
+           <ImageView
+               android:id="@+id/iv_voice_item"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@mipmap/icon_right_voice_1"
+               android:layout_gravity="right|center"
+               android:paddingLeft="50dp"
+               android:background="@drawable/icon_bubble_right"
                />
        </FrameLayout>
         <com.facebook.drawee.view.SimpleDraweeView

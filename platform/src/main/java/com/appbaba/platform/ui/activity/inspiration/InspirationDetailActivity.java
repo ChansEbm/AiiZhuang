@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.appbaba.platform.ActivityInspirationDetailBinding;
@@ -24,6 +26,7 @@ import com.appbaba.platform.adapters.CommonBinderHolder;
 import com.appbaba.platform.base.BaseActivity;
 import com.appbaba.platform.databinding.ItemRippleBinding;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.User.DesignerEMBean;
 import com.appbaba.platform.entity.inspiration.InspirationDetailBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.impl.BinderOnItemClickListener;
@@ -35,6 +38,7 @@ import com.appbaba.platform.ui.activity.comm.CommZoomActivity;
 import com.appbaba.platform.ui.activity.products.ProductWebDetailActivity;
 import com.appbaba.platform.widget.DialogView.ShareDialogView;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hyphenate.chat.EMClient;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -60,6 +64,7 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
     private String id;
     private boolean isFirst= true,isFirstIn = true;
     private InspirationDetailBean detailBean;
+    private  DesignerEMBean emBean;
 
 
     @Override
@@ -89,6 +94,10 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
                 InitData();
             }
         }
+        else
+        {
+            InitData();
+        }
     }
 
     @Override
@@ -101,26 +110,10 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
               public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position,final InspirationDetailBean.InspirationEntity.InspirationBottomEntity o) {
                 final  ItemInspirationDetailBinding itemInspirationDetailBinding = (ItemInspirationDetailBinding)viewDataBinding;
                   itemInspirationDetailBinding.setItem(o);
+                  itemInspirationDetailBinding.ivItem.setLayoutParams(new RelativeLayout.LayoutParams(MethodConfig.metrics.widthPixels,(int)(MethodConfig.metrics.widthPixels/o.getProportion())));
                   if(!TextUtils.isEmpty(o.getThumb()))
-                  Picasso.with(InspirationDetailActivity.this).load(o.getThumb()).into(itemInspirationDetailBinding.ivItem, new Callback() {
-                      @Override
-                      public void onSuccess() {
-                          Timer timer = new Timer();
-                          TimerTask timerTask = new TimerTask() {
-                              @Override
-                              public void run() {
-                                  Refresh(itemInspirationDetailBinding.getRoot(),o);
-                              }
-                          };
-                          timer.schedule(timerTask,2000);
-                      }
-
-                      @Override
-                      public void onError() {
-
-                      }
-                  });
-
+                  Picasso.with(InspirationDetailActivity.this).load(o.getThumb()).into(itemInspirationDetailBinding.ivItem);
+                  Refresh(itemInspirationDetailBinding.getRoot(),o);
               }
           };
 
@@ -202,9 +195,9 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
             case R.id.linear_say_hello:
             case R.id.iv_top_right:
             {
-                if(MethodConfig.IsLogin()) {
+                if(MethodConfig.IsLogin() && emBean!=null) {
                     Intent intent = new Intent(this, CommChatActivity.class);
-                    intent.putExtra("id", detailBean.getInspiration().getInspiration_top().getStylist_id());
+                    intent.putExtra("id", emBean.getDesign_infor().getEasemob_username());
                     intent.putExtra("name", detailBean.getInspiration().getInspiration_top().getName());
                     intent.putExtra("image", detailBean.getInspiration().getInspiration_top().getUser_thumb());
                     startActivity(intent);
@@ -298,6 +291,9 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
                 }
                 binding.dvHead.setTag(R.string.tag_value, bean.getInspiration().getInspiration_top().getStylist_id());
                 isFirst = false;
+               if(MethodConfig.IsLogin()) {
+                   networkModel.GetUserEMID(MethodConfig.userInfo.getToken(), detailBean.getInspiration().getInspiration_top().getStylist_id(), NetworkParams.LOLLIPOP);
+               }
             } else if (paramsCode == NetworkParams.DONUT) {
                 networkModel.GetCheckLove(MethodConfig.userInfo.getToken(), id, NetworkParams.FROYO);
             } else if (paramsCode == NetworkParams.FROYO)
@@ -305,7 +301,7 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
                 if(baseBean.getStatus()==1)
                 {
                     if(!isFirstIn)
-                     Toast.makeText(this,"成功点赞",Toast.LENGTH_LONG).show();
+                     Toast.makeText(this,"收藏成功",Toast.LENGTH_LONG).show();
                       binding.toolbar.getMenu().getItem(0).setIcon(R.mipmap.icon_heart_y_r);
                 }
                 else
@@ -316,8 +312,11 @@ public class InspirationDetailActivity extends BaseActivity implements AppBarLay
                 }
                 isFirstIn = false;
             }
+            else if(paramsCode==NetworkParams.LOLLIPOP)
+            {
+                emBean = (DesignerEMBean)baseBean;
+            }
         }
-
     }
 
     Handler handler = new Handler();

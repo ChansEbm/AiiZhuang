@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.PagerAdapter;
@@ -33,23 +34,24 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
     private TimerTask timerTask;
     private Handler handler;
     private int space = 0 ;//动画间隔时间
+    private boolean canCancel = false;
 
     public NavViewPager(Context context) {
         super(context);
         this.context = context;
-        InitView();
+
     }
 
     public NavViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        InitView();
+
     }
 
     public NavViewPager(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        InitView();
+
     }
 
 
@@ -60,10 +62,10 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
         handler = new Handler();
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         viewPager.setLayoutParams(params);
-        LayoutParams params1 =new LayoutParams(200, 40);
+        LayoutParams params1 =new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         params1.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
-        params1.bottomMargin=80;
+        params1.bottomMargin=70;
         pointsView.setLayoutParams(params1);
         this.addView(viewPager);
         this.addView(pointsView);
@@ -103,9 +105,24 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
         postInvalidate();
     }
 
+    public void SetDistance(int dis)
+    {
+        pointsView.setDis(dis);
+    }
+
+    /**
+     * 圆角半径
+     * @param circle
+     */
+    public void IsCircleBound(int circle)
+    {
+        pointsView.setCircle(circle);
+    }
+
     public void  SetAdapter(PagerAdapter adapter)
     {
         viewPager.setAdapter(adapter);
+        list.clear();
         for(int i=0;i<adapter.getCount();i++)
         {
             list.add(""+i);
@@ -124,6 +141,17 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
         return count;
     }
 
+    public void notifyDataChange()
+    {
+        viewPager.getAdapter().notifyDataSetChanged();
+        for(int i=0;i<viewPager.getAdapter().getCount();i++)
+        {
+            list.add(""+i);
+        }
+        pointsView.setList(list);
+        postInvalidate();
+    }
+
     public void Next()
     {
         handler.post(new Runnable() {
@@ -131,7 +159,10 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
             public void run() {
                 if(viewPager.getCurrentItem()==list.size()-1)
                 {
-                    ScrollEnd();
+                   if(!ScrollEnd())
+                   {
+                       viewPager.setCurrentItem((viewPager.getCurrentItem() + 1) % list.size());
+                   }
                 }
                 else {
                     viewPager.setCurrentItem((viewPager.getCurrentItem() + 1) % list.size());
@@ -142,12 +173,14 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
 
     }
 
-    public void ScrollEnd()
+    public boolean ScrollEnd()
     {
         if(callAction!=null)
         {
             callAction.OnEnd();
+            return true;
         }
+        return false;
     }
 
     public void setCallAction(CallAction callAction)
@@ -194,6 +227,36 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
         timer.schedule(timerTask,space,space);
     }
 
+    public void CanCancel()
+    {
+        canCancel = true;
+    }
+
+    public void AutoScrollNoCancel(int spaceTime)
+    {
+        this.space = spaceTime;
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(list.size()>0)
+                {
+                    if(!canCancel) {
+                        Next();
+                    }
+                    else
+                    {
+                        this.cancel();
+                    }
+                }
+                else
+                {
+                    this.cancel();
+                }
+            }
+        };
+        timer.schedule(timerTask,space,space);
+    }
+
     public class PointsView extends View {
         public final static int POINT_STYLE_CIRCLE = 1;
         public final static int POINT_STYLE_LINE = 2;
@@ -202,7 +265,8 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
         private int radius=10;
         private int pointStyle=1;
         private int selectColor = Color.argb(128,255,255,255),baseColor=Color.argb(255,255,255,255),bgColor = Color.TRANSPARENT;
-
+        private int dis = radius;
+        private int circle = 0;
 
         public PointsView(Context context) {
             super(context);
@@ -264,6 +328,22 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
             this.bgColor = bgColor;
         }
 
+        public int getDis() {
+            return dis;
+        }
+
+        public void setDis(int dis) {
+            this.dis = dis;
+        }
+
+        public int getCircle() {
+            return circle;
+        }
+
+        public void setCircle(int circle) {
+            this.circle = circle;
+        }
+
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
@@ -271,7 +351,9 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
             {
                 Paint paint = new Paint();
                 paint.setStyle(Paint.Style.FILL);
-                canvas.drawColor(bgColor);
+                paint.setColor(bgColor);
+                canvas.drawRoundRect(new RectF(0,0,((radius*2+dis)*list.size()+dis),radius*2+dis*2),circle*2,circle*2,paint);
+
                 for(int i=0;i<list.size();i++)
                 {
                     if(selectIndex==i)
@@ -283,11 +365,11 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
                         paint.setColor(baseColor);
                     }
                     if(pointStyle == POINT_STYLE_CIRCLE) {
-                        canvas.drawCircle(radius + radius*2*i+10*(i+1), radius+10, radius, paint);
+                        canvas.drawCircle(radius + radius*2*i+dis*(i+1), radius+dis, radius, paint);
                     }
                     else
                     {
-                        canvas.drawRect(i*(radius+10)+10,15,radius+i*(radius+10)+10,25,paint);
+                        canvas.drawRect(i*(radius+dis)+dis,dis/2+dis,radius+i*(radius+dis)+dis,dis*2+dis/2,paint);
                     }
                 }
             }
@@ -299,8 +381,9 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             if(list!=null)
             {
-                int width = pointStyle==POINT_STYLE_CIRCLE ? list.size()*(radius*2+10)+10 : list.size()*(radius+10)+10;
-                int height = pointStyle==POINT_STYLE_CIRCLE ? radius*2+20 : 40;
+                int width = pointStyle==POINT_STYLE_CIRCLE ? list.size()*(radius*2+dis)+dis : list.size()*(radius+dis)+dis;
+                int height = pointStyle==POINT_STYLE_CIRCLE ? radius*2+dis*2 : dis*2+radius;
+
                 setMeasuredDimension(width, height);
             }
         }

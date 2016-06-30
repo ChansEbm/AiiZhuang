@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.appbaba.iz.AppKeyMap;
 import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.entity.Friends.FriendsClientBean;
 import com.appbaba.iz.entity.Index.HomeBean;
@@ -14,6 +15,7 @@ import com.appbaba.iz.entity.LocationBean;
 import com.appbaba.iz.entity.Login.AuthBean;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
+import com.appbaba.iz.ui.activity.MainActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -34,6 +36,8 @@ public class MethodConfig {
     private static long ticks = 0;
     public static LocationBean locationBean;
     private static  int QR_WIDTH = 500, QR_HEIGHT = 500;
+    public static  String banner_id="";
+    public static MainActivity mainActivity;
 
     public static void SetDispaly(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -49,6 +53,30 @@ public class MethodConfig {
             LogTools.e("change size");
         }
         MethodConfig.metrics = metrics;
+    }
+
+    public static void ClearAllSelection()
+    {
+        AppTools.putStringSharedPreferences(AppKeyMap.P_CATE_ID, "");
+        AppTools.putStringSharedPreferences(AppKeyMap.SIZE_ID,"");
+        AppTools.putStringSharedPreferences(AppKeyMap.P_STYLE_ID,"");
+        AppTools.putStringSharedPreferences(AppKeyMap.E_STYLE_ID,"");
+        AppTools.putStringSharedPreferences(AppKeyMap.E_CATE_ID,"");
+        AppTools.putStringSharedPreferences(AppKeyMap.SPACE_ID,"");
+    }
+
+    public static void ClearEffectSelection()
+    {
+        AppTools.putStringSharedPreferences(AppKeyMap.E_STYLE_ID,"");
+        AppTools.putStringSharedPreferences(AppKeyMap.E_CATE_ID,"");
+        AppTools.putStringSharedPreferences(AppKeyMap.SPACE_ID,"");
+    }
+
+    public static void ClearProductSelection()
+    {
+        AppTools.putStringSharedPreferences(AppKeyMap.P_CATE_ID, "");
+        AppTools.putStringSharedPreferences(AppKeyMap.SIZE_ID,"");
+        AppTools.putStringSharedPreferences(AppKeyMap.P_STYLE_ID,"");
     }
 
     public static long GetTicks() {

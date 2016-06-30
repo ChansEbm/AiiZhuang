@@ -4,7 +4,6 @@
     <data class=".ActivityIndexBinding"></data>
     <FrameLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/base_color_tv_bg"
         >
 
         <TextView
@@ -14,13 +13,27 @@
             android:layout_height="60dp"
             android:gravity="center"
             android:layout_gravity="bottom|right"/>
-            <com.appbaba.platform.widget.NavViewPager
+            <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
 
-            </com.appbaba.platform.widget.NavViewPager>
+            </android.support.v4.view.ViewPager>
+        <LinearLayout
+            android:id="@+id/linear_index"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@android:color/black">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/icon_index_top"
+
+            android:layout_weight="1"/>
 
 
         <ImageView
@@ -29,7 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:src="@mipmap/icon_index_bottom"/>
+        </LinearLayout>
 
     </FrameLayout>
 

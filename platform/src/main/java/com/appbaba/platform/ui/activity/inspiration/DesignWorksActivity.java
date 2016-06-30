@@ -70,7 +70,7 @@ public class DesignWorksActivity extends BaseActivity implements BinderOnItemCli
                 ItemInspirationBinding itemInspirationBinding = (ItemInspirationBinding)viewDataBinding;
                 itemInspirationBinding.setItem(o);
                 itemInspirationBinding.ivItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
-                if(TextUtils.isEmpty(o.getImage()))
+                if(!TextUtils.isEmpty(o.getImage()))
                 {
                     Picasso.with(DesignWorksActivity.this).load(o.getImage()).into(itemInspirationBinding.ivItem);
                 }

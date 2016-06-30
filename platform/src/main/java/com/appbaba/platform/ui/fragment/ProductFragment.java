@@ -141,6 +141,17 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
                             pageTemp = currentPage + 1;
                             networkModel.ProductList(pageTemp,num, NetworkParams.CUPCAKE);
                         }
+                        else
+                        {
+                            Toast.makeText(getContext(),"滚动至底部，请往回拉哟",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else if(recyclerView.computeVerticalScrollOffset()/currentPage > recyclerView.getLayoutManager().getHeight()/2)
+                    {
+                        if(list.size()%num ==0) {
+                            pageTemp = currentPage + 1;
+                            networkModel.ProductList(pageTemp,num, NetworkParams.CUPCAKE);
+                        }
                     }
                 }
                 super.onScrollStateChanged(recyclerView, newState);
@@ -280,7 +291,7 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
                     currentPage = pageTemp;
                     if(paramsCode==NetworkParams.CUPCAKE) {
                         if (bean.getProducts().size() == 0) {
-                            Toast.makeText(getContext(), "已经最后一页了", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "滚动至底部，请往回拉哟", Toast.LENGTH_LONG).show();
                         } else {
                             list.addAll(bean.getProducts());
                         }
@@ -289,7 +300,7 @@ public class ProductFragment extends BaseFragment implements BinderOnItemClickLi
                     {
                         if(bean.getResult().size()==0)
                         {
-                            Toast.makeText(getContext(), "没有更多搜索结果了", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "非常抱歉，您要找的商品不存在喔~", Toast.LENGTH_LONG).show();
                         }
                         else {
                             list.addAll(bean.getResult());

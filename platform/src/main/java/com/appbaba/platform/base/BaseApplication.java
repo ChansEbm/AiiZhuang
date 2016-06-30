@@ -3,17 +3,33 @@ package com.appbaba.platform.base;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.TaskStackBuilder;
+import android.text.TextUtils;
+import android.util.Log;
 
+import com.appbaba.platform.AppKeyMap;
+import com.appbaba.platform.R;
+import com.appbaba.platform.entity.comm.HYMessageBean;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.tools.AppTools;
 import com.appbaba.platform.tools.FrescoTools;
+import com.appbaba.platform.ui.activity.IndexActivity;
+import com.appbaba.platform.ui.activity.user.FriendsActivity;
 import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
@@ -25,11 +41,17 @@ import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMImageMessageBody;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
+import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.chat.EMVoiceMessageBody;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -56,8 +78,10 @@ public class BaseApplication extends Application {
         ShareSDK.initSDK(this);
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        MethodConfig.jpush_id = JPushInterface.getRegistrationID(getApplicationContext());
         initGalleryFinal();
          StartHY();
+        InitMessage();
     }
 
     public void  StartHY()
@@ -78,6 +102,87 @@ public class BaseApplication extends Application {
         EMClient.getInstance().init(this,emOptions);
     }
 
+    EMMessageListener messageListener;
+    public void InitMessage()
+    {
+         messageListener = new EMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> list) {
+
+                for(int i = 0;i<list.size();i++)
+                {
+                    Log.e("messageReceived","收到最新消息："+list.get(i).getFrom() +"  id为："+list.get(i).getMsgId());
+                    if(TextUtils.isEmpty(MethodConfig.nowMsgUsername) || !list.get(i).getFrom().equals(MethodConfig.nowMsgUsername))
+                    {
+                        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MethodConfig.context);
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(MethodConfig.context);
+                        builder.setAutoCancel(true);
+                        builder.setSmallIcon(R.mipmap.icon_bubble);
+                        builder.setColor(MethodConfig.context.getResources().getColor(R.color.bg_color_dark)).setWhen
+                                (System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL);
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(MethodConfig.context);
+                        stackBuilder.addParentStack(IndexActivity.class);
+                        Intent intent = new Intent(MethodConfig.context, FriendsActivity.class);
+                        PendingIntent contentIntent = PendingIntent.getActivity(MethodConfig.context, 1,
+                                intent, 0);
+                        builder.setContentIntent(contentIntent);
+                        builder.setTicker(ParseMsg(list.get(i))).setContentTitle(getResources().getString(R.string.app_name)).setContentText("你有一个消息");
+                        managerCompat.notify(0, builder.build());
+                    }
+                }
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("message",new ArrayList<>(list));
+
+                AppTools.sendBroadcast(bundle,AppKeyMap.MESSAGE_ACTION);
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageReadAckReceived(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageDeliveryAckReceived(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage emMessage, Object o) {
+
+            }
+        };
+        EMClient.getInstance().chatManager().addMessageListener(messageListener);
+    }
+
+    public void RemoveMessage()
+    {
+        EMClient.getInstance().chatManager().removeMessageListener(messageListener);
+    }
+
+    public String ParseMsg(EMMessage eMsg)
+    {
+
+        switch (eMsg.getType()) {
+            case TXT:
+            {
+                EMTextMessageBody msg = (EMTextMessageBody) eMsg.getBody();
+               return msg.getMessage();
+            }
+            case IMAGE:
+            {
+               return "[图片]";
+            }
+            case VOICE: {
+                return "[语音]";
+            }
+        }
+        return "";
+    }
 
     private String getAppName(int pID) {
         String processName = null;

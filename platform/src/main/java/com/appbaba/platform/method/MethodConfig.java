@@ -1,6 +1,8 @@
 package com.appbaba.platform.method;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -36,7 +38,10 @@ public class MethodConfig {
     public static LocationBean locationBean;
     public static BaseHotWordsBean hotWordsBean;
     public static UserBean userBean;
-    public static HashMap<String,String> userImage = new HashMap<>();
+    public static String jpush_id;
+    public static String nowMsgUsername ;
+    public static HashMap<String,String> userImage = new HashMap<>(); //用户照片
+    public static  HashMap<String,String> msgMap = new HashMap<>(); //消息
 
     public static boolean IsLogin()
     {
@@ -48,6 +53,11 @@ public class MethodConfig {
         {
             return true;
         }
+    }
+    public static  void LogOut()
+    {
+        userBean = null;
+        userInfo = null;
     }
 
     public static void SetDispaly(Context context) {
@@ -71,6 +81,22 @@ public class MethodConfig {
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 获取版本号
+     * @return 当前应用的版本号
+     */
+    public static String getVersion() {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            String version = info.versionName;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "获取错误";
+        }
     }
 
     public static  int GetHeight(int width,int w,int h)

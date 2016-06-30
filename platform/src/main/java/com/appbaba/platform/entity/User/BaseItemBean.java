@@ -1,5 +1,7 @@
 package com.appbaba.platform.entity.User;
 
+import android.text.TextUtils;
+
 import com.appbaba.platform.AppKeyMap;
 
 import java.util.Observable;
@@ -13,12 +15,18 @@ public class BaseItemBean extends Observable{
     private String image;
     private String status;
     private String picture;
+    private String thumb;
     private String picture_thumb;
     private String id;
+    private String inspiration_id;
     private String subscribe_id;
 
     public String getPicture() {
-        return picture;
+        if(TextUtils.isEmpty(picture))
+        {
+            return "";
+        }
+        return AppKeyMap.BASEURL+picture;
     }
 
     public void setPicture(String picture) {
@@ -31,6 +39,14 @@ public class BaseItemBean extends Observable{
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getInspiration_id() {
+        return inspiration_id;
+    }
+
+    public void setInspiration_id(String inspiration_id) {
+        this.inspiration_id = inspiration_id;
     }
 
     public String getSubscribe_id() {
@@ -57,11 +73,15 @@ public class BaseItemBean extends Observable{
         this.name = name;
     }
 
-    public String getThumb() {
+    public String getImage() {
+        if(TextUtils.isEmpty(image))
+        {
+            return "";
+        }
         return AppKeyMap.BASEURL+ image;
     }
 
-    public void setThumb(String image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

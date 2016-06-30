@@ -1,6 +1,7 @@
 package com.appbaba.platform.method;
 
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
@@ -29,7 +30,9 @@ public class HYMethod {
             callBack = new EMCallBack() {
                 @Override
                 public void onSuccess() {
-                    ShowToast("登录环信成功");
+//                    ShowToast("登录环信成功");
+                    EMClient.getInstance().groupManager().loadAllGroups();
+                    EMClient.getInstance().chatManager().loadAllConversations();
                     //Toast.makeText(MethodConfig.context,,Toast.LENGTH_LONG).show();
                 }
 
@@ -63,6 +66,8 @@ public class HYMethod {
 //            message.setChatType(EMMessage.ChatType.GroupChat);
 //发送消息
         EMClient.getInstance().chatManager().sendMessage(message);
+        MethodConfig.msgMap.put(toChatUsername,message.getMsgId() +"   "+toChatUsername);
+        Log.e("text id","id:"+message.getMsgId()+"  发送人："+message.getFrom()+"   接收人："+toChatUsername);
     }
 
     public void SendPicture(final String imagePath, final String toChatUsername)
@@ -74,6 +79,8 @@ public class HYMethod {
                 //imagePath为图片本地路径，false为不发送原图（默认超过100k的图片会压缩后发给对方），需要发送原图传true
                 EMMessage message = EMMessage.createImageSendMessage(imagePath, false, toChatUsername);
                 EMClient.getInstance().chatManager().sendMessage(message);
+                MethodConfig.msgMap.put(toChatUsername,message.getMsgId());
+                Log.e("picture id","id:"+message.getMsgId() +"   "+toChatUsername);
             }
         };
                 timer.schedule(timerTask,0);
@@ -82,8 +89,14 @@ public class HYMethod {
 
     }
 
-    public void SendVoice()
-    {}
+    public void SendVoice(String filePath,int length,String toChatUsername)
+    {
+        //filePath为语音文件路径，length为录音时间(秒)
+        EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, toChatUsername);
+        Log.e("voice id","id:"+message.getMsgId() +"   "+toChatUsername);
+        MethodConfig.msgMap.put(toChatUsername,message.getMsgId());
+        EMClient.getInstance().chatManager().sendMessage(message);
+    }
 
 
     public void ShowToast(final String text)

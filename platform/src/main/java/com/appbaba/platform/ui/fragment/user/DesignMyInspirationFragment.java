@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.appbaba.platform.FragmentMyInspirationBinding;
 import com.appbaba.platform.ItemMyInspirationBinding;
@@ -36,7 +38,7 @@ public class DesignMyInspirationFragment extends BaseFragment implements BinderO
     private List<MyInspirationBean.MyInspirationEntity> list;
     private CommonBinderAdapter<MyInspirationBean.MyInspirationEntity> adapter;
 
-    private int page=1,num=12;
+    private int page=1,num=12,height=0;
 
 
     @Override
@@ -49,6 +51,7 @@ public class DesignMyInspirationFragment extends BaseFragment implements BinderO
 
     @Override
     protected void InitData() {
+        height = MethodConfig.GetHeight(MethodConfig.metrics.widthPixels,5,3);
         list = new ArrayList<>();
         adapter = new CommonBinderAdapter<MyInspirationBean.MyInspirationEntity>(getContext(),R.layout.item_my_inspiration_view,list) {
             @Override
@@ -65,9 +68,9 @@ public class DesignMyInspirationFragment extends BaseFragment implements BinderO
                 {
                     itemMyInspirationBinding.tvStatus.setBackgroundResource(R.color.color_text_gravy);
                 }
-                if(!TextUtils.isEmpty(myInspirationEntity.getThumb()))
-                Picasso.with(getContext()).load(myInspirationEntity.getThumb()).resize(500,500).into(itemMyInspirationBinding.ivItem);
-
+                if(!TextUtils.isEmpty(myInspirationEntity.getThumb())) {
+                    Picasso.with(getContext()).load(myInspirationEntity.getThumb()).resize(500, 500).into(itemMyInspirationBinding.ivItem);
+                }
             }
         };
 
@@ -106,7 +109,6 @@ public class DesignMyInspirationFragment extends BaseFragment implements BinderO
         if(paramsCode==NetworkParams.CUPCAKE)
         {
             MyInspirationBean bean = (MyInspirationBean)baseBean;
-
             list.addAll(bean.getMy_inspiration());
             adapter.notifyDataSetChanged();
             recyclerView.clearFocus();

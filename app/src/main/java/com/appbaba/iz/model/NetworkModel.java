@@ -15,6 +15,7 @@ import com.appbaba.iz.entity.Friends.FriendsBean;
 import com.appbaba.iz.entity.Friends.FriendsClientBean;
 import com.appbaba.iz.entity.Friends.FriendsClientCollectionBean;
 import com.appbaba.iz.entity.Index.HomeBean;
+import com.appbaba.iz.entity.Index.HomeGuideBean;
 import com.appbaba.iz.entity.Login.AuthBean;
 import com.appbaba.iz.entity.Login.UpdatePersonBean;
 import com.appbaba.iz.entity.SellerListBean;
@@ -24,6 +25,7 @@ import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.entity.main.album.ProductEntity;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.OkHttpResponseListener;
+import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.tools.OkHttpBuilder;
@@ -203,6 +205,14 @@ public class NetworkModel<E> {
                 .enqueue(networkParams, tOkHttpResponseListener);
     }
 
+    public void GuidePage(NetworkParams networkParams)
+    {
+        clearAllParams();
+        new OkHttpBuilder.POST(appCompatActivity).urlLogin("guidePage").entityClass(HomeGuideBean.class)
+                .params(params)
+                .enqueue(networkParams, tOkHttpResponseListener);
+    }
+
     public void casesAttrs(NetworkParams networkParams) {
         clearAllParams().addAuth();
         new OkHttpBuilder.POST(appCompatActivity).urlCases("casesAttrs").params(params)
@@ -212,6 +222,7 @@ public class NetworkModel<E> {
     public void cases(String casesId, String keyword, String page, String pageSize,
                       CasesAttrSelection casesAttrSelection, NetworkParams networkParams) {
         clearAllParams().addAuth().addCustomerId();
+        params.put("seller_id", MethodConfig.banner_id);
         params.put("cases_id", casesId);
         params.put("keyword", keyword);
         params.put("page", page);
@@ -249,6 +260,9 @@ public class NetworkModel<E> {
     public void product(String productId, String keyword, String page, String pageSize,
                         CasesAttrSelection casesAttrSelection, NetworkParams networkParams) {
         clearAllParams().addAuth();
+
+            params.put("seller_id", MethodConfig.banner_id);
+
         String customerId = new Prefser(AppTools.getSharePreferences()).get(AppKeyMap.CUSTOMERID,
                 String.class, "");
         params.put("customer_id", customerId);
@@ -281,6 +295,10 @@ public class NetworkModel<E> {
     {
         clearAllParams();
         params.put("auth",auth);
+        if(TextUtils.isEmpty(auth))
+        {
+            params.put("seller_id", MethodConfig.banner_id);
+        }
         new OkHttpBuilder.POST(appCompatActivity).urlIndex("index").entityClass(HomeBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }
@@ -288,6 +306,7 @@ public class NetworkModel<E> {
     public  void HomeSubject(String auth,int page,int page_size,NetworkParams networkParams)
     {
         clearAllParams();
+        params.put("seller_id", MethodConfig.banner_id);
         params.put("auth",auth);
         params.put("page",""+page);
         params.put("page_size",""+page_size);
@@ -369,6 +388,7 @@ public class NetworkModel<E> {
     {
         clearAllParams();
         params.put("auth",auth);
+        params.put("seller_id", MethodConfig.banner_id);
         new OkHttpBuilder.POST(appCompatActivity).urlMarketing("articleCate").entityClass(FriendsBean.class).params(params).setIsNeedLoadingDialog(isNeedLoading)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }

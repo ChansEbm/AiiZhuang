@@ -36,6 +36,7 @@ public class AppKeyMap {
     public final static int LOLLIPOP = 0x08f;
     public final static int MARSHMALLOW = 0x09f;
 
+    public final static String BaseUrl = "http://www.izhuangse.com";
     public final static String HEAD = "http://www.izhuangse.com/Api/Mer/";
     public final static String HEAD_API_CASE = HEAD + "Cases/";
     public final static String HEAD_API_COMMON = HEAD + "Common/";
@@ -66,7 +67,12 @@ public class AppKeyMap {
     public final static String CONTENT_OCT = "application/octet-stream";
 
     public final static String CUSTOMERID = "customerId";
-    public final static String CATE_ID = "caseId";
+    public final static String P_CATE_ID = "P_caseId";
+    public final static String E_CATE_ID = "E_caseId";
+    public final static String SPACE_ID="spaceId";
+    public final static String P_STYLE_ID="P_styleId";
+    public final static String E_STYLE_ID="E_styleId";
+    public final static String SIZE_ID="sizeId";
     public final static String PRO_KEYWORD = "keyword";
 
     //用户标识

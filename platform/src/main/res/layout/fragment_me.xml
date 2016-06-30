@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
-        android:paddingTop="@dimen/status_bar_size"
         >
 
       <LinearLayout
@@ -44,15 +43,14 @@
                        />
                     <TextView
                         android:id="@+id/tv_hx_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/tv_circle"
                         android:padding="2dp"
-                        android:textSize="10sp"
-                        android:text="dd"
+                        android:textSize="11sp"
                         android:gravity="center"
                         android:layout_gravity="right"
-                        android:visibility="visible"
+                        android:visibility="invisible"
                         />
                 </FrameLayout>
 
@@ -61,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/iv_setting">
                     <ImageView
+                        android:id="@+id/iv_msg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/icon_jp_msg"
@@ -68,11 +67,12 @@
                         />
                     <TextView
                         android:id="@+id/tv_jp_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/tv_circle"
                         android:padding="2dp"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
+                        android:gravity="center"
                         android:text="21"
                         android:layout_gravity="right"
                         android:visibility="invisible"
@@ -213,18 +213,20 @@
             android:layout_alignParentRight="true"
             android:background="@color/base_color_tv_bg"
             android:gravity="center"
-            android:layout_margin="10dp"
-            android:visibility="gone">
-            <ImageView
+            android:layout_margin="15dp"
+            android:visibility="visible">
+            <com.appbaba.platform.widget.IconImageView
                 android:id="@+id/iv_type"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:widthPx="33"
                 android:src="@mipmap/icon_designer"/>
             <TextView
                 android:id="@+id/tv_design_detail"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="10sp"
                 android:text="成为设计师"/>
         </LinearLayout>
 

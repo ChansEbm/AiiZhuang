@@ -60,7 +60,7 @@ public class FavouriteItemDetailFragment extends BaseFgm implements Toolbar.OnMe
     protected void initViews() {
 
         title = getArguments().getString("title");
-        id = getArguments().getString("id");
+        id = getArguments().getString("id","");
         height = MethodConfig.GetHeightFor16v9(MethodConfig.metrics.widthPixels);
         detailBinding = (FragmentFavouriteItemDetailBinding)viewDataBinding;
 

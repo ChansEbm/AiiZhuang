@@ -86,6 +86,7 @@ public class BaseApplication extends Application {
        // CrashReport.initCrashReport(getApplicationContext(), "900020359", true);
         MethodConfig.SetDispaly(this);
         MethodConfig.jpush_id = JPushInterface.getRegistrationID(getApplicationContext());
+        MethodConfig.ClearAllSelection();
     }
 
     private void initGalleryFinal() {

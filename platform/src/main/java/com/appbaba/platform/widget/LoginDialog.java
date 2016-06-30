@@ -223,7 +223,7 @@ public class LoginDialog implements View.OnClickListener,OkHttpResponseListener{
                 passwordBinding.tvTitle.setText(mobileBinding.edtMobile.getText().toString().trim());
                 loginBinding.viewSwitcher.showNext();
             }
-
+           // Toast.makeText(context,baseBean.getMsg(),Toast.LENGTH_LONG).show();
         }
     }
 

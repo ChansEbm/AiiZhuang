@@ -26,14 +26,21 @@
     android:orientation="vertical">
 
 
-        <ImageView
-            android:id="@+id/iv_banner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@color/bg_gray"
-            android:layout_marginTop="15dp">
-        </ImageView>
+    <com.appbaba.iz.widget.NavViewPager
+        android:id="@+id/navViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@color/bg_gray"
+        android:layout_marginTop="15dp">
+
+    </com.appbaba.iz.widget.NavViewPager>
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_banner"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scaleType="fitXY"-->
+            <!--&gt;-->
+        <!--</ImageView>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,7 +1,12 @@
 package com.appbaba.platform.entity.User;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.text.TextUtils;
+
 import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.method.MethodConfig;
 
 import java.util.List;
 
@@ -27,10 +32,11 @@ public class MyInspirationBean extends BaseBean {
         this.my_inspiration = my_inspiration;
     }
 
-    public static class MyInspirationEntity {
+    public static class MyInspirationEntity extends BaseObservable{
         private String id;
         private String title;
         private String thumb;
+        private String image;
         private String status;
         private String status_color;
 
@@ -59,6 +65,9 @@ public class MyInspirationBean extends BaseBean {
         }
 
         public String getThumb() {
+            if(TextUtils.isEmpty(thumb)) {
+            return "";
+            }
             return AppKeyMap.BASEURL+thumb;
         }
 
@@ -66,6 +75,18 @@ public class MyInspirationBean extends BaseBean {
             this.thumb = thumb;
         }
 
+        public String getImage() {
+            if(TextUtils.isEmpty(image)) {
+                return "";
+            }
+            return AppKeyMap.BASEURL+image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        @Bindable
         public String getStatus() {
             return status;
         }

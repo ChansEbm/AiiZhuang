@@ -200,13 +200,13 @@ public class ShareDialogView implements PlatformActionListener,View.OnClickListe
             case R.id.linear_message:
                 shareParams = new ShortMessage.ShareParams();
                 shareParams.setAddress("");
-                if(TextUtils.isEmpty(imagePath)) {
-                    shareParams.setImageUrl(imageUrl);
-                }
-                else
-                {
-                    shareParams.setImagePath(imagePath);
-                }
+//                if(TextUtils.isEmpty(imagePath)) {
+//                    shareParams.setImageUrl(imageUrl);
+//                }
+//                else
+//                {
+//                    shareParams.setImagePath(imagePath);
+//                }
                 shareParams.setText(title+" "+url);
                 platform = ShareSDK.getPlatform(ShortMessage.NAME);
                 platform.setPlatformActionListener(this);

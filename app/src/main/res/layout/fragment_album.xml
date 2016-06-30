@@ -42,12 +42,29 @@
                     android:textColor="@color/color_text_dark"/>
             </RadioGroup>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right">
+                <ImageButton
+                    android:id="@+id/ibtn_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@mipmap/ic_search"
+                    />
             <ImageButton
-                android:id="@+id/ibtn_search"
+                android:id="@+id/ibtn_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:src="@mipmap/ic_search"/>
+                android:src="@mipmap/icon_list"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone"
+              />
+
+            </LinearLayout>
         </LinearLayout>
 
         <include layout="@layout/line"/>

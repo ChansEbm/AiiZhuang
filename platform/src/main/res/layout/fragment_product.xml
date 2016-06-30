@@ -7,7 +7,12 @@
         android:fitsSystemWindows="true"
         android:clipToPadding="true"
         android:background="@color/color_white"
-        android:paddingTop="@dimen/status_bar_size">
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
         <android.support.v4.widget.DrawerLayout
             android:id="@+id/drawerLayout"
             android:layout_width="match_parent"
@@ -66,6 +71,7 @@
                 android:layout_gravity="right"
                 android:background="@color/color_white"></FrameLayout>
         </android.support.v4.widget.DrawerLayout>
+        </LinearLayout>
 
     </FrameLayout>
 </layout>

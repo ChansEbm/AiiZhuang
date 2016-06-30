@@ -21,6 +21,7 @@ import com.appbaba.iz.entity.Favourite.FavouriteBean;
 import com.appbaba.iz.entity.Friends.FriendsClientBean;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.BinderOnItemClickListener;
+import com.appbaba.iz.impl.UpdateUIListener;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.method.SpaceItemDecoration;
 import com.appbaba.iz.tools.AppTools;

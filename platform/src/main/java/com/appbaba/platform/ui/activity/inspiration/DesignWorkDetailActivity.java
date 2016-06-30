@@ -86,6 +86,12 @@ public class DesignWorkDetailActivity extends BaseActivity implements SlowViewPa
     }
 
     @Override
+    public void onBackPressed() {
+        imFragment.DelFragment();
+        super.onBackPressed();
+    }
+
+    @Override
     protected int getContentView() {
         return R.layout.activity_design_work_detail;
     }
@@ -137,13 +143,13 @@ public class DesignWorkDetailActivity extends BaseActivity implements SlowViewPa
 
         @Override
         public int getCount() {
-            return 2;
+            return MethodConfig.IsLogin() ? 2 : 1;
         }
     }
 
     @Override
     public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
-        Toast.makeText(this,baseBean.getMsg(),Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,baseBean.getMsg(),Toast.LENGTH_LONG).show();
         if(baseBean.getErrorcode()==0)
         {
             if(paramsCode==NetworkParams.CUPCAKE) {

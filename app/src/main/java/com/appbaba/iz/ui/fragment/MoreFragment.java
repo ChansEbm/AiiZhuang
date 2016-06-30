@@ -205,6 +205,8 @@ public class MoreFragment extends BaseFgm{
                 if(MethodConfig.localUser!=null)
                 {
                     networkModel.HomeMoreLogout(MethodConfig.localUser.getAuth(),MethodConfig.jpush_id, NetworkParams.LOGOUT);
+                    MethodConfig.localUser = null;
+                    AppTools.putStringSharedPreferences("password","");
                 }
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 ((Activity)getContext()).finish();

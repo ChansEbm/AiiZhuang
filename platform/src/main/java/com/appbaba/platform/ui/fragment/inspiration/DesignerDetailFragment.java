@@ -57,7 +57,7 @@ public class DesignerDetailFragment extends BaseFragment implements BinderOnItem
 
     @Override
     protected void InitData() {
-        height = MethodConfig.GetHeight(MethodConfig.metrics.widthPixels,4,3);
+        height = MethodConfig.GetHeight(MethodConfig.metrics.widthPixels,5,3);
 
         list = new ArrayList<>();
         adapter = new CommonBinderAdapter<InspirationEntity>(getContext(),R.layout.item_inspiration_view,list) {
@@ -66,8 +66,8 @@ public class DesignerDetailFragment extends BaseFragment implements BinderOnItem
                 ItemInspirationBinding itemInspirationBinding = (ItemInspirationBinding)viewDataBinding;
                 itemInspirationBinding.setItem(inspirationEntity);
                 itemInspirationBinding.ivItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
-                if(!TextUtils.isEmpty(inspirationEntity.getThumb()))
-                    Picasso.with(getContext()).load(inspirationEntity.getThumb()).into(itemInspirationBinding.ivItem);
+                if(!TextUtils.isEmpty(inspirationEntity.getImage()))
+                    Picasso.with(getContext()).load(inspirationEntity.getImage()).resize(MethodConfig.metrics.widthPixels,height).into(itemInspirationBinding.ivItem);
             }
         };
         recyclerView.setAdapter(adapter);

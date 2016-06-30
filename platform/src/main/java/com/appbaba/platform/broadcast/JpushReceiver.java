@@ -11,11 +11,23 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.R;
+import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.tools.AppTools;
+import com.appbaba.platform.tools.LogTools;
 import com.appbaba.platform.ui.activity.IndexActivity;
+import com.appbaba.platform.ui.activity.comm.CommWebActivity;
+import com.appbaba.platform.ui.activity.inspiration.InspirationDetailActivity;
+import com.appbaba.platform.ui.activity.products.ProductWebDetailActivity;
+import com.appbaba.platform.ui.activity.user.MessageDetailActivity;
+import com.github.pwittchen.prefser.library.JsonConverter;
 import com.github.pwittchen.prefser.library.Prefser;
+import com.google.gson.Gson;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -27,15 +39,15 @@ public class JpushReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        if (intent.getAction().equals("cn.jpush.android.intent.REGISTRATION")) {
+        if (intent.getAction().equals(JPushInterface.ACTION_REGISTRATION_ID)) {
             Prefser prefser = new Prefser(AppTools.getSharePreferences());
             final String extraRegistrationId = bundle.getString(JPushInterface
                     .EXTRA_REGISTRATION_ID, "");
-//            LogTools.i("receiver:" + extraRegistrationId);
+            LogTools.i("receiver:" + extraRegistrationId);
             if (!TextUtils.isEmpty(extraRegistrationId)) {
                 prefser.put("registrationId", extraRegistrationId);
             }
-        } else if (intent.getAction().equals("cn.jpush.android.intent.MESSAGE_RECEIVED")) {
+        } else if (intent.getAction().equals(JPushInterface.ACTION_MESSAGE_RECEIVED)) {
             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.setAutoCancel(true);
@@ -55,13 +67,29 @@ public class JpushReceiver extends BroadcastReceiver {
             String msg = bundle1.getString(JPushInterface.EXTRA_MESSAGE, "");
             builder.setTicker(title).setContentTitle(title).setContentText(msg);
             managerCompat.notify(1, builder.build());
+
+        }
+        else if(JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction()))
+        {
+            AppTools.sendBroadcast(null, AppKeyMap.MESSAGE_UN_READ);
+            Bundle bundle1 = intent.getExtras();
+            String msg = bundle1.getString(JPushInterface.EXTRA_ALERT);
+            String action = bundle1.getString(JPushInterface.EXTRA_EXTRA);
+            Gson gson = new Gson();
+            BaseBean baseBean = gson.fromJson(action, BaseBean.class);
+            String turn_to = baseBean.getTurn_to();
+            if(!TextUtils.isEmpty(turn_to) && turn_to.equals("force_logout"))
+            {
+                Toast.makeText(context,msg,Toast.LENGTH_LONG).show();
+                MethodConfig.LogOut();
+            }
         }
         else if(JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction()))
         {
             //点击打开通知
-            Bundle bundle1 = intent.getExtras();
+              Bundle bundle1 = intent.getExtras();
 //            LogTools.e(JPushInterface.EXTRA_EXTRA);
-//           LogTools.e(JPushInterface.EXTRA_MESSAGE+"  "+bundle1.getString(JPushInterface.EXTRA_MESSAGE));
+//            LogTools.e(JPushInterface.EXTRA_MESSAGE+"  "+bundle1.getString(JPushInterface.EXTRA_MESSAGE));
 //            LogTools.e(JPushInterface.EXTRA_TITLE+"  "+bundle1.getString(JPushInterface.EXTRA_TITLE));
 //            LogTools.e(JPushInterface.EXTRA_ALERT+"  "+bundle1.getString(JPushInterface.EXTRA_ALERT));
 //            LogTools.e(JPushInterface.EXTRA_NOTIFICATION_TITLE+"  "+bundle1.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
@@ -69,17 +97,47 @@ public class JpushReceiver extends BroadcastReceiver {
 //            LogTools.e(JPushInterface.EXTRA_APP_KEY+"  "+bundle1.getString(JPushInterface.EXTRA_APP_KEY));
 
             String msg = bundle1.getString(JPushInterface.EXTRA_ALERT);
-            int index = msg.indexOf("链接：");
-            if(index>0)
+
+            String action = bundle1.getString(JPushInterface.EXTRA_EXTRA);
+            Gson gson = new Gson();
+            BaseBean baseBean = gson.fromJson(action, BaseBean.class);
+            String jumpTo = baseBean.getJump_to();
+            if(jumpTo!=null && jumpTo.equals("app"))
             {
-                String urlString = msg.substring(index+"链接：".length());
-                if(!TextUtils.isEmpty(urlString)) {
-                    String productID = Uri.parse(urlString).getQueryParameter("product_id");
-                    String cases_id = Uri.parse(urlString).getQueryParameter("cases_id");
-
+                String which = baseBean.getTurn_to();
+                String id = baseBean.getId();
+                if(which.equals("inspiration"))
+                {
+                    Intent intent1 = new Intent(context,InspirationDetailActivity.class);
+                    intent1.putExtra("id",id);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent1);
                 }
-
+                else if(which.equals("notification"))
+                {
+                    Intent intent1 = new Intent(context,MessageDetailActivity.class);
+                    intent1.putExtra("id",id);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent1);
+                }
+                else if(which.equals("commodity"))
+                {
+                    Intent intent1 = new Intent(context,ProductWebDetailActivity.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent1.putExtra("id",id);
+                    context.startActivity(intent1);
+                }
             }
+            else
+            {
+                Intent intent1 = new Intent(context,CommWebActivity.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent1.putExtra("url",baseBean.getTurn_to());
+                context.startActivity(intent1);
+            }
+
+//            else if()
+
         }
     }
 

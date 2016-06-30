@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data class=".ItemMessageListBinding">
+        <variable
+            name="item"
+            type="com.appbaba.platform.entity.User.MessageListBean.PushInformationEntity"></variable>
+    </data>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@color/color_white">
+    <TextView
+        android:id="@+id/tv_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
+        android:padding="5dp"
+        android:layout_toLeftOf="@+id/iv_1"
+        android:text="@{item.title}"/>
+    <TextView
+        android:id="@+id/tv_item_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_title"
+        android:paddingLeft="5dp"
+        android:text="@{item.addtime}"/>
+    <TextView
+        android:id="@+id/tv_circle"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/circle"
+        android:visibility="invisible"
+        />
+    <ImageView
+        android:id="@+id/iv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_more_arrow_black_right"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>
+</layout>

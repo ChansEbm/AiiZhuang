@@ -78,7 +78,7 @@
         <item name="atg_dashBorderColor">#AAAAAA</item>
         <item name="atg_inputHintColor">#80000000</item>
         <item name="atg_inputTextColor">#DE000000</item>
-        <item name="atg_checkedBorderColor">#000000</item>
+        <item name="atg_checkedBorderColor">#969696</item>
         <item name="atg_checkedTextColor">#FFFFFF</item>
         <item name="atg_checkedMarkerColor">#FFFFFF</item>
         <item name="atg_checkedBackgroundColor">#969696</item>

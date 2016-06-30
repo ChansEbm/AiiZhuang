@@ -78,8 +78,9 @@ public abstract class BaseAty<E extends BaseBean, T> extends AppCompatActivity i
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         //初始化ShareSDK
         ShareSDK.initSDK(this);
-
     }
+
+    public void InitAnimation(){}
 
     @Override
     protected void onStart() {

@@ -2,6 +2,7 @@ package com.appbaba.platform.ui.activity.products;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -13,10 +14,12 @@ import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.R;
 import com.appbaba.platform.base.BaseActivity;
 import com.appbaba.platform.entity.Base.BaseBean;
+import com.appbaba.platform.entity.product.ProductDetailBean;
 import com.appbaba.platform.eum.NetworkParams;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.ui.activity.comm.CommWebActivity;
 import com.appbaba.platform.widget.DialogView.ShareDialogView;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by ruby on 2016/6/12.
@@ -25,6 +28,7 @@ public class ProductWebDetailActivity extends BaseActivity {
 
     private ActivityProductWebDetailBinding binding;
     private WebView webView;
+    private ProductDetailBean detailBean;
 
     private String productID,buyUrl,title,desc,image,url;
 
@@ -47,16 +51,13 @@ public class ProductWebDetailActivity extends BaseActivity {
     @Override
     protected void InitData() {
         productID = getIntent().getStringExtra("id");
-        buyUrl = getIntent().getStringExtra("url");
-        title = getIntent().getStringExtra("title");
-        desc = getIntent().getStringExtra("desc");
-        image = getIntent().getStringExtra("image");
         url = AppKeyMap.HEAD_API_PAGE_PRODUCT+productID;
         webView.loadUrl(url);
         if(MethodConfig.IsLogin())
         {
             networkModel.GetCheckCollect(MethodConfig.userInfo.getToken(),productID,NetworkParams.DONUT);
         }
+        networkModel.ProductDetail(productID,NetworkParams.FROYO);
     }
 
     @Override
@@ -99,6 +100,7 @@ public class ProductWebDetailActivity extends BaseActivity {
                }
                else {
                    Intent intent = new Intent(this, CommWebActivity.class);
+                   Log.e("hide","哈哈，购买链接！！！"+buyUrl);
                    intent.putExtra("url", buyUrl);
                    startActivity(intent);
                }
@@ -122,24 +124,28 @@ public class ProductWebDetailActivity extends BaseActivity {
 
     @Override
     public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
-        if(baseBean.getErrorcode()==0)
-        {
-            if(paramsCode==NetworkParams.CUPCAKE)
-            {
-                networkModel.GetCheckCollect(MethodConfig.userInfo.getToken(),productID,NetworkParams.DONUT);
-            }
-            else if(paramsCode==NetworkParams.DONUT)
-            {
+        if(baseBean.getErrorcode()==0) {
+            if (paramsCode == NetworkParams.CUPCAKE) {
+                Toast.makeText(this,"操作成功",Toast.LENGTH_LONG).show();
+                networkModel.GetCheckCollect(MethodConfig.userInfo.getToken(), productID, NetworkParams.DONUT);
+            } else if (paramsCode == NetworkParams.DONUT) {
                 int status = baseBean.getStatus();
-                if(status==1)
-                {
+                if (status == 1) {
                     binding.ivHeart.setImageResource(R.mipmap.icon_collection_y_r);
-                }
-                else
-                {
+                } else {
                     binding.ivHeart.setImageResource(R.mipmap.icon_collection_y_n);
                 }
+            } else if (paramsCode == NetworkParams.FROYO)
+            {
+                detailBean = (ProductDetailBean)baseBean;
+                buyUrl = detailBean.getGoods().getBuy_link();
+                title = detailBean.getGoods().getTitle();
+                desc = detailBean.getGoods().getDesc();
+                image = detailBean.getGoods().getThumb();
             }
         }
     }
+
+
+
 }

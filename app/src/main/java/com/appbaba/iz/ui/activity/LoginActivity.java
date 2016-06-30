@@ -1,6 +1,7 @@
 package com.appbaba.iz.ui.activity;
 
 import android.content.Intent;
+import android.hardware.usb.UsbRequest;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -59,7 +60,7 @@ public class LoginActivity extends BaseAty {
         edt_password.setText(password);
         if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password))
         {
-            btn_login.performClick();
+            networkModel.Login(username, password, MethodConfig.jpush_id, NetworkParams.LOGIN);
         }
     }
 
@@ -93,8 +94,15 @@ public class LoginActivity extends BaseAty {
                  AppTools.putStringSharedPreferences(AppKeyMap.AUTH,"");
                  MethodConfig.localUser = null;
                  new Prefser(AppTools.getSharePreferences()).put(AppKeyMap.CUSTOMERID, "");
-                 AppTools.putStringSharedPreferences(AppKeyMap.CATE_ID,"");
-                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                 MethodConfig.ClearAllSelection();
+
+                 Intent intent =new Intent(getApplicationContext(),HomeActivity.class);
+
+                 startActivity(intent);
+                 if(MethodConfig.mainActivity!=null)
+                 {
+                     MethodConfig.mainActivity.finish();
+                 }
                  finish();
                  break;
              case R.id.tv_forget:
@@ -116,8 +124,8 @@ public class LoginActivity extends BaseAty {
             {
                 AppTools.putStringSharedPreferences(AppKeyMap.AUTH,bean.getAuth());
                 MethodConfig.localUser = bean;
-               new Prefser(AppTools.getSharePreferences()).put(AppKeyMap.CUSTOMERID, "");
-                AppTools.putStringSharedPreferences(AppKeyMap.CATE_ID,"");
+                new Prefser(AppTools.getSharePreferences()).put(AppKeyMap.CUSTOMERID, "");
+                MethodConfig.ClearAllSelection();
                 AppTools.putStringSharedPreferences("username",edt_mobile.getText().toString());
                 AppTools.putStringSharedPreferences("password",edt_password.getText().toString());
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));

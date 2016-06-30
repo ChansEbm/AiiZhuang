@@ -125,6 +125,7 @@ public class OkHttpUtil<T> implements Callback {
                 switch (type) {
                     case JSON_OBJECT:
                         try {
+                            LogTools.w(jsonStr);
                             T t = new Gson().fromJson(jsonStr, clz);
                             msg.obj = t;
                             msg.what = OBJECT;

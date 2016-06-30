@@ -26,7 +26,7 @@ public class CommZoomActivity extends BaseActivity {
         binding = (ActivityZoomBinding)viewDataBinding;
 
 
-        binding.includeTopTitle.toolBar.setBackgroundColor(Color.WHITE);
+        binding.includeTopTitle.toolBar.setBackgroundColor(Color.BLACK);
         binding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.icon_back);
         binding.includeTopTitle.title.setTextColor(Color.BLACK);
         photoView = new PhotoView(this);

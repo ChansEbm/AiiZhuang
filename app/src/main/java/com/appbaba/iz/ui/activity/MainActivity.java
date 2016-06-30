@@ -14,6 +14,7 @@ import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.base.BaseFgm;
 import com.appbaba.iz.impl.UpdateClickCallback;
+import com.appbaba.iz.impl.UpdateUIListener;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.ui.fragment.AlbumFragment;
@@ -40,6 +41,7 @@ public class MainActivity extends BaseAty {
 
     @Override
     protected void initViews() {
+        MethodConfig.mainActivity = this;
         mainBinding = (ActivityMainBinding)viewDataBinding;
         linear_home = mainBinding.linearHome;
         linear_ablum = mainBinding.linearAblum;
@@ -151,18 +153,50 @@ public class MainActivity extends BaseAty {
         {
             homeFragment = new HomeFragment();
             homeFragment.callback = new UpdateClickCallback() {
+
                 @Override
-                public void Update(String id) {
+                public void Update(String caseId, String spaceId, String sizeId, String styleId) {
                     if(ablumFragment==null)
                     {
-                        AppTools.putStringSharedPreferences(AppKeyMap.CATE_ID,id);
+                        if(sizeId.equals("m"))
+                        {
+                            AppTools.putStringSharedPreferences(AppKeyMap.E_CATE_ID, caseId);
+                            AppTools.putStringSharedPreferences(AppKeyMap.E_STYLE_ID,styleId);
+                        }
+                        else
+                        {
+                            AppTools.putStringSharedPreferences(AppKeyMap.P_CATE_ID, caseId);
+                            AppTools.putStringSharedPreferences(AppKeyMap.P_STYLE_ID,styleId);
+                        }
+                        AppTools.putStringSharedPreferences(AppKeyMap.SIZE_ID,sizeId);
+                        AppTools.putStringSharedPreferences(AppKeyMap.SPACE_ID,spaceId);
+
                     }
                     else {
                         Bundle bundle = new Bundle();
-                        bundle.putString(AppKeyMap.CATE_ID, id);
+                        if(sizeId.equals("m"))
+                        {
+                            bundle.putString(AppKeyMap.E_CATE_ID, caseId);
+                            bundle.putString(AppKeyMap.E_STYLE_ID, styleId);
+                        }
+                        else
+                        {
+                            bundle.putString(AppKeyMap.P_CATE_ID, caseId);
+                            bundle.putString(AppKeyMap.P_STYLE_ID, styleId);
+                        }
+                        bundle.putString(AppKeyMap.SIZE_ID, sizeId);
+                        bundle.putString(AppKeyMap.SPACE_ID, spaceId);
                         AppTools.sendBroadcast(bundle,AppKeyMap.CASE_ACTION);
                     }
                     linear_ablum.performClick();
+                }
+
+
+            };
+            homeFragment.uiListener = new UpdateUIListener() {
+                @Override
+                public void uiUpData(Intent intent) {
+                     linear_favourite.performClick();
                 }
             };
             ft.add(R.id.layout_contain, homeFragment);
@@ -198,6 +232,7 @@ public class MainActivity extends BaseAty {
         if(favouriteFragment==null)
         {
             favouriteFragment = new FavouriteFragment();
+
             ft.add(R.id.layout_contain,favouriteFragment);
         }
         if(baseFgm!=null)

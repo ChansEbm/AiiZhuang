@@ -1,6 +1,8 @@
 package com.appbaba.platform.ui.activity.comm;
 
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -21,12 +23,19 @@ public class CommWebActivity extends BaseActivity {
     protected void InitView() {
          binding = (ActivityCommWebViewBinding)viewDataBinding;
          webView = binding.webView;
-
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
+        webSettings.supportMultipleWindows();  //多窗口
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //存在链接统跳，暂时过滤处理
+                if(url.startsWith("tmall://"))
+                {
+                    return false;
+                }
                 view.loadUrl(url);
                 return true;
             }

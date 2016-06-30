@@ -49,6 +49,7 @@
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="right"
+            android:paddingTop="@dimen/status_bar_size"
             android:background="@color/color_white"></FrameLayout>
     </android.support.v4.widget.DrawerLayout>
 

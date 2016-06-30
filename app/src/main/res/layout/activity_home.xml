@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data class=".ActivityHomeBinding"></data>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.appbaba.iz.widget.NavViewPager
+        android:id="@+id/navViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/color_white">
+
+    </com.appbaba.iz.widget.NavViewPager>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_white"
+       >
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_circle_white"
+        android:text="登录"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:textColor="@color/color_text_gravy"
+        android:layout_margin="20dp"/>
+</FrameLayout>
+</layout>

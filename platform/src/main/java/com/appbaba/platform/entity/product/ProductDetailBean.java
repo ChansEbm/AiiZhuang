@@ -36,6 +36,8 @@ public class ProductDetailBean extends BaseBean {
         private String price;
         private String desc;
         private String content;
+        private String buy_link;
+        private String pv;
 
         public String getId() {
             return id;
@@ -91,6 +93,22 @@ public class ProductDetailBean extends BaseBean {
 
         public void setContent(String content) {
             this.content = content;
+        }
+
+        public String getBuy_link() {
+            return buy_link;
+        }
+
+        public void setBuy_link(String buy_link) {
+            this.buy_link = buy_link;
+        }
+
+        public String getPv() {
+            return pv;
+        }
+
+        public void setPv(String pv) {
+            this.pv = pv;
         }
     }
 }

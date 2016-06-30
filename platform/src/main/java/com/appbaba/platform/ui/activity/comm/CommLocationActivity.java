@@ -50,11 +50,14 @@ public class CommLocationActivity extends BaseActivity {
             public void convert(int position, ViewHolder holder, Object s) {
                 switch (which)
                 {
-                    case 0:
-                        holder.setText(R.id.tv_item_view,locationBean.getData().get(position).getName());
+                    case 0: {
+                        LocationBean.DataEntity dataEntity = (LocationBean.DataEntity)s;
+                        holder.setText(R.id.tv_item_view, dataEntity.getName());
                         break;
+                    }
                     case 1:
-                        holder.setText(R.id.tv_item_view,locationBean.getData().get(province).getCity().get(position).getName());
+                        LocationBean.DataEntity.CityEntity cityEntity = (LocationBean.DataEntity.CityEntity)s;
+                        holder.setText(R.id.tv_item_view,cityEntity.getName());
                         break;
                 }
             }

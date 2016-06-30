@@ -1,15 +1,14 @@
 package com.appbaba.iz.ui.activity;
 
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -18,14 +17,9 @@ import com.appbaba.iz.R;
 import com.appbaba.iz.base.BaseAty;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.tools.AppTools;
-import com.appbaba.iz.widget.NavViewPager;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -35,30 +29,32 @@ import cn.jpush.android.api.JPushInterface;
 public class IndexActivity extends BaseAty {
 
     private ActivityIndexBinding indexBinding;
-    private NavViewPager viewPager;
+    private ViewPager viewPager;
     private boolean isFirst = false;
-    private Handler handler;
+
     @Override
     protected void initViews() {
-        handler = new Handler();
         indexBinding = (ActivityIndexBinding)viewDataBinding;
-        viewPager = indexBinding.navViewpager;
+        viewPager = indexBinding.viewpager;
         String first = AppTools.getSharePreferences().getString("first","");
         if(TextUtils.isEmpty(first))
         {
+            indexBinding.linearIndex.setVisibility(View.GONE);
+            indexBinding.viewpager.setVisibility(View.VISIBLE);
             AppTools.putStringSharedPreferences("first","1");
         }
         else
         {
             isFirst = true;
-            start(LoginActivity.class);
-            finish();
+            indexBinding.linearIndex.setVisibility(View.VISIBLE);
+            indexBinding.viewpager.setVisibility(View.GONE);
         }
     }
     @Override
     protected void onResume() {
         super.onResume();
         JPushInterface.onResume(this);
+
     }
 
     @Override
@@ -67,73 +63,137 @@ public class IndexActivity extends BaseAty {
         JPushInterface.onPause(this);
     }
 
+    boolean isRun = false;
     @Override
     protected void initEvents() {
+
         if(isFirst)
         {
-            return;
+            CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    IndexActivity.this.start(HomeActivity.class);
+                    finish();
+                }
+            };
+            countDownTimer.start();
+            StartAnimation();
         }
-        final List<ImageView> list = new ArrayList<>();
-        for(int i=0;i<4;i++)
-        {
-            ImageView imageView = new ImageView(getBaseContext());
-            imageView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            switch (i)
-            {
-                case 0:
-                    imageView.setImageResource(R.mipmap.icon_index_first);
-                    break;
-                case 1:
-                    imageView.setImageResource(R.mipmap.icon_index_second);
-                    break;
-                case 2:
-                    imageView.setImageResource(R.mipmap.icon_index_third);
-                    break;
-                case 3:
-                    imageView.setImageResource(R.mipmap.icon_index_forth);
-                    break;
+        else {
+            final List<ImageView> list = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                ImageView imageView = new ImageView(getBaseContext());
+                imageView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                switch (i) {
+                    case 0:
+                        imageView.setImageResource(R.mipmap.icon_index_first);
+                        break;
+                    case 1:
+                        imageView.setImageResource(R.mipmap.icon_index_second);
+                        break;
+                    case 2:
+                        imageView.setImageResource(R.mipmap.icon_index_third);
+                        break;
+                    case 3:
+                        imageView.setImageResource(R.mipmap.icon_index_forth);
+                        break;
+                }
+
+                list.add(imageView);
+            }
+            viewPager.setAdapter(new PagerAdapter() {
+
+                @Override
+                public int getCount() {
+                    return list.size();
+                }
+
+                @Override
+                public boolean isViewFromObject(View view, Object object) {
+                    return view == object;
+                }
+
+                @Override
+                public Object instantiateItem(ViewGroup container, int position) {
+
+                    container.addView(list.get(position));
+
+                    return list.get(position);
+                }
+
+                @Override
+                public void destroyItem(ViewGroup container, int position, Object object) {
+                    container.removeView(list.get(position));
+                }
+            });
+
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (position == list.size() - 1) {
+                        CountDownTimer countDownTimer = new CountDownTimer(2000, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                IndexActivity.this.start(HomeActivity.class);
+                                finish();
+                            }
+                        };
+                        countDownTimer.start();
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+
+    }
+
+    TranslateAnimation translateAnimation;
+    public void StartAnimation()
+    {
+         translateAnimation = new TranslateAnimation(0,0,500,0);
+        translateAnimation.setDuration(2000);
+        translateAnimation.setInterpolator(new LinearInterpolator());
+        translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                indexBinding.ivIndexBottom.setVisibility(View.VISIBLE);
             }
 
-            list.add(imageView);
-        }
-         viewPager.SetAdapter(new PagerAdapter() {
-
-             @Override
-             public int getCount() {
-                 return list.size();
-             }
-
-             @Override
-             public boolean isViewFromObject(View view, Object object) {
-                 return view==object;
-             }
-
-             @Override
-             public Object instantiateItem(ViewGroup container, int position) {
-
-                 container.addView(list.get(position));
-
-                 return list.get(position);
-             }
-
-             @Override
-             public void destroyItem(ViewGroup container, int position, Object object) {
-                 container.removeView(list.get(position));
-             }
-         });
-        viewPager.setCallAction(new NavViewPager.CallAction() {
             @Override
-            public void OnEnd() {
-                start(LoginActivity.class);
-                finish();
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
             }
         });
-        viewPager.SetPointViewStyle(NavViewPager.PointsView.POINT_STYLE_CIRCLE,Color.TRANSPARENT,Color.TRANSPARENT,Color.TRANSPARENT,0);
-        viewPager.AutoScroll(1500);
-//        ImageView img;
-//        img.setImageURI(Uri.);
+
+        indexBinding.ivIndexBottom.setAnimation(translateAnimation);
+        translateAnimation.startNow();
     }
+
 
     @Override
     protected int getContentView() {

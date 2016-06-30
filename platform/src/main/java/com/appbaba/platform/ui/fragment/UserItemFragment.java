@@ -5,8 +5,10 @@ import android.databinding.ViewDataBinding;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.appbaba.platform.FragmentUserItemBinding;
 import com.appbaba.platform.ItemCollectionBinding;
@@ -28,6 +30,7 @@ import com.appbaba.platform.method.SpaceItemDecoration;
 import com.appbaba.platform.ui.activity.inspiration.DesignWorkDetailActivity;
 import com.appbaba.platform.ui.activity.inspiration.InspirationDetailActivity;
 import com.appbaba.platform.ui.activity.products.ProductWebDetailActivity;
+import com.baidu.mapapi.map.Text;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -108,40 +111,27 @@ public class UserItemFragment extends BaseFragment implements BinderOnItemClickL
             public void onBind(ViewDataBinding viewDataBinding, CommonBinderHolder holder, int position, BaseItemBean o) {
                 ItemUserCollectionBinding collectionBinding = (ItemUserCollectionBinding)viewDataBinding;
                 collectionBinding.setItem(o);
-//                if(index==2)
-//                {
+                collectionBinding.tvItemStatus.setVisibility(View.GONE);
+                if(index==2)
+                {
                     collectionBinding.tvItemTitle.setText(o.getName());
-                    collectionBinding.tvItemStatus.setVisibility(View.GONE);
-                    Picasso.with(getContext()).load(o.getPicture_thumb()).into(collectionBinding.ivItem);
-//                }
-//                else {
-//                    collectionBinding.tvItemTitle.setText(o.getTitle());
-//                    if(index==1)
-//                    {
-//                        collectionBinding.tvItemStatus.setVisibility(View.GONE);
-//                    }
-//                    else
-//                    {
-//                        if(o.getStatus().equals("1"))
-//                        {
-//                            collectionBinding.tvItemStatus.setText("审核通过");
-//                            collectionBinding.tvItemStatus.setBackgroundResource(R.color.base_color_tv_bg);
-//                        }
-//                        else
-//                        {
-//                            collectionBinding.tvItemStatus.setText("审核中");
-//                            collectionBinding.tvItemStatus.setBackgroundResource(R.color.color_text_gravy);
-//                        }
-//
-//                    }
-//                    Picasso.with(getContext()).load(o.getThumb()).into(collectionBinding.ivItem);
-//                }
+                    String image = TextUtils.isEmpty(o.getPicture()) ? o.getPicture_thumb() :o.getPicture();
+                    Picasso.with(getContext()).load(image).resize(500,500).into(collectionBinding.ivItem);
+                }
+                else {
+                    collectionBinding.tvItemTitle.setText(o.getTitle());
+                    if(!TextUtils.isEmpty(o.getImage()))
+                    Picasso.with(getContext()).load(o.getImage()).resize(500,500).into(collectionBinding.ivItem);
+                }
 
             }
         };
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new SpaceItemDecoration(2));
         recyclerView.setAdapter(adapter);
+        if(MethodConfig.IsLogin())
+        {
+            GetData();
+        }
     }
 
     @Override
@@ -164,11 +154,13 @@ public class UserItemFragment extends BaseFragment implements BinderOnItemClickL
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if(newState==1)
                 {
+                    if(callBack!=null)
                     callBack.StartAnimation();
                     scrollEnd=recyclerView.computeVerticalScrollOffset();
                 }
                 else if(newState==0)
                 {
+                    if(callBack!=null)
                     callBack.EndAnimation();
                     if( scrollEnd == recyclerView.computeVerticalScrollOffset() && MethodConfig.IsLogin())
                     {
@@ -268,8 +260,15 @@ public class UserItemFragment extends BaseFragment implements BinderOnItemClickL
         else
         {
             Intent intent = new Intent(getContext(),DesignWorkDetailActivity.class);
-            intent.putExtra("designerID",list.get(pos).getSubscribe_id());
-            startActivity(intent);
+            String id = TextUtils.isEmpty(list.get(pos).getSubscribe_id()) ? list.get(pos).getId() : list.get(pos).getSubscribe_id();
+            if(TextUtils.isEmpty(id))
+            {
+                Toast.makeText(getContext(),"ID 异常",Toast.LENGTH_LONG).show();
+            }
+            else {
+                intent.putExtra("designerID", id);
+                startActivity(intent);
+            }
         }
     }
 

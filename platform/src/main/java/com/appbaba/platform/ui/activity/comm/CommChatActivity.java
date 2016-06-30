@@ -1,18 +1,23 @@
 package com.appbaba.platform.ui.activity.comm;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 
+import com.appbaba.platform.AppKeyMap;
 import com.appbaba.platform.R;
 import com.appbaba.platform.base.BaseActivity;
+import com.appbaba.platform.broadcast.UpdateUIBroadcast;
 import com.appbaba.platform.databinding.ActivityChatBinding;
+import com.appbaba.platform.impl.UpdateUIListener;
 import com.appbaba.platform.ui.fragment.comm.CommChatFragment;
 import com.appbaba.platform.widget.ChangeValueDialog;
 
 /**
  * Created by ruby on 2016/6/20.
  */
-public class CommChatActivity extends BaseActivity {
+public class CommChatActivity extends BaseActivity{
 
     private ActivityChatBinding binding;
     private CommChatFragment chatFragment;
@@ -46,9 +51,25 @@ public class CommChatActivity extends BaseActivity {
         binding.includeTopTitle.toolBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                chatFragment.DelFragment();
+                getSupportFragmentManager().beginTransaction().remove(chatFragment);
+                chatFragment = null;
+                Log.e("fragment","del fragment");
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        boolean isBack = chatFragment.Back();
+        if(isBack) {
+            chatFragment.DelFragment();
+            getSupportFragmentManager().beginTransaction().remove(chatFragment);
+            chatFragment = null;
+            Log.e("fragment","del fragment");
+            finish();
+        }
     }
 
     @Override
@@ -65,4 +86,5 @@ public class CommChatActivity extends BaseActivity {
     protected int getContentView() {
         return R.layout.activity_comm_chat;
     }
+
 }

@@ -32,6 +32,7 @@ import com.appbaba.platform.ui.activity.comm.CommWebActivity;
 import com.appbaba.platform.widget.ChangeValueDialog;
 import com.appbaba.platform.widget.LoginDialog;
 import com.appbaba.platform.widget.PopupWindow.TakePhotoPopupWindow;
+import com.hyphenate.chat.EMClient;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -60,7 +61,7 @@ public class UserSettingActivity extends BaseActivity {
     @Override
     protected void InitView() {
         binding = (ActivityUserSettingBinding)viewDataBinding;
-        binding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.icon_back);
+        binding.includeTopTitle.toolBar.setNavigationIcon(R.mipmap.ic_back_dark);
         binding.includeTopTitle.title.setText(R.string.activity_me_setting_top_title);
         binding.includeTopTitle.title.setTextColor(Color.BLACK);
 
@@ -73,13 +74,16 @@ public class UserSettingActivity extends BaseActivity {
         {
             binding.linearLogin.setVisibility(View.GONE);
             binding.tvUpload.setText("登录");
+            binding.tvUpload.setBackgroundResource(R.color.bg_color_dark);
         }
         else {
             if(!TextUtils.isEmpty(MethodConfig.userInfo.getImgUrl()))
                 binding.dvHead.setImageURI(Uri.parse(MethodConfig.userInfo.getImgUrl()));
             binding.linearLogin.setVisibility(View.VISIBLE);
-            binding.tvUpload.setText("登出当前账号");
+            binding.tvUpload.setText("注销当前账号");
+            binding.tvUpload.setBackgroundColor(Color.parseColor("#f74c31"));
         }
+        binding.tvVersion.setText(MethodConfig.getVersion());
         handler = new Handler();
         dialog = new LoadingDialog(this);
         cacheFile = new File(this.getCacheDir().getPath()+File.separator+"picasso-cache");
@@ -195,6 +199,7 @@ public class UserSettingActivity extends BaseActivity {
                 else {
                     AppTools.putStringSharedPreferences("password","");
                     networkModel.LogOut(MethodConfig.userInfo.getToken(),NetworkParams.CUPCAKE);
+                    EMClient.getInstance().logout(true);
                 }
             }
                 break;

@@ -7,6 +7,8 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -34,6 +36,7 @@ import com.appbaba.iz.entity.main.album.CasesAttrSelection;
 import com.appbaba.iz.eum.NetworkParams;
 import com.appbaba.iz.impl.BinderOnItemClickListener;
 import com.appbaba.iz.impl.UpdateClickCallback;
+import com.appbaba.iz.impl.UpdateUIListener;
 import com.appbaba.iz.method.MethodConfig;
 import com.appbaba.iz.method.SpaceItemDecoration;
 import com.appbaba.iz.tools.AppTools;
@@ -41,6 +44,7 @@ import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.LoginActivity;
 import com.appbaba.iz.ui.activity.TransferActivity;
 import com.appbaba.iz.ui.activity.album.ProductActivity;
+import com.appbaba.iz.widget.NavViewPager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -52,10 +56,14 @@ import java.util.List;
 public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
     private FragmentHomeBinding homeBinding;
     private  RelativeLayout relate_1,relate_2,relate_3,relate_4,relate_5;
-    private  ImageView iv_banner,iv_menu;
+    private  ImageView iv_menu;
+//    iv_banner
+    private NavViewPager navViewPager;
     private RecyclerView recyclerView;
     private  PopupWindow window;
+    private List<ImageView> imageList = new ArrayList<>();
     private ScrollView scrollview;
+    private ImageAdapter imageAdapter;
 
 
 
@@ -63,14 +71,16 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
     private  List<HomeBean.SubjectListEntity> list;
     private  int height ;// 15 : 8 高度
     public UpdateClickCallback callback;
+    public UpdateUIListener uiListener;
 
     @Override
     protected void initViews() {
        homeBinding = (FragmentHomeBinding)viewDataBinding;
-        iv_banner = homeBinding.ivBanner;
+//        iv_banner = homeBinding.ivBanner;
         iv_menu = homeBinding.includeTopTitle.ivMenu;
         recyclerView = homeBinding.recycler;
         scrollview = homeBinding.scrollView;
+        navViewPager = homeBinding.navViewPager;
 
         relate_1 = homeBinding.relate1;
         relate_2 = homeBinding.relate2;
@@ -78,11 +88,11 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
         relate_4 = homeBinding.relate4;
         relate_5 = homeBinding.relate5;
 
-        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams)iv_banner.getLayoutParams();
+        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams)navViewPager.getLayoutParams();
         params1.width = MethodConfig.metrics.widthPixels;
         params1.height = MethodConfig.GetHeightFor16v9(params1.width);
         height = MethodConfig.GetHeightFor4v3(params1.width);
-        iv_banner.setLayoutParams(params1);
+        navViewPager.setLayoutParams(params1);
 
         int m = MethodConfig.dip2px(getContext(),8);
         LinearLayout.LayoutParams p2 = ( LinearLayout.LayoutParams)relate_2.getLayoutParams();
@@ -150,7 +160,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
         relate_3.setOnClickListener(this);
         relate_4.setOnClickListener(this);
         relate_5.setOnClickListener(this);
-        iv_banner.setOnClickListener(this);
+//        iv_banner.setOnClickListener(this);
     }
 
     @Override
@@ -245,17 +255,17 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
                 }
             }
                 break;
-            case R.id.iv_banner: {
-                Intent intent = new Intent(getContext(), TransferActivity.class);
-                intent.putExtra("fragment", 14);
-                intent.putExtra("title", getString(R.string.popup_pinpaijieshao));
-                intent.putExtra("which", 1);
-                if (MethodConfig.localUser != null) {
-                    intent.putExtra("value", MethodConfig.localUser.getInfo().getSeller_id());
-                }
-                startActivity(intent);
-            }
-                break;
+//            case R.id.iv_banner: {
+//                Intent intent = new Intent(getContext(), TransferActivity.class);
+//                intent.putExtra("fragment", 14);
+//                intent.putExtra("title", getString(R.string.popup_pinpaijieshao));
+//                intent.putExtra("which", 1);
+//                if (MethodConfig.localUser != null) {
+//                    intent.putExtra("value", MethodConfig.localUser.getInfo().getSeller_id());
+//                }
+//                startActivity(intent);
+//            }
+//                break;
             case R.id.relate_1:
 
             case R.id.relate_2:
@@ -265,10 +275,7 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
             case R.id.relate_4:
 
             case R.id.relate_5: {
-                if(callback!=null)
-                {
-                    callback.Update((String) view.getTag());
-                }
+                HandleClickAction((HomeBean.CateListEntity)view.getTag());
             }
                 break;
 
@@ -311,6 +318,19 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
                 break;
         }
     }
+    public void InitNav()
+    {
+        navViewPager.InitView();
+        navViewPager.SetPointViewStyle(NavViewPager.PointsView.POINT_STYLE_CIRCLE, ContextCompat.getColor(getContext(),R.color.half_white),
+                ContextCompat.getColor(getContext(),R.color.application_base_color),ContextCompat.getColor(getContext(),R.color.white),20);
+        navViewPager.SetDistance(20);
+        navViewPager.IsCircleBound(20);
+        imageAdapter = new ImageAdapter();
+        navViewPager.SetAdapter(imageAdapter);
+        //navViewPager.notifyDataChange();
+        if(imageList.size()>1)
+        navViewPager.AutoScrollNoCancel(2000);
+    }
 
     @Override
     public void onJsonObjectSuccess(Object t, NetworkParams paramsCode) {
@@ -320,7 +340,26 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
             if(bean.getErrorcode()==0)
             {
                 MethodConfig.sellerInfoEntity= bean.getSeller_info();
-                Picasso.with(getContext()).load(bean.getSeller_info().getBanner()).into(iv_banner);
+                for(int i=0;i< bean.getSeller_info().getBanner().size();i++) {
+                    final String url = bean.getSeller_info().getBanner().get(i).getUrl();
+                    ImageView imageView = new ImageView(getContext());
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getContext(), TransferActivity.class);
+                            intent.putExtra("fragment", 14);
+                            intent.putExtra("title","");
+                            intent.putExtra("which",-1);
+                            intent.putExtra("value",url);
+
+                            startActivity(intent);
+                        }
+                    });
+                    imageList.add(imageView);
+                    Picasso.with(getContext()).load(bean.getSeller_info().getBanner().get(i).getImg()).into(imageView);
+                }
+                InitNav();
                 Picasso.with(getContext()).load(bean.getSeller_info().getLogo()).into(homeBinding.includeTopTitle.ivLogo);
 
                 list.clear();
@@ -336,35 +375,35 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
                            homeBinding.tvTitle1Cn.setText(entity.getTitle());
                            homeBinding.tvTitle1En.setText(entity.getEn_title());
                            homeBinding.tvDetail1.setText(entity.getDesc());
-                           homeBinding.relate1.setTag(entity.getCate_id());
+                           homeBinding.relate1.setTag(entity);
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem1);
                            break;
                        case "2":
                            homeBinding.tvTitle2Cn.setText(entity.getTitle());
                            homeBinding.tvTitle2En.setText(entity.getEn_title());
                            homeBinding.tvDetail2.setText(entity.getDesc());
-                           homeBinding.relate2.setTag(entity.getCate_id());
+                           homeBinding.relate2.setTag(entity);
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem2);
                            break;
                        case "3":
                            homeBinding.tvTitle3Cn.setText(entity.getTitle());
                            homeBinding.tvTitle3En.setText(entity.getEn_title());
                            homeBinding.tvDetail3.setText(entity.getDesc());
-                           homeBinding.relate3.setTag(entity.getCate_id());
+                           homeBinding.relate3.setTag(entity);
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem3);
                            break;
                        case "4":
                            homeBinding.tvTitle4Cn.setText(entity.getTitle());
                            homeBinding.tvTitle4En.setText(entity.getEn_title());
                            homeBinding.tvDetail4.setText(entity.getDesc());
-                           homeBinding.relate4.setTag(entity.getCate_id());
+                           homeBinding.relate4.setTag(entity);
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem4);
                            break;
                        case "5":
                            homeBinding.tvTitle5Cn.setText(entity.getTitle());
                            homeBinding.tvTitle5En.setText(entity.getEn_title());
                            homeBinding.tvDetail5.setText(entity.getDesc());
-                           homeBinding.relate5.setTag(entity.getCate_id());
+                           homeBinding.relate5.setTag(entity);
                            Picasso.with(getContext()).load(entity.getIndex_thumb()).into(homeBinding.ivItem5);
                            break;
                    }
@@ -375,6 +414,73 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
             {
                 AppTools.showNormalSnackBar(getView(),bean.getMsg());
             }
+        }
+    }
+
+    public void HandleClickAction(HomeBean.CateListEntity entity)
+    {
+        switch (entity.getReturnX())
+        {
+            case "product":
+                if(callback!=null)
+                {
+                    callback.Update(entity.getCases_id(),"m",entity.getSize_id(),entity.getStyle_id());
+                }
+                break;
+            case "subject":
+            {
+                if(uiListener!=null)
+                {
+                    uiListener.uiUpData(null);
+                }
+//                Intent intent = new Intent(getContext(),TransferActivity.class);
+//                intent.putExtra("fragment",4);
+//                intent.putExtra("title",entity.getTitle());
+//                intent.putExtra("id",  entity.getSubject_id());
+//                startActivity(intent);
+            }
+                break;
+            case "cases": {
+                if(callback!=null) {
+                    callback.Update(entity.getCases_id(), entity.getSpace_id(), "m", entity.getStyle_id());
+                }
+            }
+                break;
+            case "article": {
+                Intent intent = new Intent(getContext(), TransferActivity.class);
+                intent.putExtra("title", entity.getTitle());
+                intent.putExtra("id", entity.getSeller_article_cate());
+                intent.putExtra("fragment", 12);
+                startActivity(intent);
+            }
+                break;
+
+        }
+
+    }
+
+
+    public class ImageAdapter extends PagerAdapter
+    {
+        @Override
+        public int getCount() {
+            return imageList.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view==object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            container.addView(imageList.get(position));
+            return imageList.get(position);
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(imageList.get(position));
         }
     }
 }

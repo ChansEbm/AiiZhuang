@@ -10,7 +10,7 @@
     </data>
 <FrameLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color">
+    android:background="@color/color_white">
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -154,7 +154,7 @@
               android:id="@+id/recycle"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-
+              android:background="@color/bg_color"
               app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
           </android.support.v7.widget.RecyclerView>
@@ -167,7 +167,8 @@
             app:layout_anchor="@id/recycle"
             app:layout_anchorGravity="bottom"
             android:background="@color/base_color_tv_bg"
-            android:gravity="center">
+            android:gravity="center"
+            >
 
             <TextView
                 android:id="@+id/tv_say_hello"

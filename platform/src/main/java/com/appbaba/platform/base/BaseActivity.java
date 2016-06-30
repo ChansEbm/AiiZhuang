@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
     protected View parentView;
     protected NetworkModel networkModel;
     private boolean isFirstRunnable = true;
+    protected SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +45,31 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
         {
             throw new IllegalStateException("not invoke setContentView");
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
-            // Translucent status bar
             window.setFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //parentView.setFitsSystemWindows(true);
+            parentView.setFitsSystemWindows(true);
         }
+
         networkModel = new NetworkModel(this);
         networkModel.setResultCallBack(this);
         InitView();
         InitData();
         InitEvent();
         InitListening();
+    }
+
+    public void  SetWindowFit()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.setFlags(
+                    WindowManager.LayoutParams.TYPE_STATUS_BAR,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            parentView.setFitsSystemWindows(true);
+        }
     }
 
     public int getStatusBarHeight() {
@@ -91,9 +104,12 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
           }
           catch (Exception ex)
           {
-              Toast.makeText(this,"操作失败",Toast.LENGTH_LONG).show();
               ex.printStackTrace();
           }
+        if(swipeRefreshLayout!=null && swipeRefreshLayout.isRefreshing())
+        {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -103,8 +119,15 @@ public abstract class BaseActivity<E extends BaseBean> extends AppCompatActivity
 
     @Override
     public void onError(String error, NetworkParams paramsCode) {
+        if(swipeRefreshLayout!=null && swipeRefreshLayout.isRefreshing())
+        {
+            swipeRefreshLayout.setRefreshing(false);
+        }
         Toast.makeText(this,"操作失败",Toast.LENGTH_LONG).show();
         Log.e("onError",error);
+        BaseBean baseBean = new BaseBean();
+        baseBean.setErrorcode(2);
+        onJsonObjectSuccess((E)baseBean,paramsCode);
     }
 
     public void onJsonObjectSuccess(E e, NetworkParams paramsCode) {

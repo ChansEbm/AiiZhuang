@@ -32,9 +32,6 @@ public class DesignerIMFragment extends BaseFragment {
     public String designerID = "";
     public String designerEmID="",designerImage="",designerName="";
 
-    public DesignerDetailBean detailBean;
-
-
     @Override
     protected void InitView() {
        binding = (FragmentDesignerIMBinding)viewDataBinding;
@@ -58,7 +55,7 @@ public class DesignerIMFragment extends BaseFragment {
 
     @Override
     protected void InitListening() {
-        binding.btnLogin.setOnClickListener(this);
+       // binding.btnLogin.setOnClickListener(this);
     }
 
     @Override
@@ -89,8 +86,7 @@ public class DesignerIMFragment extends BaseFragment {
             }
             else if(paramsCode==NetworkParams.DONUT)
             {
-                Toast.makeText(getContext(),"你和对方已经成为好友啦",Toast.LENGTH_LONG).show();
-
+               // Toast.makeText(getContext(),"你和对方已经成为好友啦",Toast.LENGTH_LONG).show();
             }
             else if(paramsCode==NetworkParams.FROYO)
             {
@@ -110,6 +106,14 @@ public class DesignerIMFragment extends BaseFragment {
                 }
 
             }
+        }
+    }
+
+    public void DelFragment()
+    {
+        if(chatFragment!=null) {
+            chatFragment.DelFragment();
+            chatFragment = null;
         }
     }
 

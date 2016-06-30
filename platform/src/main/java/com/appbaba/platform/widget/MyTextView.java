@@ -65,6 +65,7 @@ public class MyTextView extends TextView {
         Paint paint = new Paint();
         // text color - #3D3D3D
         paint.setColor(Color.rgb(61, 61, 61));
+        paint.setAntiAlias(true);
         // text size in pixels
         paint.setTextSize(getTextSize());
         // text shadow

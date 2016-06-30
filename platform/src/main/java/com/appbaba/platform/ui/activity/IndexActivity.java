@@ -32,13 +32,14 @@ import cn.jpush.android.api.JPushInterface;
 public class IndexActivity extends BaseActivity {
 
     private ActivityIndexBinding binding;
-    private NavViewPager viewPager;
+    private ViewPager viewPager;
     private List<ImageView> list = new ArrayList<>();
     private String isFirst = "0";
     private ImageView iv_index_bottom;
 
     @Override
     protected void InitView() {
+        SetWindowFit();
         binding = (ActivityIndexBinding)viewDataBinding;
         viewPager = binding.viewpager;
         iv_index_bottom = binding.ivIndexBottom;
@@ -80,7 +81,7 @@ public class IndexActivity extends BaseActivity {
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 list.add(imageView);
             }
-            viewPager.SetAdapter(new PagerAdapter() {
+            viewPager.setAdapter(new PagerAdapter() {
                 @Override
                 public int getCount() {
                     return list.size();
@@ -104,11 +105,12 @@ public class IndexActivity extends BaseActivity {
                 }
             });
             viewPager.setVisibility(View.VISIBLE);
+            binding.linearIndex.setVisibility(View.GONE);
         }
         else
         {
-            binding.getRoot().setBackgroundResource(R.mipmap.index);
             viewPager.setVisibility(View.GONE);
+            binding.linearIndex.setVisibility(View.VISIBLE);
         }
     }
 
@@ -132,24 +134,46 @@ public class IndexActivity extends BaseActivity {
         }
         else
         {
-            viewPager.setCallAction(new NavViewPager.CallAction() {
+            AppTools.putStringSharedPreferences("first","1");
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
-                public void OnEnd() {
-                    StartActivity(MainActivity.class);
-                    finish();
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if(position==3)
+                    {
+                        CountDownTimer countDownTimer = new CountDownTimer(2000, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                StartActivity(MainActivity.class);
+                                finish();
+                            }
+                        };
+                        countDownTimer.start();
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
                 }
             });
-            viewPager.AutoScroll(1500);
-            AppTools.putStringSharedPreferences("first","1");
         }
     }
 
     public void StartAnimation()
     {
-        TranslateAnimation translateAnimation = new TranslateAnimation(0,0,-1000,0);
+        TranslateAnimation translateAnimation = new TranslateAnimation(0,0,500,0);
         translateAnimation.setDuration(2000);
         translateAnimation.setInterpolator(new LinearInterpolator());
-
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -166,7 +190,7 @@ public class IndexActivity extends BaseActivity {
 
             }
         });
-        translateAnimation.start();
+        binding.ivIndexBottom.startAnimation(translateAnimation);
     }
 
     @Override

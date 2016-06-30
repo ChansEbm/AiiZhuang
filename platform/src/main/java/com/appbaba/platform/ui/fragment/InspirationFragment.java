@@ -94,8 +94,8 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
                 ItemInspirationBinding itemInspirationBinding = (ItemInspirationBinding)viewDataBinding;
                 itemInspirationBinding.setItem(o);
                 itemInspirationBinding.ivItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
-                if(!TextUtils.isEmpty(o.getThumb()))
-                Picasso.with(getContext()).load(o.getThumb()).resize(MethodConfig.metrics.widthPixels,height).into(itemInspirationBinding.ivItem);
+                if(!TextUtils.isEmpty(o.getImage()))
+                Picasso.with(getContext()).load(o.getImage()).resize(MethodConfig.metrics.widthPixels,height).into(itemInspirationBinding.ivItem);
             }
         };
         recyclerView.setAdapter(commonBinderAdapter);
@@ -133,8 +133,10 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
                 }
                 if(newState==1)
                 {
+                    if(callBack!=null)
                     callBack.StartAnimation();
                     scrollEnd=recyclerView.computeVerticalScrollOffset();
+
                     if(scrollEnd==0)
                     {
                         swipeRefreshLayout.setEnabled(true);
@@ -147,7 +149,24 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
                 else if(newState==0)
                 {
                     callBack.EndAnimation();
+                    Log.e("rrr",""+(recyclerView.computeVerticalScrollOffset()/currentPage)+ "     "+recyclerView.getLayoutManager().getHeight());
                     if(scrollEnd > 0 && scrollEnd == recyclerView.computeVerticalScrollOffset()) {
+                        if (list.size() % num == 0) {
+                            pageTemp = currentPage + 1;
+                            if (!isSearch) {
+                                networkModel.InspirationList(pageTemp, num, NetworkParams.CUPCAKE);
+                            } else
+                            {
+                                networkModel.SearchInspiration(word, sort, styleList, spaceList, pageTemp, num, NetworkParams.DONUT);
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(),"滚动至底部，请往回拉哟",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else if(recyclerView.computeVerticalScrollOffset()/currentPage > recyclerView.getLayoutManager().getHeight()/2)
+                    {
                         if (list.size() % num == 0) {
                             pageTemp = currentPage + 1;
                             if (!isSearch) {
@@ -165,7 +184,7 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.e("sdf",""+recyclerView.computeVerticalScrollOffset());
+//                Log.e("sdf",""+recyclerView.computeVerticalScrollOffset());
                 swipeRefreshLayout.setEnabled(recyclerView.computeVerticalScrollOffset()==0? true : false);
             }
         });
@@ -242,19 +261,20 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
 
     @Override
     public void onJsonObjectSuccess(BaseBean baseBean, NetworkParams paramsCode) {
-        if(pageTemp==1)
-        {
-            list.clear();
-        }
+
          if(baseBean.getErrorcode()==0)
          {
               InspirationListBean bean =  (InspirationListBean)baseBean;
                  if(paramsCode==NetworkParams.CUPCAKE) {
                      if(bean.getInspiration().size()==0)
                      {
-                         Toast.makeText(getContext(),"已经最后一页了",Toast.LENGTH_LONG).show();
+                         Toast.makeText(getContext(),"滚动至底部，请往回拉哟",Toast.LENGTH_LONG).show();
                      }
                      else {
+                         if(pageTemp==1)
+                         {
+                             list.clear();
+                         }
                          list.addAll(bean.getInspiration());
                      }
                  }
@@ -262,9 +282,13 @@ public class InspirationFragment extends BaseFragment implements BinderOnItemCli
                  {
                      if(bean.getResult().size()==0)
                      {
-                         Toast.makeText(getContext(),"已经没有更多的搜索结果了",Toast.LENGTH_LONG).show();
+                         Toast.makeText(getContext(),"非常抱歉，您要找的灵感不存在喔~",Toast.LENGTH_LONG).show();
                      }
                      else {
+                         if(pageTemp==1)
+                         {
+                             list.clear();
+                         }
                          list.addAll(bean.getResult());
                      }
                  }

@@ -1,5 +1,6 @@
 package com.appbaba.platform.ui.fragment.user;
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +15,10 @@ import com.appbaba.platform.base.BaseFragment;
 import com.appbaba.platform.entity.Base.BaseBean;
 import com.appbaba.platform.entity.User.MyProductBean;
 import com.appbaba.platform.eum.NetworkParams;
+import com.appbaba.platform.impl.BinderOnItemClickListener;
 import com.appbaba.platform.method.MethodConfig;
 import com.appbaba.platform.method.SpaceItemDecoration;
+import com.appbaba.platform.ui.activity.products.ProductWebDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,7 +27,7 @@ import java.util.List;
 /**
  * Created by ruby on 2016/6/8.
  */
-public class DesignMyProductFragment extends BaseFragment {
+public class DesignMyProductFragment extends BaseFragment implements BinderOnItemClickListener{
 
     private FragmentMyProductBinding binding;
 
@@ -65,7 +68,7 @@ public class DesignMyProductFragment extends BaseFragment {
 
     @Override
     protected void InitListening() {
-
+          adapter.setBinderOnItemClickListener(this);
     }
 
     @Override
@@ -89,5 +92,17 @@ public class DesignMyProductFragment extends BaseFragment {
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void onBinderItemClick(View clickItem, int parentId, int pos) {
+        Intent intent = new Intent(getContext(), ProductWebDetailActivity.class);
+        intent.putExtra("id",list.get(pos).getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBinderItemLongClick(View clickItem, int parentId, int pos) {
+
     }
 }
