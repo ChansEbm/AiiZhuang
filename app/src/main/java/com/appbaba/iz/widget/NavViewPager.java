@@ -65,7 +65,7 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
         LayoutParams params1 =new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
         params1.addRule(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.TRUE);
-        params1.bottomMargin=70;
+        params1.bottomMargin=40;
         pointsView.setLayoutParams(params1);
         this.addView(viewPager);
         this.addView(pointsView);
@@ -347,7 +347,7 @@ public class NavViewPager extends RelativeLayout implements SlowViewPager.OnPage
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            if(list!=null)
+            if(list!=null && list.size()>1)
             {
                 Paint paint = new Paint();
                 paint.setStyle(Paint.Style.FILL);

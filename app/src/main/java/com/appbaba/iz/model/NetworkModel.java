@@ -215,6 +215,7 @@ public class NetworkModel<E> {
 
     public void casesAttrs(NetworkParams networkParams) {
         clearAllParams().addAuth();
+        params.put("seller_id", MethodConfig.banner_id);
         new OkHttpBuilder.POST(appCompatActivity).urlCases("casesAttrs").params(params)
                 .entityClass(CasesAttrEntity.class).enqueue(networkParams, tOkHttpResponseListener);
     }
@@ -350,6 +351,7 @@ public class NetworkModel<E> {
     {
          clearAllParams();
         params.put("auth",auth);
+        params.put("seller_id", MethodConfig.banner_id);
         new OkHttpBuilder.POST(appCompatActivity).urlMarketing("customerList").entityClass(FriendsClientBean.class).params(params)
                 .enqueue(networkParams,tOkHttpResponseListener);
     }

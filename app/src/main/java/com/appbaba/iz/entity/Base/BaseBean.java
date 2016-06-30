@@ -19,6 +19,44 @@ public class BaseBean extends BaseObservable implements Serializable {
     private View.OnClickListener onClickListener;
     private String tag;
 
+    //消息通知键值对
+    private String turn_to;
+    private String jump_to;
+    private String id;
+    private int data;
+
+    public String getTurn_to() {
+        return turn_to;
+    }
+
+    public void setTurn_to(String turn_to) {
+        this.turn_to = turn_to;
+    }
+
+    public String getJump_to() {
+        return jump_to;
+    }
+
+    public void setJump_to(String jump_to) {
+        this.jump_to = jump_to;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
     public int getErrorcode() {
         return errorcode;
     }

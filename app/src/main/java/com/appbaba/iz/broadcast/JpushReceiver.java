@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.appbaba.iz.R;
+import com.appbaba.iz.entity.Base.BaseBean;
 import com.appbaba.iz.tools.AppTools;
 import com.appbaba.iz.tools.LogTools;
 import com.appbaba.iz.ui.activity.LoginActivity;
@@ -23,6 +24,7 @@ import com.appbaba.iz.ui.activity.album.EffectActivity;
 import com.appbaba.iz.ui.activity.album.ProductActivity;
 import com.appbaba.iz.ui.fragment.Comm.CommWebviewFragment;
 import com.github.pwittchen.prefser.library.Prefser;
+import com.google.gson.Gson;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -67,8 +69,7 @@ public class JpushReceiver extends BroadcastReceiver {
             builder.setTicker(title).setContentTitle(title).setContentText(msg);
             managerCompat.notify(1, builder.build());
         }
-        else if(JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction()))
-        {
+        else if(JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             //点击打开通知
             Bundle bundle1 = intent.getExtras();
 //            LogTools.e(JPushInterface.EXTRA_EXTRA);
@@ -78,45 +79,79 @@ public class JpushReceiver extends BroadcastReceiver {
 //            LogTools.e(JPushInterface.EXTRA_NOTIFICATION_TITLE+"  "+bundle1.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
 //            LogTools.e(JPushInterface.EXTRA_STATUS+"  "+bundle1.getString(JPushInterface.EXTRA_STATUS));
 //            LogTools.e(JPushInterface.EXTRA_APP_KEY+"  "+bundle1.getString(JPushInterface.EXTRA_APP_KEY));
-
-            String msg = bundle1.getString(JPushInterface.EXTRA_ALERT);
-            int index = msg.indexOf("链接：");
-            if(index>0)
-            {
-                String urlString = msg.substring(index+"链接：".length());
-                if(!TextUtils.isEmpty(urlString)) {
-                    String productID = Uri.parse(urlString).getQueryParameter("product_id");
-                    String cases_id = Uri.parse(urlString).getQueryParameter("cases_id");
-                    if(!TextUtils.isEmpty(cases_id))
-                    {
-                        Intent intent1 = new Intent(context, EffectActivity.class);
-                        Bundle bundle2 = new Bundle();
-                        bundle.putString("casesId", cases_id);
-                        intent1.putExtras(bundle2);
-                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent1);
-                    }
-                    else if(!TextUtils.isEmpty(productID))
-                    {
-                        Intent intent1 = new Intent(context, ProductActivity.class);
-                        Bundle bundle2 = new Bundle();
-                        bundle2.putString("productId", productID);
-                        intent1.putExtras(bundle2);
-                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent1);
-                    }
-                    else
-                    {
-                        Intent intent1 = new Intent(context, TransferActivity.class);
-                        intent1.putExtra("fragment","15");
-                        intent1.putExtra("title",msg.substring(0,index).trim());
-                        intent1.putExtra("value",urlString);
-                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent1);
-                    }
+            //这是一个巨坑，很大的巨坑！！！！
+            String action = bundle1.getString(JPushInterface.EXTRA_EXTRA);
+            Gson gson = new Gson();
+            BaseBean baseBean = gson.fromJson(action, BaseBean.class);
+            String jumpTo = baseBean.getJump_to();
+            if (jumpTo != null && jumpTo.equals("app")) {
+                String which = baseBean.getTurn_to();
+                String id = baseBean.getId();
+                if (which.equals("effect_details")) {
+                    Intent intent1 = new Intent(context, EffectActivity.class);
+                    Bundle bundle2 = new Bundle();
+                    bundle.putString("casesId", id);
+                    intent1.putExtras(bundle2);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent1);
+                } else if (which.equals("product_details")) {
+                    Intent intent1 = new Intent(context, ProductActivity.class);
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("productId", id);
+                    intent1.putExtras(bundle2);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent1);
+                } else if (which.equals("special_details")) {
+                    Intent intent1 = new Intent(context, TransferActivity.class);
+                    intent1.putExtra("fragment", 4);
+                    intent1.putExtra("title", "");
+                    intent1.putExtra("id", id);
+                    context.startActivity(intent1);
                 }
+                else if(which.equals("article_details"))
+                {
+                    Intent intent1 = new Intent(context, TransferActivity.class);
+                    intent1.putExtra("title", "");
+                    intent1.putExtra("id",id);
+                    intent1.putExtra("fragment", 12);
+                    context.startActivity(intent);
+                }
+                else
+                {
 
+                }
+            } else {
+                Intent intent1 = new Intent(context, TransferActivity.class);
+                intent1.putExtra("fragment", "15");
+                intent1.putExtra("title", "");
+                intent1.putExtra("value", baseBean.getTurn_to());
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent1);
             }
+
+//            String msg = bundle1.getString(JPushInterface.EXTRA_ALERT);
+//            int index = msg.indexOf("链接：");
+//            if(index>0)
+//            {
+//                String urlString = msg.substring(index+"链接：".length());
+//                if(!TextUtils.isEmpty(urlString)) {
+//                    String productID = Uri.parse(urlString).getQueryParameter("product_id");
+//                    String cases_id = Uri.parse(urlString).getQueryParameter("cases_id");
+//                    if(!TextUtils.isEmpty(cases_id))
+//                    {
+//
+//                    }
+//                    else if(!TextUtils.isEmpty(productID))
+//                    {
+//
+//                    }
+//                    else
+//                    {
+//
+//                    }
+//                }
+
+
         }
     }
 

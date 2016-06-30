@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -322,9 +323,9 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
     {
         navViewPager.InitView();
         navViewPager.SetPointViewStyle(NavViewPager.PointsView.POINT_STYLE_CIRCLE, ContextCompat.getColor(getContext(),R.color.half_white),
-                ContextCompat.getColor(getContext(),R.color.application_base_color),ContextCompat.getColor(getContext(),R.color.white),20);
-        navViewPager.SetDistance(20);
-        navViewPager.IsCircleBound(20);
+                ContextCompat.getColor(getContext(),R.color.application_base_color),ContextCompat.getColor(getContext(),R.color.white),10);
+        navViewPager.SetDistance(10);
+        navViewPager.IsCircleBound(10);
         imageAdapter = new ImageAdapter();
         navViewPager.SetAdapter(imageAdapter);
         //navViewPager.notifyDataChange();
@@ -419,12 +420,16 @@ public class HomeFragment extends BaseFgm implements BinderOnItemClickListener{
 
     public void HandleClickAction(HomeBean.CateListEntity entity)
     {
+        if(TextUtils.isEmpty(entity.getReturnX()))
+        {
+            return;
+        }
         switch (entity.getReturnX())
         {
             case "product":
                 if(callback!=null)
                 {
-                    callback.Update(entity.getCases_id(),"m",entity.getSize_id(),entity.getStyle_id());
+                    callback.Update(entity.getCate_id(),"m",entity.getSize_id(),entity.getStyle_id());
                 }
                 break;
             case "subject":
